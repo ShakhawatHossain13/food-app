@@ -13,7 +13,9 @@ type CRUDProps = {
   description: string;
 };
 
-export const CRUD = async () => {
+export const Crud = async () => {
+  console.log("something");
+  
   const colRef = collection(firebaseDatabase, "blog");
   try {
     const result = await getDocs(colRef);
@@ -24,6 +26,8 @@ export const CRUD = async () => {
         title: temp.title,
         description: temp.description,
       };
+      console.log(obj);
+      
       return obj;
     });
     return prepareData;
