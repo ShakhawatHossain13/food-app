@@ -1,83 +1,33 @@
 import React from "react";
-// import StartFirebase from "../firebaseConfig";
-// import {
-//   ref,
-//   set,
-//   get,
-//   update,
-//   remove,
-//   child,
-//   Database,
-// } from "firebase/database";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../firebaseConfig";
 
-// type CRUDProps = {
-//   db: string;
-//   userName: string;
-//   title: string;
-//   description: string;
-// };
-// const CRUD = ({ db, userName, title, description }: CRUDProps) => {
-//   const [post, setPost] = React.useState<CRUDProps>({
-//     db: "",
-//     userName: "",
-//     title: "",
-//     description: "",
-//   });
+type CRUDProps = {
+  title: string;
+  description: string;
+};
 
-//   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = event.target;
-//     setPost((prev) => {
-//       return {
-//         ...prev,
-//         [name]: value,
-//       };
-//     });
-//   };
+export const CRUD = async () => {
+  const colRef = collection(firebaseDatabase, "blog");
+  try {
+    const result = await getDocs(colRef);
 
-//   const handleSubmit = () => {
-//     const db = post.db;
-//     const data = {
-//       userName: post.userName,
-//       title: post.title,
-//       description: post.description,
-//     };
-//   };
-
-//   React.useEffect(() => {
-//     setPost((prev) => ({
-//       ...prev,
-//       db: StartFirebase().toString(),
-//     }));
-//   }, []);
-
-//   return (
-//     <>
-//       <form>
-//         <input
-//           type="text"
-//           id="userName"
-//           name="userName"
-//           value={userName}
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           id="title"
-//           name="title"
-//           value={title}
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           id="description"
-//           name="description"
-//           value={description}
-//           onChange={handleChange}
-//         />
-//         <button id="addbtn" type="submit" onSubmit={handleSubmit}></button>
-//       </form>
-//     </>
-//   );
-// };
-
-// export default CRUD;
+    const prepareData = result?.docs.map((item) => {
+      let temp = item.data();
+      let obj: CRUDProps = {
+        title: temp.title,
+        description: temp.description,
+      };
+      return obj;
+    });
+    return prepareData;
+  } catch (error) {
+    console.log(error);
+  }
+};
