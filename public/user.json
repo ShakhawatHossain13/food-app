@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Md. Imriaz Uddin",
+    "email": "imriaz.uddin@bjitgroup.com",
+    "password": "123456",
+    "mobileNumber": "01521227844",
+    "isAdmin": "true"
+  },
+  {
+    "name": "Imriaz",
+    "email": "imriaz.uddin@gmail.com",
+    "password": "123456",
+    "mobileNumber": "01521227844",
+    "isAdmin": "false"
+  },
+  {
+    "name": "Tasnuba Sraboni",
+    "email": "tasnuba.sraboni@bjitgroup.com",
+    "password": "123456",
+    "mobileNumber": "015",
+    "isAdmin": "true"
+  },
+  {
+    "name": "Md. Shakhawat Hossain",
+    "email": "shakhawat.hossain@bjitgroup.com",
+    "password": "123456",
+    "mobileNumber": "015",
+    "isAdmin": "true"
+  },
+  {
+    "name": "Takitazwar Parthib",
+    "email": "takitazwar.parthib@bjitgroup.com",
+    "password": "123456",
+    "mobileNumber": "015",
+    "isAdmin": "false"
+  },
+  {
+    "name": "Tasnuba Sraboni",
+    "email": "tasnuba@bjitgroup.com",
+    "password": "123456",
+    "mobileNumber": "015",
+    "isAdmin": "false"
+  }
+]
