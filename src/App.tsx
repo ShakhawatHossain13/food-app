@@ -1,11 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { CRUD } from "./database/crud";
+import { Crud } from "./database/crud";
 
 const App: React.FC = () => {
+  React.useEffect(() => {
+    Crud();
+  }, []);
   return (
     <React.Fragment>
-      <CRUD />
       <h1>Hello</h1>
       <h1>Hello From Imriaz</h1>
       <h1>Hello From Tasnuba</h1>
