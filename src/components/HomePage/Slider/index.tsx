@@ -15,7 +15,6 @@ const Slider: React.FC = () => {
         fetch("./food.json",
         ).then(posts => posts.json()).then(getPost => {
             setPost(getPost);
-
         }).catch((error) => {
             console.log(error);
         });
@@ -28,12 +27,10 @@ const Slider: React.FC = () => {
     const eventOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value.toLowerCase())
     }
-
-    console.log(filteredPosts);
-
+    
     return (
         <React.Fragment>
-            <section className="slider" style={{ background: `url(${homeslider}) fixed 40%` }} >
+            <section className="slider" style={{ background: `url(${homeslider}) fixed no-repeat`  }} >
                 <div className="slider__row">
                     <div className="slider__row__main">
                         <h1 className="slider__row__main__title">Best Food waiting for your Belly</h1>

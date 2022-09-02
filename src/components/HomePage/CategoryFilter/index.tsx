@@ -4,7 +4,7 @@ import "./style.css";
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
-  // const selectedFood = foodItem?.map((fd:any) => fd.category === selectedCategory);
+  const selectedFood = foodItem?.map((fd:any) => fd.category === selectedCategory);
   React.useEffect(() => {
     fetch("./food.json")
       .then((res) => res.json())
@@ -12,6 +12,8 @@ const CategoryFilter: React.FC = () => {
         setFoodItem(data);
       });
   }, []);
+
+  console.log(selectedFood);
 
   const handleCategoryNavbar = (e: string) => {
     setSelectedCategory(e);
