@@ -1,1 +1,95 @@
-/*# sourceMappingURL=style.css.map */
+.menubar {
+  width: 80%;
+  margin: auto;
+  padding: 15px 10%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.6fr 2.7fr 1.8fr;
+}
+
+.menubar__left {
+  display: flex;
+  gap: 15px;
+  padding-inline: 15px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.menubar__right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: right;
+}
+
+.menubar__right__cart {
+  background: transparent;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.menubar__right__signup {
+  height: 35px;
+  width: 80px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  color: #fff;
+  padding-inline: 10px;
+  cursor: pointer;
+}
+
+.menubar__burgermenu {
+  display: none;
+  justify-content: end;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 3px;
+}
+
+.menubar__burgermenu--span {
+  background-color: beige;
+  width: 80%;
+  position: absolute;
+  right: 10%;
+  left: 10%;
+  top: 55px;
+  text-align: right;
+  padding-inline: 10px;
+  display: none;
+}
+
+ul :hover {
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .menubar {
+    grid-template-columns: 9fr 1fr;
+  }
+  .menubar__left {
+    display: none;
+  }
+  .menubar__right {
+    display: none;
+  }
+  .menubar__burgermenu {
+    display: flex;
+  }
+  .menubar__burgermenu--span {
+    display: block;
+  }
+}/*# sourceMappingURL=style.css.map */

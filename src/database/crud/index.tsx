@@ -68,24 +68,13 @@ const Blog = () => {
 
   const handleDelete = () => {
     console.log("delete");
-    const colRef = collection(firebaseDatabase, "blog", "title");
-    // deleteDoc(colRef);
+    console.log(blog.title);
+    const colRef = doc(firebaseDatabase, "blog", blog.title);
+    deleteDoc(colRef).then(() => {});
   };
 
-
-
-    const handleDelete = () => {
-      console.log("delete");
-      console.log(blog.title);
-      const colRef = doc(firebaseDatabase, "blog", blog.title);
-      deleteDoc(colRef)
-      .then(() => {})
-    };
-
-    const getID = getData();
-    console.log(getID);
-
-
+  const getID = getData();
+  console.log(getID);
 
   return (
     <>
