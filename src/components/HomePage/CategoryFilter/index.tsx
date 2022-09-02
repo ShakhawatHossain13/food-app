@@ -1,10 +1,20 @@
 import React from "react";
 import "./style.css";
 
+
+type CategoryFilterDataType = {
+  title: string;
+  description: string;
+  foodImage: string;
+  category: string;
+  price: string;
+  vat: string;
+};
+
 const CategoryFilter: React.FC = () => {
-  const [foodItem, setFoodItem] = React.useState<string[]>([]);
+  const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
-  const selectedFood = foodItem?.map((fd:any) => fd.category === selectedCategory);
+  const selectedFood = foodItem.filter((food) => food.category === selectedCategory);
   React.useEffect(() => {
     fetch("./food.json")
       .then((res) => res.json())
@@ -13,6 +23,7 @@ const CategoryFilter: React.FC = () => {
       });
   }, []);
 
+  console.log(foodItem);
   console.log(selectedFood);
 
   const handleCategoryNavbar = (e: string) => {
@@ -24,19 +35,28 @@ const CategoryFilter: React.FC = () => {
     <React.Fragment>
       <section className="categoryFilter">
         <div className="categoryFilter__navbar">
-          <li onClick={() => handleCategoryNavbar("Breakfast")}>
+          <li
+            className="categoryFilter__navbar__item"
+            onClick={() => handleCategoryNavbar("Breakfast")}
+          >
             Breakfast
           </li>
-          <li onClick={() => handleCategoryNavbar("Lunch")}>
+          <li
+            className="categoryFilter__navbar__item"
+            onClick={() => handleCategoryNavbar("Lunch")}
+          >
             Lunch
           </li>
-          <li onClick={() => handleCategoryNavbar("Dinner")}>
+          <li
+            className="categoryFilter__navbar__item"
+            onClick={() => handleCategoryNavbar("Dinner")}
+          >
             Dinner
           </li>
         </div>
 
         <div className="categoryFilter__row">
-          {foodItem?.map((foods:any) => {
+          {selectedFood?.map((foods) => {
             return (
               <div className="categoryFilter__card">
                 <img

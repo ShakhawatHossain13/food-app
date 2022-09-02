@@ -11,6 +11,13 @@
   margin: 10px;
   justify-content: center;
 }
+.categoryFilter__navbar__item {
+  margin-right: 10px;
+  color: #015EC9;
+  padding: 10px;
+  font-weight: 400;
+  cursor: pointer;
+}
 .categoryFilter__row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
