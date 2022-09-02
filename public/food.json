@@ -1,82 +1,42 @@
 [
   {
-    "employeeID": 11523,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Md. Imriaz Uddin",
-    "designation": "Trainee Software Engineer",
-    "email": "imriaz.uddin@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
+    "title": "Chicken Tortilla Soup in Just 15 Minutes",
+    "description": "I am obsessed with chicken tortilla soup. I love that warm and savory broth-y soup topped off with crunchy bits of deep-fried tortilla strips, cheese, sour cream, and avocado. Tortilla soup is serious comfort food. I went through a phase a couple years back when all I would eat everyday for lunch was chicken tortilla soup. A tiny little Mexican place had just opened up in the neighborhood and Mike and I tried it and loved it. Soon, I started begging to go for lunch everyday. I said it was because I wanted to support local and see our neighborhood Mexican restaurant succeed but really it was because I was obsessed with their lunch special: chicken tortilla soup with a mini burrito. I loved the burrito but the real star was the soup. Deep red with hints of toasty toasty chiles with ALL the toppings. We moved a couple years after my obsession and before leaving, I asked if I could get their recipe. They very kindly gave me a general outline since we were regulars – ever since then I’ve been making this soup at home.",
+    "foodImage": "https://iamafoodblog.b-cdn.net/wp-content/uploads/2019/05/instant-pot-tortilla-soup-0148.webp",
+    "category": "Breakfast",
+    "price": "299",
+    "vat": "30"
   },
   {
-    "employeeID": 11524,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Md. Taufikur Rahman",
-    "designation": "Trainee Software Engineer",
-    "email": "taufikur.rahman@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
+    "title": "Cilantro Lime Rice",
+    "description": "If you’re anything like me, you love cilantro lime rice. Along with tasting amazing on its own, it goes with everything and is a great side dish.If you’ve ever had the Chipotle cilantro lime rice, you know how addictive it is. It can go in burritos, in bowls, or on a combination plate. The best part about this recipe is that it comes together so easily. It’s definitely perfect for a weeknight dinner or meal prep. I think of cilantro lime rice as the bright, tart, refreshing cousin to arroz rojo or tomato tinged Mexican rice. If you’re a rice lover, you’ll want to make this recipe, stat.",
+    "foodImage": "https://iamafoodblog.b-cdn.net/wp-content/uploads/2022/08/cilantro-lime-rice-4772w-1536x1025.webp",
+    "category": "Lunch",
+    "price": "399",
+    "vat": "30"
   },
   {
-    "employeeID": 11525,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Ashikujjaman Shaikat",
-    "designation": "Trainee Software Engineer",
-    "email": "ashikujjaman.shaikat@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
+    "title": "Homemade Salsa Verde",
+    "description": "Homemade salsa verde and chips taste so much better than store bought! Homemade salsa verde has got to be one of the most versatile sauces out there. You can use it to enhance breakfast, lunch, or dinner and it’s the base of so many delicious dishes. Who doesn’t love green salsa?! I always, always go for salsa verde when presented with the choice of red or green. I just love the herbaceous brightness of it.",
+    "foodImage": "https://iamafoodblog.b-cdn.net/wp-content/uploads/2022/08/salsa-verde-4916w-1536x1025.webp",
+    "category": "Dinner",
+    "price": "499",
+    "vat": "30"
   },
   {
-    "employeeID": 11526,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Fazle Rabbi Faiyaz",
-    "designation": "Trainee Software Engineer",
-    "email": "fazle.rabbi@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
+    "title": "Cilantro Lime Rice",
+    "description": "If you’re anything like me, you love cilantro lime rice. Along with tasting amazing on its own, it goes with everything and is a great side dish.If you’ve ever had the Chipotle cilantro lime rice, you know how addictive it is. It can go in burritos, in bowls, or on a combination plate. The best part about this recipe is that it comes together so easily. It’s definitely perfect for a weeknight dinner or meal prep. I think of cilantro lime rice as the bright, tart, refreshing cousin to arroz rojo or tomato tinged Mexican rice. If you’re a rice lover, you’ll want to make this recipe, stat.",
+    "foodImage": "https://iamafoodblog.b-cdn.net/wp-content/uploads/2022/08/cilantro-lime-rice-4772w-1536x1025.webp",
+    "category": "Lunch",
+    "price": "399",
+    "vat": "30"
   },
   {
-    "employeeID": 11527,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Md. Shakhawat Hossain",
-    "designation": "Trainee Software Engineer",
-    "email": "shakhawat.hossain@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
-  },
-  {
-    "employeeID": 11528,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "S.M. Shabab",
-    "designation": "Trainee Software Engineer",
-    "email": "s.m.shabab@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
-  },
-  {
-    "employeeID": 11529,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Snigdho Dip Howlader",
-    "designation": "Trainee Software Engineer",
-    "email": "snigdho.dip@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
-  },
-  {
-    "employeeID": 11530,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Sumaiya Alam Akhi",
-    "designation": "Trainee Software Engineer",
-    "email": "sumaiya.alam@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
-  },
-  {
-    "employeeID": 11531,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Takitazwar Parthib",
-    "designation": "Trainee Software Engineer",
-    "email": "takitazwar.parthib@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
-  },
-  {
-    "employeeID": 11532,
-    "img": "https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png",
-    "name": "Tasnuba Sraboni",
-    "designation": "Trainee Software Engineer",
-    "email": "tasnuba.sraboni@bjitgroup.com",
-    "company": "https://pbs.twimg.com/profile_images/1167287754897494016/-gj7W9C1_400x400.jpg"
+    "title": "Chicken Tortilla Soup in Just 15 Minutes",
+    "description": "I am obsessed with chicken tortilla soup. I love that warm and savory broth-y soup topped off with crunchy bits of deep-fried tortilla strips, cheese, sour cream, and avocado. Tortilla soup is serious comfort food. I went through a phase a couple years back when all I would eat everyday for lunch was chicken tortilla soup. A tiny little Mexican place had just opened up in the neighborhood and Mike and I tried it and loved it. Soon, I started begging to go for lunch everyday. I said it was because I wanted to support local and see our neighborhood Mexican restaurant succeed but really it was because I was obsessed with their lunch special: chicken tortilla soup with a mini burrito. I loved the burrito but the real star was the soup. Deep red with hints of toasty toasty chiles with ALL the toppings. We moved a couple years after my obsession and before leaving, I asked if I could get their recipe. They very kindly gave me a general outline since we were regulars – ever since then I’ve been making this soup at home.",
+    "foodImage": "https://iamafoodblog.b-cdn.net/wp-content/uploads/2019/05/instant-pot-tortilla-soup-0148.webp",
+    "category": "Breakfast",
+    "price": "299",
+    "vat": "30"
   }
 ]
