@@ -14,8 +14,7 @@ type CRUDProps = {
   description: string;
 };
 
-const getData = async () => {
-  console.log("something");
+export const getData = async () => {
 
   const colRef = collection(firebaseDatabase, "blog");
   try {
@@ -65,11 +64,21 @@ const Blog = () => {
     });
   };
 
+    const handleDelete = () => {
+      console.log("delete");
+      const colRef = collection(firebaseDatabase, "blog", 'title');
+      // deleteDoc(colRef);
+    };
+
+    const getID = getData();
+    console.log(getID);
+
   return (
     <>
       <form>
         <label>Title</label>
         <input id="title" name="title" onChange={handleTitle} />
+        <br />
 
         <label>Description</label>
         <input
@@ -88,6 +97,17 @@ const Blog = () => {
           Add
         </button>
       </form>
+
+      <div>
+        <ul>
+          <li>
+            <p>Title: </p>
+            <p>Description: </p>
+            <button onClick={handleDelete}>Delete</button>
+          </li>
+        </ul>
+
+      </div>
     </>
   );
 };

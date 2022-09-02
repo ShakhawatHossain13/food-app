@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Blog from "./database/crud";
-// import { getData } from "./database/crud";
+import { getData } from "./database/crud";
 
 const App: React.FC = () => {
-  // React.useEffect(() => {
-  //   getData();
-  // }, []);
+  React.useEffect(() => {
+    getData();
+  }, []);
   return (
     <React.Fragment>
       <Blog />
