@@ -65,6 +65,8 @@ const Blog = () => {
     });
   };
 
+  console.log(blog);
+
   return (
     <>
       <form>
