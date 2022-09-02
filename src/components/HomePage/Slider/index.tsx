@@ -33,7 +33,7 @@ const Slider: React.FC = () => {
 
     return (
         <React.Fragment>
-            <section className="slider" style={{ background: `url(${homeslider}) fixed` }} >
+            <section className="slider" style={{ background: `url(${homeslider}) fixed 40%` }} >
                 <div className="slider__row">
                     <div className="slider__row__main">
                         <h1 className="slider__row__main__title">Best Food waiting for your Belly</h1>

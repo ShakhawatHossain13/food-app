@@ -1,6 +1,6 @@
 .slider {
   width: 100%;
-  height: 600px;
+  height: 500px;
 }
 
 .slider__row__main {
@@ -46,7 +46,8 @@
   .slider__row__main__title {
     font-size: 32px;
   }
-  .slider__row__main__search__input, .slider__row__main__search__btn {
+  .slider__row__main__search__input,
+.slider__row__main__search__btn {
     font-size: 16px;
   }
 }

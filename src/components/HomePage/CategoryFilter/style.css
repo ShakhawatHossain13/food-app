@@ -28,16 +28,18 @@
   margin: 5px;
   border-radius: 50%;
 }
-.categoryFilter__card__body h3 {
-  color: #005BC7;
+.categoryFilter__card__body__title {
+  color: #005bc7;
   font-weight: 700;
+  height: 50px;
+}
+.categoryFilter__card__body__description {
+  color: #808080;
+  height: 100px;
 }
 .categoryFilter__card__body h2 {
   color: #808080;
   font-weight: 700;
-}
-.categoryFilter__card__body p {
-  color: #808080;
 }
 .categoryFilter__card:hover {
   box-shadow: 0px 5px 5px 0px gray;
