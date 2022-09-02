@@ -6,6 +6,7 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
+  doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../firebaseConfig";
 
@@ -71,8 +72,20 @@ const Blog = () => {
     // deleteDoc(colRef);
   };
 
-  const getID = getData();
-  console.log(getID);
+
+
+    const handleDelete = () => {
+      console.log("delete");
+      console.log(blog.title);
+      const colRef = doc(firebaseDatabase, "blog", blog.title);
+      deleteDoc(colRef)
+      .then(() => {})
+    };
+
+    const getID = getData();
+    console.log(getID);
+
+
 
   return (
     <>
@@ -96,6 +109,22 @@ const Blog = () => {
           }}
         >
           Add
+        </button>
+      </form>
+
+      <form>
+        <label>Title</label>
+        <input id="title" name="title" onChange={handleTitle} />
+        <br />
+
+        <button
+          type="submit"
+          onClick={(event) => {
+            event.preventDefault();
+            handleDelete();
+          }}
+        >
+          Delete
         </button>
       </form>
 
