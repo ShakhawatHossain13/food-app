@@ -8,12 +8,14 @@ const HomePage: React.FC = () => {
  
   return (
     <React.Fragment>
-            <Slider/>
-        <div className="container" style={{width: "1110px"}}>
-            <MenuBar/>          
-            <CategoryFilter/>  
-            <Blog/>
-        </div>    
+      <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
+        <MenuBar />
+      </div>
+      <Slider />
+      <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
+        <CategoryFilter />
+        <Blog />
+      </div>
     </React.Fragment>
   );
 };
