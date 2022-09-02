@@ -15,7 +15,6 @@ type CRUDProps = {
 };
 
 export const getData = async () => {
-
   const colRef = collection(firebaseDatabase, "blog");
   try {
     const result = await getDocs(colRef);
@@ -26,10 +25,10 @@ export const getData = async () => {
         title: temp.title,
         description: temp.description,
       };
-      console.log(obj);
-
       return obj;
     });
+    console.log(prepareData);
+
     return prepareData;
   } catch (error) {
     console.log(error);
@@ -41,6 +40,8 @@ const Blog = () => {
     title: "",
     description: "",
   });
+
+  const [data, setData] = React.useState([]);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBlog((prev) => ({
@@ -64,17 +65,14 @@ const Blog = () => {
     });
   };
 
+  const handleDelete = () => {
+    console.log("delete");
+    const colRef = collection(firebaseDatabase, "blog", "title");
+    // deleteDoc(colRef);
+  };
 
-
-    const handleDelete = () => {
-      console.log("delete");
-      const colRef = collection(firebaseDatabase, "blog", 'title');
-      // deleteDoc(colRef);
-    };
-
-    const getID = getData();
-    console.log(getID);
-
+  const getID = getData();
+  console.log(getID);
 
   return (
     <>
@@ -109,7 +107,6 @@ const Blog = () => {
             <button onClick={handleDelete}>Delete</button>
           </li>
         </ul>
-
       </div>
     </>
   );
