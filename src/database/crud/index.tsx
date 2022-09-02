@@ -66,14 +66,6 @@ const Blog = () => {
     });
   };
 
-  const handleDelete = () => {
-    console.log("delete");
-    const colRef = collection(firebaseDatabase, "blog", "title");
-    // deleteDoc(colRef);
-  };
-
-
-
     const handleDelete = () => {
       console.log("delete");
       console.log(blog.title);
