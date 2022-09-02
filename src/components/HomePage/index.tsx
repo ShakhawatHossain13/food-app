@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
             <MenuBar/>          
             <CategoryFilter/>  
             <Blog/>
-        </div>          
+        </div>    
     </React.Fragment>
   );
 };

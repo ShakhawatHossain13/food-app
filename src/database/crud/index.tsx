@@ -65,10 +65,7 @@ const Blog = () => {
       description: blog.description,
     });
   };
-
   
-
-
     const handleDelete = () => {
       console.log("delete");
       console.log(blog.title);
