@@ -65,6 +65,8 @@ const Blog = () => {
     });
   };
 
+
+
     const handleDelete = () => {
       console.log("delete");
       console.log(blog.title);
@@ -75,6 +77,7 @@ const Blog = () => {
 
     const getID = getData();
     console.log(getID);
+
 
   return (
     <>
