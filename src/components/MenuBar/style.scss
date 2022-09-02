@@ -50,19 +50,21 @@
 
 ul {
     list-style: none;
-    padding: 0;
+    padding: 0;   
+}
+
+ul a {
+    color: #fff;
 }
 li {
-    padding: 3px ;
-    
+    padding: 3px ;   
 }
 .menubar__burgermenu--span{
-background-color: beige;
-width: 80%;
+background-color: #20202088;
+width: 100px;
 position: absolute;
 right: 10%;
-left: 10%;
-top:55px;
+top:68px;
 text-align: right;
 padding-inline: 10px;
 display: none;
@@ -70,7 +72,6 @@ display: none;
 
 ul :hover{
 background-color: #dc3545;
-color: #fff;
 border-radius: 5px;
 }
 
@@ -93,6 +94,24 @@ border-radius: 5px;
     .menubar__burgermenu--span{
         display: block;
     }
+       
+        
+}
+
+// mobile-version
+
+@media(max-width: 420px) {
+    
+    .menubar__burgermenu--span{
+        width: 100%;
+        right: 0;
+        display: block;
+        text-align: center;
+    }
+
+    ul :hover{
+        margin-left: 20px;
+        }
        
         
 }
