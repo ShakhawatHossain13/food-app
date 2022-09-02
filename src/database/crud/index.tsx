@@ -64,6 +64,8 @@ const Blog = () => {
     });
   };
 
+
+
     const handleDelete = () => {
       console.log("delete");
       const colRef = collection(firebaseDatabase, "blog", 'title');
@@ -72,6 +74,7 @@ const Blog = () => {
 
     const getID = getData();
     console.log(getID);
+
 
   return (
     <>
