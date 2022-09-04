@@ -69,7 +69,7 @@ const CategoryFilter: React.FC = () => {
                     <h3>{foods?.title}</h3>
                   </div>
                   <div className="categoryFilter__card__body__description">
-                    <p>{foods?.description.slice(0, 50)}</p>
+                    <p>{foods?.description.slice(0, 26)}...</p>
                   </div>
                   <h2>{foods?.price} $</h2>
                 </div>

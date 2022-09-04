@@ -30,10 +30,10 @@ const Slider: React.FC = () => {
     
     return (
         <React.Fragment>
-            <section className="slider" style={{ background: `url(${homeslider}) fixed no-repeat`  }} >
+            <section className="slider" style={{ background: `url(${homeslider}) fixed `  }} >
                 <div className="slider__row">
                     <div className="slider__row__main">
-                        <h1 className="slider__row__main__title">Best Food waiting for your Belly</h1>
+                        <h1 className="slider__row__main__title">Best Food waiting for your belly</h1>
                         <div className="slider__row__main__search">
                             <input
                                 className="slider__row__main__search__input"
