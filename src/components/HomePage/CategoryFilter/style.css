@@ -21,11 +21,12 @@
 .categoryFilter__row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 100px;
+  grid-gap: 60px;
 }
 .categoryFilter__card {
-  max-width: 300px;
-  padding: 10px;
+  min-width: 300px;
+  margin: auto;
+  padding: 5px 8px 30px 8px;
   text-align: center;
   cursor: pointer;
 }
@@ -37,7 +38,6 @@
 }
 .categoryFilter__card__body__title {
   color: #005bc7;
-  height: 40px;
 }
 .categoryFilter__card__body__title h3 {
   font-weight: 400;
@@ -45,7 +45,6 @@
 }
 .categoryFilter__card__body__description {
   color: #808080;
-  height: 50px;
 }
 .categoryFilter__card__body h2 {
   color: #808080;
@@ -53,7 +52,8 @@
   font-weight: 500;
 }
 .categoryFilter__card:hover {
-  box-shadow: 0px 5px 5px 0px gray;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 @media screen and (max-width: 768px) {

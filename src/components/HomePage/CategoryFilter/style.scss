@@ -22,11 +22,12 @@
   &__row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 100px;
+    grid-gap: 60px;
   }
   &__card {
-    max-width: 300px;
-    padding: 10px;
+    min-width: 300px;
+    margin: auto;
+    padding: 5px 8px 30px 8px;
     text-align: center;
     cursor: pointer;
     &__image {
@@ -37,7 +38,6 @@
     }
     &__body__title {
       color: #005bc7;
-      height: 40px;
     }
     &__body__title h3 {
       font-weight: 400;
@@ -45,7 +45,6 @@
     }
     &__body__description {
       color: #808080;
-      height: 50px;
     }
     &__body h2 {
       color: #808080;
@@ -54,7 +53,8 @@
     }
   }
   &__card:hover {
-    box-shadow: 0px 5px 5px 0px gray;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.10);
+    border-radius: 5px;
     // transform: scale(1.1);
   }
 }
