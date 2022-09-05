@@ -3,7 +3,6 @@ import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 
-
 type ProductsDetailsDataType = {
   title: string;
   description: string;
@@ -16,19 +15,36 @@ type ProductsDetailsDataType = {
 const ProductsDetails: React.FC = () => {
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
 
-    const handleItemQuantityPlus = () => {
-      setItemQuantity(itemQuantity+1);
-    };
-    const handleItemQuantityMinus = () => {
-      setItemQuantity(itemQuantity-1);
-    };
+  const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType[]>([]);
+  const categoryFood = foodItem.filter((food) => food.category === "Lunch");
+  const [startItem, setStartItem] = React.useState(0);
+  const [endItem, setEndItem] = React.useState(3);
+  //   const totalRelatedItems: number = categoryFood.length;
 
-    console.log(itemQuantity);
+  const Pagination = (start: number, end: number) => {
+    setStartItem(start);
+    setEndItem(end);
+  };
+
+  React.useEffect(() => {
+    fetch("./food.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setFoodItem(data);
+      });
+  }, []);
+
+  const handleItemQuantityPlus = () => {
+    setItemQuantity(itemQuantity + 1);
+  };
+  const handleItemQuantityMinus = () => {
+    setItemQuantity(itemQuantity - 1);
+  };
 
   return (
     <React.Fragment>
       <section className="productsDetails">
-        <div className="productsDetails__row">
+        <div className="">
           {/* <div className="productsDetails__card"></div> */}
           <div className="productsDetails__card">
             <div>
@@ -66,12 +82,54 @@ const ProductsDetails: React.FC = () => {
                   </button>
                 </div>
               </div>
-              <button
-                className="productsDetails__card__body__cart"
-              >
+              <button className="productsDetails__card__body__cart">
                 <FaShoppingCart size="18px" /> Add To Cart
               </button>
             </div>
+          </div>
+          {/* Product in Same category section */}
+          <h1 style={{ textAlign: "center" }}>Product in Same Category</h1>
+          <div className="productsDetails__sameCategory">
+            {categoryFood?.slice(startItem, endItem).map((foods) => {
+              return (
+                <div className="productsDetails__sameCategory__card">
+                  <img
+                    className="productsDetails__sameCategory__card__image"
+                    src={foods?.foodImage}
+                    alt="Food Images"
+                  />
+                  <div className="productsDetails__sameCategory__card__body">
+                    <div className="productsDetails__sameCategory__card__body__title">
+                      <h3>{foods?.title}</h3>
+                    </div>
+                    <div className="productsDetails__sameCategory__card__body__description">
+                      <p>{foods?.description.slice(0, 26)}...</p>
+                    </div>
+                    <h2>{foods?.price} $</h2>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="productsDetails__pagination">
+            <button
+              className="productsDetails__pagination"
+              onClick={() => Pagination(0, 3)}
+            >
+              .
+            </button>
+            <button
+              className="productsDetails__pagination"
+              onClick={() => Pagination(4, 7)}
+            >
+              .
+            </button>
+            <button
+              className="productsDetails__pagination"
+              onClick={() => Pagination(7, 10)}
+            >
+              .
+            </button>
           </div>
         </div>
       </section>
