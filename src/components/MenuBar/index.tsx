@@ -36,7 +36,7 @@ const MenuBar: React.FC = () => {
             <FaShoppingCart size="18px" />
             <span style={{ color: "#007bff" }}>0</span>
           </button>
-          <Link to="login">Login</Link>
+          <Link to="signin">Login</Link>
           <button
             className="menubar__right__signup"
             onClick={() => {
