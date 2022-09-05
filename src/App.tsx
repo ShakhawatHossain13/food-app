@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import HomePage from "./components/HomePage";
-
 import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
 import ProductsDetails from "./components/ProductsDetails";
