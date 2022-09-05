@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
+import { getByDisplayValue } from "@testing-library/react";
 
 type ProductsDetailsDataType = {
   title: string;
