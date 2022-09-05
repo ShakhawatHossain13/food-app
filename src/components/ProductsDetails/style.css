@@ -74,6 +74,11 @@
   font-size: 2rem;
   font-weight: 500;
 }
+.productsDetails__endTitle {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
 .productsDetails__sameCategory {
   text-align: center;
   display: grid;
@@ -81,6 +86,7 @@
   grid-gap: 30px;
 }
 .productsDetails__sameCategory__card {
+  border: 1px solid #dc3545;
   min-width: 300px;
   margin: auto;
   padding: 5px 8px 30px 8px;
@@ -203,6 +209,11 @@
   .productsDetails__card__body__price__quantity h1 {
     font-size: 1rem;
   }
+  .productsDetails__endTitle {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
   .productsDetails__sameCategory {
     text-align: center;
     display: grid;
@@ -255,6 +266,11 @@
   }
   .productsDetails__card__body__price__quantity h1 {
     font-size: 1rem;
+  }
+  .productsDetails__endTitle {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
   }
   .productsDetails__sameCategory {
     text-align: center;
