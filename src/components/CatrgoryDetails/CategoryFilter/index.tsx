@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.css";
 
-
 type CategoryFilterDataType = {
   title: string;
   description: string;
@@ -17,7 +16,6 @@ const CategoryFilter: React.FC = () => {
   const selectedFood = foodItem.filter((food) => food.category === selectedCategory);
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
-
   let sortedFoodItems:Array<string>;
   if(sortByPrice==="lowHigh"){
      // Price Low To High
@@ -27,7 +25,7 @@ const CategoryFilter: React.FC = () => {
     // Price High To Low
     selectedFood?.sort((a, b) => (a.price > b.price ? -1 : 1))
   }
- 
+  
   React.useEffect(() => {
     fetch("./food.json")
       .then((res) => res.json())
@@ -80,7 +78,6 @@ const CategoryFilter: React.FC = () => {
                 </div>
               );
             })}
-   
         </div>
       </section>
     </React.Fragment>
