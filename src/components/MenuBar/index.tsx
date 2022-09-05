@@ -37,7 +37,14 @@ const MenuBar: React.FC = () => {
             <span style={{ color: "#007bff" }}>0</span>
           </button>
           <Link to="login">Login</Link>
-          <button className="menubar__right__signup">Sign Up</button>
+          <button
+            className="menubar__right__signup"
+            onClick={() => {
+              navigate("/signup", { replace: true });
+            }}
+          >
+            Sign Up
+          </button>
         </div>
         <div className="menubar__burgermenu">
           {close ? (

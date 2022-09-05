@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
           <Link to="">Home</Link>
           <Link to="news">News</Link>
           <Link to="categorydetails">Category Details</Link>
-          <Link to="productdetails">Product Details</Link>
+          <Link to="productsdetails">Product Details</Link>
           <Link to="blogdetails">Blog Details</Link>
         </div>
         <div className="footer__address">
