@@ -8,19 +8,17 @@ import MenuBar from "./components/MenuBar";
 import ProductsDetails from "./components/ProductsDetails";
 import CategoryDetails from "./components/CatrgoryDetails";
 
-
 const App: React.FC = () => {
   return (
-
-    <React.Fragment>  
-      <Routes>      
-        <Route path="/" element={<HomePage />} />    
-        <Route path="/categorydetails" element={<CategoryDetails />} />       
-<Route path="/productsdetails" element={<ProductsDetails />} />
-<Route path="/blogdetails" element={<BlogDetails />} />
-      </Routes> 
+    <React.Fragment>
+      <MenuBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/categorydetails" element={<CategoryDetails />} />
+        <Route path="/productsdetails" element={<ProductsDetails />} />
+        <Route path="/blogdetails" element={<BlogDetails />} />
+      </Routes>
       <Footer />
-
     </React.Fragment>
   );
 };
