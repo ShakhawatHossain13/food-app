@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
+import { Link } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   return (
@@ -54,7 +55,8 @@ const SignUp: React.FC = () => {
               />
             </form>
             <p className="signup__slider__row__main__form__link">
-              Already have an account? <a href="/signin">Click here...</a>
+              Already have an account?
+              <Link to="/signin">Click here...</Link>
             </p>
           </div>
         </div>
