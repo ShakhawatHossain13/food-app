@@ -2,7 +2,6 @@ import React from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
-import { getByDisplayValue } from "@testing-library/react";
 
 type ProductsDetailsDataType = {
   title: string;
@@ -89,7 +88,12 @@ const ProductsDetails: React.FC = () => {
             </div>
           </div>
           {/* Product in Same category section */}
-          <h1 style={{ textAlign: "center" }}>Product in Same Category</h1>
+          <h1
+            className="productsDetails__endTitle"
+            // style={{ textAlign: "center" }}
+          >
+            Product in Same Category
+          </h1>
           <div className="productsDetails__sameCategory">
             {categoryFood?.slice(startItem, endItem).map((foods) => {
               return (

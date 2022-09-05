@@ -15,21 +15,21 @@ const BlogDetails: React.FC = () => {
               alt="selected"
             />
           </div>
-          <div className="blogdetails__image__sub">
-            {images.map((img) => (
-              <img
-                style={{
-                  border:
-                    selected === img.bannerImage ? "2px solid cadetblue" : "",
-                }}
-                src={img.bannerImage}
-                alt="Blog Image"
-                onClick={() => setSelected(img.bannerImage)}
-              />
-            ))}
-          </div>
         </div>
-        <div className="blogdetails__image" style={{ textAlign: "start" }}>
+        <div className="blogdetails__image__sub">
+          {images.map((img) => (
+            <img
+              style={{
+                border:
+                  selected === img.bannerImage ? "2px solid cadetblue" : "",
+              }}
+              src={img.bannerImage}
+              alt="Blog Image"
+              onClick={() => setSelected(img.bannerImage)}
+            />
+          ))}
+        </div>
+        <div className="blogdetails__details">
           <h3>{images[0].title}</h3>
           <p>{images[0].date}</p>
           <p>{images[0].description}</p>

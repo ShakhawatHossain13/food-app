@@ -1,5 +1,5 @@
 .blogdetails {
-  width: 80%;
+  width: 40%;
   margin: auto;
   padding: 15px 10%;
   display: grid;
@@ -15,21 +15,18 @@
 
 .blogdetails__image__main {
   margin: auto;
-  width: 100%;
   max-width: 540px;
   display: flex;
   align-items: center;
 }
 
 .blogdetails__image__main--selected {
-  width: 100%;
   height: 300px;
   margin: 0 auto;
   border: 2px solid cadetblue;
 }
 
 .blogdetails__image__sub {
-  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -43,4 +40,11 @@
   margin: 5px 0;
   display: block;
   cursor: pointer;
+}
+
+.blogdetails__details {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  text-align: justify;
 }/*# sourceMappingURL=style.css.map */
