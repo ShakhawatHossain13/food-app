@@ -24,13 +24,9 @@ const CategoryFilter: React.FC = () => {
       });
   }, []);
 
-  console.log(foodItem);
-  console.log(selectedFood);
-
   const handleCategoryNavbar = (e: string) => {
     setSelectedCategory(e);
   };
-  console.log(selectedCategory);
 
   return (
     <React.Fragment>
@@ -78,6 +74,9 @@ const CategoryFilter: React.FC = () => {
             );
           })}
         </div>
+        <button className="productsDetails__card__body__cart">
+          View Details
+        </button>
       </section>
     </React.Fragment>
   );
