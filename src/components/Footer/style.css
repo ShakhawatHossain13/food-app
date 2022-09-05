@@ -27,8 +27,26 @@
   color: white;
 }
 
+.footer__address {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer__socialmedia {
   display: flex;
   gap: 10px;
   padding-left: 50%;
+}
+
+@media (max-width: 420px) {
+  .footer {
+    grid-template-columns: none;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    height: auto;
+    gap: 10px;
+    padding-top: 25px;
+  }
+  .footer__socialmedia {
+    padding-left: 0;
+  }
 }/*# sourceMappingURL=style.css.map */
