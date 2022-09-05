@@ -1,10 +1,12 @@
 import React from "react";
 import "./style.css";
 import logo from "../../images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 
 const MenuBar: React.FC = () => {
+  let navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
   const [close, setClose] = React.useState(false);
 
@@ -25,7 +27,12 @@ const MenuBar: React.FC = () => {
           <Link to="news">News</Link>
         </div>
         <div className="menubar__right">
-          <button className="menubar__right__cart">
+          <button
+            className="menubar__right__cart"
+            onClick={() => {
+              navigate("/cart", { replace: true });
+            }}
+          >
             <FaShoppingCart size="18px" />
             <span style={{ color: "#007bff" }}>0</span>
           </button>
