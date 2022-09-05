@@ -25,9 +25,14 @@
   grid-gap: 60px;
   margin-top: 5%;
 }
+.categoryFilter__label {
+  margin-left: 2%;
+}
 .categoryFilter__select {
   margin-left: 15px;
   padding: 5px 10px;
+  border: 1px solid #f0f0f0;
+  font-size: 14px;
 }
 .categoryFilter__card {
   min-width: 300px;
@@ -108,5 +113,9 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 20px;
+  }
+  .categoryFilter__label {
+    display: inline-block;
+    margin-top: 10px;
   }
 }/*# sourceMappingURL=style.css.map */
