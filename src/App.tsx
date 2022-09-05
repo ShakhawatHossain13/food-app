@@ -6,6 +6,7 @@ import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
 import ProductsDetails from "./components/ProductsDetails";
 import CategoryDetails from "./components/CatrgoryDetails";
+import SignUp from "./components/SignUp";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/categorydetails" element={<CategoryDetails />} />
         <Route path="/productsdetails" element={<ProductsDetails />} />
         <Route path="/blogdetails" element={<BlogDetails />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       <Footer />
     </React.Fragment>
