@@ -1,0 +1,34 @@
+.footer {
+  bottom: 0;
+  left: 0;
+  width: 80%;
+  background-color: black;
+  height: 180px;
+  color: white;
+  padding-inline: 10%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+  font-size: 14px;
+}
+
+.footer__logo {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.footer__page {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__page a {
+  color: white;
+}
+
+.footer__socialmedia {
+  display: flex;
+  gap: 10px;
+  padding-left: 50%;
+}/*# sourceMappingURL=style.css.map */
