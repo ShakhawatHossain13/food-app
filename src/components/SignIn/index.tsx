@@ -42,7 +42,7 @@ const SignIn: React.FC = () => {
             </form>
             <p className="signIn__slider__row__main__form__link">
               Don't have an account?
-              <Link to="/signup">Click here...</Link>
+              <Link to="/signup"> Click here...</Link>
             </p>
           </div>
         </div>
