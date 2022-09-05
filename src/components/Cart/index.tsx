@@ -1,12 +1,14 @@
 import React from "react";
-import background from "../../images/home_slider.png";
+import "./style.css";
+import homeslider from "./home_slider.png";
 
 const Cart: React.FC = () => {
   return (
     <React.Fragment>
-      <div className="cart">
-        <img src={background} className="cart__background" />
-      </div>
+      <section
+        className="cart"
+        style={{ background: `url(${homeslider}) ` }}
+      ></section>
     </React.Fragment>
   );
 };
