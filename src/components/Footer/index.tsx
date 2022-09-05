@@ -25,9 +25,9 @@ const Footer: React.FC = () => {
           <Link to="blogdetails">Blog Details</Link>
         </div>
         <div className="footer__address">
-          <p>
-            H-2275, 2279, Panchkhula, Satarkul, Badda, Dhaka-1212, Bangladesh
-          </p>
+          <span>H-2275, 2279, Panchkhula,</span>
+          <span>Satarkul, Badda,</span>
+          <span>Dhaka-1212, Bangladesh</span>
         </div>
         <div className="footer__socialmedia">
           <FaFacebookSquare size="24px" />
