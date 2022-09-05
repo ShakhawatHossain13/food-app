@@ -16,7 +16,18 @@ const CategoryFilter: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
   const selectedFood = foodItem.filter((food) => food.category === selectedCategory);
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
+  const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
 
+  let sortedFoodItems:Array<string>;
+  if(sortByPrice==="lowHigh"){
+     // Price Low To High
+   selectedFood?.sort((a, b) => (a.price > b.price ? 1 : -1))
+  }
+  else if(sortByPrice==="highLow"){
+    // Price High To Low
+    selectedFood?.sort((a, b) => (a.price > b.price ? -1 : 1))
+  }
+ 
   React.useEffect(() => {
     fetch("./food.json")
       .then((res) => res.json())
@@ -24,6 +35,7 @@ const CategoryFilter: React.FC = () => {
         setFoodItem(data);
       });
   }, []); 
+
   return (
     <React.Fragment>
       <section className="categoryFilter">         
@@ -37,6 +49,15 @@ const CategoryFilter: React.FC = () => {
           <option className="categoryFilter__select__options" value="12">12</option>
           <option className="categoryFilter__select__options" value="20">20</option>
           <option className="categoryFilter__select__options" value="30">30</option>
+        </select>
+        <label className="categoryFilter__label">Sort by price</label>
+        <select 
+          className="categoryFilter__select"  
+          onChange={(e) => setSortByPrice(e.target.value)}
+          name="sortByPrice" 
+          id="sortByPrice">
+          <option className="categoryFilter__select__options" value="lowHigh">Low to high</option>
+          <option className="categoryFilter__select__options" value="highLow">High to low</option>          
         </select>
         <div className="categoryFilter__row">          
             {selectedFood?.slice(0, Number(numberOfItemsShow)).map((foods) => {
