@@ -56,7 +56,7 @@ const SignUp: React.FC = () => {
             </form>
             <p className="signup__slider__row__main__form__link">
               Already have an account?
-              <Link to="/signin">Click here...</Link>
+              <Link to="/signin"> Click here...</Link>
             </p>
           </div>
         </div>
