@@ -1,18 +1,17 @@
-import React from "react"; 
+import React from "react";
 import MenuBar from "../MenuBar";
 import Slider from "./Slider";
-import CategoryFilter from "./CategoryFilter"; 
+import CategoryFilter from "./CategoryFilter";
 
 const CategoryDetails: React.FC = () => {
- 
   return (
     <React.Fragment>
       <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
-        <MenuBar />
+        {/* <MenuBar /> */}
       </div>
       <Slider />
       <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
-        <CategoryFilter />        
+        <CategoryFilter />
       </div>
     </React.Fragment>
   );
