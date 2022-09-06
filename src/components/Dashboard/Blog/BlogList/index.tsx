@@ -73,7 +73,7 @@ const BlogList: React.FC = () => {
                     {blog.title}
                   </td>
                   <td className="productlist__row__table__row__text">
-                    {blog.description.slice(0, 120)}
+                    {blog.description.slice(0, 50)}
                   </td>
                   <td className="productlist__row__table__row__text">
                     {blog.date}
