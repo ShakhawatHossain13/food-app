@@ -19,7 +19,7 @@ const Cart: React.FC = () => {
           <table className="cart__table">
             <tr>
               <th className="cart__table__header">Sl No</th>
-              <th className="cart__table__header">Product Image</th>
+              <th className="cart__table__header">Image</th>
               <th className="cart__table__header">Product Name</th>
               <th className="cart__table__header">Quantity</th>
               <th className="cart__table__header">Price</th>
@@ -51,7 +51,7 @@ const Cart: React.FC = () => {
               </tr>
               <tr>
                 <td className="cart__table__field">2</td>
-                <td className="cart__table__field">products images</td>
+                <td className="cart__table__field">image</td>
                 <td className="cart__table__field">
                   {/* {cart?.itemName} */}
                   Name
@@ -64,7 +64,7 @@ const Cart: React.FC = () => {
               </tr>
               <tr>
                 <td className="cart__table__field">3</td>
-                <td className="cart__table__field">products images</td>
+                <td className="cart__table__field">image</td>
                 <td className="cart__table__field">
                   {/* {cart?.itemName} */}
                   Name
