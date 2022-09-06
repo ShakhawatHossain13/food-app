@@ -4,7 +4,7 @@ import "./style.css";
 type BlogFilterDataType = {
   title: string;
   description: string;
-  bannerImage: string;
+  blogImage: string;
   icon: string;
   date: string;
 };
@@ -24,14 +24,17 @@ const Blog: React.FC = () => {
     <React.Fragment>
       <section className="blog">
         <h1 className="blog__title">Why you choose Us</h1>
-        <p className="blog__subtext">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+        <p className="blog__subtext">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard.
+        </p>
         <div className="blog__row">
           {foodItem?.slice(0, 3).map((foods) => {
             return (
               <div className="blog__card">
                 <img
                   className="blog__card__image"
-                  src={foods?.bannerImage}
+                  src={foods?.blogImage}
                   alt="Food Images"
                 />
                 <div className="blog__card__body">
@@ -43,7 +46,9 @@ const Blog: React.FC = () => {
                     />
                   </div>
                   <div className="blog__card__body__details">
-                    <p className="blog__card__body__details__title">{foods?.title}</p>
+                    <p className="blog__card__body__details__title">
+                      {foods?.title}
+                    </p>
                     <div className="blog__card__body__details__description">
                       <p>{foods?.description.slice(0, 100)}...</p>
                     </div>
