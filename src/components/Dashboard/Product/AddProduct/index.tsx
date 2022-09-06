@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";   
+import MultipleImageUpload from "../../MultipleImageUpload"
 
 type AddProducttDataType = {
     title: string;
@@ -134,7 +135,10 @@ const AddProduct: React.FC = () => {
                     />
                     <span className="addproduct__row__form__row__error">{error.price}</span>
                 </div> 
-                    {/* Multiple Image Upload   */}   
+                <div className="addproduct__row__form__row">
+                    <label>Select Image</label>
+    
+                </div>
                         <button type="submit" 
                             className="addproduct__row__form__row__button"
                             onClick={(e) => {
