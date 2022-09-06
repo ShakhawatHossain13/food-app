@@ -135,10 +135,11 @@ const AddProduct: React.FC = () => {
                     />
                     <span className="addproduct__row__form__row__error">{error.price}</span>
                 </div> 
-                <div className="addproduct__row__form__row">
-                    <label>Select Image</label>
+                 
+                  
+                    <MultipleImageUpload />
     
-                </div>
+          
                         <button type="submit" 
                             className="addproduct__row__form__row__button"
                             onClick={(e) => {
