@@ -1,17 +1,17 @@
 .addproduct{
     &__row{
        margin: auto;
-       width: 40%;
+       width: 60%;
        text-align: center;
     }
 }
 .addproduct__row__title{
     font-size: 24px;
     font-weight: 400;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .addproduct__row__form{
-    max-width: 500px; 
+    max-width: 600px; 
     margin: 10px auto;
     text-align: left;
 }
@@ -26,4 +26,9 @@
 }
 .addproduct__row__form__input{
    padding: 10px;
+}
+.addproduct__row__form__row__label__required{
+    color: red;
+    font-size: 14px;
+    margin-left: 5px;
 }
