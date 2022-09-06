@@ -9,7 +9,9 @@ const AddProduct: React.FC = () => {
                 <h3 className="addproduct__row__title">Add Product</h3>
                 <form className="addproduct__row__form">   
                 <div className="addproduct__row__form__row">
-                     <label className="addproduct__row__form__row__label">Title</label>                
+                     <label className="addproduct__row__form__row__label">Title 
+                     <span className="addproduct__row__form__row__label__required">*</span>
+                     </label>                
                      <input className="addproduct__row__form__row__input"
                         id = "title"
                         name = "title"                  
@@ -17,15 +19,20 @@ const AddProduct: React.FC = () => {
                     />
                 </div>
                 <div className="addproduct__row__form__row">
-                    <label className="addproduct__row__form__label">Description</label>
+                    <label className="addproduct__row__form__label">Description
+                    <span className="addproduct__row__form__row__label__required">*</span>
+                    </label>
                    <textarea  
                         id = "description" 
                         name= "description"
-                        className="addproduct__row__form__input"
-                         ></textarea>
+                        className="addproduct__row__form__input"    
+                        style={{height: "100px"}}                     
+                        ></textarea>
                 </div>
                 <div className="addproduct__row__form__row">
-                    <label className="addproduct__row__form__row__label">Category</label>                       
+                    <label className="addproduct__row__form__row__label">Category
+                    <span className="addproduct__row__form__row__label__required">*</span>
+                    </label>                       
                     <select className="addproduct__row__form__row__input__select"                      
                         name="numberOfItems" 
                         id="numberOfItems">
@@ -33,11 +40,11 @@ const AddProduct: React.FC = () => {
                         <option className="addproduct__row__form__row__input__select__options" value="Lunch">Lunch</option>
                         <option className="addproduct__row__form__row__input__select__options" value="Dinner">Dinner</option>                       
                     </select>
-                </div>
-                   
-                  
+                </div>                  
                 <div className="addproduct__row__form__row">
-                <label className="addproduct__row__form__row__label">Price</label>
+                <label className="addproduct__row__form__row__label">Price
+                <span className="addproduct__row__form__row__label__required">*</span>
+                </label>
                     <input className="addproduct__row__form__row__input"
                         id = "price"
                         name = "price"                  
