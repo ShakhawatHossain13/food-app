@@ -39,7 +39,7 @@ const ProductsDetails: React.FC = () => {
     setItemQuantity(itemQuantity + 1);
   };
   const handleItemQuantityMinus = () => {
-    setItemQuantity(itemQuantity - 1);
+    if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
 
   return (
@@ -97,6 +97,12 @@ const ProductsDetails: React.FC = () => {
                     <AiOutlineMinus size="18px" />
                   </button>
                   <h1>{itemQuantity}</h1>
+                  {/* <input
+                    type="number"
+                    id="itemQuantity"
+                    name="itemQuantity"
+                    value={itemQuantity}
+                  ></input> */}
                   <button
                     onClick={handleItemQuantityPlus}
                     className="productsDetails__card__body__price__quantity__plus"

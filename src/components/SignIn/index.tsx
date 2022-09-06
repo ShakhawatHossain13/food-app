@@ -5,6 +5,19 @@ import logo from "../../images/logo.png";
 import { Link } from "react-router-dom";
 
 const SignIn: React.FC = () => {
+
+  const handleOnChange = () => {
+    
+  };
+
+  const handleLoginSubmit = () => {
+    // e.preventDefault();
+  };
+
+  const handleGoogleSignIn = () => {
+    // signInWithGoogle(location, history);
+  };
+
   return (
     <React.Fragment>
       <section
@@ -25,6 +38,7 @@ const SignIn: React.FC = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
+                onChange={handleOnChange}
               />
               <input
                 type="password"
@@ -38,8 +52,11 @@ const SignIn: React.FC = () => {
                 className="signIn__slider__row__main__form__input"
                 id="submit"
                 value="Sign in"
+                onChange={handleOnChange}
               />
             </form>
+            <p>------------ or ------------</p>
+            <button onClick={handleGoogleSignIn}>Google Sign In</button>
             <p className="signIn__slider__row__main__form__link">
               Don't have an account?
               <Link to="/signup"> Click here...</Link>
