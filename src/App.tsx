@@ -9,12 +9,15 @@ import CategoryDetails from "./components/CatrgoryDetails";
 import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-
+import Dashboard from "./components/Dashboard";
+import Sidebar from "./components/Dashboard/Sidebar";
+import AddProduct from "./components/Dashboard/Product/AddProduct";
+import ProductList from "./components/Dashboard/Product/ProductList";
 
 const App: React.FC = () => {
   return (
     <React.Fragment>
-      <MenuBar />
+      <MenuBar /> 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/categorydetails" element={<CategoryDetails />} />
@@ -23,8 +26,10 @@ const App: React.FC = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-      </Routes>
-      <Footer />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/productlist" element={<ProductList />} />
+      </Routes>    
     </React.Fragment>
   );
 };

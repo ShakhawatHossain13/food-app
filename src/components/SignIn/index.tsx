@@ -3,6 +3,7 @@ import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
 import { Link } from "react-router-dom";
+import Footer from "../Footer";
 
 const SignIn: React.FC = () => {
   return (
@@ -47,6 +48,7 @@ const SignIn: React.FC = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </React.Fragment>
   );
 };
