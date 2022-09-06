@@ -3,6 +3,7 @@ import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
 import { Link } from "react-router-dom";
+import Footer from "../Footer";
 
 const SignUp: React.FC = () => {
   return (
@@ -61,6 +62,7 @@ const SignUp: React.FC = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </React.Fragment>
   );
 };

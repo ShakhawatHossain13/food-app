@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import { useNavigate } from "react-router";
+import Footer from "../Footer";
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const Cart: React.FC = () => {
       <div className="cart" style={{ background: `url(${homeslider})` }}>
         <div className="cart__row">
           <h2 className="cart__title">Cart</h2>
-
           <table className="cart__table">
             <tr>
               <th className="cart__table__header">Sl No</th>
@@ -88,6 +88,7 @@ const Cart: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </React.Fragment>
   );
 };
