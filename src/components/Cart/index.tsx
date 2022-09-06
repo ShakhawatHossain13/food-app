@@ -78,7 +78,7 @@ const Cart: React.FC = () => {
             </tbody>
             {/* ))} */}
           </table>
-          <div>
+          <div className="cart__checkout">
             <button
               onClick={handleCheckoutSubmit}
               className="cart__checkoutButton"
