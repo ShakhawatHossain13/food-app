@@ -57,12 +57,16 @@ const AddBlog: React.FC = () => {
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Upload Image
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
               </label>
               <MultipleImageUpload />
             </div>
+
+            <button
+              type="submit"
+              className="addproduct__row__form__row__button"
+            >
+              Add
+            </button>
           </form>
         </div>
       </section>

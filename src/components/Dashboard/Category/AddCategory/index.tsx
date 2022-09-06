@@ -116,8 +116,12 @@ const AddCategory: React.FC = () => {
             </div>
 
             <div className="addCategory__row__form__row">
-              <label>Select Image</label>
+              <label className="addCategory__row__form__row__label">
+                Upload Image
+              </label>
+              <MultipleImageUpload />
             </div>
+
             <button
               type="submit"
               className="addCategory__row__form__row__button"
