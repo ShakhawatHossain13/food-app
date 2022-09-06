@@ -26,7 +26,8 @@
 .addCategory__row__form__label {
   float: left;
 }
-.addproduct__row__form__row__input {
+
+.addCategory__row__form__row__input {
   padding: 5px;
 }
 
@@ -47,17 +48,4 @@
   color: red;
   font-size: 14px;
   margin-left: 5px;
-}
-
-.addproduct__row__form__row__button {
-  padding: 5px;
-  width: 90%;
-  margin-top: 10px;
-  margin-left: 0;
-}
-
-.addproduct__row__form__row__error {
-  color: red;
-  font-size: 14px;
-  margin-left: 5px;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map *//*# sourceMappingURL=style.css.map */
