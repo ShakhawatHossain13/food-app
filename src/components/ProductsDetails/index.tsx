@@ -14,17 +14,18 @@ type ProductsDetailsDataType = {
 
 const ProductsDetails: React.FC = () => {
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
-
   const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType[]>([]);
   const categoryFood = foodItem.filter((food) => food.category === "Lunch");
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
-  //   const totalRelatedItems: number = categoryFood.length;
+  const initialImage = foodItem?.map((food) => food.foodImage);
+  const [selected, setSelected] = React.useState(initialImage[0]);
 
   const Pagination = (start: number, end: number) => {
     setStartItem(start);
     setEndItem(end);
   };
+  console.log(initialImage[0]);
 
   React.useEffect(() => {
     fetch("./food.json")
@@ -45,8 +46,71 @@ const ProductsDetails: React.FC = () => {
     <React.Fragment>
       <section className="productsDetails">
         <div className="">
-          {/* <div className="productsDetails__card"></div> */}
           <div className="productsDetails__card">
+            <div>
+              {/* <div className="blogdetails__image"> */}
+              <div className="productsDetails__card__image">
+                {/* <div className="blogdetails__image__main"> */}
+                <div className="productsDetails__card__image__main">
+                  <img
+                    src={selected}
+                    // className="blogdetails__image__main--selected"
+                    className="productsDetails__card__image__main--selected"
+                    alt="selected"
+                  />
+                </div>
+              </div>
+              {/* <div className="blogdetails__image__sub"> */}
+              <div className="productsDetails__card__image__sub">
+                {foodItem?.slice(0, 4).map((singleFood) => (
+                  <img
+                    style={{
+                      border:
+                        selected === singleFood.foodImage
+                          ? "2px solid cadetblue"
+                          : "",
+                    }}
+                    src={singleFood.foodImage}
+                    alt="Food Images"
+                    onClick={() => setSelected(singleFood.foodImage)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="productsDetails__card__body">
+              <div className="productsDetails__card__body__title">
+                <h3>Burger 2</h3>
+              </div>
+              <div className="productsDetails__card__body__description">
+                <p>
+                  I am obsessed with chicken tortilla soup. I love that warm and
+                  savory broth-y soup topped.
+                </p>
+              </div>
+              <div className="productsDetails__card__body__price">
+                <h2>99.99 $</h2>
+                <div className="productsDetails__card__body__price__quantity">
+                  <button
+                    onClick={handleItemQuantityMinus}
+                    className="productsDetails__card__body__price__quantity__minus"
+                  >
+                    <AiOutlineMinus size="18px" />
+                  </button>
+                  <h1>{itemQuantity}</h1>
+                  <button
+                    onClick={handleItemQuantityPlus}
+                    className="productsDetails__card__body__price__quantity__plus"
+                  >
+                    <AiOutlinePlus size="18px" />
+                  </button>
+                </div>
+              </div>
+              <button className="productsDetails__card__body__cart">
+                <FaShoppingCart size="18px" /> Add To Cart
+              </button>
+            </div>
+          </div>
+          {/* <div className="productsDetails__card">
             <div>
               <img
                 className="productsDetails__card__image"
@@ -86,12 +150,9 @@ const ProductsDetails: React.FC = () => {
                 <FaShoppingCart size="18px" /> Add To Cart
               </button>
             </div>
-          </div>
+          </div> */}
           {/* Product in Same category section */}
-          <h1
-            className="productsDetails__endTitle"
-            // style={{ textAlign: "center" }}
-          >
+          <h1 className="productsDetails__endTitle">
             Product in Same Category
           </h1>
           <div className="productsDetails__sameCategory">
