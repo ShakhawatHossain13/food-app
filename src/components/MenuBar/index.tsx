@@ -23,8 +23,8 @@ const MenuBar: React.FC = () => {
       <div className="menubar">
         <img src={logo} alt="Red Onion Logo" width="140px" />
         <div className="menubar__left">
-          <Link to="">Home</Link>
-          <Link to="news">News</Link>
+          <Link to="/">Home</Link>
+          <Link to="/news">News</Link>
         </div>
         <div className="menubar__right">
           <button
@@ -36,7 +36,7 @@ const MenuBar: React.FC = () => {
             <FaShoppingCart size="18px" />
             <span style={{ color: "#007bff" }}>0</span>
           </button>
-          <Link to="signin">Login</Link>
+          <Link to="/signin">Login</Link>
           <button
             className="menubar__right__signup"
             onClick={() => {
@@ -58,27 +58,27 @@ const MenuBar: React.FC = () => {
             <span className="menubar__burgermenu--span">
               <ul>
                 <li>
-                  <Link to="" onClick={handleBurgerMenuClose}>
+                  <Link to="/" onClick={handleBurgerMenuClose}>
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link to="news" onClick={handleBurgerMenuClose}>
+                  <Link to="/news" onClick={handleBurgerMenuClose}>
                     News
                   </Link>
                 </li>
                 <li>
-                  <Link to="cart" onClick={handleBurgerMenuClose}>
+                  <Link to="/cart" onClick={handleBurgerMenuClose}>
                     Cart
                   </Link>
                 </li>
                 <li>
-                  <Link to="login" onClick={handleBurgerMenuClose}>
+                  <Link to="/login" onClick={handleBurgerMenuClose}>
                     Login
                   </Link>
                 </li>
                 <li>
-                  <Link to="signup" onClick={handleBurgerMenuClose}>
+                  <Link to="/signup" onClick={handleBurgerMenuClose}>
                     Sign Up
                   </Link>
                 </li>
