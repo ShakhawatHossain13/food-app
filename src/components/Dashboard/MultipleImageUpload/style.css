@@ -1,14 +1,12 @@
 .image {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   height: 100px;
-  width: 20%;
-  padding: 2%;
-  margin: 2%;
-  border: 1px solid black;
+  padding: 8%;
+  border: 1px solid #888;
 }
 
 .image__preview {

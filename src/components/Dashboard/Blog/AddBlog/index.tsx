@@ -1,4 +1,5 @@
 import React from "react";
+import MultipleImageUpload from "../../MultipleImageUpload";
 import "./style.css";
 
 const AddBlog: React.FC = () => {
@@ -53,6 +54,15 @@ const AddBlog: React.FC = () => {
             </div>
 
             {/* Multiple Image Upload   */}
+            <div className="addproduct__row__form__row">
+              <label className="addproduct__row__form__row__label">
+                Upload Image
+                <span className="addproduct__row__form__row__label__required">
+                  *
+                </span>
+              </label>
+              <MultipleImageUpload />
+            </div>
           </form>
         </div>
       </section>
