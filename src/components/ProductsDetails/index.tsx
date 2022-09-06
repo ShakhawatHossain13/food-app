@@ -56,7 +56,7 @@ const ProductsDetails: React.FC = () => {
               <div className="productsDetails__card__image">
                 <div className="productsDetails__card__image__main">
                   <img
-                    src={selected}
+                    src={selected || initialImage[0] }
                     className="productsDetails__card__image__main--selected"
                     alt="selected"
                   />

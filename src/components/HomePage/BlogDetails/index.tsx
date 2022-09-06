@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "../../Footer";
 import { images } from "./blogdetailsimages";
 import "./style.css";
 
@@ -35,6 +36,7 @@ const BlogDetails: React.FC = () => {
           <p>{images[0].description}</p>
         </div>
       </div>
+       <Footer />
     </React.Fragment>
   );
 };
