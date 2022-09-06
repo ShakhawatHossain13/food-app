@@ -13,10 +13,40 @@
     text-align: center;
     cursor: pointer;
     &__image {
-      height: 350px;
-      width: 400px;
-      margin: 5px;
+      height: 300px;
+      width: 300px;
+      // margin: 5px;
       border-radius: 50%;
+      &__main {
+        margin: auto;
+        // width: 100%;
+        max-width: 540px;
+        display: flex;
+        border-radius: 50%;
+        align-items: center;
+        &__selected {
+          // width: 100%;
+          border-radius: 50%;
+          height: 300px;
+          margin: 0 auto;
+          border: 2px solid cadetblue;
+        }
+      }
+      &__sub {
+        // width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 10px;
+      }
+      &__sub img {
+        width: 100px;
+        height: 100px;
+        margin: 5px 0;
+        display: block;
+        cursor: pointer;
+      }
     }
     &__body {
       text-align: left;

@@ -14,10 +14,36 @@
   cursor: pointer;
 }
 .productsDetails__card__image {
-  height: 350px;
-  width: 400px;
-  margin: 5px;
+  height: 300px;
+  width: 300px;
   border-radius: 50%;
+}
+.productsDetails__card__image__main {
+  margin: auto;
+  max-width: 540px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+}
+.productsDetails__card__image__main__selected {
+  border-radius: 50%;
+  height: 300px;
+  margin: 0 auto;
+  border: 2px solid cadetblue;
+}
+.productsDetails__card__image__sub {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+.productsDetails__card__image__sub img {
+  width: 100px;
+  height: 100px;
+  margin: 5px 0;
+  display: block;
+  cursor: pointer;
 }
 .productsDetails__card__body {
   text-align: left;

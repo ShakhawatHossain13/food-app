@@ -9,7 +9,15 @@ import CategoryDetails from "./components/CatrgoryDetails";
 import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import MultipleImageUpload from "./components/Dashboard/MultipleImageUpload";
+import Dashboard from "./components/Dashboard";
+import Sidebar from "./components/Dashboard/Sidebar";
+import AddCategory from "./components/Dashboard/Category/AddCategory";
+import CategoryList from "./components/Dashboard/Category/CategoryList";
+import AddProduct from "./components/Dashboard/Product/AddProduct";
+import ProductList from "./components/Dashboard/Product/ProductList";
+import AddBlog from "./components/Dashboard/Blog/AddBlog";
+import BlogList from "./components/Dashboard/Blog/BlogList";
+
 
 const App: React.FC = () => {
   return (
@@ -23,9 +31,14 @@ const App: React.FC = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/add-category" element={<AddCategory />} />
+        <Route path="/category-list" element={<CategoryList />} />
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/productlist" element={<ProductList />} />
+        <Route path="/add-blog" element={<AddBlog />} />
+        <Route path="/blog-list" element={<BlogList />} />
       </Routes>
-      <Footer />
     </React.Fragment>
   );
 };

@@ -2,16 +2,16 @@
   {
     "title": "Breakfast",
     "description": "Breakfast may be the most important meal of the day, and one of our favorites, but it’s also a tough one! We have to come up with breakfast ideas before we’ve even had coffee and that’s just, well, it can feel like a really tall order. If you’re in the same boat, not to worry! To help you out—and honestly, to help ourselves, too—we’ve rounded up 50 (yep, 5-0) breakfast recipes! From super healthy breakfast ideas to low-carb, to fancy-enough-for-Christmas breakfast to just plain old gosh-darn easy breakfast ideas, we’ve got you covered! Let’s dive in!",
-    "img": "https://i.ibb.co/hs48MYR/breakfast.jpg"
+    "image": "https://i.ibb.co/hs48MYR/breakfast.jpg"
   },
   {
     "title": "Lunch",
     "description": "Use a lunch menu to show off your special midday restaurant or cafeteria service in style. The templates feature eye grabbing styles with easy to replace menu text and mouth-watering food photos. The designs are easily expanded from single-page to multi-page menus depending on your restaurant's needs.",
-    "img": "https://i.ibb.co/6nQCY0Q/lunch.jpg"
+    "image": "https://i.ibb.co/6nQCY0Q/lunch.jpg"
   },
   {
     "title": "Dinner",
-    "designation": "Orchestrating a meal is just that: It's a carefully composed combination of ingredients, textures, and flavors that come together to create wonderful new memories. Some dishes have the power to transport your loved ones to other places, while others feel nostalgic and evoke feelings family traditions, vacations, or other relatives.",
-    "img": "https://i.ibb.co/z8dBS7F/dinner.jpg"
+    "description": "Orchestrating a meal is just that: It's a carefully composed combination of ingredients, textures, and flavors that come together to create wonderful new memories. Some dishes have the power to transport your loved ones to other places, while others feel nostalgic and evoke feelings family traditions, vacations, or other relatives.",
+    "image": "https://i.ibb.co/z8dBS7F/dinner.jpg"
   }
 ]

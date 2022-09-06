@@ -18,12 +18,12 @@ const CategoryFilter: React.FC = () => {
   );
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
-
-  let sortedFoodItems: Array<string>;
-  if (sortByPrice === "lowHigh") {
-    // Price Low To High
-    selectedFood?.sort((a, b) => (a.price > b.price ? 1 : -1));
-  } else if (sortByPrice === "highLow") {
+  let sortedFoodItems:Array<string>;
+  if(sortByPrice==="lowHigh"){
+     // Price Low To High
+   selectedFood?.sort((a, b) => (a.price > b.price ? 1 : -1))
+  }
+  else if(sortByPrice==="highLow"){
     // Price High To Low
     selectedFood?.sort((a, b) => (a.price > b.price ? -1 : 1));
   }
@@ -91,9 +91,8 @@ const CategoryFilter: React.FC = () => {
                   </div>
                   <h2>{foods?.price} $</h2>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </section>
     </React.Fragment>
