@@ -4,4 +4,17 @@
   background-position-x: 40% !important;
   background-position-y: 40% !important;
   background-size: cover !important;
+}
+.cart__table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+.cart__table td th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+.cart tr:nth-child(even) {
+  background-color: #dddddd;
 }/*# sourceMappingURL=style.css.map */

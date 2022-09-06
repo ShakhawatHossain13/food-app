@@ -35,6 +35,10 @@ const ProductsDetails: React.FC = () => {
       });
   }, []);
 
+    const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+      // setItemQuantity(Number(e.target.value));
+    };
+    
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
   };
@@ -48,19 +52,15 @@ const ProductsDetails: React.FC = () => {
         <div className="">
           <div className="productsDetails__card">
             <div>
-              {/* <div className="blogdetails__image"> */}
               <div className="productsDetails__card__image">
-                {/* <div className="blogdetails__image__main"> */}
                 <div className="productsDetails__card__image__main">
                   <img
                     src={selected}
-                    // className="blogdetails__image__main--selected"
                     className="productsDetails__card__image__main--selected"
                     alt="selected"
                   />
                 </div>
               </div>
-              {/* <div className="blogdetails__image__sub"> */}
               <div className="productsDetails__card__image__sub">
                 {foodItem?.slice(0, 4).map((singleFood) => (
                   <img
@@ -102,6 +102,7 @@ const ProductsDetails: React.FC = () => {
                     id="itemQuantity"
                     name="itemQuantity"
                     value={itemQuantity}
+                    onChange={handleItemQuantity}
                   ></input> */}
                   <button
                     onClick={handleItemQuantityPlus}
