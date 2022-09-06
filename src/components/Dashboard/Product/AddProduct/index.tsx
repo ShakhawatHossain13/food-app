@@ -5,14 +5,14 @@ type AddProducttDataType = {
     title: string;
     description: string; 
     category: string;
-    price: number;   
+    price: string;   
   };
 
   const initialData: AddProducttDataType = {
     title: "",
     description: "",   
     category: "",
-    price: 0,  
+    price: "",  
   }
   type ErrorType = {
     title: string;
@@ -53,12 +53,12 @@ const AddProduct: React.FC = () => {
             "title",
             "description",   
             "category",
-            "price", 
+            "price",
         ];  
         for (let key in copyErrors) {
           if (
             validationFields.includes(key) &&
-            foodItem[key as keyof typeof foodItem] === "" 
+           ( foodItem[key as keyof typeof foodItem] === "" || 0)
           ) {
             copyErrors[key] = "required";
             hasError = true;
@@ -92,7 +92,7 @@ const AddProduct: React.FC = () => {
                         //   )                          
                         // }                        
                     />
-                    <span>{error.title}</span>
+                    <span className="addproduct__row__form__row__error">{error.title}</span>
                 </div>
                 <div className="addproduct__row__form__row">
                     <label className="addproduct__row__form__label">Description
@@ -105,7 +105,7 @@ const AddProduct: React.FC = () => {
                         onChange={handleChange} 
                         style={{height: "100px"}}                     
                         ></textarea>
-                        <span>{error.description}</span>
+                        <span className="addproduct__row__form__row__error">{error.description}</span>
                 </div>
                 <div className="addproduct__row__form__row">
                     <label className="addproduct__row__form__row__label">Category
@@ -120,7 +120,7 @@ const AddProduct: React.FC = () => {
                         <option className="addproduct__row__form__row__input__select__options" value="Lunch">Lunch</option>
                         <option className="addproduct__row__form__row__input__select__options" value="Dinner">Dinner</option>                       
                     </select>
-                    <span>{error.category}</span>
+                    <span className="addproduct__row__form__row__error">{error.category}</span>
                 </div>                  
                 <div className="addproduct__row__form__row">
                 <label className="addproduct__row__form__row__label">Price
@@ -132,7 +132,7 @@ const AddProduct: React.FC = () => {
                         type="number"  
                         onChange={handleChange}         
                     />
-                     <span>{error.price}</span>
+                    <span className="addproduct__row__form__row__error">{error.price}</span>
                 </div> 
                     {/* Multiple Image Upload   */}   
                         <button type="submit" 
