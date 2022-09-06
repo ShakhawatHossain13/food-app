@@ -6,26 +6,22 @@
   align-items: center;
   gap: 30px;
 }
-
 .blogdetails__image {
   display: grid;
   gap: 10px;
   justify-content: center;
 }
-
 .blogdetails__image__main {
   margin: auto;
   max-width: 540px;
   display: flex;
   align-items: center;
 }
-
 .blogdetails__image__main--selected {
   height: 300px;
   margin: 0 auto;
   border: 2px solid cadetblue;
 }
-
 .blogdetails__image__sub {
   display: flex;
   justify-content: space-around;
@@ -33,7 +29,6 @@
   flex-wrap: wrap;
   padding-top: 10px;
 }
-
 .blogdetails__image__sub img {
   width: 100px;
   height: 100px;
@@ -41,7 +36,6 @@
   display: block;
   cursor: pointer;
 }
-
 .blogdetails__details {
   display: grid;
   gap: 10px;

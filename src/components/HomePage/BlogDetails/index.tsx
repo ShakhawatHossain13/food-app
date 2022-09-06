@@ -24,7 +24,7 @@ const BlogDetails: React.FC = () => {
                   selected === img.bannerImage ? "2px solid cadetblue" : "",
               }}
               src={img.bannerImage}
-              alt="Blog Image"
+              alt="Blog Images"
               onClick={() => setSelected(img.bannerImage)}
             />
           ))}

@@ -5,12 +5,39 @@ import Footer from "../Footer";
 
 const Cart: React.FC = () => {
   return (
-    <React.Fragment> 
-      <div className="cart" style={{ background: `url(${homeslider})`}}>      
+    <React.Fragment>
+      <div className="cart" style={{ background: `url(${homeslider})` }}>
         <div className="cart__row">
-           <h1>Hello</h1>
         </div>         
       </div>  
+          <h2>HTML Table</h2>
+
+          <table className="cart__table">
+            <tr>
+              <th>Company</th>
+              <th>Contact</th>
+              <th>Country</th>
+            </tr>
+            {/* {employees?.map((employee, index) => ( */}
+              <tbody>
+                <tr>
+                  <td >{"index + 1"}</td>
+                  <td >
+                    {/* {employee?.employeeID} */}
+                    products images
+                  </td>
+                  <td>
+                    Name
+                  </td>
+                  <td>
+                    Qty
+                  </td>
+                </tr>
+              </tbody>
+            {/* ))} */}
+          </table>
+        </div>
+      </div>
       <Footer/>
     </React.Fragment>
   );
