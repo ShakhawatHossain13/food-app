@@ -19,7 +19,7 @@
 .addproduct__row__form__row {
   width: 100%;
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 40% 50% 10%;
   margin-top: 10px;
 }
 
@@ -27,11 +27,24 @@
   float: left;
 }
 
-.addproduct__row__form__input {
-  padding: 10px;
+.addproduct__row__form__row__input {
+  padding: 5px;
 }
 
 .addproduct__row__form__row__label__required {
+  color: red;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.addproduct__row__form__row__button {
+  padding: 5px;
+  width: 90%;
+  margin-top: 10px;
+  margin-left: 0;
+}
+
+.addproduct__row__form__row__error {
   color: red;
   font-size: 14px;
   margin-left: 5px;
