@@ -11,10 +11,9 @@ type ProductListDataType = {
     price: string;
     vat: string;
   };
-
+  
 const ProductList: React.FC = () => {
-  const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]);
-
+  const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]); 
   const handleOpenClick =()=>{   
     (document.getElementById("modal") as HTMLInputElement).style.display="block";
   }
