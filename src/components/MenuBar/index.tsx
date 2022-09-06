@@ -24,7 +24,7 @@ const MenuBar: React.FC = () => {
         <img src={logo} alt="Red Onion Logo" width="140px" />
         <div className="menubar__left">
           <Link to="/">Home</Link>
-          <Link to="/news">News</Link>
+          <Link to="/productlist">Admin</Link>
         </div>
         <div className="menubar__right">
           <button
