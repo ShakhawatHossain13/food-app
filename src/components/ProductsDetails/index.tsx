@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
+import Footer from "../Footer";
 
 type ProductsDetailsDataType = {
   title: string;
@@ -206,6 +207,7 @@ const ProductsDetails: React.FC = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </React.Fragment>
   );
 };
