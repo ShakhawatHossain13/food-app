@@ -9,7 +9,7 @@ import CategoryDetails from "./components/CatrgoryDetails";
 import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-
+import MultipleImageUpload from "./components/Dashboard/MultipleImageUpload";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/blogdetails" element={<BlogDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
       <Footer />
