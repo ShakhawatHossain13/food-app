@@ -1,45 +1,51 @@
-.addCategory {
-  &__row {
-    margin: auto;
-    width: 60%;
-    text-align: center;
-  }
+.addCategory__row {
+  margin: auto;
+  width: 60%;
+  text-align: center;
 }
+
 .addCategory__row__title {
   font-size: 24px;
   font-weight: 400;
   margin-bottom: 20px;
 }
+
 .addCategory__row__form {
   max-width: 600px;
   margin: 10px auto;
   text-align: left;
 }
+
 .addCategory__row__form__row {
   width: 100%;
   display: grid;
   grid-template-columns: 40% 50% 10%;
   margin-top: 10px;
 }
+
 .addCategory__row__form__label {
   float: left;
 }
+
 .addCategory__row__form__row__input {
   padding: 5px;
 }
+
 .addCategory__row__form__row__label__required {
   color: red;
   font-size: 14px;
   margin-left: 5px;
 }
+
 .addCategory__row__form__row__button {
   padding: 5px;
   width: 90%;
   margin-top: 10px;
   margin-left: 0;
 }
+
 .addCategory__row__form__row__error {
   color: red;
   font-size: 14px;
   margin-left: 5px;
-}
+}/*# sourceMappingURL=style.css.map */
