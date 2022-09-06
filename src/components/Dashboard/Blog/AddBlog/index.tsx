@@ -6,7 +6,7 @@ const AddBlog: React.FC = () => {
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
-          <h3 className="addproduct__row__title">Add Product</h3>
+          <h3 className="addproduct__row__title">Add Blog</h3>
           <form className="addproduct__row__form">
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
@@ -36,50 +36,19 @@ const AddBlog: React.FC = () => {
                 style={{ height: "100px" }}
               ></textarea>
             </div>
+
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
-                Category
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <select
-                className="addproduct__row__form__row__input__select"
-                name="numberOfItems"
-                id="numberOfItems"
-              >
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Breakfast"
-                >
-                  Breakfast
-                </option>
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Lunch"
-                >
-                  Lunch
-                </option>
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Dinner"
-                >
-                  Dinner
-                </option>
-              </select>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Price
+                Date
                 <span className="addproduct__row__form__row__label__required">
                   *
                 </span>
               </label>
               <input
                 className="addproduct__row__form__row__input"
-                id="price"
-                name="price"
-                type="number"
+                id="date"
+                name="date"
+                type="date"
               />
             </div>
 
