@@ -24,15 +24,15 @@
       padding: 8px;
     }
     &__field {
-      background-color: #dddddd;
-      border: 1px solid black;
+      background-color: rgba(255, 255, 255, 0.833);
+      border-bottom: 1px solid black;
       text-align: left;
       padding: 8px;
     }
     &__deleteButton {
       padding: 5px;
       border: 1px solid gray;
-      background-color: rgba(255, 0, 0, 0.8);
+      background-color: #dc3545;
       border-radius: 5px;
       width: 50px;
       margin-left: 5px;
@@ -40,7 +40,7 @@
   }
 
   &__checkoutButton {
-    background-color: #dc3545;
+    background-color: crimson;
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 1rem;
