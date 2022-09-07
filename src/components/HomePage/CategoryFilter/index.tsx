@@ -13,6 +13,7 @@ type CategoryFilterDataType = {
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
+  const [bottomBar, setbottomBar] = React.useState(1);
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
@@ -26,6 +27,13 @@ const CategoryFilter: React.FC = () => {
 
   const handleCategoryNavbar = (e: string) => {
     setSelectedCategory(e);
+    if (e === "Breakfast") {
+      setbottomBar(1);
+    } else if (e === "Lunch") {
+      setbottomBar(2);
+    } else {
+      setbottomBar(3);
+    }
   };
 
   return (
@@ -35,18 +43,30 @@ const CategoryFilter: React.FC = () => {
           <li
             className="categoryFilter__navbar__item"
             onClick={() => handleCategoryNavbar("Breakfast")}
+            style={{
+              borderBottom: bottomBar === 1 ? "4px solid pink" : "",
+              color: bottomBar === 1 ? "#495057" : "",
+            }}
           >
             Breakfast
           </li>
           <li
             className="categoryFilter__navbar__item"
             onClick={() => handleCategoryNavbar("Lunch")}
+            style={{
+              borderBottom: bottomBar === 2 ? "4px solid pink" : "",
+              color: bottomBar === 2 ? "#495057" : "",
+            }}
           >
             Lunch
           </li>
           <li
             className="categoryFilter__navbar__item"
             onClick={() => handleCategoryNavbar("Dinner")}
+            style={{
+              borderBottom: bottomBar === 3 ? "4px solid pink" : "",
+              color: bottomBar === 3 ? "#495057" : "",
+            }}
           >
             Dinner
           </li>

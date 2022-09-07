@@ -1,8 +1,9 @@
 
 .menubar {
     width: 80%;
+    max-width: 1110px;
     margin: auto;
-   padding: 15px 10%;
+   padding: 15px ;
    display: grid;
    align-items: center;
    grid-template-columns: 0.6fr 2.7fr 1.8fr;
