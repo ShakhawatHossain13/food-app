@@ -39,7 +39,8 @@
   margin: auto;
   cursor: pointer;
   padding: 10px;
-  border-radius: 5%;
+  border: 1px solid pink;
+  border-radius: 5px;
 }
 .blog__card__image {
   height: 220px;
@@ -75,7 +76,6 @@
 }
 .blog__card:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
 }
 
 @media screen and (max-width: 768px) {

@@ -36,10 +36,10 @@ const ProductsDetails: React.FC = () => {
       });
   }, []);
 
-    const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // setItemQuantity(Number(e.target.value));
-    };
-    
+  const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // setItemQuantity(Number(e.target.value));
+  };
+
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
   };
@@ -56,7 +56,7 @@ const ProductsDetails: React.FC = () => {
               <div className="productsDetails__card__image">
                 <div className="productsDetails__card__image__main">
                   <img
-                    src={selected || initialImage[0] }
+                    src={selected || initialImage[0]}
                     className="productsDetails__card__image__main--selected"
                     alt="selected"
                   />
