@@ -1,8 +1,21 @@
-import React from "react";
+import React , {FormEvent} from "react";
 import "./style.css";
 import MultipleImageUpload from "../../MultipleImageUpload";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc, 
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../../database/firebaseConfig";
 
 type AddProducttDataType = {
+  id: string;
   title: string;
   description: string;
   category: string;
@@ -10,18 +23,21 @@ type AddProducttDataType = {
 };
 
 const initialData: AddProducttDataType = {
+  id: "",
   title: "",
   description: "",
   category: "",
   price: "",
 };
 type ErrorType = {
+  id: string;
   title: string;
   description: string;
   category: string;
   price: string;
 };
 const initialError: ErrorType = {
+  id: "",
   title: "",
   description: "",
   category: "",
@@ -31,7 +47,7 @@ const initialError: ErrorType = {
 const AddProduct: React.FC = () => {
   const [foodItem, setFoodItem] =
     React.useState<AddProducttDataType>(initialData);
-  const [error, setError] = React.useState<ErrorType>(initialError);
+    const [error, setError] = React.useState<ErrorType>(initialError);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -50,7 +66,7 @@ const AddProduct: React.FC = () => {
       [name]: "",
     }));
   };
-
+ 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -67,12 +83,37 @@ const AddProduct: React.FC = () => {
     setError(copyErrors);
     return hasError;
   };
+
+  const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{        
+    e.preventDefault();      
+    if (isValid()) {
+        return;
+      }
+      const db = getFirestore();
+      const dbRef = collection(db, "food");   
+       addDoc(dbRef,     {
+        id: foodItem.id,
+        title: foodItem.title,
+        description: foodItem.description,
+        category: foodItem.category,
+        price: foodItem.price,
+    })
+      .then  (docRef =>  {
+          console.log("Document has been added successfully");  
+           console.log(docRef.id);              
+      })
+      .catch(error => {
+          console.log(error);
+      })
+  } 
+
+
   return (
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">Add Product</h3>
-          <form className="addproduct__row__form">
+          <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Title
@@ -183,13 +224,13 @@ const AddProduct: React.FC = () => {
             <button
               type="submit"
               className="addproduct__row__form__row__button"
-              onClick={(e) => {
-                e.preventDefault();
-                if (isValid()) {
-                  return;
-                }
-                console.log(foodItem);
-              }}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   if (isValid()) {
+              //     return;
+              //   }
+              //   console.log(foodItem);
+              // }}
             >
               Add
             </button>
