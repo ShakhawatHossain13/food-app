@@ -19,7 +19,6 @@ export const getData = async () => {
   const colRef = collection(firebaseDatabase, "blog");
   try {
     const result = await getDocs(colRef);
-
     const prepareData = result?.docs.map((item) => {
       let temp = item.data();
       let obj: CRUDProps = {
