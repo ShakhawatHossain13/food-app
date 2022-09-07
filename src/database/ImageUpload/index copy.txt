@@ -7,11 +7,11 @@ const ImageUpload = () => {
   const [imgUrls, setImgUrls] = React.useState<string>("");
   const [progress, setProgress] = React.useState<number>(0);
 
-  const handleChange = (e: any) => {
-    if (e.target.files[0]) {
-      setImages(e.target.files[0]);
+  const handleChange = (e:any) => {
+    if(e.target.files[0]){
+        setImages(e.target.files[0]);
     }
-  };
+  }
   const uploadIcon = (file: File) => {
     if (!file) {
       alert("Please select a image");
