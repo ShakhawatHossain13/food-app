@@ -3,16 +3,18 @@ import Footer from "../../Footer";
 import { images } from "./blogdetailsimages";
 import "./style.css";
 import {
-  collection,
+  getFirestore, 
   getDocs,
   addDoc,
   getDoc,
   updateDoc,
   deleteDoc,
   doc, 
+  Firestore,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../database/firebaseConfig"; 
-
+import { firebaseDatabase } from "../../../database/firebaseConfig";  
+import { initializeApp } from 'firebase/app';
+ 
 type BlogDetailsDataType = {
   id: string;
   title: string;
@@ -26,34 +28,23 @@ const BlogDetails: React.FC = () => {
   // const [selected, setSelected] = React.useState(images[0].bannerImage);
   // console.log(images[0]);
     const [blog, setblog] = React.useState<BlogDetailsDataType[]>([]);
+    
     const getData = async () => {
-    const colRef = collection(firebaseDatabase, "blog");
-    try {
-      const result = await getDocs(colRef);
-      const prepareData = result?.docs.map((item) => {
-        let temp = item.data();
-        let obj: BlogDetailsDataType  = {       
-          id: temp.id,   
-          title: temp.title,
-          description: temp.description,
-          blogImage: temp.blogImage,
-          icon: temp.icon,
-          date: temp.date,
-        };
-        return obj;
-      });
-      setblog(prepareData);   
-      return prepareData;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  React.useEffect(() => {
-    getData();
-  }, []);
-
-  console.log(blog)
+      const db = getFirestore();
+      const docRef = doc(db, "blog", "2j88AdesTh6H75g3ps59");
+      const docSnap = await getDoc(docRef);
+      docSnap.data();
+      try {
+        const docSnap = await getDoc(docRef);         
+        const results  = docSnap.data();
+        console.log(results?.title);
+      } catch(error) {
+          console.log(error)
+      }
+    };
+     
+    getData(); 
+    
   
   return (
     <React.Fragment>
