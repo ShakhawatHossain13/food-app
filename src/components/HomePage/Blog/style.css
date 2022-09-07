@@ -39,7 +39,7 @@
   margin: auto;
   cursor: pointer;
   padding: 10px;
-  border: 1px solid pink;
+  border: 1px solid #007bff;
   border-radius: 5px;
 }
 .blog__card__image {
