@@ -2,14 +2,27 @@ import React from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../database/firebaseConfig";
 
 const SignIn: React.FC = () => {
+  let navigate = useNavigate();
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
 
-  const handleOnChange = () => {
-    
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      console.log(user);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const handleOnChange = () => {};
 
   const handleLoginSubmit = () => {
     // e.preventDefault();
@@ -39,7 +52,9 @@ const SignIn: React.FC = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={handleOnChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setEmail(event.target.value);
+                }}
               />
               <input
                 type="password"
@@ -47,14 +62,22 @@ const SignIn: React.FC = () => {
                 id="password"
                 name="password"
                 placeholder="Password"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(event.target.value);
+                }}
               />
-              <input
+              <button
                 type="submit"
                 className="signIn__slider__row__main__form__input"
                 id="submit"
-                value="Sign in"
-                onChange={handleOnChange}
-              />
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  login();
+                }}
+              >
+                Sign in
+              </button>
             </form>
             <p>------------ or ------------</p>
             <button onClick={handleGoogleSignIn}>Google Sign In</button>

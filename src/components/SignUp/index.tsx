@@ -2,10 +2,30 @@ import React from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../database/firebaseConfig";
 
 const SignUp: React.FC = () => {
+  let navigate = useNavigate();
+  const [name, setName] = React.useState<string>("");
+  const [contact, setContact] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+
+  const [user, setUser] = React.useState({});
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <React.Fragment>
       <section
@@ -26,13 +46,18 @@ const SignUp: React.FC = () => {
                 id="name"
                 name="name"
                 placeholder="Name"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setName(event.target.value);
+                }}
               />
               <input
-                type="text"
                 className="signup__slider__row__main__form__input"
-                id="Contact"
-                name="Contact"
+                id="contact"
+                name="contact"
                 placeholder="Contact No."
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setContact(event.target.value);
+                }}
               />
               <input
                 type="email"
@@ -40,6 +65,9 @@ const SignUp: React.FC = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setEmail(event.target.value);
+                }}
               />
               <input
                 type="password"
@@ -47,6 +75,9 @@ const SignUp: React.FC = () => {
                 id="password"
                 name="password"
                 placeholder="Password"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(event.target.value);
+                }}
               />
               <input
                 type="password"
@@ -55,12 +86,18 @@ const SignUp: React.FC = () => {
                 name="confirmPassword"
                 placeholder="Confirm Password"
               />
-              <input
+              <button
                 type="submit"
                 className="signup__slider__row__main__form__input"
                 id="submit"
-                value="Sign Up"
-              />
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  register();
+                }}
+              >
+                Sign Up
+              </button>
             </form>
             <p className="signup__slider__row__main__form__link">
               Already have an account?
