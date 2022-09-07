@@ -81,7 +81,7 @@ const Blog: React.FC = () => {
                     <div className="blog__card__body__details__description">
                       <p>{post?.description.slice(0, 100)}...</p>
                     </div>
-                    <a href = {`/blogdetails/${post?.id}`} >See More...</a>
+                    <a href = {`/blogdetails/${post?.id.trim()}`} >See More...</a>
                   </div>
                 </div>
               </div>
