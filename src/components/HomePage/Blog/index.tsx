@@ -1,23 +1,52 @@
 import React from "react";
 import "./style.css";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../database/firebaseConfig";
 
 type BlogFilterDataType = {
+  id: string;
   title: string;
   description: string;
   blogImage: string;
   icon: string;
   date: string;
 };
-
 const Blog: React.FC = () => {
-  const [foodItem, setFoodItem] = React.useState<BlogFilterDataType[]>([]);
+  const [blog, setblog] = React.useState<BlogFilterDataType[]>([]);
 
-  React.useEffect(() => {
-    fetch("./blog.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setFoodItem(data);
+    const getData = async () => {
+    const colRef = collection(firebaseDatabase, "blog");
+    try {
+      const result = await getDocs(colRef);
+      const prepareData = result?.docs.map((item) => {
+        let temp = item.data();
+        let obj: BlogFilterDataType  = {       
+          id: temp.id,   
+          title: temp.title,
+          description: temp.description,
+          blogImage: temp.blogImage,
+          icon: temp.icon,
+          date: temp.date,
+        };
+        return obj;
       });
+      setblog(prepareData);   
+      return prepareData;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  React.useEffect(() => {
+    getData();
   }, []);
 
   return (
@@ -29,30 +58,30 @@ const Blog: React.FC = () => {
           industry. Lorem Ipsum has been the industry's standard.
         </p>
         <div className="blog__row">
-          {foodItem?.slice(0, 3).map((foods) => {
+          {blog?.slice(0, 3).map((post) => {
             return (
               <div className="blog__card">
                 <img
                   className="blog__card__image"
-                  src={foods?.blogImage}
+                  src={post?.blogImage}
                   alt="Food Images"
                 />
                 <div className="blog__card__body">
                   <div className="blog__card__body__icon">
                     <img
                       className="blog__card__body__icon__image"
-                      src={foods?.icon}
+                      src={post?.icon}
                       alt="Food Images"
                     />
                   </div>
                   <div className="blog__card__body__details">
                     <p className="blog__card__body__details__title">
-                      {foods?.title}
+                      {post?.title}
                     </p>
                     <div className="blog__card__body__details__description">
-                      <p>{foods?.description.slice(0, 100)}...</p>
+                      <p>{post?.description.slice(0, 100)}...</p>
                     </div>
-                    <a href="#">See More...</a>
+                    <a href = {`/blogdetails/${post?.id}`} >See More...</a>
                   </div>
                 </div>
               </div>

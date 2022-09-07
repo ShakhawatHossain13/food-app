@@ -1,5 +1,15 @@
 import React, { useEffect } from "react";
 import "./style.css";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../database/firebaseConfig";
 
 type CategoryFilterDataType = {
   title: string;

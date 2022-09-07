@@ -1,27 +1,57 @@
 import React from "react";
 import "./style.css";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../database/firebaseConfig";
 
 type CategoryFilterDataType = {
+  id: string;
   title: string;
   description: string;
   foodImage: string;
   category: string;
-  price: string;
-  vat: string;
+  price: string; 
 };
 
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
-  const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
+  const [selectedCategory, setSelectedCategory] = React.useState("Dinner");
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
-  React.useEffect(() => {
-    fetch("./food.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setFoodItem(data);
+
+  const getData = async () => {
+    const colRef = collection(firebaseDatabase, "food");
+    try {
+      const result = await getDocs(colRef);
+      const prepareData = result?.docs.map((item) => {
+        let temp = item.data();
+        let obj: CategoryFilterDataType  = {       
+          id: temp.id,   
+          title: temp.title,
+          description: temp.description,
+          foodImage: temp.foodImage,
+          category: temp.category,
+          price: temp.price, 
+        };
+        return obj;
       });
+      setFoodItem(prepareData);     
+
+      return prepareData;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    getData();
   }, []);
 
   const handleCategoryNavbar = (e: string) => {
@@ -51,7 +81,6 @@ const CategoryFilter: React.FC = () => {
             Dinner
           </li>
         </div>
-
         <div className="categoryFilter__row">
           {selectedFood?.slice(0, 6).map((foods) => {
             return (
