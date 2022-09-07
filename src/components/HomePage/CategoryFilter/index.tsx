@@ -22,7 +22,6 @@ type CategoryFilterDataType = {
 
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
-
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
   const [bottomBar, setBottomBar] = React.useState(1);
   const selectedFood = foodItem.filter(
