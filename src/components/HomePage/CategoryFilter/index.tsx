@@ -13,7 +13,7 @@ type CategoryFilterDataType = {
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
-  const [bottomBar, setbottomBar] = React.useState(1);
+  const [bottomBar, setBottomBar] = React.useState(1);
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
@@ -28,11 +28,11 @@ const CategoryFilter: React.FC = () => {
   const handleCategoryNavbar = (e: string) => {
     setSelectedCategory(e);
     if (e === "Breakfast") {
-      setbottomBar(1);
+      setBottomBar(1);
     } else if (e === "Lunch") {
-      setbottomBar(2);
+      setBottomBar(2);
     } else {
-      setbottomBar(3);
+      setBottomBar(3);
     }
   };
 
