@@ -1,4 +1,3 @@
-import { PersonalVideo } from "@material-ui/icons";
 import React from "react";
 import "./style.css";
 import { FaCheck } from "react-icons/fa";
@@ -28,6 +27,7 @@ const MultipleImageUpload: React.FC = () => {
             style={{
               border: selected === photo ? "2px solid cadetblue" : "",
             }}
+            alt="Images"
           />
           {selected === photo && (
             <FaCheck className="image__tick" size="15px" />

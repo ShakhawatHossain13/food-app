@@ -1,8 +1,6 @@
 import React from "react";
 import "./style.css";
 import MultipleImageUpload from "../../MultipleImageUpload";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../../../database/firebaseConfig";
 
 type addBlogDataType = {
   title: string;
