@@ -1,18 +1,21 @@
 import React from "react";
 import Footer from "../../Footer";
 import { images } from "./blogdetailsimages";
+import { useParams } from "react-router-dom"; 
 import "./style.css";
 import {
-  collection,
+  getFirestore, 
   getDocs,
   addDoc,
   getDoc,
   updateDoc,
   deleteDoc,
   doc, 
+  Firestore,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../database/firebaseConfig"; 
-
+import { firebaseDatabase } from "../../../database/firebaseConfig";  
+import { initializeApp } from 'firebase/app';
+ 
 type BlogDetailsDataType = {
   id: string;
   title: string;
@@ -25,44 +28,46 @@ type BlogDetailsDataType = {
 const BlogDetails: React.FC = () => {
   // const [selected, setSelected] = React.useState(images[0].bannerImage);
   // console.log(images[0]);
-    const [blog, setblog] = React.useState<BlogDetailsDataType[]>([]);
+    const [blog, setblog] = React.useState<BlogDetailsDataType>();
+    const { id } =  useParams(); 
+    
     const getData = async () => {
-    const colRef = collection(firebaseDatabase, "blog");
-    try {
-      const result = await getDocs(colRef);
-      const prepareData = result?.docs.map((item) => {
-        let temp = item.data();
+      const db = getFirestore();
+      const docRef = doc(db, "blog", `${id}`);
+      const docSnap = await getDoc(docRef);
+      docSnap.data();
+      try {
+        const docSnap = await getDoc(docRef);         
+        const results  = docSnap.data();
+        console.log(results);
         let obj: BlogDetailsDataType  = {       
-          id: temp.id,   
-          title: temp.title,
-          description: temp.description,
-          blogImage: temp.blogImage,
-          icon: temp.icon,
-          date: temp.date,
+          id: results?.id,   
+          title: results?.title,
+          description: results?.description,
+          blogImage: results?.blogImage,
+          icon: results?.icon,
+          date: results?.date,
         };
-        return obj;
-      });
-      setblog(prepareData);   
-      return prepareData;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        setblog(obj);
+       
+      } catch(error) {
+          console.log(error)
+      }
+    };
+     
+    React.useEffect(() => {
+      getData();
+    }, []);
   
-  React.useEffect(() => {
-    getData();
-  }, []);
-
-  console.log(blog)
+    
   
   return (
     <React.Fragment>
       <div className="blogdetails">
         <div className="blogdetails__image">
-          <div className="blogdetails__image__main">
-        hello
+          <div className="blogdetails__image__main">        
             <img
-              src={blog[0].blogImage}
+               src={blog?.blogImage}
               className="blogdetails__image__main--selected"
               alt="selected"
             />
@@ -82,9 +87,12 @@ const BlogDetails: React.FC = () => {
           ))} */}
         </div>
         <div className="blogdetails__details">
-          {/* <h3>{blog[0].title}</h3>
-          <p>{blog[0].date}</p>
-          <p>{blog[0].description}</p> */}
+          {/*  */}
+          {/* 
+          */}
+          <h3>{blog?.title}</h3>
+          <p>{blog?.date.toString()}</p>
+           <p>{blog?.description}</p>
         </div>
       </div>
        <Footer />

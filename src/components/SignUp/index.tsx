@@ -28,6 +28,13 @@ const SignUp: React.FC = () => {
                 placeholder="Name"
               />
               <input
+                type="text"
+                className="signup__slider__row__main__form__input"
+                id="Contact"
+                name="Contact"
+                placeholder="Contact No."
+              />
+              <input
                 type="email"
                 className="signup__slider__row__main__form__input"
                 id="email"
@@ -62,7 +69,7 @@ const SignUp: React.FC = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 };
