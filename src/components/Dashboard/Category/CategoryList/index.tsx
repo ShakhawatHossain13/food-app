@@ -32,22 +32,22 @@ const CategoryList: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Sidebar />
-      <section className="productlist">
-        <div className="productlist__row">
-          <h3 className="productlist__row__title">Category list</h3>
-          <div className="productlist__row__button">
+      <section className="categorylist">
+        <Sidebar />
+        <div className="categorylist__row">
+          <h3 className="categorylist__row__title">Category list</h3>
+          <div className="categorylist__row__button">
             <button
-              className="productlist__row__button__btn"
+              className="categorylist__row__button__btn"
               onClick={handleOpenClick}
             >
               + add
             </button>
 
-            <div id="modal" className="productlist__row__modal">
-              <div className="productlist__row__modal__content">
+            <div id="modal" className="categorylist__row__modal">
+              <div className="categorylist__row__modal__content">
                 <span
-                  className="productlist__row__modal__content__close"
+                  className="categorylist__row__modal__content__close"
                   onClick={handleCloseClick}
                 >
                   &times;
@@ -57,29 +57,29 @@ const CategoryList: React.FC = () => {
               </div>
             </div>
           </div>
-          <table className="productlist__row__table">
-            <tr className="productlist__row__table__row">
-              <th className="productlist__row__table__row__text">Title</th>
-              <th className="productlist__row__table__row__text">
+          <table className="categorylist__row__table">
+            <tr className="categorylist__row__table__row">
+              <th className="categorylist__row__table__row__text">Title</th>
+              <th className="categorylist__row__table__row__text">
                 Description
               </th>
-              <th className="productlist__row__table__row__text">Actions</th>
+              <th className="categorylist__row__table__row__text">Actions</th>
             </tr>
 
             {categoryItem?.map((category) => {
               return (
-                <tr className="productlist__row__table__row">
-                  <td className="productlist__row__table__row__text">
+                <tr className="categorylist__row__table__row">
+                  <td className="categorylist__row__table__row__text">
                     {category.title}
                   </td>
-                  <td className="productlist__row__table__row__text">
+                  <td className="categorylist__row__table__row__text">
                     {category.description.slice(0, 50)}
                   </td>
-                  <td className="productlist__row__table__row__text">
-                    <button className="productlist__row__table__row__button__edit">
+                  <td className="categorylist__row__table__row__text">
+                    <button className="categorylist__row__table__row__button__edit">
                       edit
                     </button>
-                    <button className="productlist__row__table__row__button__delete">
+                    <button className="categorylist__row__table__row__button__delete">
                       delete
                     </button>
                   </td>
