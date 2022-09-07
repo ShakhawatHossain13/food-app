@@ -46,7 +46,7 @@ const Cart: React.FC = () => {
                 <td className="cart__table__field">1</td>
                 <td className="cart__table__field">199</td>
                 <td className="cart__table__field">
-                  <button className="cart__table__deleteButton">X</button>
+                  <button className="cart__table__deleteButton">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -59,7 +59,7 @@ const Cart: React.FC = () => {
                 <td className="cart__table__field">1</td>
                 <td className="cart__table__field">199</td>
                 <td className="cart__table__field">
-                  <button className="cart__table__deleteButton">X</button>
+                  <button className="cart__table__deleteButton">Delete</button>
                 </td>
               </tr>
               <tr>
@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
                 <td className="cart__table__field">1</td>
                 <td className="cart__table__field">199</td>
                 <td className="cart__table__field">
-                  <button className="cart__table__deleteButton">X</button>
+                  <button className="cart__table__deleteButton">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -88,7 +88,7 @@ const Cart: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 };
