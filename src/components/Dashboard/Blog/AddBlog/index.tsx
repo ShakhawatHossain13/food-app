@@ -62,6 +62,7 @@ const AddBlog: React.FC = () => {
     setError(copyErrors);
     return hasError;
   };
+
   return (
     <React.Fragment>
       <section className="addBlog">
@@ -134,6 +135,19 @@ const AddBlog: React.FC = () => {
 
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
+                Upload Icon
+              </label>
+              <input
+                type="file"
+                id="icon"
+                name="icon"
+                // onChange={handleChange}
+                className="addBlog__row__form__row__input"
+              />
+            </div>
+
+            <div className="addBlog__row__form__row">
+              <label className="addBlog__row__form__row__label">
                 Upload Image
               </label>
               <MultipleImageUpload />
@@ -142,7 +156,7 @@ const AddBlog: React.FC = () => {
             <button
               type="submit"
               className="addBlog__row__form__row__button"
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.preventDefault();
                 if (isValid()) {
                   return;

@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
- 
+import { getStorage} from "firebase/storage";
   const firebaseConfig = {
     apiKey: "AIzaSyDWztXPDt_fIjY_n5saKRTROLN3kxik2HA",
     authDomain: "food-app-6978f.firebaseapp.com",
@@ -14,10 +14,13 @@ import { getAuth } from "firebase/auth";
   };
 
   const app = initializeApp(firebaseConfig);
+
   const firebaseDatabase = getFirestore(app);
   const auth = getAuth(app);
+  const storage = getStorage(app);
 
-export {firebaseDatabase, auth}
+
+export {firebaseDatabase, auth, storage}
 
   
 
