@@ -15,8 +15,7 @@ const MultipleImageUpload: React.FC = () => {
       setImages(fileArray);
     }
   };
-  console.log(selected);
-
+  
   const renderImages = () => {
     return images.map((photo) => {
       return (
