@@ -37,7 +37,7 @@ const App: React.FC = () => {
         <Route path="/add-blog" element={<AddBlog />} />
         <Route path="/blog-list" element={<BlogList />} />
       </Routes>
-      <ImageUpload />
+      {/* <ImageUpload /> */}
     </React.Fragment>
   );
 };
