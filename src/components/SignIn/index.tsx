@@ -5,7 +5,41 @@ import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../database/firebaseConfig";
+import { auth, firebaseDatabase } from "../../database/firebaseConfig";
+import { collection } from "firebase/firestore";
+import {
+  getFirestore,
+  getDocs,
+  addDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  Firestore,
+} from "firebase/firestore";
+
+import { initializeApp } from "firebase/app";
+import { Email } from "@material-ui/icons";
+
+type AddUserDataType = {
+  id?: string;
+  name: string;
+  contact: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+};
+
+const newUser: AddUserDataType = {
+  id: "",
+  name: "",
+  contact: "",
+  email: "",
+  password: "",
+  isAdmin: false,
+};
 
 type LoginDataType = {
   email: string;
@@ -32,7 +66,7 @@ const SignIn: React.FC = () => {
   let navigate = useNavigate();
   const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
-  const [user, setUser] = React.useState<any | null>({});
+  const [user, setUser] = React.useState<AddUserDataType>(newUser);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -55,7 +89,7 @@ const SignIn: React.FC = () => {
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
-        (loginInfo[key as keyof typeof loginInfo] === "" || 0)
+        loginInfo[key as keyof typeof loginInfo] === ""
       ) {
         copyErrors[key] = "Required*";
         hasError = true;
@@ -82,9 +116,39 @@ const SignIn: React.FC = () => {
     }
   };
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  const getData = async () => {
+    const db = getFirestore();
+    const docRef = doc(firebaseDatabase, "user");
+    const citiesRef = collection(firebaseDatabase, "user");
+    // Create a query against the collection.
+    const q = query(citiesRef, where("email", "==", loginInfo.email));
+
+    console.log(q);
+    const docSnap = await getDoc(docRef);
+    docSnap.data();
+    try {
+      const docSnap = await getDoc(docRef);
+      const results = docSnap.data();
+
+      let obj: AddUserDataType = {
+        id: results?.id,
+        name: results?.name,
+        contact: results?.contact,
+        email: results?.email,
+        password: results?.password,
+        isAdmin: results?.isAdmin,
+      };
+      setUser(obj);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
+  console.log(user);
 
   const handleGoogleSignIn = () => {
     // signInWithGoogle(location, history);
@@ -138,7 +202,6 @@ const SignIn: React.FC = () => {
               >
                 Sign in
               </button>
-              {user?.isAdmin}
             </form>
             <p>------------ or ------------</p>
             <button onClick={handleGoogleSignIn}>Google Sign In</button>
