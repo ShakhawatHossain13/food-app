@@ -13,6 +13,8 @@ import {
   doc, 
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { async } from "@firebase/util";
+ 
 
 type AddProducttDataType = {
   id: string;
@@ -44,11 +46,26 @@ const initialError: ErrorType = {
   price: "",
 };
 
-const AddProduct: React.FC = () => {
-  const [foodItem, setFoodItem] =
-    React.useState<AddProducttDataType>(initialData);
-    const [error, setError] = React.useState<ErrorType>(initialError);
+type ProductListDataType = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  price: string; 
+};
 
+type AddProductProps ={ 
+  formTitle: string;
+  setFormTitle: React.Dispatch<React.SetStateAction<string>>;
+  ids?: string;
+  titleForm?: string;
+  selectedFoodItem?:ProductListDataType;
+  setSelectedFoodItem?: React.Dispatch<React.SetStateAction<ProductListDataType>> ;
+};
+const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, selectedFoodItem, setSelectedFoodItem}) => {
+    const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
+    const [edit, setEdit] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<ErrorType>(initialError);
   const handleChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -89,6 +106,20 @@ const AddProduct: React.FC = () => {
     if (isValid()) {
         return;
       }
+      try {
+        if(edit){
+          onEdit();
+        } else
+        {
+          onAdd(foodItem);
+        }  
+      } catch (error) {
+        console.log(error);
+      }
+       
+  }   
+   // Add a new item
+  const onAdd = async (foodItem:AddProducttDataType)=>{           
       const db = getFirestore();
       const dbRef = collection(db, "food");   
        addDoc(dbRef,     {
@@ -96,9 +127,9 @@ const AddProduct: React.FC = () => {
         title: foodItem.title,
         description: foodItem.description,
         category: foodItem.category,
-        price: foodItem.price,
+        price: foodItem.price,     
     })
-      .then  (docRef =>  {
+      .then (docRef =>  {
           console.log("Document has been added successfully");  
            console.log(docRef.id);              
       })
@@ -107,12 +138,54 @@ const AddProduct: React.FC = () => {
       })
   } 
 
+  // Edit selected item
+  const onEdit = async ()=>{           
+    const db = getFirestore(); 
+    const docRef = doc(db, "food", `${ids}`);    
+    const data = {
+        id: foodItem?.id,
+        title: foodItem?.title,
+        description: foodItem?.description,
+        category: foodItem?.category,
+        price: foodItem?.price,   
+    };    
+    updateDoc(docRef, data)
+    .then(docRef => {
+        console.log("Product is updated");
+    })
+    .catch(error => {
+        console.log(error);
+    })
+} 
+   
+
+//   const getCategoryData = () => {
+//     fetch("./food.json",
+//     ).then(categories => categories.json()).then(getPost => {
+//       setFoodItem(getPost);
+//     }).catch((error) => {
+//         console.log(error);
+//     });
+// }  
+  const fetchDetails = ()=>{
+    
+  }
+  
+  console.log(titleForm);
+  console.log(ids); 
+
+  React.useEffect(() => {
+    if (ids) {
+      fetchDetails();
+      setEdit(true);
+    }
+  }, [ids]); 
 
   return (
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
-          <h3 className="addproduct__row__title">Add Product</h3>
+          <h3 className="addproduct__row__title">{formTitle} {ids}</h3>
           <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
@@ -126,6 +199,7 @@ const AddProduct: React.FC = () => {
                 id="title"
                 name="title"
                 type="text"
+                value={foodItem?.title}
                 onChange={handleChange}
                 // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
                 //     setFoodItem((prev) => {
@@ -153,6 +227,7 @@ const AddProduct: React.FC = () => {
                 name="description"
                 className="addproduct__row__form__input"
                 onChange={handleChange}
+                value={foodItem?.description}
                 style={{ height: "100px" }}
               ></textarea>
               <span className="addproduct__row__form__row__error">
@@ -170,6 +245,7 @@ const AddProduct: React.FC = () => {
                 className="addproduct__row__form__row__input__select"
                 name="category"
                 id="category"
+                value={foodItem?.category}
                 onChange={handleChange}
               >
                 <option
@@ -207,6 +283,7 @@ const AddProduct: React.FC = () => {
                 id="price"
                 name="price"
                 type="number"
+                value={foodItem?.price}
                 onChange={handleChange}
               />
               <span className="addproduct__row__form__row__error">

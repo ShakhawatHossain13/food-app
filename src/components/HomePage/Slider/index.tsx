@@ -2,31 +2,79 @@ import React from "react";
 import { useState } from "react";
 import './style.css';
 import homeslider from './home_slider.png';
+import {
+    collection,
+    getDocs,
+    addDoc,
+    getDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+  } from "firebase/firestore";
+  import { firebaseDatabase } from "../../../database/firebaseConfig";
 
-type SliderDataType = {
+type SliderFoodItemType = {
+    title: string;
+    foodImage: string;
+};
+type SliderCategoryType = {
     title: string;
 };
 
 const Slider: React.FC = () => {
-    const [posts, setPost] = useState<SliderDataType[]>([])
+    const [foodItem, setfoodItem] = useState<SliderFoodItemType[]>([])
+    const [category, setCategory] = useState<SliderCategoryType[]>([])
     const [query, setQuery] = React.useState<string>("");
 
-    const eventChange = () => {
-        fetch("./food.json",
-        ).then(posts => posts.json()).then(getPost => {
-            setPost(getPost);
+
+    const getFoodData = async () => {
+        const colRef = collection(firebaseDatabase, "food");
+        try {
+          const result = await getDocs(colRef);
+          const prepareData = result?.docs.map((item) => {
+            let temp = item.data();
+            let obj: SliderFoodItemType  = {      
+              title: temp.title,             
+              foodImage: temp.foodImage,
+            };
+            return obj;
+          });
+          setfoodItem(prepareData);   
+          return prepareData;
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    const getCategoryData = () => {
+        fetch("./category.json",
+        ).then(categories => categories.json()).then(getPost => {
+            setCategory(getPost);
         }).catch((error) => {
             console.log(error);
         });
     }  
-
-    let filteredPosts;
-    filteredPosts = posts.filter((p) =>
+    // const getCategoryData = () => {
+    //     fetch("./category.json",
+    //     ).then(categories => categories.json()).then(getPost => {
+    //         setCategory(getPost);
+    //     }).catch((error) => {
+    //         console.log(error);
+    //     });
+    // }  
+    
+    console.log(category);     
+    let filteredItems = foodItem.filter((p) =>
         p.title.toLowerCase().includes(query));
 
     const eventOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value.toLowerCase())
     }
+    console.log(filteredItems);
+
+    React.useEffect(() => {
+        getFoodData();
+        getCategoryData();
+      }, []);
     
     return (
         <React.Fragment>
@@ -34,18 +82,30 @@ const Slider: React.FC = () => {
                 <div className="slider__row">
                     <div className="slider__row__main">
                         <h1 className="slider__row__main__title">Best Food waiting for your belly</h1>
-                        <div className="slider__row__main__search">
-                            <input
-                                className="slider__row__main__search__input"
-                                name="searchInput"
-                                type="text"
-                                value=""
-                                onChange={eventOnChange}
-                                placeholder="Search"
-                            />
-                            <button className="slider__row__main__search__btn">Search</button>
+                            <div className="slider__row__main__search">
+                                <div className="slider__row__main__search__input">                                
+                                    <input
+                                        className="slider__row__main__search__input__box"
+                                        name="searchInput"
+                                        type="text"                            
+                                        onChange={eventOnChange}
+                                        placeholder="Search"
+                                    />
+                                    </div>
+                                <button className="slider__row__main__search__btn">Search</button>        
+                                {filteredItems?.slice(0, 3).map((item) => {  
+                                    if(query !== ""){
+                                        return(
+                                            <div className="slider__row__main__search__input__results">
+                                                <div className="slider__row__main__search__input__results__row">
+                                                <img  className="slider__row__main__search__input__results__row__image" src={item?.foodImage} alt="Food Image"/>
+                                                <p className="slider__row__main__search__input__results__row__title">{item?.title}</p>
+                                                </div>
+                                            </div>
+                                            );       
+                                    }})}                                                          
+                            </div>                                 
                         </div>
-                    </div>
                 </div>
             </section>
         </React.Fragment>

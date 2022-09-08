@@ -19,20 +19,37 @@ type ProductListDataType = {
     id: string;
     title: string;
     description: string;
-    foodImage: string;
+  
     category: string;
     price: string; 
   };
-  
+  const initialData: ProductListDataType = {
+    id: "",
+    title: "",
+    description: "",
+    
+    category: "",
+    price: "",
+  };
 const ProductList: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]); 
+  const [formTitle, setFormTitle] = React.useState<string>(""); 
+  const [selectedFoodItem, setSelectedFoodItem] = React.useState<ProductListDataType>(initialData); 
+
+
+  const [ids, setIds] = React.useState<string>(""); 
+  const [title, setTitle] = React.useState<string>(""); 
+
   const handleOpenClick =()=>{   
+    setFormTitle("Add Product");
     (document.getElementById("modal") as HTMLInputElement).style.display="block";
   }
   const handleCloseClick =()=>{   
     (document.getElementById("modal") as HTMLInputElement).style.display="none";
-  }
- 
+  } 
+  const handleCloseClickEdit =()=>{   
+    (document.getElementById("editModal") as HTMLInputElement).style.display="none";
+  } 
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "food");
     try {
@@ -43,7 +60,7 @@ const ProductList: React.FC = () => {
           id: temp.id,   
           title: temp.title,
           description: temp.description,
-          foodImage: temp.foodImage,
+          
           category: temp.category,
           price: temp.price, 
         };
@@ -56,6 +73,13 @@ const ProductList: React.FC = () => {
       console.log(error);
     }
   };
+  //   fetch("./food.json",
+  //   ).then(categories => categories.json()).then(getPost => {
+  //     setFoodItem(getPost);
+  //   }).catch((error) => {
+  //       console.log(error);
+  //   });
+ 
 
   const handleDelete = (id:string) =>{
     const db = getFirestore(); 
@@ -74,9 +98,9 @@ const ProductList: React.FC = () => {
 
   React.useEffect(() => {
     getData();
-  }, [foodItem]);
-
+  }, []);
  
+   
   return (
     <React.Fragment> 
         <Sidebar/>      
@@ -94,7 +118,7 @@ const ProductList: React.FC = () => {
                             onClick={handleCloseClick}
                             >&times;</span>
                             {/* <p>Some text in the Modal..</p> */}
-                            <AddProduct />
+                            <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} />
                         </div>
                     </div>
                 </div>           
@@ -112,7 +136,31 @@ const ProductList: React.FC = () => {
                                 <td className="productlist__row__table__row__text">{foods.category}</td>
                                 <td className="productlist__row__table__row__text">{foods.price}</td>
                                 <td className="productlist__row__table__row__text">
-                                    <button className="productlist__row__table__row__button__edit">edit</button>
+                                    <button className="productlist__row__table__row__button__edit"
+                                       onClick={
+                                        ()=>{
+                                          setFormTitle("Edit Product");                                         
+                                          setIds(foods.id);
+                                          setTitle(foods.title);
+                                          setSelectedFoodItem(foods);
+                                          (document.getElementById("editModal") as HTMLInputElement).style.display="block";  
+                                        }
+                                       } 
+                                    >edit</button>
+                                    <div id="editModal" className="productlist__row__modal">                      
+                                      <div className="productlist__row__modal__content">
+                                          <span className="productlist__row__modal__content__close" 
+                                          onClick={handleCloseClickEdit}
+                                          >&times;</span>                
+                                          <AddProduct formTitle={formTitle} 
+                                            setFormTitle={setFormTitle} 
+                                            ids={ids} 
+                                            titleForm={title}
+                                            selectedFoodItem = {selectedFoodItem}
+                                            setSelectedFoodItem = {setSelectedFoodItem}
+                                             />
+                                      </div>
+                                  </div>
                                     <button className="productlist__row__table__row__button__delete"
                                         onClick = {()=> handleDelete(foods.id)} >
                                     delete</button>

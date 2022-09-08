@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage} from "firebase/storage";
+
   // const firebaseConfig = {
   //   apiKey: "AIzaSyDWztXPDt_fIjY_n5saKRTROLN3kxik2HA",
   //   authDomain: "food-app-6978f.firebaseapp.com",
@@ -12,8 +13,7 @@ import { getStorage} from "firebase/storage";
   //   messagingSenderId: "271724303724",
   //   appId: "1:271724303724:web:b213e48aa2e157bf804f49",
   // };
-
-// Your web app's Firebase configuration
+ 
 const firebaseConfig = {
   apiKey: "AIzaSyC8TRZbNau2aZIn-9-8BSVFBeNx7uCY6IE",
   authDomain: "food-app-78d24.firebaseapp.com",

@@ -31,7 +31,6 @@ const App: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-category" element={<AddCategory />} />
         <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/productlist" element={<ProductList />} />
         <Route path="/add-blog" element={<AddBlog />} />
         <Route path="/blog-list" element={<BlogList />} />
