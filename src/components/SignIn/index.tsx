@@ -4,17 +4,77 @@ import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../database/firebaseConfig";
+
+type LoginDataType = {
+  email: string;
+  password: string;
+  // isAdmin: boolean;
+};
+
+const loginUser: LoginDataType = {
+  email: "",
+  password: "",
+  // isAdmin: false,
+};
+
+type ErrorTypeLogin = {
+  [key: string]: string;
+};
+
+const loginError: ErrorTypeLogin = {
+  email: "",
+  password: "",
+};
 
 const SignIn: React.FC = () => {
   let navigate = useNavigate();
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
+  const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
+  const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
+  const [user, setUser] = React.useState<any | null>({});
 
-  const login = async () => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setLoginInfo((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+    setError((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const isValid = () => {
+    let hasError = false;
+    const copyErrors: ErrorTypeLogin = { ...error };
+    const validationFields = ["email", "password"];
+    for (let key in copyErrors) {
+      if (
+        validationFields.includes(key) &&
+        (loginInfo[key as keyof typeof loginInfo] === "" || 0)
+      ) {
+        copyErrors[key] = "Required*";
+        hasError = true;
+      }
+    }
+    setError(copyErrors);
+    return hasError;
+  };
+
+  const handleLogin = async () => {
+    if (isValid()) {
+      return;
+    }
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginInfo.email,
+        loginInfo.password
+      );
       console.log(user);
       navigate("/", { replace: true });
     } catch (error) {
@@ -22,11 +82,9 @@ const SignIn: React.FC = () => {
     }
   };
 
-  const handleOnChange = () => {};
-
-  const handleLoginSubmit = () => {
-    // e.preventDefault();
-  };
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
 
   const handleGoogleSignIn = () => {
     // signInWithGoogle(location, history);
@@ -52,20 +110,22 @@ const SignIn: React.FC = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setEmail(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signIn__slider__row__main__form__error">
+                {error.name}
+              </span>
               <input
                 type="password"
                 className="signIn__slider__row__main__form__input"
                 id="password"
                 name="password"
                 placeholder="Password"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setPassword(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signIn__slider__row__main__form__error">
+                {error.name}
+              </span>
               <button
                 type="submit"
                 className="signIn__slider__row__main__form__input"
@@ -73,11 +133,12 @@ const SignIn: React.FC = () => {
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   e.preventDefault();
-                  login();
+                  handleLogin();
                 }}
               >
                 Sign in
               </button>
+              {user?.isAdmin}
             </form>
             <p>------------ or ------------</p>
             <button onClick={handleGoogleSignIn}>Google Sign In</button>

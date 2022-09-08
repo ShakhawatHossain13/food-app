@@ -5,25 +5,119 @@ import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../database/firebaseConfig";
+import { firebaseDatabase, auth } from "../../database/firebaseConfig";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
+type AddUserDataType = {
+  id?: string;
+  name: string;
+  contact: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+};
+
+const newUser: AddUserDataType = {
+  id: "",
+  name: "",
+  contact: "",
+  email: "",
+  password: "",
+  isAdmin: false,
+};
+
+type ErrorTypeUser = {
+  [key: string]: string;
+};
+
+const userError: ErrorTypeUser = {
+  id: "",
+  name: "",
+  contact: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const SignUp: React.FC = () => {
   let navigate = useNavigate();
-  const [name, setName] = React.useState<string>("");
-  const [contact, setContact] = React.useState<string>("");
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
+  const [addUser, setAddUser] = React.useState<AddUserDataType>(newUser);
+  const [error, setError] = React.useState<ErrorTypeUser>(userError);
 
-  const [user, setUser] = React.useState({});
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAddUser((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+    setError((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const isValid = () => {
+    let hasError = false;
+    const copyErrors: ErrorTypeUser = { ...error };
+    const validationFields = [
+      "name",
+      "contact",
+      "email",
+      "password",
+      "confirmPassword",
+    ];
+    for (let key in copyErrors) {
+      if (
+        validationFields.includes(key) &&
+        (addUser[key as keyof typeof addUser] === "" || 0)
+      ) {
+        copyErrors[key] = "Required*";
+        hasError = true;
+      }
+    }
+    setError(copyErrors);
+    return hasError;
+  };
 
   const register = async () => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        addUser.email,
+        addUser.password
+      );
       console.log(user);
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (isValid()) {
+      return;
+    }
+    const collectionRef = collection(firebaseDatabase, "user");
+    addDoc(collectionRef, {
+      // id: addUser.id,
+      name: addUser.name,
+      contact: addUser.contact,
+      email: addUser.email,
+      password: addUser.password,
+      isAdmin: addUser.isAdmin,
+    })
+      .then((docRef) => {
+        console.log("Document has been added successfully");
+        console.log(docRef.id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -46,46 +140,54 @@ const SignUp: React.FC = () => {
                 id="name"
                 name="name"
                 placeholder="Name"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setName(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signup__slider__row__main__form__error">
+                {error.name}
+              </span>
               <input
                 className="signup__slider__row__main__form__input"
                 id="contact"
                 name="contact"
                 placeholder="Contact No."
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setContact(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signup__slider__row__main__form__error">
+                {error.name}
+              </span>
               <input
                 type="email"
                 className="signup__slider__row__main__form__input"
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setEmail(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signup__slider__row__main__form__error">
+                {error.name}
+              </span>
               <input
                 type="password"
                 className="signup__slider__row__main__form__input"
                 id="password"
                 name="password"
                 placeholder="Password"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setPassword(event.target.value);
-                }}
+                onChange={handleChange}
               />
+              <span className="signup__slider__row__main__form__error">
+                {error.name}
+              </span>
               <input
                 type="password"
                 className="signup__slider__row__main__form__input"
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Confirm Password"
+                onChange={handleChange}
               />
+              <span className="signup__slider__row__main__form__error">
+                {error.name}
+              </span>
               <button
                 type="submit"
                 className="signup__slider__row__main__form__input"
@@ -94,6 +196,7 @@ const SignUp: React.FC = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   register();
+                  handleSubmit(e);
                 }}
               >
                 Sign Up
