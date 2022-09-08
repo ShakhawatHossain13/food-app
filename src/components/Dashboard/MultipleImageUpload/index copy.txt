@@ -1,0 +1,57 @@
+import React from "react";
+import "./style.css";
+import { FaCheck } from "react-icons/fa";
+
+const MultipleImageUpload: React.FC = () => {
+  const [images, setImages] = React.useState<string[]>([]);
+  const [selected, setSelected] = React.useState(images[0]);
+
+  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setImages(fileArray);
+    }
+  };
+
+  const renderImages = () => {
+    return images.map((photo) => {
+      return (
+        <>
+          <img
+            src={photo}
+            key={photo}
+            onClick={() => setSelected(photo)}
+            style={{
+              border: selected === photo ? "2px solid cadetblue" : "",
+            }}
+            alt="Images"
+          />
+          {selected === photo && (
+            <FaCheck className="image__tick" size="15px" />
+          )}
+        </>
+      );
+    });
+  };
+  return (
+    <React.Fragment>
+      <div className="image">
+        <div>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            multiple
+            onChange={imageHandleChange}
+          />
+        </div>
+
+        <div className="image__preview">{renderImages()}</div>
+      </div>
+    </React.Fragment>
+  );
+};
+
+export default MultipleImageUpload;
