@@ -17,13 +17,13 @@ type CategoryFilterDataType = {
   description: string;
   foodImage: string;
   category: string;
-  price: string; 
+  price: string;
 };
 
 const CategoryFilter: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
-  const [bottomBar, setBottomBar] = React.useState(1);
+  const [bottomBar, setBottomBar] = React.useState(2);
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
@@ -34,17 +34,17 @@ const CategoryFilter: React.FC = () => {
       const result = await getDocs(colRef);
       const prepareData = result?.docs.map((item) => {
         let temp = item.data();
-        let obj: CategoryFilterDataType  = {       
-          id: temp.id,   
+        let obj: CategoryFilterDataType = {
+          id: temp.id,
           title: temp.title,
           description: temp.description,
           foodImage: temp.foodImage,
           category: temp.category,
-          price: temp.price, 
+          price: temp.price,
         };
         return obj;
       });
-      setFoodItem(prepareData);     
+      setFoodItem(prepareData);
 
       return prepareData;
     } catch (error) {

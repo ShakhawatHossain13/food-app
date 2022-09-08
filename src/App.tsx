@@ -15,7 +15,6 @@ import AddProduct from "./components/Dashboard/Product/AddProduct";
 import ProductList from "./components/Dashboard/Product/ProductList";
 import AddBlog from "./components/Dashboard/Blog/AddBlog";
 import BlogList from "./components/Dashboard/Blog/BlogList";
-import ImageUpload from "./database/ImageUpload";
 
 const App: React.FC = () => {
   return (
@@ -37,7 +36,6 @@ const App: React.FC = () => {
         <Route path="/add-blog" element={<AddBlog />} />
         <Route path="/blog-list" element={<BlogList />} />
       </Routes>
-      {/* <ImageUpload /> */}
     </React.Fragment>
   );
 };
