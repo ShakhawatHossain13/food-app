@@ -65,16 +65,14 @@ const Blog = () => {
     });
   };
   const handleDelete = () => {
-      console.log("delete");
-      console.log(blog.title);
-      const colRef = doc(firebaseDatabase, "blog", blog.title);
-      deleteDoc(colRef)
-      .then(() => {})
-    };
+    console.log("delete");
+    console.log(blog.title);
+    const colRef = doc(firebaseDatabase, "blog", blog.title);
+    deleteDoc(colRef).then(() => {});
+  };
 
-    const getID = getData();
-    console.log(getID);
-
+  const getID = getData();
+  console.log(getID);
 
   return (
     <>

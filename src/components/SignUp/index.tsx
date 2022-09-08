@@ -8,7 +8,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseDatabase, auth } from "../../database/firebaseConfig";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-type AddUserDataType = {
+export type AddUserDataType = {
   id?: string;
   name: string;
   contact: string;
