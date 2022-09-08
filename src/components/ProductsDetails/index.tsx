@@ -13,9 +13,18 @@ type ProductsDetailsDataType = {
   vat: string;
 };
 
+type CartDataType = {
+  userEmail?: string;
+  foodId: string;
+  foodTitle: string;
+  price: number;
+  quantity: number;
+};
+
 const ProductsDetails: React.FC = () => {
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType[]>([]);
+  const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const categoryFood = foodItem.filter((food) => food.category === "Lunch");
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
@@ -26,7 +35,7 @@ const ProductsDetails: React.FC = () => {
     setStartItem(start);
     setEndItem(end);
   };
-  console.log(initialImage[0]);
+  // console.log(initialImage[0]);
 
   React.useEffect(() => {
     fetch("./food.json")
@@ -39,6 +48,20 @@ const ProductsDetails: React.FC = () => {
   const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     // setItemQuantity(Number(e.target.value));
   };
+
+  const handleAddToCart = () => {
+    const cartProducts: CartDataType = {
+      userEmail: "",
+      foodId: "",
+      foodTitle: "",
+      price: 99,
+      quantity: itemQuantity,
+    };
+    setCartItem((prevState): any => [...prevState, cartProducts]);
+  };
+
+  console.log(cartItem);
+  // localStorage.setItem("cart", cartItem);
 
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
@@ -113,7 +136,10 @@ const ProductsDetails: React.FC = () => {
                   </button>
                 </div>
               </div>
-              <button className="productsDetails__card__body__cart">
+              <button
+                onClick={handleAddToCart}
+                className="productsDetails__card__body__cart"
+              >
                 <FaShoppingCart size="18px" /> Add To Cart
               </button>
             </div>
