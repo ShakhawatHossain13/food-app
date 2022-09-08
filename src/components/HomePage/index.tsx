@@ -4,6 +4,7 @@ import Slider from "./Slider";
 import CategoryFilter from "./CategoryFilter";
 import Blog from "./Blog";
 import Footer from "../Footer";
+import ImageUpload from "../../database/ImageUpload";
 
 const HomePage: React.FC = () => {
   return (
@@ -16,7 +17,8 @@ const HomePage: React.FC = () => {
         <CategoryFilter />
         <Blog />
       </div>
-      <Footer/>
+      <Footer />
+      <ImageUpload />
     </React.Fragment>
   );
 };
