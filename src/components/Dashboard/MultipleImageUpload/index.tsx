@@ -3,15 +3,27 @@ import "./style.css";
 import { FaCheck } from "react-icons/fa";
 import { storage } from "../../../database/firebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../database/firebaseConfig";
 
 const MultipleImageUpload: React.FC = () => {
   const [images, setImages] = React.useState([]);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-      const [imgUrls, setImgUrls] = React.useState([]);
-      const [progress, setProgress] = React.useState<number>(0);
+  const [imgUrls, setImgUrls] = React.useState([]);
+  const [progress, setProgress] = React.useState<number>(0);
 
-      const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const fileArray = Array.from(e.target.files).map((file) =>
         URL.createObjectURL(file)
@@ -19,13 +31,13 @@ const MultipleImageUpload: React.FC = () => {
       setDisplayImages(fileArray);
     }
   };
-      const handleChange = (e: any) => {
-        for (let i = 0; i < e.target.files.length; i++) {
-          const newImage = e.target.files[i];
-          newImage["id"] = Math.random();
-          setImages((prevState): any => [...prevState, newImage]);
-        }
-      };
+  const handleChange = (e: any) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState): any => [...prevState, newImage]);
+    }
+  };
 
   const renderImages = () => {
     return displayImages.map((photo) => {
@@ -48,38 +60,58 @@ const MultipleImageUpload: React.FC = () => {
     });
   };
 
-    const handleUpload = () => {
-      const promises: any = [];
-      images.map((image) => {
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              setImgUrls((prevState): any => [...prevState, downloadURL]);
-            });
-          }
-        );
-      });
-
-      Promise.all(promises)
-        .then(() => alert("All images uploaded"))
-        .catch((err) => console.log(err));
+  const sendImages = async () => {
+    const db = getFirestore();
+    const docRef = doc(db, "food", "OnDMiF520QIg9qlSO2Q9");
+    const data = {
+      foodImage: imgUrls,
     };
 
-    console.log("images: ", images);
-    console.log("urls", imgUrls);
+    updateDoc(docRef, data)
+      .then((docRef) => {
+        console.log("Images are added");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  console.log(imgUrls);
+
+  const handleUpload = () => {
+    const promises: any = [];
+    images.map((image) => {
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, image);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImgUrls((prevState): any => [...prevState, downloadURL]);
+          });
+        }
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => alert("All images uploaded"))
+      .catch((err) => console.log(err));
+
+    sendImages();
+  };
+
+  console.log("images: ", images);
+  // console.log("urls", imgUrls);
 
   return (
     <React.Fragment>
@@ -90,9 +122,9 @@ const MultipleImageUpload: React.FC = () => {
             id="image"
             name="image"
             multiple
-            onChange={(e)=>{
-                imageHandleChange(e);
-                handleChange(e);
+            onChange={(e) => {
+              imageHandleChange(e);
+              handleChange(e);
             }}
           />
         </div>
