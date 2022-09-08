@@ -114,6 +114,7 @@ const AddCategory: React.FC = () => {
                 {error.description}
               </span>
             </div>
+            <br />
 
             <div className="addCategory__row__form__row">
               <label className="addCategory__row__form__row__label">
