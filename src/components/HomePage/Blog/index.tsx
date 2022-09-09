@@ -22,14 +22,14 @@ type BlogFilterDataType = {
 const Blog: React.FC = () => {
   const [blog, setBlog] = React.useState<BlogFilterDataType[]>([]);
 
-    const getData = async () => {
+  const getData = async () => {
     const colRef = collection(firebaseDatabase, "blog");
     try {
       const result = await getDocs(colRef);
       const prepareData = result?.docs.map((item) => {
         let temp = item.data();
-        let obj: BlogFilterDataType  = {       
-          id: temp.id,   
+        let obj: BlogFilterDataType = {
+          id: temp.id,
           title: temp.title,
           description: temp.description,
           blogImage: temp.blogImage,
@@ -44,7 +44,7 @@ const Blog: React.FC = () => {
       console.log(error);
     }
   };
-  
+
   React.useEffect(() => {
     getData();
   }, []);
@@ -81,7 +81,7 @@ const Blog: React.FC = () => {
                     <div className="blog__card__body__details__description">
                       <p>{post?.description.slice(0, 100)}...</p>
                     </div>
-                    <a href = {`/blogdetails/${post?.id.trim()}`} >See More...</a>
+                    <a href={`/blogdetails/${post?.id.trim()}`}>See More...</a>
                   </div>
                 </div>
               </div>
