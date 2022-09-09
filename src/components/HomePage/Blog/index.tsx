@@ -38,7 +38,7 @@ const Blog: React.FC = () => {
         };
         return obj;
       });
-      setBlog(prepareData);   
+      setBlog(prepareData);
       return prepareData;
     } catch (error) {
       console.log(error);
