@@ -10,9 +10,10 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
+import { Link } from "react-router-dom";
 
 type CategoryFilterDataType = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   foodImage: string;
@@ -35,7 +36,7 @@ const CategoryFilter: React.FC = () => {
       const prepareData = result?.docs.map((item) => {
         let temp = item.data();
         let obj: CategoryFilterDataType = {
-          id: temp.id,
+          id: temp?.id,
           title: temp.title,
           description: temp.description,
           foodImage: temp.foodImage,
@@ -105,20 +106,29 @@ const CategoryFilter: React.FC = () => {
           {selectedFood?.slice(0, 6).map((foods) => {
             return (
               <div className="categoryFilter__card">
-                <img
-                  className="categoryFilter__card__image"
-                  src={foods?.foodImage}
-                  alt="Food Images"
-                />
-                <div className="categoryFilter__card__body">
-                  <div className="categoryFilter__card__body__title">
-                    <h3>{foods?.title}</h3>
+                <Link
+                  style={{ textDecoration: "none", color: "gray" }}
+                  to={`/products-details/${foods?.id?.trim()}`}
+                >
+                  <img
+                    className="categoryFilter__card__image"
+                    src={foods?.foodImage}
+                    alt="Food Images"
+                  />
+                  <div className="categoryFilter__card__body">
+                    <div className="categoryFilter__card__body__title">
+                      <h3>
+                        <Link to={`/products-details/${foods?.id?.trim()}`}>
+                          {foods?.title}
+                        </Link>
+                      </h3>
+                    </div>
+                    <div className="categoryFilter__card__body__description">
+                      <p>{foods?.description.slice(0, 26)}...</p>
+                    </div>
+                    <h2>{foods?.price} $</h2>
                   </div>
-                  <div className="categoryFilter__card__body__description">
-                    <p>{foods?.description.slice(0, 26)}...</p>
-                  </div>
-                  <h2>{foods?.price} $</h2>
-                </div>
+                </Link>
               </div>
             );
           })}

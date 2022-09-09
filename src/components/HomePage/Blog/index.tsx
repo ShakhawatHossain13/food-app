@@ -20,7 +20,7 @@ type BlogFilterDataType = {
   date: string;
 };
 const Blog: React.FC = () => {
-  const [blog, setblog] = React.useState<BlogFilterDataType[]>([]);
+  const [blog, setBlog] = React.useState<BlogFilterDataType[]>([]);
 
     const getData = async () => {
     const colRef = collection(firebaseDatabase, "blog");
@@ -38,7 +38,7 @@ const Blog: React.FC = () => {
         };
         return obj;
       });
-      setblog(prepareData);   
+      setBlog(prepareData);   
       return prepareData;
     } catch (error) {
       console.log(error);
