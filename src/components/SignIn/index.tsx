@@ -7,21 +7,7 @@ import Footer from "../Footer";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firebaseDatabase } from "../../database/firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
-import {
-  getFirestore,
-  getDocs,
-  addDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  query,
-  where,
-  Firestore,
-} from "firebase/firestore";
-
-import { initializeApp } from "firebase/app";
-import { Email } from "@material-ui/icons";
+import { query, where } from "firebase/firestore";
 
 type AddUserDataType = {
   id?: string;

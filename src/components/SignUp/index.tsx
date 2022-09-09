@@ -5,12 +5,8 @@ import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {
-  firebaseDatabase,
-  auth,
-  createUserDocument,
-} from "../../database/firebaseConfig";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { firebaseDatabase, auth } from "../../database/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 export type AddUserDataType = {
   name: string;
@@ -90,7 +86,6 @@ const SignUp: React.FC = () => {
         addUser.password
       );
       console.log(user);
-      // createUserDocument(user, addUser);
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
@@ -106,7 +101,6 @@ const SignUp: React.FC = () => {
     }
     const collectionRef = collection(firebaseDatabase, "user");
     addDoc(collectionRef, {
-      // id: user.uid,
       name: addUser.name,
       contact: addUser.contact,
       email: addUser.email,

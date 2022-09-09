@@ -1,9 +1,9 @@
 
 import { initializeApp } from "firebase/app";
-import { collection, doc, getDoc, getDocs, getFirestore, setDoc} from "firebase/firestore";
-import { getAuth, UserCredential } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { getStorage} from "firebase/storage";
-import { AddUserDataType } from "../../components/SignUp";
+
 
   // const firebaseConfig = {
   //   apiKey: "AIzaSyDWztXPDt_fIjY_n5saKRTROLN3kxik2HA",
@@ -26,37 +26,11 @@ const firebaseConfig = {
 };
   const app = initializeApp(firebaseConfig);
 
-  export const firebaseDatabase = getFirestore(app);
-  export const auth = getAuth(app);
-  export const storage = getStorage(app);
+  const firebaseDatabase = getFirestore(app);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
 
-  export const createUserDocument = async (user: any, additionalData: AddUserDataType) => {
-    if (!user) return;
-    const userRef = doc(firebaseDatabase, "user", `${user.uid}`);
-    const snapshot = await getDoc(userRef);
-
-    if (!snapshot){
-      const {email, password} = user;
-      const {name, contact, isAdmin}= additionalData;
-    }
-
-    try {
-      setDoc(userRef, {
-      name: additionalData.name,
-      contact: additionalData.contact,
-      email: user.email,
-      password: user.password,
-      isAdmin: additionalData.isAdmin,
-      })
-    }catch (error){
-      console.log(error);
-      
-    }
-
-  }
-
-
-// export {firebaseDatabase, auth, storage}
+export {firebaseDatabase, auth, storage}
 
   
 
