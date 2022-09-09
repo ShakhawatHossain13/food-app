@@ -80,7 +80,7 @@ const SignIn: React.FC = () => {
         validationFields.includes(key) &&
         loginInfo[key as keyof typeof loginInfo] === ""
       ) {
-        copyErrors[key] = "Required*";
+        copyErrors[key] = "Required";
         hasError = true;
       }
     }

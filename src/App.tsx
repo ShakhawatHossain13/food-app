@@ -15,6 +15,8 @@ import AddProduct from "./components/Dashboard/Product/AddProduct";
 import ProductList from "./components/Dashboard/Product/ProductList";
 import AddBlog from "./components/Dashboard/Blog/AddBlog";
 import BlogList from "./components/Dashboard/Blog/BlogList";
+import NotFound from "./components/NotFound/NotFound";
+import { RequireAdmin } from "./Authentication/RequireAdmin";
 
 const App: React.FC = () => {
   return (
@@ -23,7 +25,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/categorydetails" element={<CategoryDetails />} />
-        <Route path="/productsdetails" element={<ProductsDetails />} />
+        <Route path="/products-details/:id" element={<ProductsDetails />} />
         <Route path="/blogdetails/:id" element={<BlogDetails />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signin" element={<SignIn />} />
@@ -32,8 +34,11 @@ const App: React.FC = () => {
         <Route path="/add-category" element={<AddCategory />} />
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/productlist" element={<ProductList />} />
-        <Route path="/add-blog" element={<AddBlog />} />
-        <Route path="/blog-list" element={<BlogList />} />
+        <Route element={<RequireAdmin />}>
+          <Route path="/add-blog" element={<AddBlog />} />
+          <Route path="/blog-list" element={<BlogList />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
   );

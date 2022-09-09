@@ -62,14 +62,14 @@ const Slider: React.FC = () => {
     //     });
     // }  
     
-    console.log(category);     
+    // console.log(category);     
     let filteredItems = foodItem.filter((p) =>
         p.title.toLowerCase().includes(query));
 
     const eventOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value.toLowerCase())
     }
-    console.log(filteredItems);
+    // console.log(filteredItems);
 
     React.useEffect(() => {
         getFoodData();
