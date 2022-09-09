@@ -62,6 +62,7 @@ const ProductsDetails: React.FC = () => {
 
   console.log(cartItem);
   // localStorage.setItem("cart", cartItem);
+  localStorage.setItem("cart", JSON.stringify(cartItem));
 
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
