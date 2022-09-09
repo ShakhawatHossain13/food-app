@@ -75,8 +75,8 @@ const ImageUpload = () => {
       .catch((err) => console.log(err));
   };
 
-  console.log("images: ", images);
-  console.log("urls", imgUrls);
+  // console.log("images: ", images);
+  // console.log("urls", imgUrls);
 
   return (
     <React.Fragment>
