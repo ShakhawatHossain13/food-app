@@ -9,7 +9,7 @@ import { auth, firebaseDatabase } from "../../database/firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 
-type AddUserDataType = {
+export type AddUserDataType = {
   id?: string;
   name: string;
   contact: string;
@@ -52,10 +52,10 @@ const SignIn: React.FC = () => {
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
   const [data, setData] = React.useState<AddUserDataType[]>([]);
 
-  useEffect(() => {
-    // save data in localstorage
-    console.log("Signin: ", data);
-  }, [data]);
+  // useEffect(() => {
+  //   // save data in localstorage
+  //   console.log("Signin: ", data);
+  // }, [data]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

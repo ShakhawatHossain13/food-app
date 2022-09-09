@@ -18,13 +18,30 @@ const MenuBar: React.FC = () => {
     setOpen(false);
     setClose(false);
   };
+
+  const getUserInfo = () => {};
+
   return (
     <React.Fragment>
       <div className="menubar">
         <img src={logo} alt="Red Onion Logo" width="140px" />
         <div className="menubar__left">
-          <Link to="/">Home</Link>
-          <Link to="/productlist">Admin</Link>
+          {
+            // @ts-ignore
+            JSON.parse(localStorage.getItem("user")) ? (
+              // @ts-ignore
+              JSON.parse(localStorage.getItem("user")).isAdmin ? (
+                <>
+                  <Link to="/">Home</Link>
+                  <Link to="/productlist">Admin</Link>
+                </>
+              ) : (
+                <Link to="/">Home</Link>
+              )
+            ) : (
+              <Link to="/">Home</Link>
+            )
+          }
         </div>
         <div className="menubar__right">
           <button
@@ -36,15 +53,41 @@ const MenuBar: React.FC = () => {
             <FaShoppingCart size="18px" />
             <span style={{ color: "#007bff" }}>0</span>
           </button>
-          <Link to="/signin">Login</Link>
-          <button
-            className="menubar__right__signup"
-            onClick={() => {
-              navigate("/signup", { replace: true });
-            }}
-          >
-            Sign Up
-          </button>
+          {
+            // @ts-ignore
+            !JSON.parse(localStorage.getItem("user")) ? (
+              <>
+                <Link to="/signin">Login</Link>
+                <button
+                  className="menubar__right__signup"
+                  onClick={() => {
+                    navigate("/signup", { replace: true });
+                  }}
+                >
+                  Sign Up
+                </button>
+              </>
+            ) : (
+              <>
+                <div>
+                  {
+                    // @ts-ignore
+                    JSON.parse(localStorage.getItem("user")).name.toUpperCase()
+                  }
+                </div>
+
+                <button
+                  className="menubar__right__signup"
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    navigate("/signin", { replace: true });
+                  }}
+                >
+                  Log Out
+                </button>
+              </>
+            )
+          }
         </div>
         <div className="menubar__burgermenu">
           {close ? (
