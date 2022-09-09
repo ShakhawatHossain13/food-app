@@ -107,7 +107,8 @@ const ProductsDetails: React.FC = () => {
   React.useEffect(() => {
     getData();
     getAllFoodData();
-  }, []);
+    // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+  }, [foodItem?.id]);
   // const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setItemQuantity(Number(e.target.value));
   // };
@@ -120,6 +121,8 @@ const ProductsDetails: React.FC = () => {
       quantity: itemQuantity,
     };
     setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+    localStorage.setItem("cart", JSON.stringify([...cartItem, cartProducts]));
+
     // <Cart cartItem={cartItem} />;
     setDisable(true);
     setTimeout(() => {
@@ -127,21 +130,25 @@ const ProductsDetails: React.FC = () => {
     }, 5000);
   };
 
- 
   console.log("All cart Items:", cartItem);
-  localStorage.setItem("cart", JSON.stringify(cartItem));
-  const cartStr = localStorage.getItem("cart");
-  if (cartStr) {
-    const cart: CartDataType[] = JSON.parse(cartStr);
-    if (cart.length > 0) {
-      console.log("1st Cart quantity: ", cart[0].quantity);
-      console.log("2nd Cart quantity: ", cart[1]?.quantity);
-      console.log(
-        "Two Cart price: ",
-        cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
-      );
-    }
-  } 
+  // localStorage.setItem("cart", JSON.stringify(cartItem));
+  // const cartStr = localStorage.getItem("cart");
+  // setCartItem((prevState): CartDataType[] => [
+  //   ...prevState,
+  //   JSON.parse(cartStr || ""),
+  // ]);
+
+  // if (cartStr) {
+  //   const cart: CartDataType[] = JSON.parse(cartStr);
+  //   if (cart.length > 0) {
+  //     console.log("1st Cart quantity: ", cart[0].quantity);
+  //     console.log("2nd Cart quantity: ", cart[1]?.quantity);
+  //     console.log(
+  //       "Two Cart price: ",
+  //       cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
+  //     );
+  //   }
+  // }
 
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
@@ -149,7 +156,7 @@ const ProductsDetails: React.FC = () => {
   const handleItemQuantityMinus = () => {
     if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
-
+  console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
       <section className="productsDetails">
