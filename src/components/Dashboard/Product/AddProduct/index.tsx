@@ -11,10 +11,7 @@ import {
   updateDoc,
   deleteDoc,
   doc, 
-} from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
-import { async } from "@firebase/util";
- 
+} from "firebase/firestore"; 
 
 type AddProducttDataType = {
   id: string;
@@ -53,21 +50,19 @@ type ProductListDataType = {
   category: string;
   price: string; 
 };
-
 type AddProductProps ={ 
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  selectedFoodItem?:ProductListDataType;
-  setSelectedFoodItem?: React.Dispatch<React.SetStateAction<ProductListDataType>> ;
 };
-const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, selectedFoodItem, setSelectedFoodItem}) => {
+const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm}) => {
     const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
     const [edit, setEdit] = React.useState<boolean>(false);
     const [error, setError] = React.useState<ErrorType>(initialError);
+    
   const handleChange = (
-    event: React.ChangeEvent<
+      event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
@@ -116,25 +111,26 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       } catch (error) {
         console.log(error);
       }
-       
   }   
-   // Add a new item
+  // Add a new item
   const onAdd = async (foodItem:AddProducttDataType)=>{           
-      const db = getFirestore();
-      const dbRef = collection(db, "food");   
-       addDoc(dbRef,     {
-        id: foodItem.id,
-        title: foodItem.title,
-        description: foodItem.description,
-        category: foodItem.category,
-        price: foodItem.price,     
-    })
-      .then (docRef =>  {
-          console.log("Document has been added successfully");  
-           console.log(docRef.id);              
+    const db = getFirestore();
+    const dbRef = collection(db, "food");
+    const newDocRef = doc(collection(db, "food"));
+    await setDoc(newDocRef, {
+      id: newDocRef.id,
+      title: foodItem?.title,
+      description: foodItem?.description,
+      category: foodItem?.category,
+      price: foodItem?.price, 
+    }
+    )
+      .then(docRef => {
+        console.log("Food item added successfully");
+        alert("Food item added successfully");
       })
       .catch(error => {
-          console.log(error);
+        console.log(error);
       })
   } 
 
@@ -151,41 +147,46 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     };    
     updateDoc(docRef, data)
     .then(docRef => {
-        console.log("Product is updated");
+        console.log("Food item is updated");
+        alert("Food item is updated");
     })
     .catch(error => {
         console.log(error);
     })
 } 
-   
-
-//   const getCategoryData = () => {
-//     fetch("./food.json",
-//     ).then(categories => categories.json()).then(getPost => {
-//       setFoodItem(getPost);
-//     }).catch((error) => {
-//         console.log(error);
-//     });
-// }  
-  const fetchDetails = ()=>{
-    
+  const fetchDetails = async () =>{
+    const db = getFirestore();
+    const docRef = doc(db, "food", `${ids}`);
+    const docSnap = await getDoc(docRef);
+    docSnap.data();
+    try {
+      const docSnap = await getDoc(docRef);
+      const results = docSnap.data();
+      let obj: AddProducttDataType = { 
+        id: results?.id,
+        title: results?.title,
+        description: results?.description,
+        category: results?.category,
+        price: results?.price, 
+      };
+      setFoodItem(obj);
+    } catch (error) {
+      console.log(error)
+    }
   }
-  
-  console.log(titleForm);
-  console.log(ids); 
-
+ 
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
   }, [ids]); 
-
+ 
   return (
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
-          <h3 className="addproduct__row__title">{formTitle} {ids}</h3>
+          <h3 className="addproduct__row__title">{formTitle} </h3>
           <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
@@ -201,15 +202,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
                 type="text"
                 value={foodItem?.title}
                 onChange={handleChange}
-                // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
-                //     setFoodItem((prev) => {
-                //     return {
-                //       ...prev,
-                //       title: e.target.value,
-                //     };
-                //   })
-                //   )
-                // }
               />
               <span className="addproduct__row__form__row__error">
                 {error.title}
@@ -297,19 +289,11 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
               </label>
               <MultipleImageUpload />
             </div>
-
             <button
               type="submit"
               className="addproduct__row__form__row__button"
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   if (isValid()) {
-              //     return;
-              //   }
-              //   console.log(foodItem);
-              // }}
             >
-              Add
+              Add Product
             </button>
           </form>
         </div>

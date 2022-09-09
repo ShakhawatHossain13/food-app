@@ -18,16 +18,14 @@ import { firebaseDatabase } from "../../../../database/firebaseConfig";
 type ProductListDataType = {
     id: string;
     title: string;
-    description: string;
-  
+    description: string;  
     category: string;
     price: string; 
   };
   const initialData: ProductListDataType = {
     id: "",
     title: "",
-    description: "",
-    
+    description: "",    
     category: "",
     price: "",
   };
@@ -35,8 +33,6 @@ const ProductList: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]); 
   const [formTitle, setFormTitle] = React.useState<string>(""); 
   const [selectedFoodItem, setSelectedFoodItem] = React.useState<ProductListDataType>(initialData); 
-
-
   const [ids, setIds] = React.useState<string>(""); 
   const [title, setTitle] = React.useState<string>(""); 
 
@@ -59,15 +55,13 @@ const ProductList: React.FC = () => {
         let obj: ProductListDataType  = {       
           id: temp.id,   
           title: temp.title,
-          description: temp.description,
-          
+          description: temp.description,          
           category: temp.category,
           price: temp.price, 
         };
         return obj;
       });
       setFoodItem(prepareData);     
-
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -100,7 +94,6 @@ const ProductList: React.FC = () => {
     getData();
   }, []);
  
-   
   return (
     <React.Fragment> 
         <Sidebar/>      
@@ -117,7 +110,7 @@ const ProductList: React.FC = () => {
                             <span className="productlist__row__modal__content__close" 
                             onClick={handleCloseClick}
                             >&times;</span>
-                            {/* <p>Some text in the Modal..</p> */}
+                            
                             <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} />
                         </div>
                     </div>
@@ -141,8 +134,7 @@ const ProductList: React.FC = () => {
                                         ()=>{
                                           setFormTitle("Edit Product");                                         
                                           setIds(foods.id);
-                                          setTitle(foods.title);
-                                          setSelectedFoodItem(foods);
+                                          setTitle(foods.title);                      
                                           (document.getElementById("editModal") as HTMLInputElement).style.display="block";  
                                         }
                                        } 
@@ -156,8 +148,6 @@ const ProductList: React.FC = () => {
                                             setFormTitle={setFormTitle} 
                                             ids={ids} 
                                             titleForm={title}
-                                            selectedFoodItem = {selectedFoodItem}
-                                            setSelectedFoodItem = {setSelectedFoodItem}
                                              />
                                       </div>
                                   </div>

@@ -127,6 +127,7 @@ const ProductsDetails: React.FC = () => {
     }, 5000);
   };
 
+ 
   console.log("All cart Items:", cartItem);
   localStorage.setItem("cart", JSON.stringify(cartItem));
   const cartStr = localStorage.getItem("cart");
@@ -140,7 +141,7 @@ const ProductsDetails: React.FC = () => {
         cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
       );
     }
-  }
+  } 
 
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
