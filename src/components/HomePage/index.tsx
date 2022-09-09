@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
         <Blog />
       </div>
       <Footer />
-      <ImageUpload />
+      {/* <ImageUpload /> */}
     </React.Fragment>
   );
 };
