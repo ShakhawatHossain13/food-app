@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firebaseDatabase } from "../../database/firebaseConfig";
-import { collection } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import {
   getFirestore,
   getDocs,
@@ -44,13 +44,11 @@ const newUser: AddUserDataType = {
 type LoginDataType = {
   email: string;
   password: string;
-  // isAdmin: boolean;
 };
 
 const loginUser: LoginDataType = {
   email: "",
   password: "",
-  // isAdmin: false,
 };
 
 type ErrorTypeLogin = {
@@ -66,7 +64,12 @@ const SignIn: React.FC = () => {
   let navigate = useNavigate();
   const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
-  const [user, setUser] = React.useState<AddUserDataType>(newUser);
+  const [data, setData] = React.useState<AddUserDataType[]>([]);
+
+  useEffect(() => {
+    // save data in localstorage
+    console.log("Signin: ", data);
+  }, [data]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -99,6 +102,28 @@ const SignIn: React.FC = () => {
     return hasError;
   };
 
+  const getData = (email: string) => {
+    const temp: AddUserDataType[] = [];
+    const q = query(
+      collection(firebaseDatabase, "user"),
+      where("email", "==", email)
+    );
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.docs.map((doc) => {
+        temp.push({
+          id: doc.id,
+          name: doc.data().name,
+          contact: doc.data().contact,
+          email: doc.data().email,
+          password: doc.data().password,
+          isAdmin: false,
+        });
+        localStorage.setItem("user", JSON.stringify(temp[0]));
+      });
+      setData(temp);
+    });
+  };
+
   const handleLogin = async () => {
     if (isValid()) {
       return;
@@ -109,46 +134,14 @@ const SignIn: React.FC = () => {
         loginInfo.email,
         loginInfo.password
       );
-      console.log(user);
+      if (await user) {
+        getData(String(user.user.email));
+      }
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
     }
   };
-
-  const getData = async () => {
-    const db = getFirestore();
-    const docRef = doc(firebaseDatabase, "user");
-    const citiesRef = collection(firebaseDatabase, "user");
-    // Create a query against the collection.
-    const q = query(citiesRef, where("email", "==", loginInfo.email));
-
-    console.log(q);
-    const docSnap = await getDoc(docRef);
-    docSnap.data();
-    try {
-      const docSnap = await getDoc(docRef);
-      const results = docSnap.data();
-
-      let obj: AddUserDataType = {
-        id: results?.id,
-        name: results?.name,
-        contact: results?.contact,
-        email: results?.email,
-        password: results?.password,
-        isAdmin: results?.isAdmin,
-      };
-      setUser(obj);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  React.useEffect(() => {
-    getData();
-  }, []);
-
-  console.log(user);
 
   const handleGoogleSignIn = () => {
     // signInWithGoogle(location, history);
