@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore"; 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
+import UploadImage from "../../../../database/UploadImage";
 
 type AddProducttDataType = {
   id: string;
@@ -55,13 +56,15 @@ type AddProductProps ={
   ids?: string;
   titleForm?: string;
   setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
+  handleCloseClick?:()=> void;
+  handleCloseClickEdit?: ()=> void;
 };
-const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
+const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading, handleCloseClick, handleCloseClickEdit}) => {
     const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
     const [edit, setEdit] = React.useState<boolean>(false);
     const [error, setError] = React.useState<ErrorType>(initialError);
-    const [images, setImages] = React.useState([]);
-    const [imgUrls, setImgUrls] = React.useState([]);
+    const [idRef, setIdRef] = React.useState<string>();
+    const [imgUrls, setImgUrls] = React.useState<string>();
 
      
   const handleChange = (
@@ -84,13 +87,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     }));
   };
 
-  // const handleImageChange = (e:FormEvent<HTMLFormElement> ||  <HTMLInputElement>) => {
-  //   for (let i = 0; i < e.target.files.length; i++) {
-  //     const newImage = e.target.files[i];
-  //     setImages((prevState): any => [...prevState, newImage]);
-  //   }
-  // };
- 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -123,24 +119,20 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       updateDoc(docRef, data)
       .then(docRef => {
           console.log("Food item is updated");
-          alert("Food item is updated");        
+          alert("Food item is updated");     
+          (document.getElementById("editModal") as HTMLInputElement).style.display = "none";         
       })
       .catch(error => {
           console.log(error);
       })
   } 
 
-  
   // Add a new item
   const onAdd = async (foodItem:AddProducttDataType)=>{          
-    
-    // var img = (document.getElementById("image") as HTMLInputElement).files;
- 
-    //  handleUpload();
-     
      const db = getFirestore();
      const dbRef = collection(db, "food");
      const newDocRef = doc(collection(db, "food"));
+     setIdRef(newDocRef.id);
      await setDoc(newDocRef, {
        id: newDocRef.id,
        title: foodItem?.title,
@@ -153,7 +145,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
        .then(docRef => {
          console.log("Food item added successfully");
          alert("Food item added successfully");
-         
+         (document.getElementById("modal") as HTMLInputElement).style.display = "none";
        })
        .catch(error => {
          console.log(error);
@@ -177,31 +169,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       }
       setIsLoading(false);
   }   
-
-  // // Image sotore on firebase storage function
-  // const handleUpload = () => {
-  //   const promises = [];
-  //   images.map((image) => {
-  //     const storageRef = ref(storage, `/images/${Math.random()}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, image);
-  //     promises.push(uploadTask);
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //           setImgUrls((prevState): any => [...prevState, downloadURL]);
-  //         });
-  //       }
-  //     );
-  //   });
 
   const fetchDetails = async () =>{
     const db = getFirestore();
@@ -344,17 +311,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
               <label className="addproduct__row__form__row__label">
                 Upload Image
               </label>
-              <MultipleImageUpload />
-              {/* <input
-                  type="file"
-                  id="image"
-                  name="image" 
-                  multiple
-                  onChange={(e) => {                   
-                    handleImageChange(e);
-                  }}
-                /> */}
- 
+              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
             <button
               type="submit"

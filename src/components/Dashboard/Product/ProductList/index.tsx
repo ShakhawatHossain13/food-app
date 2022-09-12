@@ -112,8 +112,9 @@ const ProductList: React.FC = () => {
                 <span className="productlist__row__modal__content__close"
                   onClick={handleCloseClick}
                 >&times;</span>
-
-                <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} setIsLoading={setIsLoading} />
+                <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} setIsLoading={setIsLoading} 
+                
+                handleCloseClick={handleCloseClick}/>
               </div>
             </div>
           </div>
@@ -151,6 +152,7 @@ const ProductList: React.FC = () => {
                           ids={ids}
                           titleForm={title}
                           setIsLoading={setIsLoading}
+                          handleCloseClickEdit={handleCloseClickEdit}
                         />
                       </div>
                     </div>

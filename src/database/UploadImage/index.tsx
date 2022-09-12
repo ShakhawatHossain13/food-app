@@ -1,17 +1,6 @@
 import React from "react";
 import { FaCheck } from "react-icons/fa";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
 import { storage } from "../firebaseConfig";
 
 type uploadImageProps = {
@@ -63,24 +52,6 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
     });
   };
 
-  // const sendImages = async () => {
-  //   const db = getFirestore();
-  //   const docRef = doc(db, "food", "OnDMiF520QIg9qlSO2Q9");
-  //   const data = {
-  //     foodImage: imgUrls,
-  //   };
-
-  //   updateDoc(docRef, data)
-  //     .then((docRef) => {
-  //       console.log("Images are added");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // console.log(imgUrls);
-
   const handleUpload = () => {
     const promises: any = [];
     images.map((image) => {
@@ -108,34 +79,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
-            }
-
-            // const db = getFirestore();
-            // const docRef = doc(db, "blog", `${idRef}`);
-            // console.log("ID: ", idRef);
-            // const data = {
-            //   foodImage: downloadURL,
-            // };
-            // updateDoc(docRef, data).then((docRef) => {
-            //   console.log("Food Image is updated");
-            // });
-            // setDoc(docRef, {
-            //   foodImage: downloadURL.toString(),
-            // }).catch((error) => {
-            //   console.log(error);
-            // });
-            // const newDocRef = doc(db, "food");
-            // const newDocRef = doc(collection(db, "food", `${id}`));
-            // setDoc(newDocRef, {
-            //   foodImage: downloadURL.toString(),
-            // })
-            //   .then((docRef) => {
-            //     console.log("Image Upload successfully!");
-            //     alert("Image Upload successfully!");
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
+            }           
           });
         }
       );
@@ -143,15 +87,12 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
 
     Promise.all(promises)
       .then(() => alert("All images uploaded"))
-      .catch((err) => console.log(err));
-
-    // sendImages();
+      .catch((err) => console.log(err)); 
   };
 
   console.log("images: ", images);
   console.log("Doc ID: ", idRef);
-  // console.log("urls", imgUrls);
-
+ 
   return (
     <React.Fragment>
       <div className="image">
@@ -174,7 +115,6 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
         <button onClick={handleUpload} type="submit">
           Upload
         </button>
-        {/* <span>{progress} %</span> */}
       </div>
     </React.Fragment>
   );
