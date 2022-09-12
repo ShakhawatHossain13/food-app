@@ -164,6 +164,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
         image: results?.image,
       };
       setCategoryItem(obj);
+      setIsLoading(true);
     } catch (error) {
       console.log(error)
     }

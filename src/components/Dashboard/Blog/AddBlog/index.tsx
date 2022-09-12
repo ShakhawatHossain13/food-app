@@ -185,6 +185,7 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
         date: results?.date,
       };
       setBlogItem(obj);
+      setIsLoading(true);
     } catch (error) {
       console.log(error);
     }

@@ -1,6 +1,5 @@
 import React , {FormEvent} from "react";
 import "./style.css";
-import MultipleImageUpload from "../../MultipleImageUpload";
 import {
   getFirestore,
   collection,
@@ -65,7 +64,8 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     const [error, setError] = React.useState<ErrorType>(initialError);
     const [idRef, setIdRef] = React.useState<string>();
     const [imgUrls, setImgUrls] = React.useState<string>();
-
+    const [images, setImages] = React.useState([]);
+    const [progress, setProgress] = React.useState<number>(0);
      
   const handleChange = (
       event: React.ChangeEvent<
@@ -90,7 +90,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description", "category", "price"];
+    const validationFields = ["title", "description", "category",  "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -104,6 +104,40 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     return hasError;
   };
 
+  // Image upload to firebase storage 
+  const handleUpload = async () => {
+     const promises: any = [];
+      images.map((image) => {
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any =  uploadBytesResumable(storageRef, image);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },        
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }           
+          });
+        }
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => alert("All images uploaded"))
+      .catch((err) => console.log(err)); 
+  };
+
     // Edit selected item
     const onEdit = async ()=>{           
       const db = getFirestore(); 
@@ -113,7 +147,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
           title: foodItem?.title,
           description: foodItem?.description,
           category: foodItem?.category,
-          displayImages: foodItem?.displayImages,
+          displayImages: imgUrls,
           price: foodItem?.price,   
       };    
       updateDoc(docRef, data)
@@ -138,7 +172,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
        title: foodItem?.title,
        description: foodItem?.description,
        category: foodItem?.category,
-       displayImages: imgUrls,
+       displayImages:  imgUrls,
        price: foodItem?.price, 
      }
      )
@@ -170,6 +204,8 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       setIsLoading(false);
   }   
 
+
+
   const fetchDetails = async () =>{
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
@@ -187,6 +223,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
         price: results?.price, 
       };
       setFoodItem(obj);
+      setIsLoading(true);
     } catch (error) {
       console.log(error)
     }

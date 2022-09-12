@@ -60,6 +60,7 @@ const BlogList: React.FC = () => {
         return obj;
       });
       setBlogItem(prepareData);   
+      setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);

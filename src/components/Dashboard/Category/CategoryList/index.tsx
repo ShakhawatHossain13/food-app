@@ -58,6 +58,7 @@ const CategoryList: React.FC = () => {
         return obj;
       });
       setCategoryItem(prepareData);   
+      setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
