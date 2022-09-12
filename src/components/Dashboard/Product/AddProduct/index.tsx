@@ -108,7 +108,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     return hasError;
   };
 
-
     // Edit selected item
     const onEdit = async ()=>{           
       const db = getFirestore(); 

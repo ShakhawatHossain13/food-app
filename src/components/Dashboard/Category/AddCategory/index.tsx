@@ -89,7 +89,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     return hasError;
   };
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid()) {

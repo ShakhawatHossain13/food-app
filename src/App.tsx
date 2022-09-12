@@ -52,9 +52,9 @@ const App: React.FC = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/productlist" element={<ProductList />} />
-        <Route element={<RequireAdmin />}>
+        {/* <Route element={<RequireAdmin />}> */}
           <Route path="/blog-list" element={<BlogList />} />
-        </Route>
+        {/* </Route> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
