@@ -1,26 +1,18 @@
 import React from "react";
-import "./style.css";
 import { FaCheck } from "react-icons/fa";
-import { storage } from "../../../database/firebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import { firebaseDatabase } from "../../../database/firebaseConfig";
+import { storage } from "../firebaseConfig";
 
-const MultipleImageUpload: React.FC = () => {
+type uploadImageProps = {
+  idRef?: string;
+  setImgUrls: any;
+};
+
+const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
   const [images, setImages] = React.useState([]);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [imgUrls, setImgUrls] = React.useState([]);
+
   const [progress, setProgress] = React.useState<number>(0);
 
   const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,24 +52,6 @@ const MultipleImageUpload: React.FC = () => {
     });
   };
 
-  const sendImages = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "food", "OnDMiF520QIg9qlSO2Q9");
-    const data = {
-      foodImage: imgUrls,
-    };
-
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Images are added");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  console.log(imgUrls);
-
   const handleUpload = () => {
     const promises: any = [];
     images.map((image) => {
@@ -95,9 +69,17 @@ const MultipleImageUpload: React.FC = () => {
         (error: any) => {
           console.log(error);
         },
+        // () => {
+        //   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        //     setImgUrls((prevState): any => [...prevState, downloadURL]);
+        //   });
+        // }
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImgUrls((prevState): any => [...prevState, downloadURL]);
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }           
           });
         }
       );
@@ -105,14 +87,12 @@ const MultipleImageUpload: React.FC = () => {
 
     Promise.all(promises)
       .then(() => alert("All images uploaded"))
-      .catch((err) => console.log(err));
-
-    sendImages();
+      .catch((err) => console.log(err)); 
   };
 
   console.log("images: ", images);
-  // console.log("urls", imgUrls);
-
+  console.log("Doc ID: ", idRef);
+ 
   return (
     <React.Fragment>
       <div className="image">
@@ -126,17 +106,18 @@ const MultipleImageUpload: React.FC = () => {
               imageHandleChange(e);
               handleChange(e);
             }}
-            style={{ width: "160px" }}
           />
         </div>
 
-        <div className="image__preview">{renderImages()}</div>
+        <div className="image__preview" style={{ width: "200px" }}>
+          {renderImages()}
+        </div>
         <button onClick={handleUpload} type="submit">
           Upload
-        </button>        
+        </button>
       </div>
     </React.Fragment>
   );
 };
 
-export default MultipleImageUpload;
+export default UploadImage;
