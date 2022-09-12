@@ -1,49 +1,51 @@
-.addproduct {
-  &__row {
-    // margin: 5%;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.addBlog__row {
+  margin: auto;
+  width: 100%;
+  text-align: center;
 }
-.addproduct__row__title {
+
+.addBlog__row__title {
   font-size: 24px;
   font-weight: 400;
   margin-bottom: 20px;
 }
-.addproduct__row__form {
+
+.addBlog__row__form {
   max-width: 600px;
   margin: 10px auto;
   text-align: left;
 }
-.addproduct__row__form__row {
+
+.addBlog__row__form__row {
   width: 100%;
   display: grid;
-  grid-template-columns: 45% 50%;
-  justify-content: space-between;
-  gap: 20%;
+  grid-template-columns: 40% 50% 10%;
   margin-top: 10px;
 }
-.addproduct__row__form__label {
+
+.addBlog__row__form__label {
   float: left;
 }
-.addproduct__row__form__row__input {
+
+.addBlog__row__form__row__input {
   padding: 5px;
-  width: 160px;
 }
-.addproduct__row__form__row__label__required {
+
+.addBlog__row__form__row__label__required {
   color: red;
   font-size: 14px;
   margin-left: 5px;
 }
-.addproduct__row__form__row__button {
+
+.addBlog__row__form__row__button {
   padding: 5px;
-  width:120%;
+  width: 90%;
   margin-top: 10px;
+  margin-left: 0;
 }
-.addproduct__row__form__row__error {
+
+.addBlog__row__form__row__error {
   color: red;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 5px;
-}
+}/*# sourceMappingURL=style.css.map */

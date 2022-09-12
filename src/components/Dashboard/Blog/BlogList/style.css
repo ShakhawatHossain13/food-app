@@ -1,23 +1,23 @@
-.productlist {
+.bloglist {
   margin-left: 200px;
 }
-.productlist__row {
+.bloglist__row {
   margin: auto;
   width: 90%;
 }
 
-.productlist__row__button {
+.bloglist__row__button {
   text-align: right;
 }
 
-.productlist__row__title {
+.bloglist__row__title {
   font-size: 24px;
   font-weight: 400;
   margin-bottom: 10px;
   text-align: center;
 }
 
-.productlist__row__table {
+.bloglist__row__table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 90%;
@@ -25,13 +25,13 @@
   font-size: 14px;
 }
 
-.productlist__row__button {
+.bloglist__row__button {
   width: 90%;
   float: right;
   font-size: 14px;
 }
 
-.productlist__row__button__btn {
+.bloglist__row__button__btn {
   margin-bottom: 20px;
   padding: 7px 43px;
   background-color: #f0f0f0;
@@ -40,14 +40,14 @@
   color: #0a0a0a;
 }
 
-.productlist__row__table__row__text {
+.bloglist__row__table__row__text {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
   text-align: center;
 }
 
-.productlist__row__table__row__button__edit {
+.bloglist__row__table__row__button__edit {
   width: 80px;
   margin-right: 10px;
   background-color: cadetblue;
@@ -57,7 +57,7 @@
   color: #fff;
 }
 
-.productlist__row__table__row__button__delete {
+.bloglist__row__table__row__button__delete {
   width: 80px;
   margin-right: 10px;
   background-color: crimson;
@@ -67,7 +67,7 @@
   color: #fff;
 }
 
-.productlist__row__modal {
+.bloglist__row__modal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -79,7 +79,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.productlist__row__modal__content {
+.bloglist__row__modal__content {
   background-color: #fefefe;
   margin: auto;
   margin-top: 4%;
@@ -88,15 +88,15 @@
   width: 30%;
 }
 
-.productlist__row__modal__content__close {
+.bloglist__row__modal__content__close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.productlist__row__modal__content__close:hover,
-.productlist__row__modal__content__close:focus {
+.bloglist__row__modal__content__close:hover,
+.bloglist__row__modal__content__close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
