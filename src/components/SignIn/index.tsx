@@ -46,7 +46,11 @@ const loginError: ErrorTypeLogin = {
   password: "",
 };
 
-const SignIn: React.FC = () => {
+type SignInProps = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   let navigate = useNavigate();
   const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
@@ -88,13 +92,14 @@ const SignIn: React.FC = () => {
     return hasError;
   };
 
-  const getData = (email: string) => {
+  const getData = async (email: string) => {
     const temp: AddUserDataType[] = [];
     const q = query(
       collection(firebaseDatabase, "user"),
       where("email", "==", email)
     );
-    onSnapshot(q, (querySnapshot) => {
+
+    await onSnapshot(q, (querySnapshot) => {
       querySnapshot.docs.map((doc) => {
         temp.push({
           id: doc.id,
@@ -102,11 +107,12 @@ const SignIn: React.FC = () => {
           contact: doc.data().contact,
           email: doc.data().email,
           password: doc.data().password,
-          isAdmin: false,
+          isAdmin: doc.data().isAdmin,
         });
         localStorage.setItem("user", JSON.stringify(temp[0]));
       });
       setData(temp);
+      setIsLoggedIn(true);
     });
   };
 
