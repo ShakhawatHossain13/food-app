@@ -29,6 +29,7 @@ const BlogList: React.FC = () => {
   const [formTitle, setFormTitle] = React.useState<string>(""); 
   const [id, setId] = React.useState<string>(""); 
   const [title, setTitle] = React.useState<string>(""); 
+  const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const handleOpenClick = () => {
     setFormTitle("Add Blog");
     (document.getElementById("modal") as HTMLInputElement).style.display =
@@ -74,6 +75,7 @@ const BlogList: React.FC = () => {
     .then(() => {
         console.log("One blog post has been deleted successfully.")
         alert("Blog post is deleted");
+        setIsLoading(false);
     })
     .catch(error => {
         console.log(error);
@@ -82,14 +84,7 @@ const BlogList: React.FC = () => {
 
   React.useEffect(() => {
     getData();
-  }, []);
-  // React.useEffect(() => {
-  //   fetch("./blog.json")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setBlogItem(data);
-  //     });
-  // }, []);
+  }, [isLoading]);
 
   return (
     <React.Fragment>
@@ -114,7 +109,9 @@ const BlogList: React.FC = () => {
                   &times;
                 </span>
               
-                <AddBlog formTitle={formTitle} setFormTitle={setFormTitle}/>
+                <AddBlog formTitle={formTitle} setFormTitle={setFormTitle}
+                 setIsLoading={setIsLoading}
+                />
               </div>
             </div>
           </div>
@@ -162,6 +159,7 @@ const BlogList: React.FC = () => {
                                             setFormTitle={setFormTitle} 
                                             ids={id} 
                                             titleForm={title}
+                                            setIsLoading={setIsLoading}
                                              />
                                       </div>
                                   </div>
