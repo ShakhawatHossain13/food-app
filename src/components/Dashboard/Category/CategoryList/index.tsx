@@ -29,6 +29,7 @@ const CategoryList: React.FC = () => {
   const [formTitle, setFormTitle] = React.useState<string>(""); 
   const [id, setId] = React.useState<string>(""); 
   const [title, setTitle] = React.useState<string>(""); 
+  const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const handleOpenClick = () => {
     setFormTitle("Add Category");
     (document.getElementById("modal") as HTMLInputElement).style.display =
@@ -71,7 +72,8 @@ const CategoryList: React.FC = () => {
     deleteDoc(docRef)
     .then(() => {
         console.log("Category has been deleted successfully.")
-        console.log(blogId);
+        alert("Category has been deleted successfully.");
+        setIsLoading(false);
     })
     .catch(error => {
         console.log(error);
@@ -104,7 +106,9 @@ const CategoryList: React.FC = () => {
                   &times;
                 </span>
                 {/* <p>Some text in the Modal..</p> */}
-                <AddCategory formTitle={formTitle} setFormTitle={setFormTitle}/>
+                <AddCategory formTitle={formTitle} setFormTitle={setFormTitle}
+                setIsLoading={setIsLoading}
+                />
               </div>
             </div>
           </div>
@@ -148,6 +152,7 @@ const CategoryList: React.FC = () => {
                                             setFormTitle={setFormTitle} 
                                             ids={id} 
                                             titleForm={title}
+                                            setIsLoading={setIsLoading}
                                              />
                                       </div>
                                   </div>

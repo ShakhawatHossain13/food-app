@@ -132,8 +132,7 @@ const MultipleImageUpload: React.FC = () => {
         <div className="image__preview">{renderImages()}</div>
         <button onClick={handleUpload} type="submit">
           Upload
-        </button>
-        <span>{progress} %</span>
+        </button>        
       </div>
     </React.Fragment>
   );

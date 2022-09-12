@@ -4,7 +4,12 @@ import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 
-const MenuBar: React.FC = () => {
+type MenuBarProps = {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
   let navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -28,7 +33,9 @@ const MenuBar: React.FC = () => {
         <div className="menubar__left">
           {
             // @ts-ignore
-            JSON.parse(localStorage.getItem("user")) ? (
+            localStorage.getItem("user") ? (
+              // @ts-ignore
+              localStorage.getItem("user") &&
               // @ts-ignore
               JSON.parse(localStorage.getItem("user")).isAdmin ? (
                 <>
@@ -55,7 +62,7 @@ const MenuBar: React.FC = () => {
           </button>
           {
             // @ts-ignore
-            !JSON.parse(localStorage.getItem("user")) ? (
+            !isLoggedIn ? (
               <>
                 <Link to="/signin">Login</Link>
                 <button
@@ -72,13 +79,18 @@ const MenuBar: React.FC = () => {
                 <div>
                   {
                     // @ts-ignore
-                    JSON.parse(localStorage.getItem("user")).name.toUpperCase()
+                    localStorage.getItem("user") &&
+                      JSON.parse(
+                        // @ts-ignore
+                        localStorage.getItem("user")
+                      ).name.toUpperCase()
                   }
                 </div>
 
                 <button
                   className="menubar__right__signup"
                   onClick={() => {
+                    setIsLoggedIn(false);
                     localStorage.removeItem("user");
                     navigate("/signin", { replace: true });
                   }}

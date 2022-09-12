@@ -50,14 +50,12 @@ type AddBlogProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
-  titleForm?: string;
+
+  titleForm?: string; 
+  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddBlog: React.FC<AddBlogProps> = ({
-  formTitle,
-  setFormTitle,
-  ids,
-  titleForm,
-}) => {
+const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
+
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
@@ -113,13 +111,17 @@ const AddBlog: React.FC<AddBlogProps> = ({
     } catch (error) {
       console.log(error);
     }
+    
+    setIsLoading(false);
+    
   };
   // Add a new item
   const onAdd = async (blogItem: AddBlogDataType) => {
     const db = getFirestore();
     const dbRef = collection(db, "blog");
     const newDocRef = doc(collection(db, "blog"));
-    setIdRef(newDocRef.id);
+    setIdRef(newDocRef.id);  
+
     await setDoc(newDocRef, {
       id: newDocRef.id,
       title: blogItem.title,
@@ -217,15 +219,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="text"
                 onChange={handleChange}
                 value={blogItem?.title}
-                // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
-                //     setblogItem((prev) => {
-                //     return {
-                //       ...prev,
-                //       title: e.target.value,
-                //     };
-                //   })
-                //   )
-                // }
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -289,20 +282,14 @@ const AddBlog: React.FC<AddBlogProps> = ({
               </label>
               {/* <MultipleImageUpload /> */}
               <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
+
             </div>
 
             <button
               type="submit"
               className="addBlog__row__form__row__button"
-              // onClick={(e: any) => {
-              //   e.preventDefault();
-              //   if (isValid()) {
-              //     return;
-              //   }
-              //   console.log(blogItem);
-              // }}
             >
-              Add Blog
+            {formTitle}
             </button>
           </form>
         </div>

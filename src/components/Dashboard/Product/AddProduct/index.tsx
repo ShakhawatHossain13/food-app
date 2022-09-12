@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React , {FormEvent} from "react";
 import "./style.css";
 import MultipleImageUpload from "../../MultipleImageUpload";
 import {
@@ -10,17 +10,18 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  doc,
-} from "firebase/firestore";
-import UploadImage from "../../../../database/UploadImage";
+  doc, 
+} from "firebase/firestore"; 
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../database/firebaseConfig";
 
 type AddProducttDataType = {
   id: string;
   title: string;
   description: string;
   category: string;
+  displayImages: string;
   price: string;
-  foodImage?: string;
 };
 
 const initialData: AddProducttDataType = {
@@ -28,6 +29,7 @@ const initialData: AddProducttDataType = {
   title: "",
   description: "",
   category: "",
+  displayImages: "",
   price: "",
 };
 type ErrorType = {
@@ -35,6 +37,7 @@ type ErrorType = {
   title: string;
   description: string;
   category: string;
+  displayImages: string;
   price: string;
 };
 const initialError: ErrorType = {
@@ -42,39 +45,33 @@ const initialError: ErrorType = {
   title: "",
   description: "",
   category: "",
+  displayImages: "",
   price: "",
 };
 
-type ProductListDataType = {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  price: string;
-};
-type AddProductProps = {
+type AddProductProps ={ 
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
+  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddProduct: React.FC<AddProductProps> = ({
-  formTitle,
-  setFormTitle,
-  ids,
-  titleForm,
-}) => {
-  const [foodItem, setFoodItem] =
-    React.useState<AddProducttDataType>(initialData);
-  const [edit, setEdit] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<ErrorType>(initialError);
+const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
+    const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
+    const [edit, setEdit] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<ErrorType>(initialError);
+    const [images, setImages] = React.useState([]);
+    const [imgUrls, setImgUrls] = React.useState([]);
 
+     
   const handleChange = (
-    event: React.ChangeEvent<
+      event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
+
     const { name, value } = event.target;
+ 
     setFoodItem((prev) => {
       return {
         ...prev,
@@ -87,6 +84,13 @@ const AddProduct: React.FC<AddProductProps> = ({
     }));
   };
 
+  // const handleImageChange = (e:FormEvent<HTMLFormElement> ||  <HTMLInputElement>) => {
+  //   for (let i = 0; i < e.target.files.length; i++) {
+  //     const newImage = e.target.files[i];
+  //     setImages((prevState): any => [...prevState, newImage]);
+  //   }
+  // };
+ 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -104,64 +108,102 @@ const AddProduct: React.FC<AddProductProps> = ({
     return hasError;
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isValid()) {
-      return;
-    }
-    try {
-      if (edit) {
-        onEdit();
-      } else {
-        onAdd(foodItem);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // Add a new item
-  const onAdd = async (foodItem: AddProducttDataType) => {
-    const db = getFirestore();
-    const dbRef = collection(db, "food");
-    const newDocRef = doc(collection(db, "food"));
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      price: foodItem?.price,
-      foodImage: "",
-    })
-      .then((docRef) => {
-        console.log("Food item added successfully");
-        alert("Food item added successfully");
+    // Edit selected item
+    const onEdit = async ()=>{           
+      const db = getFirestore(); 
+      const docRef = doc(db, "food", `${ids}`);    
+      const data = {
+          id: foodItem?.id,
+          title: foodItem?.title,
+          description: foodItem?.description,
+          category: foodItem?.category,
+          displayImages: foodItem?.displayImages,
+          price: foodItem?.price,   
+      };    
+      updateDoc(docRef, data)
+      .then(docRef => {
+          console.log("Food item is updated");
+          alert("Food item is updated");        
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      .catch(error => {
+          console.log(error);
+      })
+  } 
 
-  // Edit selected item
-  const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "food", `${ids}`);
-    const data = {
-      id: foodItem?.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      price: foodItem?.price,
-    };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Food item is updated");
-        alert("Food item is updated");
-      })
-      .catch((error) => {
+  
+  // Add a new item
+  const onAdd = async (foodItem:AddProducttDataType)=>{          
+    
+    // var img = (document.getElementById("image") as HTMLInputElement).files;
+ 
+    //  handleUpload();
+     
+     const db = getFirestore();
+     const dbRef = collection(db, "food");
+     const newDocRef = doc(collection(db, "food"));
+     await setDoc(newDocRef, {
+       id: newDocRef.id,
+       title: foodItem?.title,
+       description: foodItem?.description,
+       category: foodItem?.category,
+       displayImages: imgUrls,
+       price: foodItem?.price, 
+     }
+     )
+       .then(docRef => {
+         console.log("Food item added successfully");
+         alert("Food item added successfully");
+         
+       })
+       .catch(error => {
+         console.log(error);
+       })
+   } 
+ 
+  const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{        
+    e.preventDefault();      
+    if (isValid()) {
+        return;
+      }
+      try {
+        if(edit){
+          onEdit();
+        } else
+        {
+          onAdd(foodItem);
+        }  
+      } catch (error) {
         console.log(error);
-      });
-  };
-  const fetchDetails = async () => {
+      }
+      setIsLoading(false);
+  }   
+
+  // // Image sotore on firebase storage function
+  // const handleUpload = () => {
+  //   const promises = [];
+  //   images.map((image) => {
+  //     const storageRef = ref(storage, `/images/${Math.random()}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, image);
+  //     promises.push(uploadTask);
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress = Math.round(
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  //         );
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //           setImgUrls((prevState): any => [...prevState, downloadURL]);
+  //         });
+  //       }
+  //     );
+  //   });
+
+  const fetchDetails = async () =>{
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -169,35 +211,33 @@ const AddProduct: React.FC<AddProductProps> = ({
     try {
       const docSnap = await getDoc(docRef);
       const results = docSnap.data();
-      let obj: AddProducttDataType = {
+      let obj: AddProducttDataType = { 
         id: results?.id,
         title: results?.title,
         description: results?.description,
         category: results?.category,
-        price: results?.price,
+        displayImages: results?.displayImages,
+        price: results?.price, 
       };
       setFoodItem(obj);
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-
+  }
+ 
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
-  }, [ids]);
-
+  }, [ids]); 
+ 
   return (
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle} </h3>
-          <form
-            className="addproduct__row__form"
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Title
@@ -250,6 +290,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                 value={foodItem?.category}
                 onChange={handleChange}
               >
+                 <option
+                  className="addproduct__row__form__row__input__select__options"
+                  value=""
+                >
+                 --- Select Category ---
+                </option>
+                
                 <option
                   className="addproduct__row__form__row__input__select__options"
                   value="Breakfast"
@@ -297,8 +344,17 @@ const AddProduct: React.FC<AddProductProps> = ({
               <label className="addproduct__row__form__row__label">
                 Upload Image
               </label>
-              {/* <MultipleImageUpload /> */}
-              {/* <UploadImage id={foodItem.id} /> */}
+              <MultipleImageUpload />
+              {/* <input
+                  type="file"
+                  id="image"
+                  name="image" 
+                  multiple
+                  onChange={(e) => {                   
+                    handleImageChange(e);
+                  }}
+                /> */}
+ 
             </div>
             <button
               type="submit"
