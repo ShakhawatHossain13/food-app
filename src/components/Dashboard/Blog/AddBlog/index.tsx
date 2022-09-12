@@ -132,7 +132,7 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
       .then((docRef) => {
         console.log("Blog has been added successfully");
         alert("Blog has been added successfully");
-
+        (document.getElementById("modal") as HTMLInputElement).style.display = "none";
         setBlogItem((prev) => ({
           ...prev,
           id: "",
@@ -152,16 +152,17 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
     const data = {
-      id: blogItem.id,
-      title: blogItem.title,
-      description: blogItem.description,
-      // blogImage: blogItem.blogImage,
-      date: blogItem.date,
+      id: blogItem?.id,
+      title: blogItem?.title,
+      description: blogItem?.description,
+      blogImage: blogItem?.blogImage,
+      date: blogItem?.date,
     };
     updateDoc(docRef, data)
       .then((docRef) => {
         console.log("Blog is updated");
         alert("Blog is updated");
+        (document.getElementById("editModal") as HTMLInputElement).style.display = "none"; 
       })
       .catch((error) => {
         console.log(error);
@@ -280,7 +281,7 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
               <label className="addBlog__row__form__row__label">
                 Upload Image
               </label>
-              {/* <MultipleImageUpload /> */}
+          
               <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
 
             </div>

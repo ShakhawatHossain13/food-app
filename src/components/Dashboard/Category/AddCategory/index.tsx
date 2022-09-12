@@ -11,15 +11,14 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-} from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
+} from "firebase/firestore"; 
+import UploadImage from "../../../../database/UploadImage";
 
 type AddCategoryDataType = {
   id: string,
   title: string;
   description: string;
   image: string;
-  
 };
 
 const initialData: AddCategoryDataType = {
@@ -53,6 +52,8 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     React.useState<AddCategoryDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
+  const [idRef, setIdRef] = React.useState<string>();
+  const [imgUrls, setImgUrls] = React.useState<string>();
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -106,20 +107,22 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     setIsLoading(false);
   }
   // Add a new item
-  const onAdd = async (blogItem: AddCategoryDataType) => {
+  const onAdd = async (categoryItem: AddCategoryDataType) => {
     const db = getFirestore();
     const dbRef = collection(db, "category");
     const newDocRef = doc(collection(db, "category"));
+    setIdRef(newDocRef.id);
     await setDoc(newDocRef, {
       id: newDocRef.id,
       title: categoryItem.title,
       description: categoryItem.description,
-      image: categoryItem.image,
+      image: imgUrls
     }
     )
       .then(docRef => {
         console.log("Category has been added successfully");
         alert("Category has been added successfully");    
+        (document.getElementById("modal") as HTMLInputElement).style.display = "none";
       })
       .catch(error => {
         console.log(error);
@@ -133,12 +136,13 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     const data = {
       title: categoryItem.title,
       description: categoryItem.description,
-      image: categoryItem.image,
+      image: imgUrls,
     };
     updateDoc(docRef, data)
       .then(docRef => {
         console.log("Category is updated");
         alert("Category is updated");  
+        (document.getElementById("editModal") as HTMLInputElement).style.display = "none";  
       })
       .catch(error => {
         console.log(error);
@@ -222,7 +226,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
               <label className="addCategory__row__form__row__label">
                 Upload Image
               </label>
-              <MultipleImageUpload />
+              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
 
             <button
