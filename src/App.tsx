@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
@@ -17,18 +17,37 @@ import AddBlog from "./components/Dashboard/Blog/AddBlog";
 import BlogList from "./components/Dashboard/Blog/BlogList";
 import NotFound from "./components/NotFound/NotFound";
 import { RequireAdmin } from "./Authentication/RequireAdmin";
+import { RequireAuth } from "./Authentication/RequireAuth";
 
 const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    // @ts-ignore
+    const data = JSON.parse(localStorage.getItem("user"));
+    if (!data) {
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+      navigate("/", { replace: true });
+    }
+  }, []);
   return (
     <React.Fragment>
-      <MenuBar />
+      <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/categorydetails" element={<CategoryDetails />} />
         <Route path="/products-details/:id" element={<ProductsDetails />} />
         <Route path="/blogdetails/:id" element={<BlogDetails />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/cart" element={<Cart />} />
+        </Route>
+        <Route
+          path="/signin"
+          element={<SignIn setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-category" element={<AddCategory />} />
