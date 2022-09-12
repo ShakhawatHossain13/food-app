@@ -4,8 +4,8 @@
     gap: 10px;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    padding: 8%;
+    width: 160px;
+    padding: 5px;
     border: 1px solid #888;
     
 }
@@ -15,8 +15,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: left;
-    min-height: 100%;
-    max-height: auto;
     width: 100%;
     overflow-y: scroll;
 }

@@ -126,6 +126,7 @@ const MultipleImageUpload: React.FC = () => {
               imageHandleChange(e);
               handleChange(e);
             }}
+            style={{ width: "160px" }}
           />
         </div>
 
@@ -133,7 +134,7 @@ const MultipleImageUpload: React.FC = () => {
         <button onClick={handleUpload} type="submit">
           Upload
         </button>
-        <span>{progress} %</span>
+        {/* <span>{progress} %</span> */}
       </div>
     </React.Fragment>
   );

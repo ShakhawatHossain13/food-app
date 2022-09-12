@@ -60,7 +60,7 @@ const Blog: React.FC = () => {
         <div className="blog__row">
           {blog?.slice(0, 3).map((post) => {
             return (
-              <div className="blog__card">
+              <div key={post.id} className="blog__card">
                 <img
                   className="blog__card__image"
                   src={post?.blogImage}
