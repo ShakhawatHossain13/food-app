@@ -19,6 +19,7 @@ type AddCategoryDataType = {
   title: string;
   description: string;
   image: string;
+  
 };
 
 const initialData: AddCategoryDataType = {
@@ -45,8 +46,9 @@ type AddCategoryProps = {
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
+  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids, titleForm }) => {
+const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids, titleForm, setIsLoading }) => {
   const [categoryItem, setCategoryItem] =
     React.useState<AddCategoryDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
@@ -102,7 +104,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     } catch (error) {
       console.log(error);
     }
-
+    setIsLoading(false);
   }
   // Add a new item
   const onAdd = async (blogItem: AddCategoryDataType) => {
@@ -190,15 +192,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
                 type="text"
                 onChange={handleChange}
                 value={categoryItem?.title}
-              // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
-              //     setcategoryItem((prev) => {
-              //     return {
-              //       ...prev,
-              //       title: e.target.value,
-              //     };
-              //   })
-              //   )
-              // }
+          
               />
               <span className="addCategory__row__form__row__error">
                 {error.title}
@@ -237,7 +231,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
               className="addCategory__row__form__row__button"
 
             >
-              Add
+            {formTitle}
             </button>
           </form>
         </div>

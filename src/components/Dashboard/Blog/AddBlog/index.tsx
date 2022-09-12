@@ -50,8 +50,9 @@ type AddBlogProps ={
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string; 
+  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleForm}) => {
+const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
@@ -107,7 +108,7 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
       } catch (error) {
         console.log(error);
       }
-       
+      setIsLoading(false);
   }   
    // Add a new item
   const onAdd = async (blogItem:AddBlogDataType)=>{           
@@ -211,15 +212,6 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
                 type="text"
                 onChange={handleChange}
                 value={blogItem?.title}
-                // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
-                //     setblogItem((prev) => {
-                //     return {
-                //       ...prev,
-                //       title: e.target.value,
-                //     };
-                //   })
-                //   )
-                // }
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -281,21 +273,14 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
               <label className="addBlog__row__form__row__label">
                 Upload Image
               </label>
-          <MultipleImageUpload />
+                <MultipleImageUpload />
             </div>
 
             <button
               type="submit"
               className="addBlog__row__form__row__button"
-              // onClick={(e: any) => {
-              //   e.preventDefault();
-              //   if (isValid()) {
-              //     return;
-              //   }
-              //   console.log(blogItem);
-              // }}
             >
-              Add Blog
+            {formTitle}
             </button>
           </form>
         </div>
