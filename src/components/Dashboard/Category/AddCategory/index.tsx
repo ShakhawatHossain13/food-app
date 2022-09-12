@@ -13,9 +13,10 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import ImageUpload from "../../../../database/ImageUpload";
 
 type AddCategoryDataType = {
-  id: string,
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -28,7 +29,7 @@ const initialData: AddCategoryDataType = {
   image: "",
 };
 type ErrorType = {
-  id: string,
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -46,7 +47,12 @@ type AddCategoryProps = {
   ids?: string;
   titleForm?: string;
 };
-const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids, titleForm }) => {
+const AddCategory: React.FC<AddCategoryProps> = ({
+  formTitle,
+  setFormTitle,
+  ids,
+  titleForm,
+}) => {
   const [categoryItem, setCategoryItem] =
     React.useState<AddCategoryDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
@@ -87,7 +93,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     return hasError;
   };
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid()) {
@@ -102,8 +107,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
     } catch (error) {
       console.log(error);
     }
-
-  }
+  };
   // Add a new item
   const onAdd = async (blogItem: AddCategoryDataType) => {
     const db = getFirestore();
@@ -114,16 +118,15 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
       title: categoryItem.title,
       description: categoryItem.description,
       image: categoryItem.image,
-    }
-    )
-      .then(docRef => {
+    })
+      .then((docRef) => {
         console.log("Category has been added successfully");
-        alert("Category has been added successfully");    
+        alert("Category has been added successfully");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   // Edit selected item
   const onEdit = async () => {
@@ -135,14 +138,14 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
       image: categoryItem.image,
     };
     updateDoc(docRef, data)
-      .then(docRef => {
+      .then((docRef) => {
         console.log("Category is updated");
-        alert("Category is updated");  
+        alert("Category is updated");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   const fetchDetails = async () => {
     const db = getFirestore();
@@ -160,9 +163,9 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
       };
       setCategoryItem(obj);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
@@ -175,7 +178,10 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
       <section className="addCategory">
         <div className="addCategory__row">
           <h3 className="addCategory__row__title">{formTitle}</h3>
-          <form className="addCategory__row__form" onSubmit={(e) => handleSubmit(e)}>
+          <form
+            className="addCategory__row__form"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div className="addCategory__row__form__row">
               <label className="addCategory__row__form__row__label">
                 Title
@@ -190,15 +196,15 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
                 type="text"
                 onChange={handleChange}
                 value={categoryItem?.title}
-              // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
-              //     setcategoryItem((prev) => {
-              //     return {
-              //       ...prev,
-              //       title: e.target.value,
-              //     };
-              //   })
-              //   )
-              // }
+                // onChange={ (e:React.ChangeEvent<HTMLInputElement>)=> (
+                //     setcategoryItem((prev) => {
+                //     return {
+                //       ...prev,
+                //       title: e.target.value,
+                //     };
+                //   })
+                //   )
+                // }
               />
               <span className="addCategory__row__form__row__error">
                 {error.title}
@@ -229,13 +235,13 @@ const AddCategory: React.FC<AddCategoryProps> = ({ formTitle, setFormTitle, ids,
               <label className="addCategory__row__form__row__label">
                 Upload Image
               </label>
-              <MultipleImageUpload />
+              {/* <MultipleImageUpload /> */}
+              {/* <ImageUpload /> */}
             </div>
 
             <button
               type="submit"
               className="addCategory__row__form__row__button"
-
             >
               Add
             </button>

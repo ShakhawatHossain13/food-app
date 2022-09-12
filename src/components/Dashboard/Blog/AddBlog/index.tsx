@@ -1,6 +1,6 @@
-import React , {FormEvent }from "react";
+import React, { FormEvent } from "react";
 import "./style.css";
-import MultipleImageUpload from "../../MultipleImageUpload"; 
+import MultipleImageUpload from "../../MultipleImageUpload";
 import {
   getFirestore,
   collection,
@@ -10,16 +10,17 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  doc, 
+  doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
 import { async } from "@firebase/util";
+import UploadImage from "../../../../database/UploadImage";
 
 type AddBlogDataType = {
   id: string;
   title: string;
   description: string;
- // blogImage: string;
+  blogImage: string;
   date: string;
 };
 
@@ -27,35 +28,41 @@ const initialData: AddBlogDataType = {
   id: "",
   title: "",
   description: "",
- // blogImage: "",
+  blogImage: "",
   date: "",
 };
 type ErrorType = {
   id: string;
   title: string;
   description: string;
-  //blogImage: string;
+  blogImage: string;
   date: string;
 };
 const initialError: ErrorType = {
   id: "",
   title: "",
   description: "",
- // blogImage: "",
+  blogImage: "",
   date: "",
 };
 
-type AddBlogProps ={ 
+type AddBlogProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
-  titleForm?: string; 
+  titleForm?: string;
 };
-const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleForm}) => {
+const AddBlog: React.FC<AddBlogProps> = ({
+  formTitle,
+  setFormTitle,
+  ids,
+  titleForm,
+}) => {
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
- 
+  const [idRef, setIdRef] = React.useState<string>();
+  const [imgUrls, setImgUrls] = React.useState<string>();
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -92,111 +99,110 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
     return hasError;
   };
 
-  const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{        
-    e.preventDefault();      
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (isValid()) {
-        return;
+      return;
+    }
+    try {
+      if (edit) {
+        onEdit();
+      } else {
+        onAdd(blogItem);
       }
-      try {
-        if(edit){
-          onEdit();
-        } else
-        {
-          onAdd(blogItem);
-        }  
-      } catch (error) {
-        console.log(error);
-      }
-       
-  }   
-   // Add a new item
-  const onAdd = async (blogItem:AddBlogDataType)=>{           
-      const db = getFirestore();     
-      const dbRef = collection(db, "blog");     
-      const newDocRef = doc(collection(db, "blog"));    
-    //    addDoc(dbRef,     {    
-    //     title: blogItem.title,
-    //     description: blogItem.description,
-    //    // blogImage: blogItem.blogImage,
-    //     date: blogItem.date,
-    // }  
-    // )
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Add a new item
+  const onAdd = async (blogItem: AddBlogDataType) => {
+    const db = getFirestore();
+    const dbRef = collection(db, "blog");
+    const newDocRef = doc(collection(db, "blog"));
+    setIdRef(newDocRef.id);
     await setDoc(newDocRef, {
-        id: newDocRef.id,
-        title: blogItem.title,
-        description: blogItem.description,
-        date: blogItem.date,
-         }
-       ) .then (docRef =>  {
-          console.log("Blog has been added successfully");   
-          alert("Blog has been added successfully");   
-          setBlogItem((prev) => ({
-            ...prev,
-            id: "",
-            title: "",
-            description: "",
-            date: "",
-          }));       
+      id: newDocRef.id,
+      title: blogItem.title,
+      description: blogItem.description,
+      blogImage: await imgUrls,
+      date: blogItem.date,
+    })
+      .then((docRef) => {
+        console.log("Blog has been added successfully");
+        alert("Blog has been added successfully");
+
+        setBlogItem((prev) => ({
+          ...prev,
+          id: "",
+          title: "",
+          description: "",
+          blogImage: "",
+          date: "",
+        }));
       })
-      .catch(error => {
-          console.log(error);
-      }) 
-  } 
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // Edit selected item
-  const onEdit = async ()=>{           
-    const db = getFirestore(); 
-    const docRef = doc(db, "blog", `${ids}`);    
+  const onEdit = async () => {
+    const db = getFirestore();
+    const docRef = doc(db, "blog", `${ids}`);
     const data = {
-        id: blogItem.id,
-        title: blogItem.title,
-        description: blogItem.description,
-        // blogImage: blogItem.blogImage,
-        date: blogItem.date, 
-    };    
+      id: blogItem.id,
+      title: blogItem.title,
+      description: blogItem.description,
+      // blogImage: blogItem.blogImage,
+      date: blogItem.date,
+    };
     updateDoc(docRef, data)
-    .then(docRef => {
+      .then((docRef) => {
         console.log("Blog is updated");
-        alert("Blog is updated");          
-    })
-    .catch(error => {
+        alert("Blog is updated");
+      })
+      .catch((error) => {
         console.log(error);
-    })
-} 
-    
-  const fetchDetails = async ()=>{
+      });
+  };
+
+  const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
     const docSnap = await getDoc(docRef);
     docSnap.data();
     try {
-      const docSnap = await getDoc(docRef);         
-      const results  = docSnap.data(); 
-      let obj: AddBlogDataType  = {       
-        id: results?.id,   
+      const docSnap = await getDoc(docRef);
+      const results = docSnap.data();
+      let obj: AddBlogDataType = {
+        id: results?.id,
         title: results?.title,
-        description: results?.description,        
-        date : results?.date,
+        description: results?.description,
+        blogImage: results?.blogImage,
+        date: results?.date,
       };
-      setBlogItem(obj);     
-    } catch(error) {
-        console.log(error)
+      setBlogItem(obj);
+    } catch (error) {
+      console.log(error);
     }
-  }
-  
+  };
+
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
-  }, [ids]); 
+  }, [ids]);
 
   return (
     <React.Fragment>
       <section className="addBlog">
         <div className="addBlog__row">
           <h3 className="addBlog__row__title">{formTitle}</h3>
-          <form className="addBlog__row__form"  onSubmit={(e)=>handleSubmit(e)}>
+          <form
+            className="addBlog__row__form"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
                 Title
@@ -281,7 +287,8 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
               <label className="addBlog__row__form__row__label">
                 Upload Image
               </label>
-          <MultipleImageUpload />
+              {/* <MultipleImageUpload /> */}
+              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
 
             <button
