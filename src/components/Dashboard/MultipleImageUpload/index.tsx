@@ -126,6 +126,7 @@ const MultipleImageUpload: React.FC = () => {
               imageHandleChange(e);
               handleChange(e);
             }}
+            style={{ width: "160px" }}
           />
         </div>
 

@@ -1,7 +1,8 @@
 .addproduct__row {
-  margin: auto;
   width: 60%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .addproduct__row__title {
@@ -19,7 +20,9 @@
 .addproduct__row__form__row {
   width: 100%;
   display: grid;
-  grid-template-columns: 40% 50% 10%;
+  grid-template-columns: 45% 50%;
+  justify-content: space-between;
+  gap: 20%;
   margin-top: 10px;
 }
 
@@ -29,6 +32,7 @@
 
 .addproduct__row__form__row__input {
   padding: 5px;
+  width: 160px;
 }
 
 .addproduct__row__form__row__label__required {
@@ -39,13 +43,12 @@
 
 .addproduct__row__form__row__button {
   padding: 5px;
-  width: 90%;
+  width: 120%;
   margin-top: 10px;
-  margin-left: 0;
 }
 
 .addproduct__row__form__row__error {
   color: red;
-  font-size: 14px;
+  font-size: 12px;
   margin-left: 5px;
 }/*# sourceMappingURL=style.css.map */
