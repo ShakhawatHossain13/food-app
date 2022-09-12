@@ -106,7 +106,6 @@ const ProductList: React.FC = () => {
             <button className="productlist__row__button__btn" onClick={handleOpenClick}>
               + add
             </button>
-
             <div id="modal" className="productlist__row__modal">
               <div className="productlist__row__modal__content">
                 <span className="productlist__row__modal__content__close"

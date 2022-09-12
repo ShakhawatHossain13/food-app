@@ -317,7 +317,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
               type="submit"
               className="addproduct__row__form__row__button"
             >
-              Add Product
+                {formTitle} 
             </button>
           </form>
         </div>

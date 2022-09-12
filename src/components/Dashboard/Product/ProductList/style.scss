@@ -64,7 +64,7 @@
     z-index: 1;  
     padding-top: 70px;  
     left: 0;
-    // top: 0;
+    top: 0;
     width: 100%;  
     height: 100%;  
     background-color: rgba(0,0,0,0.4); 
@@ -72,15 +72,19 @@
 .productlist__row__modal__content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
     border: 1px solid #888;
     width: 35%;
+    position: relative;
+    padding: 45px 55px;
   }
 .productlist__row__modal__content__close {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    position: absolute;
+    top: 0px;
+    right: 10px;
   }
 .productlist__row__modal__content__close:hover,
 .productlist__row__modal__content__close:focus {

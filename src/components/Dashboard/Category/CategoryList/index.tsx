@@ -105,7 +105,7 @@ const CategoryList: React.FC = () => {
                 >
                   &times;
                 </span>
-                {/ <p>Some text in the Modal..</p> /}
+                 
                 <AddCategory formTitle={formTitle} setFormTitle={setFormTitle}
                 setIsLoading={setIsLoading}
                 />
