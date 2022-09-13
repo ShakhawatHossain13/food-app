@@ -343,6 +343,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 type="number"
                 value={foodItem?.price}
                 onChange={handleChange}
+                min={50}              
               />
               <span className="addproduct__row__form__row__error">
                 {error.price}
