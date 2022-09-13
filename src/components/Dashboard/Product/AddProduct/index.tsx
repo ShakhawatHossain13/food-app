@@ -155,6 +155,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     const dbRef = collection(db, "food");
     const newDocRef = doc(collection(db, "food"));
     setIdRef(newDocRef.id);
+    setButtonDisable(true);
     await setDoc(newDocRef, {
       id: newDocRef.id,
       title: foodItem?.title,
@@ -170,6 +171,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         notifyAdd();
         (document.getElementById("modal") as HTMLInputElement).style.display =
           "none";        
+          setButtonDisable(false);
       })
         .catch((error) => {
           console.log(error);
