@@ -135,6 +135,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             backgroundColor: "darkseagreen",
             padding: "5px 0",
             border: "1px solid cadetblue",
+            cursor: "pointer",
           }}
         >
           Upload

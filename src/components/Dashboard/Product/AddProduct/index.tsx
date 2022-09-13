@@ -99,7 +99,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description", "category", "price"];
+    const validationFields = ["title", "description", "category",  "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -230,7 +230,7 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   return (
     <React.Fragment>
-      <section className="addproduct">
+      <section className="addproduct"  >
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle} </h3>
           <form
@@ -355,6 +355,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               type="submit"
               className="addproduct__row__form__row__button"
               disabled={buttonDisable}
+              style={{ cursor: "pointer"}}
             >
               {formTitle}
             </button>
