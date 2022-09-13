@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React , {FormEvent} from "react";
 import "./style.css";
 import {
   getFirestore,
@@ -9,13 +9,13 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  doc,
-} from "firebase/firestore";
+  doc, 
+} from "firebase/firestore"; 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import UploadImage from "../../../../database/UploadImage";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type AddProducttDataType = {
   id: string;
@@ -51,39 +51,33 @@ const initialError: ErrorType = {
   price: "",
 };
 
-type AddProductProps = {
+type AddProductProps ={ 
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
-  handleCloseClick?: () => void;
-  handleCloseClickEdit?: () => void;
+  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
+  handleCloseClick?:()=> void;
+  handleCloseClickEdit?: ()=> void;
 };
-const AddProduct: React.FC<AddProductProps> = ({
-  formTitle,
-  setFormTitle,
-  ids,
-  titleForm,
-  setIsLoading,
-  handleCloseClick,
-  handleCloseClickEdit,
-}) => {
-  const [foodItem, setFoodItem] =
-    React.useState<AddProducttDataType>(initialData);
-  const [edit, setEdit] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<ErrorType>(initialError);
-  const [idRef, setIdRef] = React.useState<string>();
-  const [imgUrls, setImgUrls] = React.useState<string>();
-  const [images, setImages] = React.useState([]);
-  const [progress, setProgress] = React.useState<number>(0);
+const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading, handleCloseClick, handleCloseClickEdit}) => {
+    const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
+    const [edit, setEdit] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<ErrorType>(initialError);
+    const [idRef, setIdRef] = React.useState<string>();
+    const [imgUrls, setImgUrls] = React.useState<string>();
+    const [images, setImages] = React.useState([]);
+    const [progress, setProgress] = React.useState<number>(0);
 
+ 
+     
   const handleChange = (
-    event: React.ChangeEvent<
+      event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = event.target;
+
+    const { name, value } = event.target; 
     setFoodItem((prev) => {
       return {
         ...prev,
@@ -94,35 +88,33 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
-    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
-      "0.5px solid #000";
+    (document.getElementById(`${name}`) as HTMLInputElement).style.border = "0.5px solid #000";
   };
 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description", "category", "price"];
+    const validationFields = ["title", "description", "category",  "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
-        copyErrors[key] = `Please input ${key}`;
-        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
-          "0.5px solid red";
+        copyErrors[key] = `Please input ${key}`;    
+        (document.getElementById(`${key}`) as HTMLInputElement).style.border = "0.5px solid red";
         hasError = true;
-      }
+      } 
     }
     setError(copyErrors);
     return hasError;
   };
 
-  // Image upload to firebase storage
+  // Image upload to firebase storage 
   const handleUpload = async () => {
-    const promises: any = [];
-    images.map((image) => {
+     const promises: any = [];
+      images.map((image) => {
       const storageRef = ref(storage, `/images/${Math.random()}`);
-      const uploadTask: any = uploadBytesResumable(storageRef, image);
+      const uploadTask: any =  uploadBytesResumable(storageRef, image);
       promises.push(uploadTask);
       uploadTask.on(
         "state_changed",
@@ -134,13 +126,13 @@ const AddProduct: React.FC<AddProductProps> = ({
         },
         (error: any) => {
           console.log(error);
-        },
+        },        
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
-            }
+            }           
           });
         }
       );
@@ -148,81 +140,80 @@ const AddProduct: React.FC<AddProductProps> = ({
 
     Promise.all(promises)
       .then(() => alert("All images uploaded"))
-      .catch((err) => console.log(err));
-  };
+      .catch((err) => console.log(err)); 
+   };
 
-  // Edit selected item
-  const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "food", `${ids}`);
-    const data = {
-      id: foodItem?.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Food item is updated");
-        // alert("Food item is updated");
-        const notifyEdit = () => toast("Food item is updated");
-        notifyEdit();
-        (
-          document.getElementById("editModal") as HTMLInputElement
-        ).style.display = "none";
+    // Edit selected item
+    const onEdit = async ()=>{           
+      const db = getFirestore(); 
+      const docRef = doc(db, "food", `${ids}`);    
+      const data = {
+          id: foodItem?.id,
+          title: foodItem?.title,
+          description: foodItem?.description,
+          category: foodItem?.category,
+          displayImages: imgUrls,
+          price: foodItem?.price,   
+      };    
+      updateDoc(docRef, data)
+      .then(docRef => {
+          console.log("Food item is updated");
+         // alert("Food item is updated");   
+          const notifyEdit = () => toast("Food item is updated");
+          notifyEdit();  
+          (document.getElementById("editModal") as HTMLInputElement).style.display = "none";         
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+      .catch(error => {
+          console.log(error);
+      })
+  } 
 
   // Add a new item
-  const onAdd = async (foodItem: AddProducttDataType) => {
-    const db = getFirestore();
-    const dbRef = collection(db, "food");
-    const newDocRef = doc(collection(db, "food"));
-    setIdRef(newDocRef.id);
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    })
-      .then((docRef) => {
-        console.log("Food item added successfully");
+  const onAdd = async (foodItem:AddProducttDataType)=>{          
+     const db = getFirestore();
+     const dbRef = collection(db, "food");
+     const newDocRef = doc(collection(db, "food"));
+     setIdRef(newDocRef.id);
+     await setDoc(newDocRef, {
+       id: newDocRef.id,
+       title: foodItem?.title,
+       description: foodItem?.description,
+       category: foodItem?.category,
+       displayImages:  imgUrls,
+       price: foodItem?.price, 
+     }
+     )
+       .then(docRef => {
+         console.log("Food item added successfully");
         // alert("Food item added successfully");
-        const notifyAdd = () => toast("Food item added successfully");
-        notifyAdd();
-        (document.getElementById("modal") as HTMLInputElement).style.display =
-          "none";
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+         const notifyAdd = () => toast("Food item added successfully");
+         notifyAdd();  
+         (document.getElementById("modal") as HTMLInputElement).style.display = "none";
+       })
+       .catch(error => {
+         console.log(error);
+       })
+   } 
+ 
+  const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{        
+    e.preventDefault();      
     if (isValid()) {
-      return;
-    }
-    try {
-      if (edit) {
-        onEdit();
-      } else {
-        onAdd(foodItem);
+        return;
       }
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  };
+      try {
+        if(edit){
+          onEdit();
+        } else
+        {
+          onAdd(foodItem);
+        }  
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+  }   
 
-  const fetchDetails = async () => {
+  const fetchDetails = async () =>{
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -230,37 +221,34 @@ const AddProduct: React.FC<AddProductProps> = ({
     try {
       const docSnap = await getDoc(docRef);
       const results = docSnap.data();
-      let obj: AddProducttDataType = {
+      let obj: AddProducttDataType = { 
         id: results?.id,
         title: results?.title,
         description: results?.description,
         category: results?.category,
         displayImages: results?.displayImages,
-        price: results?.price,
+        price: results?.price, 
       };
       setFoodItem(obj);
       setIsLoading(true);
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-
+  }
+ 
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
-  }, [ids]);
-
+  }, [ids]); 
+ 
   return (
-    <React.Fragment>
+    <React.Fragment>       
       <section className="addproduct">
-        <div className="addproduct__row">
+        <div className="addproduct__row">      
           <h3 className="addproduct__row__title">{formTitle} </h3>
-          <form
-            className="addproduct__row__form"
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Title
@@ -313,13 +301,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                 value={foodItem?.category}
                 onChange={handleChange}
               >
-                <option
+                 <option
                   className="addproduct__row__form__row__input__select__options"
                   value=""
                 >
-                  --- Select Category ---
+                 --- Select Category ---
                 </option>
-
+                
                 <option
                   className="addproduct__row__form__row__input__select__options"
                   value="Breakfast"
@@ -373,7 +361,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               type="submit"
               className="addproduct__row__form__row__button"
             >
-              {formTitle}
+                {formTitle} 
             </button>
           </form>
         </div>
