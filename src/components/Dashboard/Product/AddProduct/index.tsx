@@ -3,18 +3,13 @@ import "./style.css";
 import {
   getFirestore,
   collection,
-  getDocs,
-  addDoc,
   setDoc,
   getDoc,
   updateDoc,
-  deleteDoc,
   doc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../../../database/firebaseConfig";
 import UploadImage from "../../../../database/UploadImage";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type AddProducttDataType = {
@@ -80,7 +75,6 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [images, setImages] = React.useState([]);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
-
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -148,31 +142,30 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   // Add a new item
- 
-  const onAdd = async (foodItem: AddProducttDataType) => { 
-   if (imgUrls) {
-    const db = getFirestore();
-    const dbRef = collection(db, "food");
-    const newDocRef = doc(collection(db, "food"));
-    setIdRef(newDocRef.id);
-    setButtonDisable(true);
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    })
-      .then((docRef) => {
-        console.log("Food item added successfully");
-        // alert("Food item added successfully");
-        const notifyAdd = () => toast("Food item added successfully");
-        notifyAdd();
-        (document.getElementById("modal") as HTMLInputElement).style.display =
-          "none";        
-          setButtonDisable(false);
+
+  const onAdd = async (foodItem: AddProducttDataType) => {
+    if (imgUrls) {
+      const db = getFirestore();
+      const newDocRef = doc(collection(db, "food"));
+      setIdRef(newDocRef.id);
+      setButtonDisable(true);
+      await setDoc(newDocRef, {
+        id: newDocRef.id,
+        title: foodItem?.title,
+        description: foodItem?.description,
+        category: foodItem?.category,
+        displayImages: imgUrls,
+        price: foodItem?.price,
       })
+        .then((docRef) => {
+          console.log("Food item added successfully");
+          // alert("Food item added successfully");
+          const notifyAdd = () => toast("Food item added successfully");
+          notifyAdd();
+          (document.getElementById("modal") as HTMLInputElement).style.display =
+            "none";
+          setButtonDisable(false);
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -222,17 +215,16 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  React.useEffect(() => {   
+  React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
   }, [ids]);
-  
 
-  React.useEffect(() => {   
-    if (formReset === true){    
-      setFoodItem(initialData);  
+  React.useEffect(() => {
+    if (formReset === true) {
+      setFoodItem(initialData);
     }
   }, []);
 

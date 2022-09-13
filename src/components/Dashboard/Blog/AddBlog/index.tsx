@@ -118,7 +118,6 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
   // Add a new item
   const onAdd = async (blogItem: AddBlogDataType) => {
     const db = getFirestore();
-    const dbRef = collection(db, "blog");
     const newDocRef = doc(collection(db, "blog"));
     setIdRef(newDocRef.id);  
 
