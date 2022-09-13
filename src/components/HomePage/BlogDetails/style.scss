@@ -1,4 +1,4 @@
-.blogdetails {
+.blogDetails {
   width: 40%;
   margin: auto;
   padding: 15px 10%;
@@ -22,6 +22,7 @@
 
     &__main--selected {
       // width: 100%;
+      width: 450px;
       height: 300px;
       margin: 0 auto;
       border: 2px solid cadetblue;

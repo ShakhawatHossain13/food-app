@@ -68,7 +68,7 @@ const ProductsDetails: React.FC = () => {
           id: temp.id,
           title: temp.title,
           description: temp.description,
-          foodImage: temp.foodImage,
+          foodImage: temp.displayImages,
           category: temp.category,
           price: temp.price,
         };
@@ -94,7 +94,7 @@ const ProductsDetails: React.FC = () => {
         id: results?.id,
         title: results?.title,
         description: results?.description,
-        foodImage: results?.foodImage,
+        foodImage: results?.displayImages,
         category: results?.category,
         price: results?.price,
       };
@@ -167,6 +167,7 @@ const ProductsDetails: React.FC = () => {
                 <div className="productsDetails__card__image__main">
                   <img
                     // src={selected || initialImage[0]}
+                    src={foodItem?.foodImage}
                     className="productsDetails__card__image__main--selected"
                     alt="selected"
                   />
