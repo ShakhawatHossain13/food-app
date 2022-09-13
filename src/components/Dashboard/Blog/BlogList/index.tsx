@@ -60,6 +60,7 @@ const BlogList: React.FC = () => {
         return obj;
       });
       setBlogItem(prepareData);   
+      setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -89,21 +90,21 @@ const BlogList: React.FC = () => {
   return (
     <React.Fragment>
       <Sidebar />
-      <section className="productlist">
-        <div className="productlist__row">
-          <h3 className="productlist__row__title">Blog List</h3>
-          <div className="productlist__row__button">
+      <section className="bloglist">
+        <div className="bloglist__row">
+          <h3 className="bloglist__row__title">Blog List</h3>
+          <div className="bloglist__row__button">
             <button
-              className="productlist__row__button__btn"
+              className="bloglist__row__button__btn"
               onClick={handleOpenClick}
             >
               + add
             </button>
 
-            <div id="modal" className="productlist__row__modal">
-              <div className="productlist__row__modal__content">
+            <div id="modal" className="bloglist__row__modal">
+              <div className="bloglist__row__modal__content">
                 <span
-                  className="productlist__row__modal__content__close"
+                  className="bloglist__row__modal__content__close"
                   onClick={handleCloseClick}
                 >
                   &times;
@@ -115,30 +116,30 @@ const BlogList: React.FC = () => {
               </div>
             </div>
           </div>
-          <table className="productlist__row__table">
-            <tr className="productlist__row__table__row">
-              <th className="productlist__row__table__row__text">Title</th>
-              <th className="productlist__row__table__row__text">
+          <table className="bloglist__row__table">
+            <tr className="bloglist__row__table__row">
+              <th className="bloglist__row__table__row__text">Title</th>
+              <th className="bloglist__row__table__row__text">
                 Description
               </th>
-              <th className="productlist__row__table__row__text">Date</th>
-              <th className="productlist__row__table__row__text">Actions</th>
+              <th className="bloglist__row__table__row__text">Date</th>
+              <th className="bloglist__row__table__row__text">Actions</th>
             </tr>
 
             {blogItem?.map((blog) => {
               return (
-                <tr className="productlist__row__table__row">
-                  <td className="productlist__row__table__row__text">
+                <tr className="bloglist__row__table__row">
+                  <td className="bloglist__row__table__row__text">
                     {blog.title}
                   </td>
-                  <td className="productlist__row__table__row__text">
+                  <td className="bloglist__row__table__row__text">
                     {blog.description}
                   </td>
-                  <td className="productlist__row__table__row__text">
+                  <td className="bloglist__row__table__row__text">
                     {blog.date}
                   </td>
-                  <td className="productlist__row__table__row__text">
-                    <button className="productlist__row__table__row__button__edit"
+                  <td className="bloglist__row__table__row__text">
+                    <button className="bloglist__row__table__row__button__edit"
                      onClick={
                       ()=>{
                         setFormTitle("Edit Blog");                                         
@@ -150,9 +151,9 @@ const BlogList: React.FC = () => {
                     >
                       edit
                     </button>
-                    <div id="editModal" className="productlist__row__modal"> 
-                                      <div className="productlist__row__modal__content">
-                                          <span className="productlist__row__modal__content__close" 
+                    <div id="editModal" className="bloglist__row__modal"> 
+                                      <div className="bloglist__row__modal__content">
+                                          <span className="bloglist__row__modal__content__close" 
                                           onClick={handleCloseClickEdit}
                                           >&times;</span>                
                                           <AddBlog formTitle={formTitle} 
@@ -163,7 +164,7 @@ const BlogList: React.FC = () => {
                                              />
                                       </div>
                                   </div>
-                    <button className="productlist__row__table__row__button__delete"
+                    <button className="bloglist__row__table__row__button__delete"
                      onClick = {()=> handleDelete(blog.id)}
                     >
                       delete

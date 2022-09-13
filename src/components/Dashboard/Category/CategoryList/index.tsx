@@ -58,6 +58,7 @@ const CategoryList: React.FC = () => {
         return obj;
       });
       setCategoryItem(prepareData);   
+      setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -105,7 +106,7 @@ const CategoryList: React.FC = () => {
                 >
                   &times;
                 </span>
-                {/* <p>Some text in the Modal..</p> */}
+                 
                 <AddCategory formTitle={formTitle} setFormTitle={setFormTitle}
                 setIsLoading={setIsLoading}
                 />

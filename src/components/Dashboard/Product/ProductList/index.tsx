@@ -63,6 +63,7 @@ const ProductList: React.FC = () => {
         return obj;
       });
       setFoodItem(prepareData);
+      setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -78,18 +79,27 @@ const ProductList: React.FC = () => {
 
 
   const handleDelete = (id: string) => {
-    const db = getFirestore();
-    const foodId = id.toString();
-    const docRef = doc(db, "food", `${foodId}`);
-    deleteDoc(docRef)
-      .then(() => {
-        console.log("One food item has been deleted successfully.")
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    var val = window.confirm("Are you sure to delete?");
+      if (val == true) {
+        const db = getFirestore();
+        const foodId = id.toString();
+        const docRef = doc(db, "food", `${foodId}`);
+        deleteDoc(docRef)
+          .then(() => {
+            console.log("One food item has been deleted successfully.")
+            setIsLoading(false);
+            alert("Product is deleted is deleted");
+          })
+          .catch(error => {
+            console.log(error);
+          })
+          return true;
+      } else {
+          console.log("Process Aborted");
+          return false;
+    }
   }
+
   React.useEffect(() => {
     getData();
   }, [isLoading]);
@@ -106,14 +116,14 @@ const ProductList: React.FC = () => {
             <button className="productlist__row__button__btn" onClick={handleOpenClick}>
               + add
             </button>
-
             <div id="modal" className="productlist__row__modal">
               <div className="productlist__row__modal__content">
                 <span className="productlist__row__modal__content__close"
                   onClick={handleCloseClick}
                 >&times;</span>
-
-                <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} setIsLoading={setIsLoading} />
+                <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} setIsLoading={setIsLoading} 
+                
+                handleCloseClick={handleCloseClick}/>
               </div>
             </div>
           </div>
@@ -151,6 +161,7 @@ const ProductList: React.FC = () => {
                           ids={ids}
                           titleForm={title}
                           setIsLoading={setIsLoading}
+                          handleCloseClickEdit={handleCloseClickEdit}
                         />
                       </div>
                     </div>

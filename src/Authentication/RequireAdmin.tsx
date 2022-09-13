@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 export const RequireAdmin = () => {
   const user = localStorage.getItem("user");
   // @ts-ignore
-  const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+  const isAdmin = JSON.parse(localStorage.getItem("user"))?.isAdmin;
 
   const location = useLocation();
 

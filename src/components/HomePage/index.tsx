@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
       <Slider />
       <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
         <CategoryFilter />
-        {/* <Blog /> */}
+        <Blog />
       </div>
       <Footer />
     </React.Fragment>

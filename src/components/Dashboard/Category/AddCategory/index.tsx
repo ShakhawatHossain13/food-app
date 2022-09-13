@@ -11,7 +11,7 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-} from "firebase/firestore";
+} from "firebase/firestore"; 
 import UploadImage from "../../../../database/UploadImage";
 
 type AddCategoryDataType = {
@@ -122,13 +122,13 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       id: newDocRef.id,
       title: categoryItem.title,
       description: categoryItem.description,
-      image: imgUrls,
-    })
-      .then((docRef) => {
+      image: imgUrls
+    }
+    )
+      .then(docRef => {
         console.log("Category has been added successfully");
-        alert("Category has been added successfully");
-        (document.getElementById("modal") as HTMLInputElement).style.display =
-          "none";
+        alert("Category has been added successfully");    
+        (document.getElementById("modal") as HTMLInputElement).style.display = "none";
       })
       .catch((error) => {
         console.log(error);
@@ -147,10 +147,8 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     updateDoc(docRef, data)
       .then((docRef) => {
         console.log("Category is updated");
-        alert("Category is updated");
-        (
-          document.getElementById("editModal") as HTMLInputElement
-        ).style.display = "none";
+        alert("Category is updated");  
+        (document.getElementById("editModal") as HTMLInputElement).style.display = "none";  
       })
       .catch((error) => {
         console.log(error);
