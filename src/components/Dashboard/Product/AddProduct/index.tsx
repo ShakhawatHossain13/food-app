@@ -59,6 +59,7 @@ type AddProductProps = {
   setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
   handleCloseClick?: () => void;
   handleCloseClickEdit?: () => void;
+  formReset?: Boolean;
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
@@ -68,6 +69,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   setIsLoading,
   handleCloseClick,
   handleCloseClickEdit,
+  formReset,
 }) => {
   const [foodItem, setFoodItem] =
     React.useState<AddProducttDataType>(initialData);
@@ -78,6 +80,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [images, setImages] = React.useState([]);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
+
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -180,8 +183,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   // Add a new item
-  const onAdd = async (foodItem: AddProducttDataType) => {
- 
+  const onAdd = async (foodItem: AddProducttDataType) => { 
     const db = getFirestore();
     const dbRef = collection(db, "food");
     const newDocRef = doc(collection(db, "food"));
@@ -248,12 +250,19 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  React.useEffect(() => {
+  React.useEffect(() => {   
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
   }, [ids]);
+  
+
+  React.useEffect(() => {   
+    if (formReset === true){    
+      setFoodItem(initialData);  
+    }
+  }, []);
 
   return (
     <React.Fragment>
