@@ -193,6 +193,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
     setIsLoading(false);
     setFormReset(true);
+    setFoodItem(initialData);
   };
 
   const fetchDetails = async () => {
