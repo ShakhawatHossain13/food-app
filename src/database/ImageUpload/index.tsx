@@ -90,7 +90,7 @@ const ImageUpload = () => {
           onChange={handleChange}
           className="addBlog__row__form__row__input"
         />
-        <button onClick={handleUpload} type="submit">
+        <button onClick={handleUpload} type="submit" style={{ cursor: "pointer"}}>
           Upload
         </button>
       </div>
