@@ -1,6 +1,5 @@
-import React , {FormEvent} from "react";
+import React, { FormEvent } from "react";
 import "./style.css";
-import MultipleImageUpload from "../../MultipleImageUpload";
 import {
   getFirestore,
   collection,
@@ -10,10 +9,11 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  doc, 
-} from "firebase/firestore"; 
+  doc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
+import UploadImage from "../../../../database/UploadImage";
 
 type AddProducttDataType = {
   id: string;
@@ -49,29 +49,40 @@ const initialError: ErrorType = {
   price: "",
 };
 
-type AddProductProps ={ 
+type AddProductProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+  handleCloseClick?: () => void;
+  handleCloseClickEdit?: () => void;
 };
-const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
-    const [foodItem, setFoodItem] = React.useState<AddProducttDataType>(initialData);
-    const [edit, setEdit] = React.useState<boolean>(false);
-    const [error, setError] = React.useState<ErrorType>(initialError);
-    const [images, setImages] = React.useState([]);
-    const [imgUrls, setImgUrls] = React.useState([]);
+const AddProduct: React.FC<AddProductProps> = ({
+  formTitle,
+  setFormTitle,
+  ids,
+  titleForm,
+  setIsLoading,
+  handleCloseClick,
+  handleCloseClickEdit,
+}) => {
+  const [foodItem, setFoodItem] =
+    React.useState<AddProducttDataType>(initialData);
+  const [edit, setEdit] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<ErrorType>(initialError);
+  const [idRef, setIdRef] = React.useState<string>();
+  const [imgUrls, setImgUrls] = React.useState<string>();
+  const [images, setImages] = React.useState([]);
+  const [progress, setProgress] = React.useState<number>(0);
 
-     
   const handleChange = (
-      event: React.ChangeEvent<
+    event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-
     const { name, value } = event.target;
- 
+
     setFoodItem((prev) => {
       return {
         ...prev,
@@ -84,13 +95,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     }));
   };
 
-  // const handleImageChange = (e:FormEvent<HTMLFormElement> ||  <HTMLInputElement>) => {
-  //   for (let i = 0; i < e.target.files.length; i++) {
-  //     const newImage = e.target.files[i];
-  //     setImages((prevState): any => [...prevState, newImage]);
-  //   }
-  // };
- 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -100,7 +104,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
         validationFields.includes(key) &&
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
-        copyErrors[key] = "required";
+        copyErrors[key] = `Please input ${key}`;
         hasError = true;
       }
     }
@@ -108,102 +112,108 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     return hasError;
   };
 
-    // Edit selected item
-    const onEdit = async ()=>{           
-      const db = getFirestore(); 
-      const docRef = doc(db, "food", `${ids}`);    
-      const data = {
-          id: foodItem?.id,
-          title: foodItem?.title,
-          description: foodItem?.description,
-          category: foodItem?.category,
-          displayImages: foodItem?.displayImages,
-          price: foodItem?.price,   
-      };    
-      updateDoc(docRef, data)
-      .then(docRef => {
-          console.log("Food item is updated");
-          alert("Food item is updated");        
-      })
-      .catch(error => {
+  // Image upload to firebase storage
+  const handleUpload = async () => {
+    const promises: any = [];
+    images.map((image) => {
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, image);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
           console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+          });
+        }
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => alert("All images uploaded"))
+      .catch((err) => console.log(err));
+  };
+
+  // Edit selected item
+  const onEdit = async () => {
+    const db = getFirestore();
+    const docRef = doc(db, "food", `${ids}`);
+    const data = {
+      id: foodItem?.id,
+      title: foodItem?.title,
+      description: foodItem?.description,
+      category: foodItem?.category,
+      displayImages: imgUrls,
+      price: foodItem?.price,
+    };
+    updateDoc(docRef, data)
+      .then((docRef) => {
+        console.log("Food item is updated");
+        alert("Food item is updated");
+        (
+          document.getElementById("editModal") as HTMLInputElement
+        ).style.display = "none";
       })
-  } 
-
-  
-  // Add a new item
-  const onAdd = async (foodItem:AddProducttDataType)=>{          
-    
-    // var img = (document.getElementById("image") as HTMLInputElement).files;
- 
-    //  handleUpload();
-     
-     const db = getFirestore();
-     const dbRef = collection(db, "food");
-     const newDocRef = doc(collection(db, "food"));
-     await setDoc(newDocRef, {
-       id: newDocRef.id,
-       title: foodItem?.title,
-       description: foodItem?.description,
-       category: foodItem?.category,
-       displayImages: imgUrls,
-       price: foodItem?.price, 
-     }
-     )
-       .then(docRef => {
-         console.log("Food item added successfully");
-         alert("Food item added successfully");
-         
-       })
-       .catch(error => {
-         console.log(error);
-       })
-   } 
- 
-  const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{        
-    e.preventDefault();      
-    if (isValid()) {
-        return;
-      }
-      try {
-        if(edit){
-          onEdit();
-        } else
-        {
-          onAdd(foodItem);
-        }  
-      } catch (error) {
+      .catch((error) => {
         console.log(error);
+      });
+  };
+
+  // Add a new item
+  const onAdd = async (foodItem: AddProducttDataType) => {
+    const db = getFirestore();
+    const dbRef = collection(db, "food");
+    const newDocRef = doc(collection(db, "food"));
+    setIdRef(newDocRef.id);
+    await setDoc(newDocRef, {
+      id: newDocRef.id,
+      title: foodItem?.title,
+      description: foodItem?.description,
+      category: foodItem?.category,
+      displayImages: imgUrls,
+      price: foodItem?.price,
+    })
+      .then((docRef) => {
+        console.log("Food item added successfully");
+        alert("Food item added successfully");
+        (document.getElementById("modal") as HTMLInputElement).style.display =
+          "none";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isValid()) {
+      return;
+    }
+    try {
+      if (edit) {
+        onEdit();
+      } else {
+        onAdd(foodItem);
       }
-      setIsLoading(false);
-  }   
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
-  // // Image sotore on firebase storage function
-  // const handleUpload = () => {
-  //   const promises = [];
-  //   images.map((image) => {
-  //     const storageRef = ref(storage, `/images/${Math.random()}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, image);
-  //     promises.push(uploadTask);
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       },
-  //       () => {
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //           setImgUrls((prevState): any => [...prevState, downloadURL]);
-  //         });
-  //       }
-  //     );
-  //   });
-
-  const fetchDetails = async () =>{
+  const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -211,33 +221,37 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     try {
       const docSnap = await getDoc(docRef);
       const results = docSnap.data();
-      let obj: AddProducttDataType = { 
+      let obj: AddProducttDataType = {
         id: results?.id,
         title: results?.title,
         description: results?.description,
         category: results?.category,
         displayImages: results?.displayImages,
-        price: results?.price, 
+        price: results?.price,
       };
       setFoodItem(obj);
+      setIsLoading(true);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
- 
+  };
+
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
-  }, [ids]); 
- 
+  }, [ids]);
+
   return (
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle} </h3>
-          <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
+          <form
+            className="addproduct__row__form"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Title
@@ -290,13 +304,13 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
                 value={foodItem?.category}
                 onChange={handleChange}
               >
-                 <option
+                <option
                   className="addproduct__row__form__row__input__select__options"
                   value=""
                 >
-                 --- Select Category ---
+                  --- Select Category ---
                 </option>
-                
+
                 <option
                   className="addproduct__row__form__row__input__select__options"
                   value="Breakfast"
@@ -344,23 +358,13 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
               <label className="addproduct__row__form__row__label">
                 Upload Image
               </label>
-              <MultipleImageUpload />
-              {/* <input
-                  type="file"
-                  id="image"
-                  name="image" 
-                  multiple
-                  onChange={(e) => {                   
-                    handleImageChange(e);
-                  }}
-                /> */}
- 
+              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
             <button
               type="submit"
               className="addproduct__row__form__row__button"
             >
-              Add Product
+              {formTitle}
             </button>
           </form>
         </div>
