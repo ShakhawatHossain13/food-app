@@ -1,7 +1,7 @@
 import React, { FormEvent } from "react";
 import "./style.css";
 import Sidebar from "../../Sidebar";
-import AddProduct from "../AddProduct"
+import AddProduct from "../AddProduct";
 import {
   getFirestore,
   collection,
@@ -14,6 +14,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { ToastContainer, toast } from "react-toastify";
 
 type ProductListDataType = {
   id: string;
@@ -38,14 +39,17 @@ const ProductList: React.FC = () => {
 
   const handleOpenClick = () => {
     setFormTitle("Add Product");
-    (document.getElementById("modal") as HTMLInputElement).style.display = "block";
-  }
+    (document.getElementById("modal") as HTMLInputElement).style.display =
+      "block";
+  };
   const handleCloseClick = () => {
-    (document.getElementById("modal") as HTMLInputElement).style.display = "none";
-  }
+    (document.getElementById("modal") as HTMLInputElement).style.display =
+      "none";
+  };
   const handleCloseClickEdit = () => {
-    (document.getElementById("editModal") as HTMLInputElement).style.display = "none";
-  }
+    (document.getElementById("editModal") as HTMLInputElement).style.display =
+      "none";
+  };
 
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "food");
@@ -67,7 +71,6 @@ const ProductList: React.FC = () => {
       return prepareData;
     } catch (error) {
       console.log(error);
-
     }
     // fetch("./food.json",
     // ).then(categories => categories.json()).then(getPost => {
@@ -77,28 +80,29 @@ const ProductList: React.FC = () => {
     // });
   };
 
-
   const handleDelete = (id: string) => {
     var val = window.confirm("Are you sure to delete?");
-      if (val == true) {
-        const db = getFirestore();
-        const foodId = id.toString();
-        const docRef = doc(db, "food", `${foodId}`);
-        deleteDoc(docRef)
-          .then(() => {
-            console.log("One food item has been deleted successfully.")
-            setIsLoading(false);
-            alert("Product is deleted is deleted");
-          })
-          .catch(error => {
-            console.log(error);
-          })
-          return true;
-      } else {
-          console.log("Process Aborted");
-          return false;
+    if (val == true) {
+      const db = getFirestore();
+      const foodId = id.toString();
+      const docRef = doc(db, "food", `${foodId}`);
+      deleteDoc(docRef)
+        .then(() => {
+          console.log("One food item has been deleted successfully.");
+          setIsLoading(false);
+          // alert("Product is deleted is deleted");
+          const notifyDelete = () => toast("Food item is deleted");
+          notifyDelete();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return true;
+    } else {
+      console.log("Process Aborted");
+      return false;
     }
-  }
+  };
 
   React.useEffect(() => {
     getData();
@@ -110,20 +114,30 @@ const ProductList: React.FC = () => {
     <React.Fragment>
       <Sidebar />
       <section className="productlist">
+        <ToastContainer />
         <div className="productlist__row">
           <h3 className="productlist__row__title">Product list</h3>
           <div className="productlist__row__button">
-            <button className="productlist__row__button__btn" onClick={handleOpenClick}>
+            <button
+              className="productlist__row__button__btn"
+              onClick={handleOpenClick}
+            >
               + add
             </button>
             <div id="modal" className="productlist__row__modal">
               <div className="productlist__row__modal__content">
-                <span className="productlist__row__modal__content__close"
+                <span
+                  className="productlist__row__modal__content__close"
                   onClick={handleCloseClick}
-                >&times;</span>
-                <AddProduct formTitle={formTitle} setFormTitle={setFormTitle} setIsLoading={setIsLoading} 
-                
-                handleCloseClick={handleCloseClick}/>
+                >
+                  &times;
+                </span>
+                <AddProduct
+                  formTitle={formTitle}
+                  setFormTitle={setFormTitle}
+                  setIsLoading={setIsLoading}
+                  handleCloseClick={handleCloseClick}
+                />
               </div>
             </div>
           </div>
@@ -136,27 +150,42 @@ const ProductList: React.FC = () => {
             </tr>
             {foodItem?.map((foods) => {
               return (
-                <tr className="productlist__row__table__row">
-                  <td className="productlist__row__table__row__text">{foods.title}</td>
-                  <td className="productlist__row__table__row__text">{foods.category}</td>
-                  <td className="productlist__row__table__row__text">{foods.price}</td>
+                <tr className="productlist__row__table__row" key={foods?.id}>
                   <td className="productlist__row__table__row__text">
-                    <button className="productlist__row__table__row__button__edit"
-                      onClick={
-                        () => {
-                          setFormTitle("Edit Product");
-                          setIds(foods.id);
-                          setTitle(foods.title);
-                          (document.getElementById("editModal") as HTMLInputElement).style.display = "block";
-                        }
-                      }
-                    >edit</button>
+                    {foods.title}
+                  </td>
+                  <td className="productlist__row__table__row__text">
+                    {foods.category}
+                  </td>
+                  <td className="productlist__row__table__row__text">
+                    {foods.price}
+                  </td>
+                  <td className="productlist__row__table__row__text">
+                    <button
+                      className="productlist__row__table__row__button__edit"
+                      onClick={() => {
+                        setFormTitle("Edit Product");
+                        setIds(foods.id);
+                        setTitle(foods.title);
+                        (
+                          document.getElementById(
+                            "editModal"
+                          ) as HTMLInputElement
+                        ).style.display = "block";
+                      }}
+                    >
+                      edit
+                    </button>
                     <div id="editModal" className="productlist__row__modal">
                       <div className="productlist__row__modal__content">
-                        <span className="productlist__row__modal__content__close"
+                        <span
+                          className="productlist__row__modal__content__close"
                           onClick={handleCloseClickEdit}
-                        >&times;</span>
-                        <AddProduct formTitle={formTitle}
+                        >
+                          &times;
+                        </span>
+                        <AddProduct
+                          formTitle={formTitle}
                           setFormTitle={setFormTitle}
                           ids={ids}
                           titleForm={title}
@@ -165,9 +194,12 @@ const ProductList: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <button className="productlist__row__table__row__button__delete"
-                      onClick={() => handleDelete(foods.id)} >
-                      delete</button>
+                    <button
+                      className="productlist__row__table__row__button__delete"
+                      onClick={() => handleDelete(foods.id)}
+                    >
+                      delete
+                    </button>
                   </td>
                 </tr>
               );
