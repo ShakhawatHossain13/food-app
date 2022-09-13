@@ -30,7 +30,6 @@ const App: React.FC = () => {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);
-      navigate("/", { replace: true });
     }
   }, []);
   return (
