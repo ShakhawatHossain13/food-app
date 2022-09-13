@@ -101,7 +101,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description", "category",  "price"];
+    const validationFields = ["title", "description", "category", "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -236,96 +236,102 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   return (
     <React.Fragment>
-      <section className="addproduct"  >
+      <section className="addproduct">
         <div className="addproduct__row">
-          <>
-            <h3 className="addproduct__row__title">{formTitle} </h3>
-            <form
-              className="addproduct__row__form"
-              onSubmit={(e) => handleSubmit(e)}
-            >
-              <div className="addproduct__row__form__row">
-                <div>
-                  <label className="addproduct__row__form__row__label">
-                    Title
-                    <span className="addproduct__row__form__row__label__required">
-                      *
-                    </span>
-                  </label>
-                </div>
-                <input
-                  className="addproduct__row__form__row__input"
-                  id="title"
-                  name="title"
-                  type="text"
-                  value={foodItem?.title}
-                  onChange={handleChange}
-                />
-                <span className="addproduct__row__form__row__error">
-                  {error.title}
-                </span>
-              </div>
-              <div className="addproduct__row__form__row">
-                <label className="addproduct__row__form__label">
-                  Description
-                  <span className="addproduct__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  className="addproduct__row__form__input"
-                  onChange={handleChange}
-                  value={foodItem?.description}
-                  style={{ height: "70px" }}
-                ></textarea>
-                <span className="addproduct__row__form__row__error">
-                  {error.description}
-                </span>
-              </div>
-              <div className="addproduct__row__form__row">
+          <h3 className="addproduct__row__title">{formTitle} </h3>
+          <form
+            className="addproduct__row__form"
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <div className="addproduct__row__form__row">
+              <div>
                 <label className="addproduct__row__form__row__label">
-                  Category
+                  Title
                   <span className="addproduct__row__form__row__label__required">
                     *
                   </span>
                 </label>
-                <select
-                  className="addproduct__row__form__row__input__select"
-                  name="category"
-                  id="category"
-                  value={foodItem?.category}
-                  onChange={handleChange}
+              </div>
+              <input
+                className="addproduct__row__form__row__input"
+                id="title"
+                name="title"
+                type="text"
+                value={foodItem?.title}
+                onChange={handleChange}
+              />
+              <span className="addproduct__row__form__row__error">
+                {error.title}
+              </span>
+            </div>
+            <div className="addproduct__row__form__row">
+              <label className="addproduct__row__form__label">
+                Description
+                <span className="addproduct__row__form__row__label__required">
+                  *
+                </span>
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                className="addproduct__row__form__input"
+                onChange={handleChange}
+                value={foodItem?.description}
+                style={{ height: "70px" }}
+              ></textarea>
+              <span className="addproduct__row__form__row__error">
+                {error.description}
+              </span>
+            </div>
+            <div className="addproduct__row__form__row">
+              <label className="addproduct__row__form__row__label">
+                Category
+                <span className="addproduct__row__form__row__label__required">
+                  *
+                </span>
+              </label>
+              <select
+                className="addproduct__row__form__row__input__select"
+                name="category"
+                id="category"
+                value={foodItem?.category}
+                onChange={handleChange}
+              >
+                <option
+                  className="addproduct__row__form__row__input__select__options"
+                  value=""
                 >
-                  <option
-                    className="addproduct__row__form__row__input__select__options"
-                    value=""
-                  >
-                    --- Select Category ---
-                  </option>
+                  --- Select Category ---
+                </option>
 
-                  <option
-                    className="addproduct__row__form__row__input__select__options"
-                    value="Breakfast"
-                  >
-                    Breakfast
-                  </option>
-                  <option
-                    className="addproduct__row__form__row__input__select__options"
-                    value="Lunch"
-                  >
-                    Lunch
-                  </option>
-                  <option
-                    className="addproduct__row__form__row__input__select__options"
-                    value="Dinner"
-                  >
-                    Dinner
-                  </option>
-                </select>
-                <span className="addproduct__row__form__row__error">
-                  {error.category}
+                <option
+                  className="addproduct__row__form__row__input__select__options"
+                  value="Breakfast"
+                >
+                  Breakfast
+                </option>
+                <option
+                  className="addproduct__row__form__row__input__select__options"
+                  value="Lunch"
+                >
+                  Lunch
+                </option>
+                <option
+                  className="addproduct__row__form__row__input__select__options"
+                  value="Dinner"
+                >
+                  Dinner
+                </option>
+              </select>
+              <span className="addproduct__row__form__row__error">
+                {error.category}
+              </span>
+            </div>
+            <div className="addproduct__row__form__row">
+              <label className="addproduct__row__form__row__label">
+                Price
+                <span className="addproduct__row__form__row__label__required">
+                  *
                 </span>
               </label>
               <input
@@ -355,7 +361,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               type="submit"
               className="addproduct__row__form__row__button"
               disabled={buttonDisable}
-              style={{ cursor: "pointer"}}
+              style={{ cursor: "pointer" }}
             >
               {formTitle}
             </button>
