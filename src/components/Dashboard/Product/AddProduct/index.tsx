@@ -76,6 +76,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
 
   const handleChange = (
@@ -180,6 +181,7 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   // Add a new item
   const onAdd = async (foodItem: AddProducttDataType) => {
+ 
     const db = getFirestore();
     const dbRef = collection(db, "food");
     const newDocRef = doc(collection(db, "food"));
@@ -199,6 +201,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         notifyAdd();
         (document.getElementById("modal") as HTMLInputElement).style.display =
           "none";
+         
       })
       .catch((error) => {
         console.log(error);
@@ -374,6 +377,7 @@ const AddProduct: React.FC<AddProductProps> = ({
             <button
               type="submit"
               className="addproduct__row__form__row__button"
+              disabled={buttonDisable}
             >
               {formTitle}
             </button>
