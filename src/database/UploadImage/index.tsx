@@ -44,7 +44,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             style={{
               maxWidth: "100px",
               maxHeight: "60px",
-              marginTop: "5px",
+              marginTop: "12px",
               border: "2px solid cadetblue",
               padding: "0 5px",
             }}
