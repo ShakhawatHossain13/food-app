@@ -41,6 +41,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             onClick={() => setSelected(photo)}
             style={{
               border: selected === photo ? "2px solid cadetblue" : "",
+              maxWidth: "200px",
             }}
             alt="Images"
           />
@@ -109,10 +110,10 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
           />
         </div>
 
-        <div className="image__preview" style={{ width: "200px" }}>
+        <div className="image__preview" >
           {renderImages()}
         </div>
-        <button onClick={handleUpload} type="submit">
+        <button onClick={handleUpload} type="submit" style={{marginTop: "10px", width: "100%", backgroundColor: "darkseagreen", padding: "5px 0", border: "1px solid cadetblue"}}>
           Upload
         </button>
       </div>
