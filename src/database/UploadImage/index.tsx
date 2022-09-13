@@ -41,11 +41,11 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             src={photo}
             key={photo}
             onClick={() => setSelected(photo)}
-            style={{          
+            style={{
               maxWidth: "100px",
               maxHeight: "60px",
               marginTop: "5px",
-              border: "2px solid cadetblue" ,
+              border: "2px solid cadetblue",
               padding: "0 5px",
             }}
             alt="Images"
@@ -58,7 +58,8 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
     });
   };
 
-  const handleUpload = () => {
+  const handleUpload = (e: any) => {
+    e.preventDefault();
     if (images.length > 0) {
       const promises: any = [];
       images.map((image) => {
@@ -100,7 +101,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
         })
         .catch((err) => console.log(err));
     } else {
-      const notifyAdd = () => toast.error("Please upload Image!");
+      const notifyAdd = () => toast.error("Please Select Image for upload!");
       notifyAdd();
     }
   };
@@ -127,7 +128,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
         <div className="image__preview">{renderImages()}</div>
         <button
           onClick={handleUpload}
-          type="submit"
+          // type="submit"
           style={{
             marginTop: "10px",
             width: "100%",
