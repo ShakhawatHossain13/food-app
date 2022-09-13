@@ -19,7 +19,7 @@
 .addproduct__row__form__row {
   width: 100%;
   display: grid;
-  grid-template-columns: 12% 73% 25%;
+  grid-template-columns: 18% auto;
   margin-top: 10px;
 }
 
@@ -38,13 +38,14 @@
 
 .addproduct__row__form__row__button {
   padding: 10px;
-  width: 85%;
+  width: 100%;
   margin-top: 20px;
   margin-left: 0;
 }
 
 .addproduct__row__form__row__error {
+  width: 200%;
   color: red;
-  font-size: 14px;
-  margin-left: 5px;
+  font-size: 12px;
+  margin-left: 100%;
 }/*# sourceMappingURL=style.css.map */
