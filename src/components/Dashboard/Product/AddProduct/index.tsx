@@ -14,6 +14,8 @@ import {
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import UploadImage from "../../../../database/UploadImage";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type AddProducttDataType = {
   id: string;
@@ -66,6 +68,8 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     const [imgUrls, setImgUrls] = React.useState<string>();
     const [images, setImages] = React.useState([]);
     const [progress, setProgress] = React.useState<number>(0);
+
+ 
      
   const handleChange = (
       event: React.ChangeEvent<
@@ -73,8 +77,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     >
   ) => {
 
-    const { name, value } = event.target;
- 
+    const { name, value } = event.target; 
     setFoodItem((prev) => {
       return {
         ...prev,
@@ -85,6 +88,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       ...prev,
       [name]: "",
     }));
+    (document.getElementById(`${name}`) as HTMLInputElement).style.border = "0.5px solid #000";
   };
 
   const isValid = () => {
@@ -96,9 +100,10 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
         validationFields.includes(key) &&
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
-        copyErrors[key] = "required";
+        copyErrors[key] = `Please input ${key}`;    
+        (document.getElementById(`${key}`) as HTMLInputElement).style.border = "0.5px solid red";
         hasError = true;
-      }
+      } 
     }
     setError(copyErrors);
     return hasError;
@@ -136,7 +141,7 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
     Promise.all(promises)
       .then(() => alert("All images uploaded"))
       .catch((err) => console.log(err)); 
-  };
+   };
 
     // Edit selected item
     const onEdit = async ()=>{           
@@ -153,7 +158,9 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       updateDoc(docRef, data)
       .then(docRef => {
           console.log("Food item is updated");
-          alert("Food item is updated");     
+         // alert("Food item is updated");   
+          const notifyEdit = () => toast("Food item is updated");
+          notifyEdit();  
           (document.getElementById("editModal") as HTMLInputElement).style.display = "none";         
       })
       .catch(error => {
@@ -178,7 +185,9 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
      )
        .then(docRef => {
          console.log("Food item added successfully");
-         alert("Food item added successfully");
+        // alert("Food item added successfully");
+         const notifyAdd = () => toast("Food item added successfully");
+         notifyAdd();  
          (document.getElementById("modal") as HTMLInputElement).style.display = "none";
        })
        .catch(error => {
@@ -203,8 +212,6 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
       }
       setIsLoading(false);
   }   
-
-
 
   const fetchDetails = async () =>{
     const db = getFirestore();
@@ -237,9 +244,9 @@ const AddProduct: React.FC<AddProductProps> = ({formTitle, setFormTitle, ids, ti
   }, [ids]); 
  
   return (
-    <React.Fragment>
+    <React.Fragment>       
       <section className="addproduct">
-        <div className="addproduct__row">
+        <div className="addproduct__row">      
           <h3 className="addproduct__row__title">{formTitle} </h3>
           <form className="addproduct__row__form" onSubmit={(e)=>handleSubmit(e)}>
             <div className="addproduct__row__form__row">
