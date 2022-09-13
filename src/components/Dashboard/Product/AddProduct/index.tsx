@@ -118,40 +118,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     return hasError;
   };
 
-  // Image upload to firebase storage
-  const handleUpload = async () => {
-    const promises: any = [];
-    images.map((image) => {
-      const storageRef = ref(storage, `/images/${Math.random()}`);
-      const uploadTask: any = uploadBytesResumable(storageRef, image);
-      promises.push(uploadTask);
-      uploadTask.on(
-        "state_changed",
-        (snapshot: any) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            if (downloadURL) {
-              setImgUrls(downloadURL);
-            }
-          });
-        }
-      );
-    });
-
-    Promise.all(promises)
-      .then(() => alert("All images uploaded"))
-      .catch((err) => console.log(err));
-  };
-
   // Edit selected item
   const onEdit = async () => {
     const db = getFirestore();
@@ -167,7 +133,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     updateDoc(docRef, data)
       .then((docRef) => {
         console.log("Food item is updated");
-        // alert("Food item is updated");
         const notifyEdit = () => toast("Food item is updated");
         notifyEdit();
         (
@@ -181,31 +146,31 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   // Add a new item
   const onAdd = async (foodItem: AddProducttDataType) => {
- 
-    const db = getFirestore();
-    const dbRef = collection(db, "food");
-    const newDocRef = doc(collection(db, "food"));
-    setIdRef(newDocRef.id);
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    })
-      .then((docRef) => {
-        console.log("Food item added successfully");
-        // alert("Food item added successfully");
-        const notifyAdd = () => toast("Food item added successfully");
-        notifyAdd();
-        (document.getElementById("modal") as HTMLInputElement).style.display =
-          "none";
-         
+    if (imgUrls) {
+      const db = getFirestore();
+      const newDocRef = doc(collection(db, "food"));
+      setIdRef(newDocRef.id);
+      await setDoc(newDocRef, {
+        id: newDocRef.id,
+        title: foodItem?.title,
+        description: foodItem?.description,
+        category: foodItem?.category,
+        displayImages: imgUrls,
+        price: foodItem?.price,
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((docRef) => {
+          const notifyAdd = () => toast("Food item added successfully");
+          notifyAdd();
+          (document.getElementById("modal") as HTMLInputElement).style.display =
+            "none";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const notifyAdd = () => toast.error("Please upload Image!");
+      notifyAdd();
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -371,6 +336,9 @@ const AddProduct: React.FC<AddProductProps> = ({
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Upload Image
+                <span className="addproduct__row__form__row__label__required">
+                  *
+                </span>
               </label>
               <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
