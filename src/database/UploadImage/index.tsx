@@ -99,9 +99,8 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
           notifyAdd();
         })
         .catch((err) => console.log(err));
-    }
-    else{
-      const notifyAdd = () => toast("Please upload Image!");
+    } else {
+      const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
   };
