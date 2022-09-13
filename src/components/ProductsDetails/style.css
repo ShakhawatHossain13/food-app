@@ -22,11 +22,12 @@
   margin: auto;
   max-width: 540px;
   display: flex;
-  border-radius: 50%;
   align-items: center;
 }
 .productsDetails__card__image__main--selected {
   height: 300px;
+  width: 300px;
+  border-radius: 50%;
   margin: 0 auto;
   border: 2px solid cadetblue;
 }

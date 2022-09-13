@@ -10,6 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
+import { Link } from "react-router-dom";
 
 type BlogFilterDataType = {
   id: string;
@@ -81,7 +82,9 @@ const Blog: React.FC = () => {
                     <div className="blog__card__body__details__description">
                       <p>{post?.description.slice(0, 100)}...</p>
                     </div>
-                    <a href={`/blogdetails/${post?.id.trim()}`}>See More...</a>
+                    <Link to={`/blog-details/${post?.id?.trim()}`}>
+                      See More...
+                    </Link>
                   </div>
                 </div>
               </div>
