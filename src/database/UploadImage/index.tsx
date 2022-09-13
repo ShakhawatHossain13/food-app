@@ -106,8 +106,8 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
     }
   };
 
-  console.log("images: ", images);
-  console.log("Doc ID: ", idRef);
+  // console.log("images: ", images);
+  // console.log("Doc ID: ", idRef);
 
   return (
     <React.Fragment>

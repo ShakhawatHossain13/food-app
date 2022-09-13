@@ -60,6 +60,7 @@ type AddProductProps = {
   handleCloseClick?: () => void;
   handleCloseClickEdit?: () => void;
   formReset?: Boolean;
+  setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
@@ -70,6 +71,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   handleCloseClick,
   handleCloseClickEdit,
   formReset,
+  setFormReset,
 }) => {
   const [foodItem, setFoodItem] =
     React.useState<AddProducttDataType>(initialData);
@@ -80,7 +82,6 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [images, setImages] = React.useState([]);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
-
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -148,29 +149,29 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   // Add a new item
- 
-  const onAdd = async (foodItem: AddProducttDataType) => { 
-   if (imgUrls) {
-    const db = getFirestore();
-    const dbRef = collection(db, "food");
-    const newDocRef = doc(collection(db, "food"));
-    setIdRef(newDocRef.id);
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    })
-      .then((docRef) => {
-        console.log("Food item added successfully");
-        // alert("Food item added successfully");
-        const notifyAdd = () => toast("Food item added successfully");
-        notifyAdd();
-        (document.getElementById("modal") as HTMLInputElement).style.display =
-          "none";        
+
+  const onAdd = async (foodItem: AddProducttDataType) => {
+    if (imgUrls) {
+      const db = getFirestore();
+      const dbRef = collection(db, "food");
+      const newDocRef = doc(collection(db, "food"));
+      setIdRef(newDocRef.id);
+      await setDoc(newDocRef, {
+        id: newDocRef.id,
+        title: foodItem?.title,
+        description: foodItem?.description,
+        category: foodItem?.category,
+        displayImages: imgUrls,
+        price: foodItem?.price,
       })
+        .then((docRef) => {
+          console.log("Food item added successfully");
+          // alert("Food item added successfully");
+          const notifyAdd = () => toast("Food item added successfully");
+          notifyAdd();
+          (document.getElementById("modal") as HTMLInputElement).style.display =
+            "none";
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -195,6 +196,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       console.log(error);
     }
     setIsLoading(false);
+    setFormReset(true);
   };
 
   const fetchDetails = async () => {
@@ -220,17 +222,19 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  React.useEffect(() => {   
+  React.useEffect(() => {
     if (ids) {
       fetchDetails();
       setEdit(true);
     }
   }, [ids]);
-  
 
-  React.useEffect(() => {   
-    if (formReset === true){    
-      setFoodItem(initialData);  
+  React.useEffect(() => {
+    if (formReset) {
+      setFoodItem((prev) => ({
+        ...prev,
+        initialData,
+      }));
     }
   }, []);
 
@@ -238,132 +242,134 @@ const AddProduct: React.FC<AddProductProps> = ({
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
-          <h3 className="addproduct__row__title">{formTitle} </h3>
-          <form
-            className="addproduct__row__form"
-            onSubmit={(e) => handleSubmit(e)}
-          >
-            <div className="addproduct__row__form__row">
-              <div>
-                <label className="addproduct__row__form__row__label">
-                  Title
+          <>
+            <h3 className="addproduct__row__title">{formTitle} </h3>
+            <form
+              className="addproduct__row__form"
+              onSubmit={(e) => handleSubmit(e)}
+            >
+              <div className="addproduct__row__form__row">
+                <div>
+                  <label className="addproduct__row__form__row__label">
+                    Title
+                    <span className="addproduct__row__form__row__label__required">
+                      *
+                    </span>
+                  </label>
+                </div>
+                <input
+                  className="addproduct__row__form__row__input"
+                  id="title"
+                  name="title"
+                  type="text"
+                  value={foodItem?.title}
+                  onChange={handleChange}
+                />
+                <span className="addproduct__row__form__row__error">
+                  {error.title}
+                </span>
+              </div>
+              <div className="addproduct__row__form__row">
+                <label className="addproduct__row__form__label">
+                  Description
                   <span className="addproduct__row__form__row__label__required">
                     *
                   </span>
                 </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  className="addproduct__row__form__input"
+                  onChange={handleChange}
+                  value={foodItem?.description}
+                  style={{ height: "70px" }}
+                ></textarea>
+                <span className="addproduct__row__form__row__error">
+                  {error.description}
+                </span>
               </div>
-              <input
-                className="addproduct__row__form__row__input"
-                id="title"
-                name="title"
-                type="text"
-                value={foodItem?.title}
-                onChange={handleChange}
-              />
-              <span className="addproduct__row__form__row__error">
-                {error.title}
-              </span>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__label">
-                Description
-                <span className="addproduct__row__form__row__label__required">
-                  *
+              <div className="addproduct__row__form__row">
+                <label className="addproduct__row__form__row__label">
+                  Category
+                  <span className="addproduct__row__form__row__label__required">
+                    *
+                  </span>
+                </label>
+                <select
+                  className="addproduct__row__form__row__input__select"
+                  name="category"
+                  id="category"
+                  value={foodItem?.category}
+                  onChange={handleChange}
+                >
+                  <option
+                    className="addproduct__row__form__row__input__select__options"
+                    value=""
+                  >
+                    --- Select Category ---
+                  </option>
+
+                  <option
+                    className="addproduct__row__form__row__input__select__options"
+                    value="Breakfast"
+                  >
+                    Breakfast
+                  </option>
+                  <option
+                    className="addproduct__row__form__row__input__select__options"
+                    value="Lunch"
+                  >
+                    Lunch
+                  </option>
+                  <option
+                    className="addproduct__row__form__row__input__select__options"
+                    value="Dinner"
+                  >
+                    Dinner
+                  </option>
+                </select>
+                <span className="addproduct__row__form__row__error">
+                  {error.category}
                 </span>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                className="addproduct__row__form__input"
-                onChange={handleChange}
-                value={foodItem?.description}
-                style={{ height: "70px" }}
-              ></textarea>
-              <span className="addproduct__row__form__row__error">
-                {error.description}
-              </span>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Category
-                <span className="addproduct__row__form__row__label__required">
-                  *
+              </div>
+              <div className="addproduct__row__form__row">
+                <label className="addproduct__row__form__row__label">
+                  Price
+                  <span className="addproduct__row__form__row__label__required">
+                    *
+                  </span>
+                </label>
+                <input
+                  className="addproduct__row__form__row__input"
+                  id="price"
+                  name="price"
+                  type="number"
+                  value={foodItem?.price}
+                  onChange={handleChange}
+                />
+                <span className="addproduct__row__form__row__error">
+                  {error.price}
                 </span>
-              </label>
-              <select
-                className="addproduct__row__form__row__input__select"
-                name="category"
-                id="category"
-                value={foodItem?.category}
-                onChange={handleChange}
+              </div>
+
+              <div className="addproduct__row__form__row">
+                <label className="addproduct__row__form__row__label">
+                  Upload Image
+                  <span className="addproduct__row__form__row__label__required">
+                    *
+                  </span>
+                </label>
+                <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
+              </div>
+              <button
+                type="submit"
+                className="addproduct__row__form__row__button"
+                disabled={buttonDisable}
               >
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value=""
-                >
-                  --- Select Category ---
-                </option>
-
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Breakfast"
-                >
-                  Breakfast
-                </option>
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Lunch"
-                >
-                  Lunch
-                </option>
-                <option
-                  className="addproduct__row__form__row__input__select__options"
-                  value="Dinner"
-                >
-                  Dinner
-                </option>
-              </select>
-              <span className="addproduct__row__form__row__error">
-                {error.category}
-              </span>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Price
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <input
-                className="addproduct__row__form__row__input"
-                id="price"
-                name="price"
-                type="number"
-                value={foodItem?.price}
-                onChange={handleChange}
-              />
-              <span className="addproduct__row__form__row__error">
-                {error.price}
-              </span>
-            </div>
-
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Upload Image
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
-            </div>
-            <button
-              type="submit"
-              className="addproduct__row__form__row__button"
-              disabled={buttonDisable}
-            >
-              {formTitle}
-            </button>
-          </form>
+                {formTitle}
+              </button>
+            </form>
+          </>
         </div>
       </section>
     </React.Fragment>

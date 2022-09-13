@@ -36,7 +36,7 @@ const ProductList: React.FC = () => {
   const [ids, setIds] = React.useState<string>("");
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
-  const [formReset, setFormReset]  = React.useState<Boolean>(false);
+  const [formReset, setFormReset] = React.useState<Boolean>(false);
 
   const handleOpenClick = () => {
     setFormTitle("Add Product");
@@ -46,7 +46,8 @@ const ProductList: React.FC = () => {
   const handleCloseClick = () => {
     (document.getElementById("modal") as HTMLInputElement).style.display =
       "none";
-      setFormReset(true);
+    setFormReset(true);
+    console.log("formset: ", formReset);
   };
   const handleCloseClickEdit = () => {
     (document.getElementById("editModal") as HTMLInputElement).style.display =
@@ -140,6 +141,7 @@ const ProductList: React.FC = () => {
                   setIsLoading={setIsLoading}
                   handleCloseClick={handleCloseClick}
                   formReset={formReset}
+                  setFormReset={setFormReset}
                 />
               </div>
             </div>
@@ -194,7 +196,8 @@ const ProductList: React.FC = () => {
                           titleForm={title}
                           setIsLoading={setIsLoading}
                           handleCloseClickEdit={handleCloseClickEdit}
-                         
+                          formReset={formReset}
+                          setFormReset={setFormReset}
                         />
                       </div>
                     </div>
