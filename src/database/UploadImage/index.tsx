@@ -44,7 +44,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             style={{
               maxWidth: "100px",
               maxHeight: "60px",
-              marginTop: "5px",
+              marginTop: "12px",
               border: "2px solid cadetblue",
               padding: "0 5px",
             }}
@@ -95,7 +95,6 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
 
       Promise.all(promises)
         .then(() => {
-          // alert("All images uploaded")
           const notifyAdd = () => toast("Images uploaded successfully");
           notifyAdd();
         })
@@ -135,6 +134,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             backgroundColor: "darkseagreen",
             padding: "5px 0",
             border: "1px solid cadetblue",
+            cursor: "pointer",
           }}
         >
           Upload

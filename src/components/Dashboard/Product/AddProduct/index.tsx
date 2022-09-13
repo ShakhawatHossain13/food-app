@@ -3,18 +3,13 @@ import "./style.css";
 import {
   getFirestore,
   collection,
-  getDocs,
-  addDoc,
   setDoc,
   getDoc,
   updateDoc,
-  deleteDoc,
   doc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../../../database/firebaseConfig";
 import UploadImage from "../../../../database/UploadImage";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type AddProducttDataType = {
@@ -106,7 +101,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description", "category", "price"];
+    const validationFields = ["title", "description", "category",  "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -153,9 +148,9 @@ const AddProduct: React.FC<AddProductProps> = ({
   const onAdd = async (foodItem: AddProducttDataType) => {
     if (imgUrls) {
       const db = getFirestore();
-      const dbRef = collection(db, "food");
       const newDocRef = doc(collection(db, "food"));
       setIdRef(newDocRef.id);
+      setButtonDisable(true);
       await setDoc(newDocRef, {
         id: newDocRef.id,
         title: foodItem?.title,
@@ -171,6 +166,7 @@ const AddProduct: React.FC<AddProductProps> = ({
           notifyAdd();
           (document.getElementById("modal") as HTMLInputElement).style.display =
             "none";
+          setButtonDisable(false);
         })
         .catch((error) => {
           console.log(error);
@@ -240,7 +236,7 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   return (
     <React.Fragment>
-      <section className="addproduct">
+      <section className="addproduct"  >
         <div className="addproduct__row">
           <>
             <h3 className="addproduct__row__title">{formTitle} </h3>
@@ -331,45 +327,39 @@ const AddProduct: React.FC<AddProductProps> = ({
                 <span className="addproduct__row__form__row__error">
                   {error.category}
                 </span>
-              </div>
-              <div className="addproduct__row__form__row">
-                <label className="addproduct__row__form__row__label">
-                  Price
-                  <span className="addproduct__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-                <input
-                  className="addproduct__row__form__row__input"
-                  id="price"
-                  name="price"
-                  type="number"
-                  value={foodItem?.price}
-                  onChange={handleChange}
-                />
-                <span className="addproduct__row__form__row__error">
-                  {error.price}
-                </span>
-              </div>
+              </label>
+              <input
+                className="addproduct__row__form__row__input"
+                id="price"
+                name="price"
+                type="number"
+                value={foodItem?.price}
+                onChange={handleChange}
+                min={50}
+              />
+              <span className="addproduct__row__form__row__error">
+                {error.price}
+              </span>
+            </div>
 
-              <div className="addproduct__row__form__row">
-                <label className="addproduct__row__form__row__label">
-                  Upload Image
-                  <span className="addproduct__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-                <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
-              </div>
-              <button
-                type="submit"
-                className="addproduct__row__form__row__button"
-                disabled={buttonDisable}
-              >
-                {formTitle}
-              </button>
-            </form>
-          </>
+            <div className="addproduct__row__form__row">
+              <label className="addproduct__row__form__row__label">
+                Upload Image
+                <span className="addproduct__row__form__row__label__required">
+                  *
+                </span>
+              </label>
+              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
+            </div>
+            <button
+              type="submit"
+              className="addproduct__row__form__row__button"
+              disabled={buttonDisable}
+              style={{ cursor: "pointer"}}
+            >
+              {formTitle}
+            </button>
+          </form>
         </div>
       </section>
     </React.Fragment>
