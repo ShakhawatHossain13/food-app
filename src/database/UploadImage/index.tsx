@@ -2,6 +2,8 @@ import React from "react";
 import { FaCheck } from "react-icons/fa";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../firebaseConfig";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type uploadImageProps = {
   idRef?: string;
@@ -39,9 +41,12 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             src={photo}
             key={photo}
             onClick={() => setSelected(photo)}
-            style={{
-              border: selected === photo ? "2px solid cadetblue" : "",
-              maxWidth: "200px",
+            style={{          
+              maxWidth: "100px",
+              maxHeight: "60px",
+              marginTop: "5px",
+              border: "2px solid cadetblue" ,
+              padding: "0 5px",
             }}
             alt="Images"
           />
@@ -54,46 +59,55 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
   };
 
   const handleUpload = () => {
-    const promises: any = [];
-    images.map((image) => {
-      const storageRef = ref(storage, `/images/${Math.random()}`);
-      const uploadTask: any = uploadBytesResumable(storageRef, image);
-      promises.push(uploadTask);
-      uploadTask.on(
-        "state_changed",
-        (snapshot: any) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-        // () => {
-        //   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        //     setImgUrls((prevState): any => [...prevState, downloadURL]);
-        //   });
-        // }
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            if (downloadURL) {
-              setImgUrls(downloadURL);
-            }           
-          });
-        }
-      );
-    });
+    if (images.length > 0) {
+      const promises: any = [];
+      images.map((image) => {
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          // () => {
+          //   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          //     setImgUrls((prevState): any => [...prevState, downloadURL]);
+          //   });
+          // }
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+            });
+          }
+        );
+      });
 
-    Promise.all(promises)
-      .then(() => alert("All images uploaded"))
-      .catch((err) => console.log(err)); 
+      Promise.all(promises)
+        .then(() => {
+          // alert("All images uploaded")
+          const notifyAdd = () => toast("Images uploaded successfully");
+          notifyAdd();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      const notifyAdd = () => toast.error("Please upload Image!");
+      notifyAdd();
+    }
   };
 
   console.log("images: ", images);
   console.log("Doc ID: ", idRef);
- 
+
   return (
     <React.Fragment>
       <div className="image">
@@ -110,10 +124,18 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
           />
         </div>
 
-        <div className="image__preview" >
-          {renderImages()}
-        </div>
-        <button onClick={handleUpload} type="submit" style={{marginTop: "10px", width: "100%", backgroundColor: "darkseagreen", padding: "5px 0", border: "1px solid cadetblue"}}>
+        <div className="image__preview">{renderImages()}</div>
+        <button
+          onClick={handleUpload}
+          type="submit"
+          style={{
+            marginTop: "10px",
+            width: "100%",
+            backgroundColor: "darkseagreen",
+            padding: "5px 0",
+            border: "1px solid cadetblue",
+          }}
+        >
           Upload
         </button>
       </div>

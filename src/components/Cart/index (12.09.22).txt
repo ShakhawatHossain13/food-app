@@ -13,8 +13,9 @@ type CartDataType = {
 };
 
 const Cart = () => {
-  // const Cart = ({ cartItem }: CartProps) => {
-  //  const {id, title, foodImage, price, quantity} = cartItem;
+// const Cart = ({ cartItem }: CartProps) => {
+//  const {id, title, foodImage, price, quantity} = cartItem;
+
 
   // const { id } = useParams();
   const [allCartItem, setAllCartItem] = React.useState<CartDataType[]>([]);
@@ -39,22 +40,22 @@ const Cart = () => {
   //   setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
   // };
 
-  // const cartStr = localStorage.getItem("cart");
-  // if (cartStr) {
-  //   const cart: CartDataType[] = JSON.parse(cartStr);
-  //   if (cart.length > 0) {
-  //       setAllCartItem((prevState): any => [...prevState, cart]);
+    // const cartStr = localStorage.getItem("cart");
+    // if (cartStr) {
+    //   const cart: CartDataType[] = JSON.parse(cartStr);
+    //   if (cart.length > 0) {
+    //       setAllCartItem((prevState): any => [...prevState, cart]);
 
-  //     console.log("1st Cart quantity: ", cart[0].quantity);
-  //     console.log("2nd Cart quantity: ", cart[1]?.quantity);
-  //     console.log(
-  //       "Two Cart price: ",
-  //       cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
-  //     );
-  //   }
-  // }
+    //     console.log("1st Cart quantity: ", cart[0].quantity);
+    //     console.log("2nd Cart quantity: ", cart[1]?.quantity);
+    //     console.log(
+    //       "Two Cart price: ",
+    //       cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
+    //     );
+    //   }
+    // }
 
-  console.log("cart: ", allCartItem);
+    console.log("cart: ", allCartItem);
   const handleCheckoutSubmit = () => {
     alert("We have received your order. Thanks for order !");
     navigate("/");
