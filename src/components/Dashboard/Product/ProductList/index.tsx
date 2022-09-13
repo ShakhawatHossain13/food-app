@@ -14,6 +14,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { ToastContainer, toast } from 'react-toastify';
 
 type ProductListDataType = {
   id: string;
@@ -88,7 +89,9 @@ const ProductList: React.FC = () => {
           .then(() => {
             console.log("One food item has been deleted successfully.")
             setIsLoading(false);
-            alert("Product is deleted is deleted");
+           // alert("Product is deleted is deleted");
+           const notifyDelete = () => toast("Food item is deleted");
+           notifyDelete();  
           })
           .catch(error => {
             console.log(error);
@@ -110,6 +113,7 @@ const ProductList: React.FC = () => {
     <React.Fragment>
       <Sidebar />
       <section className="productlist">
+      <ToastContainer />
         <div className="productlist__row">
           <h3 className="productlist__row__title">Product list</h3>
           <div className="productlist__row__button">
@@ -136,7 +140,7 @@ const ProductList: React.FC = () => {
             </tr>
             {foodItem?.map((foods) => {
               return (
-                <tr className="productlist__row__table__row">
+                <tr className="productlist__row__table__row" key={foods?.id}>
                   <td className="productlist__row__table__row__text">{foods.title}</td>
                   <td className="productlist__row__table__row__text">{foods.category}</td>
                   <td className="productlist__row__table__row__text">{foods.price}</td>

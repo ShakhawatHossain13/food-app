@@ -13,6 +13,7 @@ import {
   doc,
 } from "firebase/firestore"; 
 import UploadImage from "../../../../database/UploadImage";
+import { red } from "@material-ui/core/colors";
 
 type AddCategoryDataType = {
   id: string;
@@ -89,7 +90,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         (categoryItem[key as keyof typeof categoryItem] === "" || 0)
       ) {
         copyErrors[key] = "required";
-        hasError = true;
+        hasError = true;       
       }
     }
     setError(copyErrors);

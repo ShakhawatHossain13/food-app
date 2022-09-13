@@ -14,6 +14,8 @@ import {
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import UploadImage from "../../../../database/UploadImage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type AddProducttDataType = {
   id: string;
@@ -82,7 +84,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     >
   ) => {
     const { name, value } = event.target;
-
     setFoodItem((prev) => {
       return {
         ...prev,
@@ -93,6 +94,8 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
+    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
+      "0.5px solid #000";
   };
 
   const isValid = () => {
@@ -105,6 +108,8 @@ const AddProduct: React.FC<AddProductProps> = ({
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
+        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
+          "0.5px solid red";
         hasError = true;
       }
     }
@@ -161,7 +166,9 @@ const AddProduct: React.FC<AddProductProps> = ({
     updateDoc(docRef, data)
       .then((docRef) => {
         console.log("Food item is updated");
-        alert("Food item is updated");
+        // alert("Food item is updated");
+        const notifyEdit = () => toast("Food item is updated");
+        notifyEdit();
         (
           document.getElementById("editModal") as HTMLInputElement
         ).style.display = "none";
@@ -187,7 +194,9 @@ const AddProduct: React.FC<AddProductProps> = ({
     })
       .then((docRef) => {
         console.log("Food item added successfully");
-        alert("Food item added successfully");
+        // alert("Food item added successfully");
+        const notifyAdd = () => toast("Food item added successfully");
+        notifyAdd();
         (document.getElementById("modal") as HTMLInputElement).style.display =
           "none";
       })
