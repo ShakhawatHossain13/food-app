@@ -41,9 +41,12 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
             src={photo}
             key={photo}
             onClick={() => setSelected(photo)}
-            style={{
-              border: selected === photo ? "2px solid cadetblue" : "",
-              maxWidth: "200px",
+            style={{          
+              maxWidth: "100px",
+              maxHeight: "60px",
+              marginTop: "5px",
+              border: "2px solid cadetblue" ,
+              padding: "0 5px",
             }}
             alt="Images"
           />
