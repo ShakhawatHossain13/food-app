@@ -92,7 +92,6 @@ const ProductList: React.FC = () => {
         .then(() => {
           console.log("One food item has been deleted successfully.");
           setIsLoading(false);
-          // alert("Product is deleted is deleted");
           const notifyDelete = () => toast("Food item is deleted");
           notifyDelete();
         })
@@ -110,9 +109,7 @@ const ProductList: React.FC = () => {
     getData();
   }, [isLoading]);
 
-  console.log(foodItem);
-
-  return (
+      return (
     <React.Fragment>
       <Sidebar />
       <section className="productlist">

@@ -95,7 +95,6 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
 
       Promise.all(promises)
         .then(() => {
-          // alert("All images uploaded")
           const notifyAdd = () => toast("Images uploaded successfully");
           notifyAdd();
         })
