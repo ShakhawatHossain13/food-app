@@ -12,9 +12,10 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import AddBlog from "../AddBlog";
+import { deleteObject, ref } from "firebase/storage";
 
 type BlogListDataType = {
   id: string;
@@ -45,6 +46,7 @@ const BlogList: React.FC = () => {
   const [add, setAdd] = React.useState<Boolean>(false);
   const [edit, setEdit] = React.useState<Boolean>(false);
   const [blogID, setBlogID] = React.useState<string>("");
+  const [imageURL, setImageURL] = React.useState<string>("");
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -93,6 +95,15 @@ const BlogList: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
+        });
+      //Image delete from firebase storage
+      const imageRef = ref(storage, `images/${imageURL}`);
+      deleteObject(imageRef)
+        .then(() => {
+          console.log("Image delete from firebase Storage");
+        })
+        .catch((error) => {
+          console.log("Error: ", error);
         });
       return true;
     } else {
@@ -220,6 +231,14 @@ const BlogList: React.FC = () => {
                         setDeleteModal(true);
                         console.log(blog.id);
                         setBlogID(blog.id);
+                        setImageURL(
+                          blog.blogImage.split("2F")[1].split("?")[0]
+                        );
+                        // console.log("Full image link: ", blog.blogImage);
+                        // console.log(
+                        //   "split value: ",
+                        //   blog.blogImage.split("2F")[1].split("?")[0]
+                        // );
                       }}
                     >
                       delete
