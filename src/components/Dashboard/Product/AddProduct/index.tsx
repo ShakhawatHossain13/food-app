@@ -52,10 +52,9 @@ type AddProductProps = {
   ids?: string;
   titleForm?: string;
   setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
-  handleCloseClick?: () => void;
-  handleCloseClickEdit?: () => void;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
@@ -63,10 +62,9 @@ const AddProduct: React.FC<AddProductProps> = ({
   ids,
   titleForm,
   setIsLoading,
-  handleCloseClick,
-  handleCloseClickEdit,
   formReset,
   setFormReset,
+  setModalOpen,
 }) => {
   const [foodItem, setFoodItem] =
     React.useState<AddProducttDataType>(initialData);
@@ -134,9 +132,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         console.log("Food item is updated");
         const notifyEdit = () => toast("Food item is updated");
         notifyEdit();
-        (
-          document.getElementById("editModal") as HTMLInputElement
-        ).style.display = "none";
+        setModalOpen(false);
       })
       .catch((error) => {
         console.log(error);
@@ -162,11 +158,10 @@ const AddProduct: React.FC<AddProductProps> = ({
         .then((docRef) => {
           console.log("Food item added successfully");
           // alert("Food item added successfully");
-          const notifyAdd = () => toast("Food item added successfully");
+          const notifyAdd = () => setButtonDisable(false);
+          toast("Food item added successfully");
           notifyAdd();
-          (document.getElementById("modal") as HTMLInputElement).style.display =
-            "none";
-          setButtonDisable(false);
+          setModalOpen(false);
         })
         .catch((error) => {
           console.log(error);
@@ -193,7 +188,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
     setIsLoading(false);
     setFormReset(true);
-    setFoodItem(initialData);
+    // setFoodItem(initialData);
   };
 
   const fetchDetails = async () => {
