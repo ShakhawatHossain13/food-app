@@ -10,11 +10,11 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import ProductList from "./components/Dashboard/Product/ProductList";
-import BlogList from "./components/Dashboard/Blog/BlogList";
 import NotFound from "./components/NotFound/NotFound";
 import { RequireAdmin } from "./Authentication/RequireAdmin";
 import { RequireAuth } from "./Authentication/RequireAuth";
 import CategoryList from "./components/Dashboard/Category/CategoryList";
+import BlogList from "./components/Dashboard/Blog/BlogList";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,7 +34,6 @@ const App: React.FC = () => {
       <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/categorydetails" element={<CategoryDetails />} /> */}
         <Route
           path="/category-details/:selectedCategory"
           element={<CategoryDetails />}

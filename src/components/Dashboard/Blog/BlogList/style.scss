@@ -1,91 +1,98 @@
-.bloglist{
-  margin-left: 200px;
-  &__row{
-     margin: auto;
-     width: 90%;    
-  }
+ button{
+    cursor: pointer;
+ }
+ .blogList{
+    margin-left: 200px;
+    &__row{
+       margin: auto;
+       width: 90%;    
+    }
 }
-.bloglist__row__button{
- text-align: right;
+.blogList__row__button{
+   text-align: right;
 }
-.bloglist__row__title{
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 10px;
-  text-align: center;
+.blogList__row__title{
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-align: center;
 }
-.bloglist__row__table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 90%;
-  float: right;
-  font-size: 14px;
+.blogList__row__table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    float: right;
+    font-size: 14px;
 }  
-.bloglist__row__button{   
-  width: 90%;
-  float: right;
-  font-size: 14px;
+.blogList__row__button{   
+    width: 90%;
+    float: right;
+    font-size: 14px;
 }
-.bloglist__row__button__btn{
-  margin-bottom: 20px;
-  padding: 7px 43px;
-  background-color: #f0f0f0;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  color: #0a0a0a;
+.blogList__row__button__btn{
+    margin-bottom: 20px;
+    padding: 7px 43px;
+    background-color: #f0f0f0;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    color: #0a0a0a;
 }
-.bloglist__row__table__row__text {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  text-align: center;
+.blogList__row__table__row__text {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
 }
-.bloglist__row__table__row__button__edit{
-  width: 80px;
-  margin-right: 10px;
-  background-color: cadetblue;
-  border: 0;
-  padding: 5px 15px;
-  border-radius: 5px;
-  color: #fff;
+.blogList__row__table__row__button__edit{
+    width: 80px;
+    margin-right: 10px;
+    background-color: cadetblue;
+    border: 0;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #fff;
 }
-.bloglist__row__table__row__button__delete{
-  width: 80px;
-  margin-right: 10px;
-  background-color: crimson;
-  border: 0;
-  padding: 5px 15px;
-  border-radius: 5px;
-  color: #fff;
+.blogList__row__table__row__button__delete{
+    width: 80px;
+    margin-right: 10px;
+    background-color: crimson;
+    border: 0;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #fff;
 }
-.bloglist__row__modal {
-  display: none;  
-  position: fixed;  
-  z-index: 1;  
-  padding-top: 70px;  
-  left: 0;
-  top: 0;
-  width: 100%;  
-  height: 100%;  
-  background-color: rgba(0,0,0,0.4); 
-}
-.bloglist__row__modal__content {
-  background-color: #fefefe;
-  margin: auto;
-  margin-top: 4%;
-  padding: 5px;
-  border: 1px solid #888;
-  width: 30%;
-}
-.bloglist__row__modal__content__close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-.bloglist__row__modal__content__close:hover,
-.bloglist__row__modal__content__close:focus {
-color: #000;
-text-decoration: none;
-cursor: pointer;
+.blogList__row__modal {
+    display: block;  
+    position: fixed;  
+    z-index: 1;  
+    overflow-y: auto;
+    padding-top: 70px;  
+    right: 0;
+    top: 0;
+    width: 100%;  
+    height: 100%;  
+    background-color: rgba(0,0,0,0.4); 
+  }
+.blogList__row__modal__content {
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 55%;
+    padding: 15px 55px;
+    right: 5%;
+  }
+.blogList__row__modal__content__close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 80px;
+    right: 270px;
+  }
+.blogList__row__modal__content__close:hover,
+.blogList__row__modal__content__close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
