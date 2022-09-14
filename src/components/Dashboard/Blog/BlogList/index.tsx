@@ -41,19 +41,16 @@ const BlogList: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
-  // const [modalClose, setModalClose] = React.useState<Boolean>(false);
+  const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
   const [add, setAdd] = React.useState<Boolean>(false);
   const [edit, setEdit] = React.useState<Boolean>(false);
+  const [blogID, setBlogID] = React.useState<string>("");
 
   const handleModalOpen = () => {
     setModalOpen(true);
-    // setModalClose(true);
-    console.log("open: ", modalOpen);
   };
   const handleModalClose = () => {
     setModalOpen(false);
-    // setModalClose(false);
-    // console.log("close: ", modalClose);
   };
 
   const getData = async () => {
@@ -81,16 +78,17 @@ const BlogList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    var val = window.confirm("Are you sure to delete?");
+    var val = true;
     if (val === true) {
       const db = getFirestore();
-      const blogId = id.toString();
-      const docRef = doc(db, "blog", `${blogId}`);
+      const blogID = id.toString();
+      const docRef = doc(db, "blog", `${blogID}`);
       deleteDoc(docRef)
         .then(() => {
-          console.log("One Blog has been deleted successfully.");
+          console.log("One Blog item has been deleted successfully.");
           setIsLoading(false);
-          const notifyDelete = () => toast("Blog is deleted");
+          setDeleteModal(false);
+          const notifyDelete = () => toast("Blog item is deleted");
           notifyDelete();
         })
         .catch((error) => {
@@ -218,10 +216,50 @@ const BlogList: React.FC = () => {
                     )}
                     <button
                       className="blogList__row__table__row__button__delete"
-                      onClick={() => handleDelete(blog.id)}
+                      onClick={() => {
+                        setDeleteModal(true);
+                        console.log(blog.id);
+                        setBlogID(blog.id);
+                      }}
                     >
                       delete
                     </button>
+                    {deleteModal && (
+                      <div className="blogList__row__table__row__button__delete__modal">
+                        <span
+                          className="blogList__delete__modal__close"
+                          onClick={() => {
+                            setDeleteModal(false);
+                          }}
+                        >
+                          &times;
+                        </span>
+                        <div className="blogList__delete__modal__confirm">
+                          <div>
+                            Are you sure you want to delete this record?
+                          </div>
+                          <div>
+                            <button
+                              style={{ backgroundColor: "crimson" }}
+                              onClick={() => {
+                                handleDelete(blogID);
+                              }}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              style={{ backgroundColor: "grey" }}
+                              onClick={() => {
+                                setDeleteModal(false);
+                                console.log("cancel: ", blogID);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

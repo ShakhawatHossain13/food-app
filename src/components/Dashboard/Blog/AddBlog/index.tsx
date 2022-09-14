@@ -193,12 +193,11 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 date: blogItem.date,
               })
                 .then((docRef) => {
-                  console.log("Blog item added successfully");
+                  setButtonDisable(false);
                   const notifyAdd = () => toast("Blog item added successfully");
                   notifyAdd();
                   setModalOpen(false);
                   setIsLoading(false);
-                  setButtonDisable(false);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -209,8 +208,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
       });
       Promise.all(promises)
         .then(() => {
-          const notifyAdd = () => toast("Adding Blog item");
-          notifyAdd();
+          // const notifyAdd = () => toast("Adding Blog item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
@@ -393,20 +392,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 </div>
 
                 <div className="image__preview">{renderImages()}</div>
-                {/* <button
-          onClick={handleUpload}
-          // type="submit"
-          style={{
-            marginTop: "10px",
-            width: "100%",
-            backgroundColor: "darkseagreen",
-            padding: "5px 0",
-            border: "1px solid cadetblue",
-            cursor: "pointer",
-          }}
-        >
-          Upload
-        </button> */}
               </div>
             </div>
             <button
