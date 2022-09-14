@@ -96,3 +96,50 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.productlist__row__table__row__button__delete__modal{
+    position: absolute;  
+    top: 40%;
+    left: 38%;
+    z-index: 1;   
+    width: 400px;  
+    height: 150px;  
+    box-shadow: 0 0 0 1500px rgba(0,0,0,0.1);
+    background-color: #fefefe;
+    border: 1px solid #888;
+}
+
+.productlist__delete__modal__close{
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 6px;
+    right: 15px;
+}
+
+.productlist__delete__modal__close:hover,
+.productlist__delete__modal__close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.productlist__delete__modal__confirm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+.productlist__delete__modal__confirm button{
+     margin-top: 20px;
+     margin-inline: 5px;
+     height: 35px;
+     color: white;
+     border: 1px solid black;
+}
