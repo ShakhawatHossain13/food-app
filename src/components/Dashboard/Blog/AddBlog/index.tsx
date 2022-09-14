@@ -12,7 +12,12 @@ import UploadImage from "../../../../database/UploadImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCheck } from "react-icons/fa";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 
 type AddBlogDataType = {
@@ -207,36 +212,89 @@ const AddBlog: React.FC<AddBlogProps> = ({
         );
       });
       Promise.all(promises)
-        .then(() => {
-          // const notifyAdd = () => toast("Adding Blog item");
-          // notifyAdd();
-        })
+        .then(() => {})
         .catch((err) => console.log(err));
     } else {
       const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
   };
-  // Edit selected Blog
+
+  // Edit selected item
   const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "blog", `${ids}`);
-    const data = {
-      id: blogItem?.id,
-      title: blogItem?.title,
-      description: blogItem?.description,
-      blogImage: imgUrls ? imgUrls : blogItem?.blogImage,
-      date: blogItem?.date,
+    setButtonDisable(true);
+    const update = (uploadImage: string) => {
+      const db = getFirestore();
+      const docRef = doc(db, "blog", `${ids}`);
+      const data = {
+        id: blogItem?.id,
+        title: blogItem?.title,
+        description: blogItem?.description,
+        blogImage: uploadImage,
+        date: blogItem?.date,
+      };
+      updateDoc(docRef, data)
+        .then((docRef) => {
+          setIsLoading(false);
+          console.log("Blog is updated");
+          const notifyEdit = () => toast("Blog is updated");
+          notifyEdit();
+          setModalOpen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Blog item is updated");
-        const notifyEdit = () => toast("Blog item is updated");
-        notifyEdit();
-        setModalOpen(false);
+
+    if (images.length > 0) {
+      const promises: any = [];
+      images.map((image) => {
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+              update(downloadURL);
+            });
+          }
+        );
+      });
+
+      Promise.all(promises)
+        .then(() => {})
+        .catch((err) => console.log(err));
+    } else {
+      update(blogItem?.blogImage);
+    }
+    handleImageDelete();
+  };
+
+  //Image delete from firebase storage
+  const handleImageDelete = () => {
+    const imageURL = blogItem.blogImage.split("2F")[1].split("?")[0];
+    console.log("image direct link: ", imageURL);
+    const imageRef = ref(storage, `images/${imageURL}`);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image delete from firebase Storage");
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Error: ", error);
       });
   };
 
