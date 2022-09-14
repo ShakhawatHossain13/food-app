@@ -152,7 +152,7 @@ const ProductList: React.FC = () => {
             </tr>
             {foodItem?.map((foods) => {
               return (
-                <tr className="productlist__row__table__row" key={foods?.id}>
+                <tr className="productlist__row__table__row" key={foods?.id} >
                   <td className="productlist__row__table__row__text">
                     {foods.title}
                   </td>
