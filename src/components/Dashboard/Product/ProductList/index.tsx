@@ -37,21 +37,20 @@ const ProductList: React.FC = () => {
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
+  const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
+  // const [modalClose, setModalClose] = React.useState<Boolean>(false);
+  const [add, setAdd] = React.useState<Boolean>(false);
+  const [edit, setEdit] = React.useState<Boolean>(false);
 
-  const handleOpenClick = () => {
-    setFormTitle("Add Product");
-    (document.getElementById("modal") as HTMLInputElement).style.display =
-      "block";
+  const handleModalOpen = () => {
+    setModalOpen(true);
+    // setModalClose(true);
+    console.log("open: ", modalOpen);
   };
-  const handleCloseClick = () => {
-    (document.getElementById("modal") as HTMLInputElement).style.display =
-      "none";
-    setFormReset(true);
-    console.log("formset: ", formReset);
-  };
-  const handleCloseClickEdit = () => {
-    (document.getElementById("editModal") as HTMLInputElement).style.display =
-      "none";
+  const handleModalClose = () => {
+    setModalOpen(false);
+    // setModalClose(false);
+    // console.log("close: ", modalClose);
   };
 
   const getData = async () => {
@@ -110,7 +109,7 @@ const ProductList: React.FC = () => {
     getData();
   }, [isLoading]);
 
-      return (
+  return (
     <React.Fragment>
       <Sidebar />
       <section className="productlist">
@@ -120,28 +119,37 @@ const ProductList: React.FC = () => {
           <div className="productlist__row__button">
             <button
               className="productlist__row__button__btn"
-              onClick={handleOpenClick}
+              onClick={() => {
+                handleModalOpen();
+                setAdd(true);
+              }}
             >
               + add
             </button>
-            <div id="modal" className="productlist__row__modal">
-              <div className="productlist__row__modal__content">
-                <span
-                  className="productlist__row__modal__content__close"
-                  onClick={handleCloseClick}
-                >
-                  &times;
-                </span>
-                <AddProduct
-                  formTitle={formTitle}
-                  setFormTitle={setFormTitle}
-                  setIsLoading={setIsLoading}
-                  handleCloseClick={handleCloseClick}
-                  formReset={formReset}
-                  setFormReset={setFormReset}
-                />
+            {add && modalOpen && (
+              <div id="modal" className="productlist__row__modal">
+                <div className="productlist__row__modal__content">
+                  <span
+                    className="productlist__row__modal__content__close"
+                    onClick={() => {
+                      setFormReset(true);
+                      handleModalClose();
+                      setAdd(false);
+                    }}
+                  >
+                    &times;
+                  </span>
+                  <AddProduct
+                    formTitle="Add Product"
+                    setFormTitle={setFormTitle}
+                    setIsLoading={setIsLoading}
+                    formReset={formReset}
+                    setFormReset={setFormReset}
+                    setModalOpen={setModalOpen}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <table className="productlist__row__table">
             <tr className="productlist__row__table__row">
@@ -169,35 +177,42 @@ const ProductList: React.FC = () => {
                         setFormTitle("Edit Product");
                         setIds(foods.id);
                         setTitle(foods.title);
-                        (
-                          document.getElementById(
-                            "editModal"
-                          ) as HTMLInputElement
-                        ).style.display = "block";
+                        setEdit(true);
+                        setAdd(false);
+                        setModalOpen(true);
                       }}
                     >
                       edit
                     </button>
-                    <div id="editModal" className="productlist__row__modal">
-                      <div className="productlist__row__modal__content">
-                        <span
-                          className="productlist__row__modal__content__close"
-                          onClick={handleCloseClickEdit}
-                        >
-                          &times;
-                        </span>
-                        <AddProduct
-                          formTitle={formTitle}
-                          setFormTitle={setFormTitle}
-                          ids={ids}
-                          titleForm={title}
-                          setIsLoading={setIsLoading}
-                          handleCloseClickEdit={handleCloseClickEdit}
-                          formReset={formReset}
-                          setFormReset={setFormReset}
-                        />
+                    {edit && modalOpen && (
+                      <div
+                        id="editModal"
+                        className="productlist__row__modal"
+                        style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
+                      >
+                        <div className="productlist__row__modal__content">
+                          <span
+                            className="productlist__row__modal__content__close"
+                            onClick={() => {
+                              handleModalClose();
+                              setEdit(false);
+                            }}
+                          >
+                            &times;
+                          </span>
+                          <AddProduct
+                            formTitle="Edit Product"
+                            setFormTitle={setFormTitle}
+                            ids={ids}
+                            titleForm={title}
+                            setIsLoading={setIsLoading}
+                            formReset={formReset}
+                            setFormReset={setFormReset}
+                            setModalOpen={setModalOpen}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <button
                       className="productlist__row__table__row__button__delete"
                       onClick={() => handleDelete(foods.id)}
