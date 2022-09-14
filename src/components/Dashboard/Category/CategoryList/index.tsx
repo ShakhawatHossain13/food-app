@@ -11,7 +11,7 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
-  doc, 
+  doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
 
@@ -26,9 +26,9 @@ const CategoryList: React.FC = () => {
   const [categoryItem, setCategoryItem] = React.useState<
     CategoryListDataType[]
   >([]);
-  const [formTitle, setFormTitle] = React.useState<string>(""); 
-  const [id, setId] = React.useState<string>(""); 
-  const [title, setTitle] = React.useState<string>(""); 
+  const [formTitle, setFormTitle] = React.useState<string>("");
+  const [id, setId] = React.useState<string>("");
+  const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const handleOpenClick = () => {
     setFormTitle("Add Category");
@@ -39,25 +39,26 @@ const CategoryList: React.FC = () => {
     (document.getElementById("modal") as HTMLInputElement).style.display =
       "none";
   };
-  const handleCloseClickEdit =()=>{   
-    (document.getElementById("editModal") as HTMLInputElement).style.display="none";
-  } 
-   
+  const handleCloseClickEdit = () => {
+    (document.getElementById("editModal") as HTMLInputElement).style.display =
+      "none";
+  };
+
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "category");
     try {
       const result = await getDocs(colRef);
       const prepareData = result?.docs.map((item) => {
         let temp = item.data();
-        let obj: CategoryListDataType  = { 
-          id: temp.id,     
+        let obj: CategoryListDataType = {
+          id: temp.id,
           title: temp.title,
           description: temp.description,
-          image: temp.image,          
+          image: temp.image,
         };
         return obj;
       });
-      setCategoryItem(prepareData);   
+      setCategoryItem(prepareData);
       setIsLoading(true);
       return prepareData;
     } catch (error) {
@@ -65,21 +66,21 @@ const CategoryList: React.FC = () => {
     }
   };
 
-  const handleDelete = (id:string) =>{
-    const db = getFirestore(); 
+  const handleDelete = (id: string) => {
+    const db = getFirestore();
     const blogId = id.toString();
-    const docRef = doc(db, "category", `${blogId}`);    
+    const docRef = doc(db, "category", `${blogId}`);
 
     deleteDoc(docRef)
-    .then(() => {
-        console.log("Category has been deleted successfully.")
+      .then(() => {
+        console.log("Category has been deleted successfully.");
         alert("Category has been deleted successfully.");
         setIsLoading(false);
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         console.log(error);
-    })
-  }
+      });
+  };
 
   React.useEffect(() => {
     getData();
@@ -106,9 +107,11 @@ const CategoryList: React.FC = () => {
                 >
                   &times;
                 </span>
-                 
-                <AddCategory formTitle={formTitle} setFormTitle={setFormTitle}
-                setIsLoading={setIsLoading}
+
+                <AddCategory
+                  formTitle={formTitle}
+                  setFormTitle={setFormTitle}
+                  setIsLoading={setIsLoading}
                 />
               </div>
             </div>
@@ -132,33 +135,41 @@ const CategoryList: React.FC = () => {
                     {category.description.slice(0, 50)}
                   </td>
                   <td className="categorylist__row__table__row__text">
-                    <button className="categorylist__row__table__row__button__edit"
-                     onClick={
-                      ()=>{
-                        setFormTitle("Edit Category");                                         
+                    <button
+                      className="categorylist__row__table__row__button__edit"
+                      onClick={() => {
+                        setFormTitle("Edit Category");
                         setId(category.id);
                         setTitle(category.title);
-                        (document.getElementById("editModal") as HTMLInputElement).style.display="block";  
-                      }
-                     } 
+                        (
+                          document.getElementById(
+                            "editModal"
+                          ) as HTMLInputElement
+                        ).style.display = "block";
+                      }}
                     >
                       edit
                     </button>
-                    <div id="editModal" className="productlist__row__modal">                 
-                                      <div className="productlist__row__modal__content">
-                                          <span className="productlist__row__modal__content__close" 
-                                          onClick={handleCloseClickEdit}
-                                          >&times;</span>                
-                                          <AddCategory formTitle={formTitle} 
-                                            setFormTitle={setFormTitle} 
-                                            ids={id} 
-                                            titleForm={title}
-                                            setIsLoading={setIsLoading}
-                                             />
-                                      </div>
-                                  </div>
-                    <button className="categorylist__row__table__row__button__delete"
-                     onClick = {()=> handleDelete(category.id)}
+                    <div id="editModal" className="productlist__row__modal">
+                      <div className="productlist__row__modal__content">
+                        <span
+                          className="productlist__row__modal__content__close"
+                          onClick={handleCloseClickEdit}
+                        >
+                          &times;
+                        </span>
+                        <AddCategory
+                          formTitle={formTitle}
+                          setFormTitle={setFormTitle}
+                          ids={id}
+                          titleForm={title}
+                          setIsLoading={setIsLoading}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      className="categorylist__row__table__row__button__delete"
+                      onClick={() => handleDelete(category.id)}
                     >
                       delete
                     </button>
