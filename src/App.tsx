@@ -9,15 +9,12 @@ import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
-import AddCategory from "./components/Dashboard/Category/AddCategory";
-import CategoryList from "./components/Dashboard/Category/CategoryList";
-import AddProduct from "./components/Dashboard/Product/AddProduct";
 import ProductList from "./components/Dashboard/Product/ProductList";
-import AddBlog from "./components/Dashboard/Blog/AddBlog";
 import BlogList from "./components/Dashboard/Blog/BlogList";
 import NotFound from "./components/NotFound/NotFound";
 import { RequireAdmin } from "./Authentication/RequireAdmin";
 import { RequireAuth } from "./Authentication/RequireAuth";
+import CategoryList from "./components/Dashboard/Category/CategoryList";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,9 +34,13 @@ const App: React.FC = () => {
       <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/categorydetails" element={<CategoryDetails />} />
+        {/* <Route path="/categorydetails" element={<CategoryDetails />} /> */}
+        <Route
+          path="/category-details/:selectedCategory"
+          element={<CategoryDetails />}
+        />
         <Route path="/products-details/:id" element={<ProductsDetails />} />
-        <Route path="/blog-details/:id" element={<BlogDetails />} />
+        <Route path="/blogdetails/:id" element={<BlogDetails />} />
         <Route element={<RequireAuth />}>
           <Route path="/cart" element={<Cart />} />
         </Route>
@@ -68,4 +69,4 @@ export default App;
 //   //   getData();
 //   // }, []);
 
-//     //  {/ <Blog /> /}
+//     //  {/* <Blog /> */}

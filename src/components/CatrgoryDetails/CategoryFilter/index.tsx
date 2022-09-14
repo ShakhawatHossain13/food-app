@@ -11,6 +11,10 @@ import {
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 
+type CategoryDetailsSliderProps = {
+  selectedCategory?: string;
+};
+
 type CategoryFilterDataType = {
   title: string;
   description: string;
@@ -20,12 +24,16 @@ type CategoryFilterDataType = {
   vat: string;
 };
 
-const CategoryFilter: React.FC = () => {
+const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
+  selectedCategory,
+}) => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
-  const [selectedCategory, setSelectedCategory] = React.useState("Lunch");
+  // const [selectedCategoryLunch, setSelectedCategoryLunch] = React.useState("Lunch");
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
+  console.log("Selected Category", selectedCategory);
+  console.log("Selected Food", selectedFood);
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
   let sortedFoodItems: Array<string>;
