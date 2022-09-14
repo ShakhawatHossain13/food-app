@@ -71,18 +71,11 @@ const ProductList: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-    // fetch("./food.json",
-    // ).then(categories => categories.json()).then(getPost => {
-    //   setFoodItem(getPost);
-    // }).catch((error) => {
-    //     console.log(error);
-    // });
   };
 
   const handleDelete = (id: string) => {
-    // var val = window.confirm("Are you sure to delete?");
     var val = true;
-    if (val == true) {
+    if (val === true) {
       const db = getFirestore();
       const foodId = id.toString();
       console.log("string: ", foodId);
@@ -160,7 +153,7 @@ const ProductList: React.FC = () => {
             </tr>
             {foodItem?.map((foods) => {
               return (
-                <tr className="productlist__row__table__row" key={foods?.id} >
+                <tr className="productlist__row__table__row" key={foods?.id}>
                   <td className="productlist__row__table__row__text">
                     {foods.title}
                   </td>
