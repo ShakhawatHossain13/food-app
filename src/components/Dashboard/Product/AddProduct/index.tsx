@@ -82,6 +82,9 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
+  const [inputBoxBorderColor, setInputBoxBorderColor] = React.useState<string>();
+
+
 
   const priceRegex = "^[0-9]+$|^$";
 
@@ -101,8 +104,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
-    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
-      "0.5px solid #000";
+    setInputBoxBorderColor("#5e5b5b")
   };
 
   const isValid = () => {
@@ -115,8 +117,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
-          "0.5px solid red";
+        setInputBoxBorderColor("red")
         hasError = true;
       }
     }
@@ -140,15 +141,16 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  
+
   const renderImages = () => {
+
     return displayImages.map((photo) => {
       return (
         <>
           <img
-            src={photo}
+            src={foodItem?.displayImages}
             key={photo}
-            onClick={() => setSelected(photo)}
+            onClick={() => setSelected(foodItem?.displayImages)}
             style={{
               maxWidth: "100px",
               maxHeight: "60px",
@@ -164,11 +166,13 @@ const AddProduct: React.FC<AddProductProps> = ({
         </>
       );
     });
+
   };
-  const onAdd = async (foodItem: AddProducttDataType) => {     
+  const onAdd = async (foodItem: AddProducttDataType) => {
+    setButtonDisable(true);
     if (images.length > 0) {
       const promises: any = [];
-       images.map((image) => {
+      images.map((image) => {
         const storageRef = ref(storage, `/images/${Math.random()}`);
         const uploadTask: any = uploadBytesResumable(storageRef, image);
         promises.push(uploadTask);
@@ -184,16 +188,15 @@ const AddProduct: React.FC<AddProductProps> = ({
             console.log(error);
           },
           () => {
-             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               console.log("File available at", downloadURL);
               if (downloadURL) {
-               setImgUrls(downloadURL);
-              }                
+                setImgUrls(downloadURL);
+              }
               const db = getFirestore();
               const newDocRef = doc(collection(db, "food"));
               setIdRef(newDocRef.id);
-               setButtonDisable(true);
-                setDoc(newDocRef, {
+              setDoc(newDocRef, {
                 id: newDocRef.id,
                 title: foodItem?.title,
                 description: foodItem?.description,
@@ -202,90 +205,98 @@ const AddProduct: React.FC<AddProductProps> = ({
                 price: foodItem?.price,
               })
                 .then((docRef) => {
-                  console.log("Food item added successfully"); 
+                  console.log("Food item added successfully");
                   const notifyAdd = () => toast("Food item added successfully");
                   notifyAdd();
                   setModalOpen(false);
                   setIsLoading(false);
-                 setButtonDisable(false);
+                  setButtonDisable(false);
                 })
                 .catch((error) => {
                   console.log(error);
-                }); 
+                });
             });
           }
         );
       });
-      Promise.all(promises)      
-      .then(() => {
-        const notifyAdd = () => toast("Adding Food item");
-        notifyAdd();
-      })
-      .catch((err) => console.log(err));
-      } else {
-       const notifyAdd = () => toast.error("Please upload Image!");
-       notifyAdd();
-      }
-    
+      Promise.all(promises)
+        .then(() => {
+          const notifyAdd = () => toast("Adding Food item");
+          notifyAdd();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      const notifyAdd = () => toast.error("Please upload Image!");
+      notifyAdd();
+    }
+
   };
   // Edit selected item
   const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "food", `${ids}`);
-    const data = {
-      id: foodItem?.id,
-      title: foodItem?.title,
-      description: foodItem?.description,
-      category: foodItem?.category,
-      displayImages: imgUrls,
-      price: foodItem?.price,
-    };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Food item is updated");
-        const notifyEdit = () => toast("Food item is updated");
-        notifyEdit();
-        setModalOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
+    setButtonDisable(true);
+    const update = (uploadImage: string ) =>{
+      const db = getFirestore();
+      const docRef = doc(db, "food", `${ids}`);
+      const data = {
+        id: foodItem?.id,
+        title: foodItem?.title,
+        description: foodItem?.description,
+        category: foodItem?.category,
+        // displayImages: imgUrls,
+        displayImages: uploadImage,
+        price: foodItem?.price,
+      };
+      updateDoc(docRef, data)
+        .then((docRef) => {
+          console.log("Food item is updated");
+          const notifyEdit = () => toast("Food item is updated");
+          notifyEdit();
+          setModalOpen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    if (images.length > 0) {
+      const promises: any = [];
+      images.map((image) => {
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+              update(downloadURL);          
+            });
+          }
+        );
       });
+
+      Promise.all(promises)
+        .then(() => {
+          const notifyAdd = () => toast("Updating Food item");
+          notifyAdd();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      update(foodItem?.displayImages);    
+    }
   };
-
-  // Add a new item
-
-  // const onAdd = async (foodItem: AddProducttDataType) => {
-  //  // await handleUpload();
-  //   if (imgUrls) {
-  //     const db = getFirestore();
-  //     const newDocRef = doc(collection(db, "food"));
-  //     setIdRef(newDocRef.id);
-  //     setButtonDisable(true);
-  //     await setDoc(newDocRef, {
-  //       id: newDocRef.id,
-  //       title: foodItem?.title,
-  //       description: foodItem?.description,
-  //       category: foodItem?.category,
-  //       displayImages: imgUrls,
-  //       price: foodItem?.price,
-  //     })
-  //       .then((docRef) => {
-  //         console.log("Food item added successfully"); 
-  //         const notifyAdd = () => toast("Food item added successfully");
-  //         notifyAdd();
-  //         (document.getElementById("modal") as HTMLInputElement).style.display =
-  //           "none";
-  //         setButtonDisable(false);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   } else {
-  //    const notifyAdd = () => toast.error("Please upload Image!");
-  //    notifyAdd();
-  //   }
-  // };
-
 
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -298,15 +309,16 @@ const AddProduct: React.FC<AddProductProps> = ({
         onEdit();
       } else {
         onAdd(foodItem);
-      }
+      } 
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
 
-    setFormReset(true); 
+    setFormReset(true);
   };
 
+  // Get details if Edit form is loaded
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
@@ -333,6 +345,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
+      console.log(foodItem);
       setEdit(true);
     }
   }, [ids]);
@@ -346,9 +359,8 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   }, []);
 
-    console.log("images: ", images);
-  //console.log("Doc ID: ", idRef);
-
+  console.log("images: ", images);
+  
   return (
     <React.Fragment>
       <section className="addproduct">
@@ -374,6 +386,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 type="text"
                 value={foodItem?.title}
                 onChange={handleChange}
+                style={{ borderColor: inputBoxBorderColor }}
               />
               <span className="addproduct__row__form__row__error">
                 {error.title}
@@ -392,7 +405,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 className="addproduct__row__form__input"
                 onChange={handleChange}
                 value={foodItem?.description}
-                style={{ height: "70px" }}
+                style={{ height: "70px", borderColor: inputBoxBorderColor }}
               ></textarea>
               <span className="addproduct__row__form__row__error">
                 {error.description}
@@ -411,6 +424,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 id="category"
                 value={foodItem?.category}
                 onChange={handleChange}
+                style={{ borderColor: inputBoxBorderColor }}
               >
                 <option
                   className="addproduct__row__form__row__input__select__options"
@@ -453,14 +467,15 @@ const AddProduct: React.FC<AddProductProps> = ({
                 className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
-               // pattern = "^[0-9]+$|^$" 
-                value={foodItem?.price}   
-              //  onChange={handleChange}          
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => { 
-                  if (event.target.value.match(priceRegex)) {                   
-                    return handleChange(event) ;    
-                  } else {                  
-                    return false;             
+                // pattern = "^[0-9]+$|^$" 
+                value={foodItem?.price}
+                style={{ borderColor: inputBoxBorderColor }}
+                //  onChange={handleChange}          
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value.match(priceRegex)) {
+                    return handleChange(event);
+                  } else {
+                    return false;
                   }
                 }}
               />
@@ -477,35 +492,21 @@ const AddProduct: React.FC<AddProductProps> = ({
                 </span>
               </label>
               <div className="image">
-        <div>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            multiple
-            onChange={(e) => {
-              imageHandleChange(e);
-              handleImageChange(e);
-            }}
-          />
-        </div>
-
-        <div className="image__preview">{renderImages()}</div>
-        {/* <button
-          onClick={handleUpload}
-          // type="submit"
-          style={{
-            marginTop: "10px",
-            width: "100%",
-            backgroundColor: "darkseagreen",
-            padding: "5px 0",
-            border: "1px solid cadetblue",
-            cursor: "pointer",
-          }}
-        >
-          Upload
-        </button> */}
-      </div>
+                <div>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    multiple
+                    style={{ borderColor: inputBoxBorderColor }}
+                    onChange={(e) => {
+                      imageHandleChange(e);
+                      handleImageChange(e);
+                    }}
+                  />
+                </div>
+                <div className="image__preview">{renderImages()}</div>
+              </div>
             </div>
             <button
               type="submit"
