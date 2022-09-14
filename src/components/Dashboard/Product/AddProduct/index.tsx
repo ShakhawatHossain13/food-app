@@ -218,7 +218,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       });
       Promise.all(promises)      
       .then(() => {
-        const notifyAdd = () => toast("Adding Product");
+        const notifyAdd = () => toast("Adding Food item");
         notifyAdd();
       })
       .catch((err) => console.log(err));
