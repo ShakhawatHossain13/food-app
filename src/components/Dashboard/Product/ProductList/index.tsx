@@ -38,19 +38,16 @@ const ProductList: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
-  // const [modalClose, setModalClose] = React.useState<Boolean>(false);
   const [add, setAdd] = React.useState<Boolean>(false);
   const [edit, setEdit] = React.useState<Boolean>(false);
+  const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
+  const [foodID, setFoodID] = React.useState<string>("");
 
   const handleModalOpen = () => {
     setModalOpen(true);
-    // setModalClose(true);
-    console.log("open: ", modalOpen);
   };
   const handleModalClose = () => {
     setModalOpen(false);
-    // setModalClose(false);
-    // console.log("close: ", modalClose);
   };
 
   const getData = async () => {
@@ -83,15 +80,18 @@ const ProductList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    var val = window.confirm("Are you sure to delete?");
+    // var val = window.confirm("Are you sure to delete?");
+    var val = true;
     if (val == true) {
       const db = getFirestore();
       const foodId = id.toString();
+      console.log("string: ", foodId);
       const docRef = doc(db, "food", `${foodId}`);
       deleteDoc(docRef)
         .then(() => {
           console.log("One food item has been deleted successfully.");
           setIsLoading(false);
+          setDeleteModal(false);
           const notifyDelete = () => toast("Food item is deleted");
           notifyDelete();
         })
@@ -215,10 +215,50 @@ const ProductList: React.FC = () => {
                     )}
                     <button
                       className="productlist__row__table__row__button__delete"
-                      onClick={() => handleDelete(foods.id)}
+                      onClick={() => {
+                        setDeleteModal(true);
+                        console.log(foods.id);
+                        setFoodID(foods.id);
+                      }}
                     >
                       delete
                     </button>
+                    {deleteModal && (
+                      <div className="productlist__row__table__row__button__delete__modal">
+                        <span
+                          className="productlist__delete__modal__close"
+                          onClick={() => {
+                            setDeleteModal(false);
+                          }}
+                        >
+                          &times;
+                        </span>
+                        <div className="productlist__delete__modal__confirm">
+                          <div>
+                            Are you sure you want to delete this record?
+                          </div>
+                          <div>
+                            <button
+                              style={{ backgroundColor: "crimson" }}
+                              onClick={() => {
+                                handleDelete(foodID);
+                              }}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              style={{ backgroundColor: "grey" }}
+                              onClick={() => {
+                                setDeleteModal(false);
+                                console.log("cancel: ", foodID);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );
