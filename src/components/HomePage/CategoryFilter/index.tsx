@@ -133,9 +133,14 @@ const CategoryFilter: React.FC = () => {
             );
           })}
         </div>
-        <button className="productsDetails__card__body__cart">
-          View Details
-        </button>
+        <Link
+          style={{ textDecoration: "none", color: "gray" }}
+          to={`/category-details/${selectedCategory}`}
+        >
+          <button className="productsDetails__card__body__cart">
+            View Details
+          </button>
+        </Link>
       </section>
     </React.Fragment>
   );

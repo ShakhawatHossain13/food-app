@@ -1,6 +1,6 @@
 .addCategory__row {
   margin: auto;
-  width: 60%;
+  width: 100%;
   text-align: center;
 }
 
@@ -11,23 +11,24 @@
 }
 
 .addCategory__row__form {
-  max-width: 600px;
   margin: 10px auto;
   text-align: left;
+  max-width: 1100px;
 }
 
 .addCategory__row__form__row {
   width: 100%;
   display: grid;
-  grid-template-columns: 40% 50% 10%;
+  grid-template-columns: 18% auto;
   margin-top: 10px;
 }
 
 .addCategory__row__form__label {
   float: left;
+  margin-right: 10px;
 }
 
-.addCategory__row__form__row__input {
+.addCategory__row__form__row__input, .addCategory__row__form__row__input__select {
   padding: 5px;
 }
 
@@ -38,14 +39,15 @@
 }
 
 .addCategory__row__form__row__button {
-  padding: 5px;
-  width: 90%;
-  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  margin-top: 20px;
   margin-left: 0;
 }
 
 .addCategory__row__form__row__error {
+  width: 200%;
   color: red;
-  font-size: 14px;
-  margin-left: 5px;
+  font-size: 12px;
+  margin-left: 100%;
 } /*# sourceMappingURL=style.css.map *//*# sourceMappingURL=style.css.map */

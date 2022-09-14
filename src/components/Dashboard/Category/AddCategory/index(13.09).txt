@@ -1,43 +1,44 @@
 import React, { FormEvent } from "react";
 import "./style.css";
+import MultipleImageUpload from "../../MultipleImageUpload";
 import {
   getFirestore,
   collection,
+  getDocs,
+  addDoc,
   setDoc,
   getDoc,
   updateDoc,
+  deleteDoc,
   doc,
-} from "firebase/firestore";
+} from "firebase/firestore"; 
 import UploadImage from "../../../../database/UploadImage";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { red } from "@material-ui/core/colors";
 
 type AddCategoryDataType = {
   id: string;
   title: string;
   description: string;
-  categoryImage: string;
+  image: string;
 };
 
 const initialData: AddCategoryDataType = {
   id: "",
   title: "",
   description: "",
-  categoryImage: "",
+  image: "",
 };
-
 type ErrorType = {
   id: string;
   title: string;
   description: string;
-  categoryImage: string;
+  image: string;
 };
-
 const initialError: ErrorType = {
   id: "",
   title: "",
   description: "",
-  categoryImage: "",
+  image: "",
 };
 
 type AddCategoryProps = {
@@ -46,22 +47,13 @@ type AddCategoryProps = {
   ids?: string;
   titleForm?: string;
   setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
-  handleCloseClick?: () => void;
-  handleCloseClickEdit?: () => void;
-  formReset?: Boolean;
-  setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
 };
-
 const AddCategory: React.FC<AddCategoryProps> = ({
   formTitle,
   setFormTitle,
   ids,
   titleForm,
   setIsLoading,
-  handleCloseClick,
-  handleCloseClickEdit,
-  formReset,
-  setFormReset,
 }) => {
   const [categoryItem, setCategoryItem] =
     React.useState<AddCategoryDataType>(initialData);
@@ -69,9 +61,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
   const [error, setError] = React.useState<ErrorType>(initialError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
-  const [images, setImages] = React.useState([]);
-  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
-  const [progress, setProgress] = React.useState<number>(0);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -89,82 +78,23 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       ...prev,
       [name]: "",
     }));
-    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
-      "0.5px solid #000";
   };
 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
-    const validationFields = ["title", "description"];
+    const validationFields = ["title", "description", "image"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
         (categoryItem[key as keyof typeof categoryItem] === "" || 0)
       ) {
-        copyErrors[key] = `Please input ${key}`;
-        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
-          "0.5px solid red";
-        hasError = true;
+        copyErrors[key] = "required";
+        hasError = true;       
       }
     }
     setError(copyErrors);
     return hasError;
-  };
-
-  // Edit selected item
-  const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "category", `${ids}`);
-    const data = {
-      id: categoryItem?.id,
-      title: categoryItem?.title,
-      description: categoryItem?.description,
-      categoryImage: imgUrls ? imgUrls : categoryItem?.categoryImage,
-    };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Category item is updated");
-        const notifyEdit = () => toast("Category item is updated");
-        notifyEdit();
-        (
-          document.getElementById("editModal") as HTMLInputElement
-        ).style.display = "none";
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Add a new Category
-
-  const onAdd = async (foodItem: AddCategoryDataType) => {
-    if (imgUrls) {
-      const db = getFirestore();
-      const newDocRef = doc(collection(db, "category"));
-      setIdRef(newDocRef.id);
-      setButtonDisable(true);
-      await setDoc(newDocRef, {
-        id: newDocRef.id,
-        title: categoryItem?.title,
-        description: categoryItem?.description,
-        categoryImage: imgUrls,
-      })
-        .then((docRef) => {
-          console.log("Category added successfully");
-          const notifyAdd = () => toast("Category added successfully");
-          notifyAdd();
-          (document.getElementById("modal") as HTMLInputElement).style.display =
-            "none";
-          setButtonDisable(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      const notifyAdd = () => toast.error("Please upload Image!");
-      notifyAdd();
-    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -182,8 +112,48 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       console.log(error);
     }
     setIsLoading(false);
-    setFormReset(true);
-    // setCategoryItem(initialData);
+  };
+  // Add a new item
+  const onAdd = async (categoryItem: AddCategoryDataType) => {
+    const db = getFirestore();
+    const dbRef = collection(db, "category");
+    const newDocRef = doc(collection(db, "category"));
+    setIdRef(newDocRef.id);
+    await setDoc(newDocRef, {
+      id: newDocRef.id,
+      title: categoryItem.title,
+      description: categoryItem.description,
+      image: imgUrls
+    }
+    )
+      .then(docRef => {
+        console.log("Category has been added successfully");
+        alert("Category has been added successfully");    
+        (document.getElementById("modal") as HTMLInputElement).style.display = "none";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Edit selected item
+  const onEdit = async () => {
+    const db = getFirestore();
+    const docRef = doc(db, "category", `${ids}`);
+    const data = {
+      title: categoryItem.title,
+      description: categoryItem.description,
+      image: imgUrls,
+    };
+    updateDoc(docRef, data)
+      .then((docRef) => {
+        console.log("Category is updated");
+        alert("Category is updated");  
+        (document.getElementById("editModal") as HTMLInputElement).style.display = "none";  
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const fetchDetails = async () => {
@@ -198,7 +168,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         id: results?.id,
         title: results?.title,
         description: results?.description,
-        categoryImage: results?.categoryImage,
+        image: results?.image,
       };
       setCategoryItem(obj);
       setIsLoading(true);
@@ -206,7 +176,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       console.log(error);
     }
   };
-
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
@@ -214,40 +183,29 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     }
   }, [ids]);
 
-  React.useEffect(() => {
-    if (formReset) {
-      setCategoryItem((prev) => ({
-        ...prev,
-        initialData,
-      }));
-    }
-  }, []);
-
   return (
     <React.Fragment>
       <section className="addCategory">
         <div className="addCategory__row">
-          <h3 className="addCategory__row__title">{formTitle} </h3>
+          <h3 className="addCategory__row__title">{formTitle}</h3>
           <form
             className="addCategory__row__form"
             onSubmit={(e) => handleSubmit(e)}
           >
             <div className="addCategory__row__form__row">
-              <div>
-                <label className="addCategory__row__form__row__label">
-                  Title
-                  <span className="addCategory__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-              </div>
+              <label className="addCategory__row__form__row__label">
+                Title
+                <span className="addCategory__row__form__row__label__required">
+                  *
+                </span>
+              </label>
               <input
                 className="addCategory__row__form__row__input"
                 id="title"
                 name="title"
                 type="text"
-                value={categoryItem?.title}
                 onChange={handleChange}
+                value={categoryItem?.title}
               />
               <span className="addCategory__row__form__row__error">
                 {error.title}
@@ -266,27 +224,24 @@ const AddCategory: React.FC<AddCategoryProps> = ({
                 className="addCategory__row__form__input"
                 onChange={handleChange}
                 value={categoryItem?.description}
-                style={{ height: "70px" }}
+                style={{ height: "100px" }}
               ></textarea>
               <span className="addCategory__row__form__row__error">
                 {error.description}
               </span>
             </div>
+            <br />
 
             <div className="addCategory__row__form__row">
               <label className="addCategory__row__form__row__label">
                 Upload Image
-                <span className="addCategory__row__form__row__label__required">
-                  *
-                </span>
               </label>
               <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
             </div>
+
             <button
               type="submit"
               className="addCategory__row__form__row__button"
-              disabled={buttonDisable}
-              style={{ cursor: "pointer" }}
             >
               {formTitle}
             </button>
