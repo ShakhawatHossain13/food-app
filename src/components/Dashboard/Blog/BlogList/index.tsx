@@ -79,6 +79,18 @@ const BlogList: React.FC = () => {
     }
   };
 
+  //Image delete from firebase storage
+  const handleImageDelete = () => {
+    const imageRef = ref(storage, `images/${imageURL}`);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image delete from firebase Storage");
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+  };
+
   const handleDelete = (id: string) => {
     var val = true;
     if (val === true) {
@@ -97,14 +109,15 @@ const BlogList: React.FC = () => {
           console.log(error);
         });
       //Image delete from firebase storage
-      const imageRef = ref(storage, `images/${imageURL}`);
-      deleteObject(imageRef)
-        .then(() => {
-          console.log("Image delete from firebase Storage");
-        })
-        .catch((error) => {
-          console.log("Error: ", error);
-        });
+      handleImageDelete();
+      // const imageRef = ref(storage, `images/${imageURL}`);
+      // deleteObject(imageRef)
+      //   .then(() => {
+      //     console.log("Image delete from firebase Storage");
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error: ", error);
+      //   });
       return true;
     } else {
       console.log("Process Aborted");
@@ -161,7 +174,6 @@ const BlogList: React.FC = () => {
           <table className="blogList__row__table">
             <tr className="blogList__row__table__row">
               <th className="blogList__row__table__row__text">Title</th>
-              <th className="blogList__row__table__row__text">Image</th>
               <th className="blogList__row__table__row__text">Description</th>
               <th className="blogList__row__table__row__text">Actions</th>
             </tr>
@@ -170,14 +182,6 @@ const BlogList: React.FC = () => {
                 <tr className="blogList__row__table__row" key={blog?.id}>
                   <td className="blogList__row__table__row__text">
                     {blog.title}
-                  </td>
-                  <td className="blogList__row__table__row__text">
-                    <img
-                      height="50px"
-                      width="50px"
-                      src={blog.blogImage}
-                      alt="Blog Images"
-                    />
                   </td>
                   <td className="blogList__row__table__row__text">
                     {blog.description.slice(0, 85)}

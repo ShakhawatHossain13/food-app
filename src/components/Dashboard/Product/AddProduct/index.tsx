@@ -82,9 +82,8 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [inputBoxBorderColor, setInputBoxBorderColor] = React.useState<string>();
-
-
+  const [inputBoxBorderColor, setInputBoxBorderColor] =
+    React.useState<string>();
 
   const priceRegex = "^[0-9]+$|^$";
 
@@ -104,7 +103,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
-    setInputBoxBorderColor("#5e5b5b")
+    setInputBoxBorderColor("#5e5b5b");
   };
 
   const isValid = () => {
@@ -117,7 +116,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        setInputBoxBorderColor("red")
+        setInputBoxBorderColor("red");
         hasError = true;
       }
     }
@@ -141,9 +140,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-
   const renderImages = () => {
-
     return displayImages.map((photo) => {
       return (
         <>
@@ -166,7 +163,6 @@ const AddProduct: React.FC<AddProductProps> = ({
         </>
       );
     });
-
   };
   const onAdd = async (foodItem: AddProducttDataType) => {
     setButtonDisable(true);
@@ -226,15 +222,15 @@ const AddProduct: React.FC<AddProductProps> = ({
         })
         .catch((err) => console.log(err));
     } else {
+      setButtonDisable(false);
       const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
-
   };
   // Edit selected item
   const onEdit = async () => {
     setButtonDisable(true);
-    const update = (uploadImage: string ) =>{
+    const update = (uploadImage: string) => {
       const db = getFirestore();
       const docRef = doc(db, "food", `${ids}`);
       const data = {
@@ -256,7 +252,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         .catch((error) => {
           console.log(error);
         });
-    }
+    };
 
     if (images.length > 0) {
       const promises: any = [];
@@ -281,7 +277,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               if (downloadURL) {
                 setImgUrls(downloadURL);
               }
-              update(downloadURL);          
+              update(downloadURL);
             });
           }
         );
@@ -294,10 +290,9 @@ const AddProduct: React.FC<AddProductProps> = ({
         })
         .catch((err) => console.log(err));
     } else {
-      update(foodItem?.displayImages);    
+      update(foodItem?.displayImages);
     }
   };
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -309,7 +304,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         onEdit();
       } else {
         onAdd(foodItem);
-      } 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -360,7 +355,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   }, []);
 
   console.log("images: ", images);
-  
+
   return (
     <React.Fragment>
       <section className="addproduct">
@@ -467,10 +462,10 @@ const AddProduct: React.FC<AddProductProps> = ({
                 className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
-                // pattern = "^[0-9]+$|^$" 
+                // pattern = "^[0-9]+$|^$"
                 value={foodItem?.price}
                 style={{ borderColor: inputBoxBorderColor }}
-                //  onChange={handleChange}          
+                //  onChange={handleChange}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.match(priceRegex)) {
                     return handleChange(event);
