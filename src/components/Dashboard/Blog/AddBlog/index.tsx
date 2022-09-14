@@ -1,25 +1,25 @@
 import React, { FormEvent } from "react";
 import "./style.css";
-import MultipleImageUpload from "../../MultipleImageUpload";
 import {
   getFirestore,
   collection,
-  getDocs,
-  addDoc,
   setDoc,
   getDoc,
   updateDoc,
-  deleteDoc,
   doc,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
-import { async } from "@firebase/util";
 import UploadImage from "../../../../database/UploadImage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaCheck } from "react-icons/fa";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../../database/firebaseConfig";
 
 type AddBlogDataType = {
   id: string;
   title: string;
   description: string;
+  icon?: string;
   blogImage: string;
   date: string;
 };
@@ -28,21 +28,22 @@ const initialData: AddBlogDataType = {
   id: "",
   title: "",
   description: "",
+  icon: "",
   blogImage: "",
   date: "",
 };
+
 type ErrorType = {
   id: string;
   title: string;
   description: string;
-  blogImage: string;
   date: string;
 };
+
 const initialError: ErrorType = {
   id: "",
   title: "",
   description: "",
-  blogImage: "",
   date: "",
 };
 
@@ -50,17 +51,32 @@ type AddBlogProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
-
-  titleForm?: string; 
-  setIsLoading : React.Dispatch<React.SetStateAction<Boolean>>;
+  titleForm?: string;
+  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+  formReset?: Boolean;
+  setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
+  setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleForm, setIsLoading}) => {
-
+const AddBlog: React.FC<AddBlogProps> = ({
+  formTitle,
+  setFormTitle,
+  ids,
+  titleForm,
+  setIsLoading,
+  formReset,
+  setFormReset,
+  setModalOpen,
+}) => {
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
+  const [images, setImages] = React.useState([]);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
+  const [progress, setProgress] = React.useState<number>(0);
+  const [displayImages, setDisplayImages] = React.useState<string[]>([]);
+  const [selected, setSelected] = React.useState(displayImages[0]);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -78,6 +94,8 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
       ...prev,
       [name]: "",
     }));
+    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
+      "0.5px solid #000";
   };
 
   const isValid = () => {
@@ -89,12 +107,138 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
         validationFields.includes(key) &&
         (blogItem[key as keyof typeof blogItem] === "" || 0)
       ) {
-        copyErrors[key] = "required";
+        copyErrors[key] = `Please input ${key}`;
+        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
+          "0.5px solid red";
         hasError = true;
       }
     }
     setError(copyErrors);
     return hasError;
+  };
+
+  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setDisplayImages(fileArray);
+    }
+  };
+  const handleImageChange = (e: any) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState): any => [...prevState, newImage]);
+    }
+  };
+
+  const renderImages = () => {
+    return displayImages.map((photo) => {
+      return (
+        <>
+          <img
+            src={photo}
+            key={photo}
+            onClick={() => setSelected(photo)}
+            style={{
+              maxWidth: "100px",
+              maxHeight: "60px",
+              marginTop: "12px",
+              border: "2px solid cadetblue",
+              padding: "0 5px",
+            }}
+            alt="Images"
+          />
+          {selected === photo && (
+            <FaCheck className="image__tick" size="15px" />
+          )}
+        </>
+      );
+    });
+  };
+  const onAdd = async (foodItem: AddBlogDataType) => {
+    if (images.length > 0) {
+      const promises: any = [];
+      images.map((image) => {
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+              const db = getFirestore();
+              const newDocRef = doc(collection(db, "blog"));
+              setIdRef(newDocRef.id);
+              setButtonDisable(true);
+              setDoc(newDocRef, {
+                id: newDocRef.id,
+                title: blogItem?.title,
+                description: blogItem?.description,
+                blogImage: downloadURL,
+                date: blogItem.date,
+              })
+                .then((docRef) => {
+                  console.log("Blog item added successfully");
+                  const notifyAdd = () => toast("Blog item added successfully");
+                  notifyAdd();
+                  setModalOpen(false);
+                  setIsLoading(false);
+                  setButtonDisable(false);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+          }
+        );
+      });
+      Promise.all(promises)
+        .then(() => {
+          const notifyAdd = () => toast("Adding Blog item");
+          notifyAdd();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      const notifyAdd = () => toast.error("Please upload Image!");
+      notifyAdd();
+    }
+  };
+  // Edit selected Blog
+  const onEdit = async () => {
+    const db = getFirestore();
+    const docRef = doc(db, "blog", `${ids}`);
+    const data = {
+      id: blogItem?.id,
+      title: blogItem?.title,
+      description: blogItem?.description,
+      blogImage: imgUrls ? imgUrls : blogItem?.blogImage,
+      date: blogItem?.date,
+    };
+    updateDoc(docRef, data)
+      .then((docRef) => {
+        console.log("Blog item is updated");
+        const notifyEdit = () => toast("Blog item is updated");
+        notifyEdit();
+        setModalOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -111,61 +255,9 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
     } catch (error) {
       console.log(error);
     }
-    
     setIsLoading(false);
-    
-  };
-  // Add a new item
-  const onAdd = async (blogItem: AddBlogDataType) => {
-    const db = getFirestore();
-    const newDocRef = doc(collection(db, "blog"));
-    setIdRef(newDocRef.id);  
 
-    await setDoc(newDocRef, {
-      id: newDocRef.id,
-      title: blogItem.title,
-      description: blogItem.description,
-      blogImage: await imgUrls,
-      date: blogItem.date,
-    })
-      .then((docRef) => {
-        console.log("Blog has been added successfully");
-        alert("Blog has been added successfully");
-        (document.getElementById("modal") as HTMLInputElement).style.display = "none";
-        setBlogItem((prev) => ({
-          ...prev,
-          id: "",
-          title: "",
-          description: "",
-          blogImage: "",
-          date: "",
-        }));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // Edit selected item
-  const onEdit = async () => {
-    const db = getFirestore();
-    const docRef = doc(db, "blog", `${ids}`);
-    const data = {
-      id: blogItem?.id,
-      title: blogItem?.title,
-      description: blogItem?.description,
-      blogImage: blogItem?.blogImage,
-      date: blogItem?.date,
-    };
-    updateDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Blog is updated");
-        alert("Blog is updated");
-        (document.getElementById("editModal") as HTMLInputElement).style.display = "none"; 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setFormReset(true);
   };
 
   const fetchDetails = async () => {
@@ -197,29 +289,43 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
     }
   }, [ids]);
 
+  React.useEffect(() => {
+    if (formReset) {
+      setBlogItem((prev) => ({
+        ...prev,
+        initialData,
+      }));
+    }
+  }, []);
+
+  console.log("images: ", images);
+  //console.log("Doc ID: ", idRef);
+
   return (
     <React.Fragment>
       <section className="addBlog">
         <div className="addBlog__row">
-          <h3 className="addBlog__row__title">{formTitle}</h3>
+          <h3 className="addBlog__row__title">{formTitle} </h3>
           <form
             className="addBlog__row__form"
             onSubmit={(e) => handleSubmit(e)}
           >
             <div className="addBlog__row__form__row">
-              <label className="addBlog__row__form__row__label">
-                Title
-                <span className="addBlog__row__form__row__label__required">
-                  *
-                </span>
-              </label>
+              <div>
+                <label className="addBlog__row__form__row__label">
+                  Title
+                  <span className="addBlog__row__form__row__label__required">
+                    *
+                  </span>
+                </label>
+              </div>
               <input
                 className="addBlog__row__form__row__input"
                 id="title"
                 name="title"
                 type="text"
-                onChange={handleChange}
                 value={blogItem?.title}
+                onChange={handleChange}
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -238,12 +344,13 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
                 className="addBlog__row__form__input"
                 onChange={handleChange}
                 value={blogItem?.description}
-                style={{ height: "100px" }}
+                style={{ height: "70px" }}
               ></textarea>
               <span className="addBlog__row__form__row__error">
                 {error.description}
               </span>
             </div>
+
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
                 Date
@@ -266,31 +373,49 @@ const AddBlog: React.FC<AddBlogProps> = ({formTitle, setFormTitle, ids, titleFor
 
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
-                Upload Icon
-              </label>
-              <input
-                type="file"
-                id="icon"
-                name="icon"
-                onChange={handleChange}
-                className="addBlog__row__form__row__input"
-              />
-            </div>
-
-            <div className="addBlog__row__form__row">
-              <label className="addBlog__row__form__row__label">
                 Upload Image
+                <span className="addBlog__row__form__row__label__required">
+                  *
+                </span>
               </label>
-          
-              <UploadImage idRef={idRef} setImgUrls={setImgUrls} />
+              <div className="image">
+                <div>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    multiple
+                    onChange={(e) => {
+                      imageHandleChange(e);
+                      handleImageChange(e);
+                    }}
+                  />
+                </div>
 
+                <div className="image__preview">{renderImages()}</div>
+                {/* <button
+          onClick={handleUpload}
+          // type="submit"
+          style={{
+            marginTop: "10px",
+            width: "100%",
+            backgroundColor: "darkseagreen",
+            padding: "5px 0",
+            border: "1px solid cadetblue",
+            cursor: "pointer",
+          }}
+        >
+          Upload
+        </button> */}
+              </div>
             </div>
-
             <button
               type="submit"
               className="addBlog__row__form__row__button"
+              disabled={buttonDisable}
+              style={{ cursor: "pointer" }}
             >
-            {formTitle}
+              {formTitle}
             </button>
           </form>
         </div>

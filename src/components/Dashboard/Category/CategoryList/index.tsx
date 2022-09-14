@@ -140,6 +140,7 @@ const CategoryList: React.FC = () => {
           <table className="categoryList__row__table">
             <tr className="categoryList__row__table__row">
               <th className="categoryList__row__table__row__text">Title</th>
+              <th className="blogList__row__table__row__text">Image</th>
               <th className="categoryList__row__table__row__text">
                 Description
               </th>
@@ -150,6 +151,14 @@ const CategoryList: React.FC = () => {
                 <tr className="categoryList__row__table__row" key={item?.id}>
                   <td className="categoryList__row__table__row__text">
                     {item.title}
+                  </td>
+                  <td className="blogList__row__table__row__text">
+                    <img
+                      height="50px"
+                      width="50px"
+                      src={item.categoryImage}
+                      alt="Category Images"
+                    />
                   </td>
                   <td className="categoryList__row__table__row__text">
                     {item.description.slice(0, 85)}
