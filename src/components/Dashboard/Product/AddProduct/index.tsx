@@ -143,12 +143,13 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const renderImages = () => {
     return displayImages.map((photo) => {
+      console.log(photo);
       return (
         <>
           <img
-            src={foodItem?.displayImages}
+            src={photo}
             key={photo}
-            onClick={() => setSelected(foodItem?.displayImages)}
+            onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
               maxHeight: "60px",
