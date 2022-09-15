@@ -268,7 +268,8 @@ const ProductList: React.FC = () => {
                 </tr>
               );
             })}
-          </table>
+            {!foodItem?.length && <h1 className="productlist__row__table__nodata">No Data Found!</h1>}
+          </table>          
         </div>
       </section>
     </React.Fragment>

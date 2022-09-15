@@ -155,4 +155,8 @@ button {
   height: 35px;
   color: white;
   border: 1px solid black;
+}
+
+.blogList__row__table__nodata {
+  margin-top: 20px;
 }/*# sourceMappingURL=style.css.map */
