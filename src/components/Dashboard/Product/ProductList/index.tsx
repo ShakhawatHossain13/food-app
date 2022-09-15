@@ -39,11 +39,12 @@ const ProductList: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [add, setAdd] = React.useState<Boolean>(false);
   const [edit, setEdit] = React.useState<Boolean>(false);
   const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
   const [foodID, setFoodID] = React.useState<string>("");
-  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
 
   const handleModalOpen = () => {
@@ -54,7 +55,7 @@ const ProductList: React.FC = () => {
   };
 
   const getData = async () => {
-    // setBackdrop(true);
+    setBackdrop(true);
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -72,7 +73,7 @@ const ProductList: React.FC = () => {
       });
       setFoodItem(prepareData);
       setIsLoading(true);
-      // setBackdrop(false);
+      setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -92,6 +93,7 @@ const ProductList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
+    setButtonDisable(true);
     var val = true;
     if (val === true) {
       const db = getFirestore();
@@ -102,6 +104,7 @@ const ProductList: React.FC = () => {
           console.log("One food item has been deleted successfully.");
           setIsLoading(false);
           setDeleteModal(false);
+          setButtonDisable(false);
           const notifyDelete = () => toast("Food item is deleted");
           notifyDelete();
         })
@@ -239,6 +242,7 @@ const ProductList: React.FC = () => {
                       )}
                       <button
                         className="productlist__row__table__row__button__delete"
+                        disabled={buttonDisable}
                         onClick={() => {
                           setDeleteModal(true);
                           console.log(foods.id);
@@ -256,6 +260,7 @@ const ProductList: React.FC = () => {
                             className="productlist__delete__modal__close"
                             onClick={() => {
                               setDeleteModal(false);
+                              setButtonDisable(false);
                             }}
                           >
                             &times;
@@ -267,6 +272,7 @@ const ProductList: React.FC = () => {
                             <div>
                               <button
                                 style={{ backgroundColor: "crimson" }}
+                                disabled={buttonDisable}
                                 onClick={() => {
                                   handleDelete(foodID);
                                 }}
@@ -277,6 +283,7 @@ const ProductList: React.FC = () => {
                                 style={{ backgroundColor: "grey" }}
                                 onClick={() => {
                                   setDeleteModal(false);
+                                  setButtonDisable(false);
                                   console.log("cancel: ", foodID);
                                 }}
                               >
