@@ -30,6 +30,9 @@
 
 .addBlog__row__form__row__input, .addBlog__row__form__row__input__select {
   padding: 5px;
+  border: 1.5px solid #5e5b5b;
+  border-radius: 3px;
+  font-family: inherit;
 }
 
 .addBlog__row__form__row__label__required {
