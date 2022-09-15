@@ -91,7 +91,6 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editPreview, setEditPreview] = React.useState<boolean>(true);
   const [error, setError] = React.useState<ErrorType>(initialError);
-  const [inputError, setInputError] = React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
@@ -100,7 +99,9 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
- 
+  const [inputBoxBorderColor, setInputBoxBorderColor] =
+    React.useState<string>();
+
   const priceRegex = "^[0-9]+$|^$";
 
   const handleChange = (
@@ -119,18 +120,12 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
-   
-    setInputError((prev) => ({
-      ...prev,
-      [name]: false,
-    }));
- 
+    setInputBoxBorderColor("#5e5b5b");
   };
 
   const isValid = () => {
-    let hasError = false; 
+    let hasError = false;
     const copyErrors: any = { ...error };
-    const copyInputErrors: any = { ...inputError };
     const validationFields = ["title", "description", "category", "price"];
     for (let key in copyErrors) {
       if (
@@ -138,12 +133,11 @@ const AddProduct: React.FC<AddProductProps> = ({
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        copyInputErrors[key]= true;
+        setInputBoxBorderColor("red");
         hasError = true;
       }
     }
     setError(copyErrors);
-    setInputError(copyInputErrors);
     return hasError;
   };
 
@@ -396,13 +390,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                 </label>
               </div>
               <input
-                className= "addproduct__row__form__row__input"                            
+                className="addproduct__row__form__row__input"
                 id="title"
                 name="title"
                 type="text"
                 value={foodItem?.title}
-                onChange={handleChange}    
-                style={{ borderColor: inputError.title ? 'red' : '#5e5b5b' }}                 
+                onChange={handleChange}
+                style={{ borderColor: inputBoxBorderColor }}
               />
               <span className="addproduct__row__form__row__error">
                 {error.title}
@@ -418,10 +412,10 @@ const AddProduct: React.FC<AddProductProps> = ({
               <textarea
                 id="description"
                 name="description"
-                className= "addproduct__row__form__row__input"                 
+                className="addproduct__row__form__input"
                 onChange={handleChange}
-                value={foodItem?.description}               
-                style={{  height: "70px" , borderColor: inputError.description ? 'red' : '#5e5b5b' }} 
+                value={foodItem?.description}
+                style={{ height: "70px", borderColor: inputBoxBorderColor }}
               ></textarea>
               <span className="addproduct__row__form__row__error">
                 {error.description}
@@ -434,13 +428,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                   *
                 </span>
               </label>
-              <select                
-                className= "addproduct__row__form__row__input__select"
+              <select
+                className="addproduct__row__form__row__input__select"
                 name="category"
                 id="category"
                 value={foodItem?.category}
                 onChange={handleChange}
-                style={{ borderColor: inputError.category ? 'red' : '#5e5b5b' }} 
+                style={{ borderColor: inputBoxBorderColor }}
               >
                 <option
                   className="addproduct__row__form__row__input__select__options"
@@ -479,12 +473,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                   *
                 </span>
               </label>
-              <input 
-                className= "addproduct__row__form__row__input"
+              <input
+                className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
                 // pattern = "^[0-9]+$|^$"
-                value={foodItem?.price}           
+                value={foodItem?.price}
+                style={{ borderColor: inputBoxBorderColor }}
                 //  onChange={handleChange}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.match(priceRegex)) {
@@ -493,13 +488,12 @@ const AddProduct: React.FC<AddProductProps> = ({
                     return false;
                   }
                 }}
-
-                style={{ borderColor: inputError.price ? 'red' : '#5e5b5b' }} 
               />
               <span className="addproduct__row__form__row__error">
                 {error.price}
               </span>
             </div>
+
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Upload Image
@@ -513,13 +507,13 @@ const AddProduct: React.FC<AddProductProps> = ({
                     type="file"
                     id="image"
                     name="image"
-                    multiple 
+                    multiple
+                    style={{ borderColor: inputBoxBorderColor }}
                     onChange={(e) => {
                       setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
                     }}
-                    style={{ borderColor: inputError.foodImage ? 'red' : '#5e5b5b' }} 
                   />
                 </div>
 
