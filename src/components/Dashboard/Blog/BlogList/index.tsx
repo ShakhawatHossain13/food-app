@@ -287,6 +287,7 @@ const BlogList: React.FC = () => {
                 </tr>
               );
             })}
+            {!blogItem?.length && <h1 className="blogList__row__table__nodata">No Data Found!</h1>}
           </table>
         </div>
       </section>

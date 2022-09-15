@@ -209,6 +209,7 @@ const CategoryList: React.FC = () => {
                 </tr>
               );
             })}
+           {!categoryItem?.length && <h1 className="categoryList__row__table__nodata">No Data Found!</h1>}
           </table>
         </div>
       </section>
