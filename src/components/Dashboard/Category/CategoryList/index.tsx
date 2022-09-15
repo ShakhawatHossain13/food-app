@@ -206,19 +206,20 @@ const CategoryList: React.FC = () => {
                           />
                         </div>
                       </div>
-                      <button
-                        className="categoryList__row__table__row__button__delete"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </table>
-          </div>
-        )}
+                    </div>
+                    <button
+                      className="categoryList__row__table__row__button__delete"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+           {!categoryItem?.length && <h1 className="categoryList__row__table__nodata">No Data Found!</h1>}
+          </table>
+        </div>
       </section>
     </React.Fragment>
   );

@@ -45,7 +45,12 @@
   margin-top: 20px;
   margin-left: 0;
 }
-
+.addproduct__row__form__row__input__error{
+  padding: 5px;
+  border: 1.5px solid red;
+  border-radius: 3px;
+  font-family: inherit; 
+}
 .addproduct__row__form__row__error {
   width: 200%;
   color: red;

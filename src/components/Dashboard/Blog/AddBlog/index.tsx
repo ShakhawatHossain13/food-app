@@ -51,7 +51,18 @@ const initialError: ErrorType = {
   description: "",
   date: "",
 };
-
+type InputErrorType = {
+  id: boolean;
+  title: boolean;
+  description: boolean;   
+  date: boolean;
+};
+const initialInputError: InputErrorType = { 
+  id: false,
+  title: false,
+  description: false,
+  date:false,
+};
 type AddBlogProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -75,6 +86,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
+  const [inputError, setInputError] = React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
@@ -99,13 +111,18 @@ const AddBlog: React.FC<AddBlogProps> = ({
       ...prev,
       [name]: "",
     }));
-    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
-      "0.5px solid #000";
+       
+    setInputError((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
+     
   };
 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
+    const copyInputErrors: any = { ...inputError };
     const validationFields = ["title", "description", "date"];
     for (let key in copyErrors) {
       if (
@@ -113,12 +130,12 @@ const AddBlog: React.FC<AddBlogProps> = ({
         (blogItem[key as keyof typeof blogItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
-          "0.5px solid red";
+        copyInputErrors[key]= true;
         hasError = true;
       }
     }
     setError(copyErrors);
+    setInputError(copyInputErrors);
     return hasError;
   };
 
@@ -383,6 +400,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="text"
                 value={blogItem?.title}
                 onChange={handleChange}
+                style={{ borderColor: inputError.title ? 'red' : '#5e5b5b' }}  
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -400,8 +418,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 name="description"
                 className="addBlog__row__form__input"
                 onChange={handleChange}
-                value={blogItem?.description}
-                style={{ height: "70px" }}
+                value={blogItem?.description} 
+                style={{height: "70px" ,borderColor: inputError.description ? 'red' : '#5e5b5b' }}  
               ></textarea>
               <span className="addBlog__row__form__row__error">
                 {error.description}
@@ -422,6 +440,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="date"
                 onChange={handleChange}
                 value={blogItem?.date}
+                style={{ borderColor: inputError.date ? 'red' : '#5e5b5b' }}  
               />
               <span className="addBlog__row__form__row__error">
                 {error.date}
@@ -446,6 +465,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                       imageHandleChange(e);
                       handleImageChange(e);
                     }}
+                    
                   />
                 </div>
 

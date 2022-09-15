@@ -108,4 +108,8 @@ button {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.categoryList__row__table__nodata {
+  margin-top: 20px;
 }/*# sourceMappingURL=style.css.map */
