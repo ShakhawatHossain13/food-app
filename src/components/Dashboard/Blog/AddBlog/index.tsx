@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useRef } from "react";
 import "./style.css";
 import {
   getFirestore,
@@ -130,12 +130,27 @@ const AddBlog: React.FC<AddBlogProps> = ({
       setDisplayImages(fileArray);
     }
   };
+
   const handleImageChange = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
-      setImages((prevState): any => [...prevState, newImage]);
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    console.log("File extension: ", FileExtension);
+
+    if (FileExtension === "jpeg" || "png") {
+      for (let i = 0; i < e.target.files.length; i++) {
+        const newImage = e.target.files[i];
+        newImage["id"] = Math.random();
+        setImages((prevState): any => [...prevState, newImage]);
+      }
+    } else {
+      alert("Please upload a image on JPEG, PNG format");
     }
+    // let fileInput: any = document.getElementById("image");
+    // let fileName = fileInput.files[0].name;
+    // console.log("hopeeeeeeeeeeeeeeeeeeeeeeeeeee: ", fileName);
+
+    // const newImage = e.target.files[0];
+    // newImage["id"] = Math.random();
+    // setImages(newImage);
   };
 
   const renderImages = () => {
@@ -439,11 +454,16 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 <div>
                   <input
                     type="file"
+                    accept="image/*"
                     id="image"
                     name="image"
-                    multiple
+                    // multiple
                     onChange={(e) => {
                       imageHandleChange(e);
+                      // handleImageChange(e);
+                    }}
+                    onInput={(e) => {
+                      console.log("onINutttttttttttt: ", e);
                       handleImageChange(e);
                     }}
                   />

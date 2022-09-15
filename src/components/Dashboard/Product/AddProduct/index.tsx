@@ -172,7 +172,14 @@ const AddProduct: React.FC<AddProductProps> = ({
       const promises: any = [];
       images.map((image) => {
         const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        const metatype = {
+          contentType: "image/png",
+        };
+        const uploadTask: any = uploadBytesResumable(
+          storageRef,
+          image,
+          metatype
+        );
         promises.push(uploadTask);
         uploadTask.on(
           "state_changed",
@@ -491,6 +498,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 <div>
                   <input
                     type="file"
+                    accept="image/*"
                     id="image"
                     name="image"
                     multiple
