@@ -68,7 +68,7 @@ const ProductsDetails: React.FC = () => {
           id: temp.id,
           title: temp.title,
           description: temp.description,
-          foodImage: temp.displayImages,
+          foodImage: temp.foodImage,
           category: temp.category,
           price: temp.price,
         };
@@ -94,7 +94,7 @@ const ProductsDetails: React.FC = () => {
         id: results?.id,
         title: results?.title,
         description: results?.description,
-        foodImage: results?.displayImages,
+        foodImage: results?.foodImage,
         category: results?.category,
         price: results?.price,
       };

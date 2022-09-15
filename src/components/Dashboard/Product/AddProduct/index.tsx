@@ -16,21 +16,21 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import { async } from "@firebase/util";
 
-type AddProducttDataType = {
+type AddProductDataType = {
   id: string;
   title: string;
   description: string;
   category: string;
-  displayImages: string;
+  foodImage: string;
   price: string;
 };
 
-const initialData: AddProducttDataType = {
+const initialData: AddProductDataType = {
   id: "",
   title: "",
   description: "",
   category: "",
-  displayImages: "",
+  foodImage: "",
   price: "",
 };
 type ErrorType = {
@@ -38,7 +38,7 @@ type ErrorType = {
   title: string;
   description: string;
   category: string;
-  displayImages: string;
+  foodImage: string;
   price: string;
 };
 const initialError: ErrorType = {
@@ -46,7 +46,7 @@ const initialError: ErrorType = {
   title: "",
   description: "",
   category: "",
-  displayImages: "",
+  foodImage: "",
   price: "",
 };
 
@@ -71,7 +71,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   setModalOpen,
 }) => {
   const [foodItem, setFoodItem] =
-    React.useState<AddProducttDataType>(initialData);
+    React.useState<AddProductDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editPreview, setEditPreview] = React.useState<boolean>(true);
   const [error, setError] = React.useState<ErrorType>(initialError);
@@ -166,7 +166,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       );
     });
   };
-  const onAdd = async (foodItem: AddProducttDataType) => {
+  const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
     if (images.length > 0) {
       const promises: any = [];
@@ -199,7 +199,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 title: foodItem?.title,
                 description: foodItem?.description,
                 category: foodItem?.category,
-                displayImages: downloadURL,
+                foodImage: downloadURL,
                 price: foodItem?.price,
               })
                 .then((docRef) => {
@@ -240,8 +240,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         title: foodItem?.title,
         description: foodItem?.description,
         category: foodItem?.category,
-        // displayImages: imgUrls,
-        displayImages: uploadImage,
+        foodImage: uploadImage,
         price: foodItem?.price,
       };
       updateDoc(docRef, data)
@@ -292,7 +291,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         })
         .catch((err) => console.log(err));
     } else {
-      update(foodItem?.displayImages);
+      update(foodItem?.foodImage);
     }
   };
 
@@ -324,12 +323,12 @@ const AddProduct: React.FC<AddProductProps> = ({
     try {
       const docSnap = await getDoc(docRef);
       const results = docSnap.data();
-      let obj: AddProducttDataType = {
+      let obj: AddProductDataType = {
         id: results?.id,
         title: results?.title,
         description: results?.description,
         category: results?.category,
-        displayImages: results?.displayImages,
+        foodImage: results?.foodImage,
         price: results?.price,
       };
       setFoodItem(obj);
@@ -508,7 +507,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                   <div className="image__preview">
                     {
                       <img
-                        src={foodItem.displayImages}
+                        src={foodItem.foodImage}
                         style={{
                           maxWidth: "100px",
                           maxHeight: "60px",
