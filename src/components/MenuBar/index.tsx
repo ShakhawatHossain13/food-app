@@ -24,8 +24,6 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
     setClose(false);
   };
 
-  const getUserInfo = () => {};
-
   return (
     <React.Fragment>
       <div className="menubar">
@@ -51,55 +49,57 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
           }
         </div>
         <div className="menubar__right">
-          <button
-            className="menubar__right__cart"
-            onClick={() => {
-              navigate("/cart", { replace: true });
-            }}
-          >
-            <FaShoppingCart size="18px" />
-            <span style={{ color: "#007bff" }}>0</span>
-          </button>
           {
             // @ts-ignore
-            !isLoggedIn ? (
-              <>
-                <Link to="/signin">Login</Link>
-                <button
-                  className="menubar__right__signup"
-                  onClick={() => {
-                    navigate("/signup", { replace: true });
-                  }}
-                >
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <>
-                <div>
-                  {
-                    // @ts-ignore
-                    localStorage.getItem("user") &&
-                      JSON.parse(
-                        // @ts-ignore
-                        localStorage.getItem("user")
-                      ).name.toUpperCase()
-                  }
-                </div>
-
-                <button
-                  className="menubar__right__signup"
-                  onClick={() => {
-                    setIsLoggedIn(false);
-                    localStorage.removeItem("user");
-                    navigate("/signin", { replace: true });
-                  }}
-                >
-                  Log Out
-                </button>
-              </>
-            )
+            JSON.parse(localStorage.getItem("user")).isAdmin ? (
+              <button
+                className="menubar__right__cart"
+                onClick={() => {
+                  navigate("/cart", { replace: true });
+                }}
+              >
+                <FaShoppingCart size="18px" />
+                <span style={{ color: "#007bff" }}>0</span>
+              </button>
+            ) : null
           }
+          {!isLoggedIn ? (
+            <>
+              <Link to="/signin">Login</Link>
+              <button
+                className="menubar__right__signup"
+                onClick={() => {
+                  navigate("/signup", { replace: true });
+                }}
+              >
+                Sign Up
+              </button>
+            </>
+          ) : (
+            <>
+              <div>
+                {
+                  // @ts-ignore
+                  localStorage.getItem("user") &&
+                    JSON.parse(
+                      // @ts-ignore
+                      localStorage.getItem("user")
+                    ).name.toUpperCase()
+                }
+              </div>
+
+              <button
+                className="menubar__right__signup"
+                onClick={() => {
+                  setIsLoggedIn(false);
+                  localStorage.removeItem("user");
+                  navigate("/signin", { replace: true });
+                }}
+              >
+                Log Out
+              </button>
+            </>
+          )}
         </div>
         <div className="menubar__burgermenu">
           {close ? (
