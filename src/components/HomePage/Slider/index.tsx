@@ -32,7 +32,7 @@ const Slider: React.FC = () => {
         let obj: SliderFoodItemType = {
           id: temp.id,
           title: temp.title,
-          foodImage: temp.displayImages,
+          foodImage: temp.foodImage,
         };
         return obj;
       });
@@ -52,16 +52,6 @@ const Slider: React.FC = () => {
         console.log(error);
       });
   };
-  // const getCategoryData = () => {
-  //     fetch("./category.json",
-  //     ).then(categories => categories.json()).then(getPost => {
-  //         setCategory(getPost);
-  //     }).catch((error) => {
-  //         console.log(error);
-  //     });
-  // }
-
-  // console.log(category);
   let filteredItems = foodItem.filter((p) =>
     p.title.toLowerCase().includes(query)
   );
