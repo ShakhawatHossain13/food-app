@@ -54,14 +54,14 @@ const initialError: ErrorType = {
 type InputErrorType = {
   id: boolean;
   title: boolean;
-  description: boolean;   
+  description: boolean;
   date: boolean;
 };
-const initialInputError: InputErrorType = { 
+const initialInputError: InputErrorType = {
   id: false,
   title: false,
   description: false,
-  date:false,
+  date: false,
 };
 type AddBlogProps = {
   formTitle: string;
@@ -86,7 +86,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
-  const [inputError, setInputError] = React.useState<InputErrorType>(initialInputError);
+  const [inputError, setInputError] =
+    React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
@@ -111,12 +112,11 @@ const AddBlog: React.FC<AddBlogProps> = ({
       ...prev,
       [name]: "",
     }));
-       
+
     setInputError((prev) => ({
       ...prev,
       [name]: false,
     }));
-     
   };
 
   const isValid = () => {
@@ -130,7 +130,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
         (blogItem[key as keyof typeof blogItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        copyInputErrors[key]= true;
+        copyInputErrors[key] = true;
         hasError = true;
       }
     }
@@ -139,9 +139,14 @@ const AddBlog: React.FC<AddBlogProps> = ({
     return hasError;
   };
 
-  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files).map((file) =>
+  const imageHandleChange = (e: any) => {
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      const fileArray = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
       setDisplayImages(fileArray);
@@ -152,22 +157,21 @@ const AddBlog: React.FC<AddBlogProps> = ({
     const FileExtension = e.target.files[0].name.split(".")[1];
     console.log("File extension: ", FileExtension);
 
-    if (FileExtension === "jpeg" || "png") {
-      for (let i = 0; i < e.target.files.length; i++) {
-        const newImage = e.target.files[i];
-        newImage["id"] = Math.random();
-        setImages((prevState): any => [...prevState, newImage]);
-      }
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      // for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[0];
+      // setImages(newImage);
+      setImages((prevState): any => [...prevState, newImage]);
+      // }
     } else {
-      alert("Please upload a image on JPEG, PNG format");
+      const notifyAdd = () =>
+        toast.error("Please upload a image on JPG, JPEG & PNG format");
+      notifyAdd();
     }
-    // let fileInput: any = document.getElementById("image");
-    // let fileName = fileInput.files[0].name;
-    // console.log("hopeeeeeeeeeeeeeeeeeeeeeeeeeee: ", fileName);
-
-    // const newImage = e.target.files[0];
-    // newImage["id"] = Math.random();
-    // setImages(newImage);
   };
 
   const renderImages = () => {
@@ -415,7 +419,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="text"
                 value={blogItem?.title}
                 onChange={handleChange}
-                style={{ borderColor: inputError.title ? 'red' : '#5e5b5b' }}  
+                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -433,8 +437,11 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 name="description"
                 className="addBlog__row__form__input"
                 onChange={handleChange}
-                value={blogItem?.description} 
-                style={{height: "70px" ,borderColor: inputError.description ? 'red' : '#5e5b5b' }}  
+                value={blogItem?.description}
+                style={{
+                  height: "70px",
+                  borderColor: inputError.description ? "red" : "#5e5b5b",
+                }}
               ></textarea>
               <span className="addBlog__row__form__row__error">
                 {error.description}
@@ -455,7 +462,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="date"
                 onChange={handleChange}
                 value={blogItem?.date}
-                style={{ borderColor: inputError.date ? 'red' : '#5e5b5b' }}  
+                style={{ borderColor: inputError.date ? "red" : "#5e5b5b" }}
               />
               <span className="addBlog__row__form__row__error">
                 {error.date}
@@ -479,13 +486,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
                     // multiple
                     onChange={(e) => {
                       imageHandleChange(e);
-                      // handleImageChange(e);
-                    }}
-                    onInput={(e) => {
-                      console.log("onINutttttttttttt: ", e);
                       handleImageChange(e);
                     }}
-                    
                   />
                 </div>
 
