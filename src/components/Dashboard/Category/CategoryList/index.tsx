@@ -15,6 +15,7 @@ import {
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import AddCategory from "../AddCategory";
+import Backdrop from "../../../Backdrop";
 
 type CategoryListDataType = {
   id: string;
@@ -38,6 +39,7 @@ const CategoryList: React.FC = () => {
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
   const handleOpenClick = () => {
     setFormTitle("Add Category");
@@ -56,6 +58,7 @@ const CategoryList: React.FC = () => {
   };
 
   const getData = async () => {
+    setBackdrop(true);
     const colRef = collection(firebaseDatabase, "category");
     try {
       const result = await getDocs(colRef);
@@ -71,6 +74,7 @@ const CategoryList: React.FC = () => {
       });
       setCategoryItem(prepareData);
       setIsLoading(true);
+      setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -109,94 +113,98 @@ const CategoryList: React.FC = () => {
       <Sidebar />
       <section className="categoryList">
         <ToastContainer />
-        <div className="categoryList__row">
-          <h3 className="categoryList__row__title">Category list</h3>
-          <div className="categoryList__row__button">
-            <button
-              className="categoryList__row__button__btn"
-              onClick={handleOpenClick}
-            >
-              + add
-            </button>
-            <div id="modal" className="categoryList__row__modal">
-              <div className="categoryList__row__modal__content">
-                <span
-                  className="categoryList__row__modal__content__close"
-                  onClick={handleCloseClick}
-                >
-                  &times;
-                </span>
-                <AddCategory
-                  formTitle={formTitle}
-                  setFormTitle={setFormTitle}
-                  setIsLoading={setIsLoading}
-                  handleCloseClick={handleCloseClick}
-                  formReset={formReset}
-                  setFormReset={setFormReset}
-                />
+        {backdrop ? (
+          <Backdrop />
+        ) : (
+          <div className="categoryList__row">
+            <h3 className="categoryList__row__title">Category list</h3>
+            <div className="categoryList__row__button">
+              <button
+                className="categoryList__row__button__btn"
+                onClick={handleOpenClick}
+              >
+                + add
+              </button>
+              <div id="modal" className="categoryList__row__modal">
+                <div className="categoryList__row__modal__content">
+                  <span
+                    className="categoryList__row__modal__content__close"
+                    onClick={handleCloseClick}
+                  >
+                    &times;
+                  </span>
+                  <AddCategory
+                    formTitle={formTitle}
+                    setFormTitle={setFormTitle}
+                    setIsLoading={setIsLoading}
+                    handleCloseClick={handleCloseClick}
+                    formReset={formReset}
+                    setFormReset={setFormReset}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <table className="categoryList__row__table">
-            <tr className="categoryList__row__table__row">
-              <th className="categoryList__row__table__row__text">Title</th>
-              <th className="blogList__row__table__row__text">Image</th>
-              <th className="categoryList__row__table__row__text">
-                Description
-              </th>
-              <th className="categoryList__row__table__row__text">Actions</th>
-            </tr>
-            {categoryItem?.map((item) => {
-              return (
-                <tr className="categoryList__row__table__row" key={item?.id}>
-                  <td className="categoryList__row__table__row__text">
-                    {item.title}
-                  </td>
-                  <td className="blogList__row__table__row__text">
-                    <img
-                      height="50px"
-                      width="50px"
-                      src={item.categoryImage}
-                      alt="Category Images"
-                    />
-                  </td>
-                  <td className="categoryList__row__table__row__text">
-                    {item.description.slice(0, 85)}
-                  </td>
-                  <td className="categoryList__row__table__row__text">
-                    <button
-                      className="categoryList__row__table__row__button__edit"
-                      onClick={() => {
-                        setFormTitle("Edit Category");
-                        setIds(item.id);
-                        setTitle(item.title);
-                        (
-                          document.getElementById(
-                            "editModal"
-                          ) as HTMLInputElement
-                        ).style.display = "block";
-                      }}
-                    >
-                      edit
-                    </button>
-                    <div id="editModal" className="categoryList__row__modal">
-                      <div className="categoryList__row__modal__content">
-                        <span
-                          className="categoryList__row__modal__content__close"
-                          onClick={handleCloseClickEdit}
-                        >
-                          &times;
-                        </span>
-                        <AddCategory
-                          formTitle={formTitle}
-                          setFormTitle={setFormTitle}
-                          ids={ids}
-                          titleForm={title}
-                          setIsLoading={setIsLoading}
-                          handleCloseClickEdit={handleCloseClickEdit}
-                          formReset={formReset}
-                          setFormReset={setFormReset}
-                        />
+            <table className="categoryList__row__table">
+              <tr className="categoryList__row__table__row">
+                <th className="categoryList__row__table__row__text">Title</th>
+                <th className="blogList__row__table__row__text">Image</th>
+                <th className="categoryList__row__table__row__text">
+                  Description
+                </th>
+                <th className="categoryList__row__table__row__text">Actions</th>
+              </tr>
+              {categoryItem?.map((item) => {
+                return (
+                  <tr className="categoryList__row__table__row" key={item?.id}>
+                    <td className="categoryList__row__table__row__text">
+                      {item.title}
+                    </td>
+                    <td className="blogList__row__table__row__text">
+                      <img
+                        height="50px"
+                        width="50px"
+                        src={item.categoryImage}
+                        alt="Category Images"
+                      />
+                    </td>
+                    <td className="categoryList__row__table__row__text">
+                      {item.description.slice(0, 85)}
+                    </td>
+                    <td className="categoryList__row__table__row__text">
+                      <button
+                        className="categoryList__row__table__row__button__edit"
+                        onClick={() => {
+                          setFormTitle("Edit Category");
+                          setIds(item.id);
+                          setTitle(item.title);
+                          (
+                            document.getElementById(
+                              "editModal"
+                            ) as HTMLInputElement
+                          ).style.display = "block";
+                        }}
+                      >
+                        edit
+                      </button>
+                      <div id="editModal" className="categoryList__row__modal">
+                        <div className="categoryList__row__modal__content">
+                          <span
+                            className="categoryList__row__modal__content__close"
+                            onClick={handleCloseClickEdit}
+                          >
+                            &times;
+                          </span>
+                          <AddCategory
+                            formTitle={formTitle}
+                            setFormTitle={setFormTitle}
+                            ids={ids}
+                            titleForm={title}
+                            setIsLoading={setIsLoading}
+                            handleCloseClickEdit={handleCloseClickEdit}
+                            formReset={formReset}
+                            setFormReset={setFormReset}
+                          />
+                        </div>
                       </div>
                     </div>
                     <button

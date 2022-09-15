@@ -377,7 +377,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   }, []);
 
-  console.log("images: ", images);
   return (
     <React.Fragment>
       <section className="addproduct">

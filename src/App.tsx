@@ -15,6 +15,7 @@ import { RequireAdmin } from "./Authentication/RequireAdmin";
 import { RequireAuth } from "./Authentication/RequireAuth";
 import CategoryList from "./components/Dashboard/Category/CategoryList";
 import BlogList from "./components/Dashboard/Blog/BlogList";
+import Backdrop from "./components/Backdrop";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,6 +56,7 @@ const App: React.FC = () => {
           <Route path="/blog-list" element={<BlogList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
+        <Route path="/backdrop" element={<Backdrop />} />
       </Routes>
     </React.Fragment>
   );
