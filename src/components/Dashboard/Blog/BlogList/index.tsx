@@ -38,6 +38,7 @@ const BlogList: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
   const [add, setAdd] = React.useState<Boolean>(false);
   const [edit, setEdit] = React.useState<Boolean>(false);
@@ -88,6 +89,7 @@ const BlogList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
+    setButtonDisable(true);
     var val = true;
     if (val === true) {
       const db = getFirestore();
@@ -98,6 +100,7 @@ const BlogList: React.FC = () => {
           console.log("One Blog item has been deleted successfully.");
           setIsLoading(false);
           setDeleteModal(false);
+          setButtonDisable(true);
           const notifyDelete = () => toast("Blog item is deleted");
           notifyDelete();
         })
@@ -236,6 +239,7 @@ const BlogList: React.FC = () => {
                     )}
                     <button
                       className="blogList__row__table__row__button__delete"
+                      disabled={buttonDisable}
                       onClick={() => {
                         setDeleteModal(true);
                         console.log(blog.id);
@@ -258,6 +262,7 @@ const BlogList: React.FC = () => {
                           className="blogList__delete__modal__close"
                           onClick={() => {
                             setDeleteModal(false);
+                            setButtonDisable(false);
                           }}
                         >
                           &times;
@@ -269,6 +274,7 @@ const BlogList: React.FC = () => {
                           <div>
                             <button
                               style={{ backgroundColor: "crimson" }}
+                              disabled={buttonDisable}
                               onClick={() => {
                                 handleDelete(blogID);
                               }}
@@ -279,6 +285,7 @@ const BlogList: React.FC = () => {
                               style={{ backgroundColor: "grey" }}
                               onClick={() => {
                                 setDeleteModal(false);
+                                setButtonDisable(false);
                                 console.log("cancel: ", blogID);
                               }}
                             >

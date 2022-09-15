@@ -185,7 +185,6 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const renderImages = () => {
     return displayImages.map((photo) => {
-      console.log(photo);
       return (
         <>
           <img
