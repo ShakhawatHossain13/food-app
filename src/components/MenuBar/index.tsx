@@ -49,20 +49,22 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
           }
         </div>
         <div className="menubar__right">
-          {
-            // @ts-ignore
-            JSON.parse(localStorage.getItem("user")).isAdmin ? (
-              <button
-                className="menubar__right__cart"
-                onClick={() => {
-                  navigate("/cart", { replace: true });
-                }}
-              >
-                <FaShoppingCart size="18px" />
-                <span style={{ color: "#007bff" }}>0</span>
-              </button>
-            ) : null
-          }
+          {!isLoggedIn ||
+          (localStorage.getItem("user") &&
+            !JSON.parse(
+              // @ts-ignore
+              localStorage.getItem("user")
+            ).isAdmin) ? (
+            <button
+              className="menubar__right__cart"
+              onClick={() => {
+                navigate("/cart", { replace: true });
+              }}
+            >
+              <FaShoppingCart size="18px" />
+              <span style={{ color: "#007bff" }}>0</span>
+            </button>
+          ) : null}
           {!isLoggedIn ? (
             <>
               <Link to="/signin">Login</Link>
