@@ -39,7 +39,7 @@ const CategoryFilter: React.FC = () => {
           id: temp?.id,
           title: temp.title,
           description: temp.description,
-          foodImage: temp.displayImages,
+          foodImage: temp.foodImage,
           category: temp.category,
           price: temp.price,
         };

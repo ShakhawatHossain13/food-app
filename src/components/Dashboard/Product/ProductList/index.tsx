@@ -21,6 +21,7 @@ type ProductListDataType = {
   title: string;
   description: string;
   category: string;
+  foodImage: string;
   price: string;
 };
 const initialData: ProductListDataType = {
@@ -28,6 +29,7 @@ const initialData: ProductListDataType = {
   title: "",
   description: "",
   category: "",
+  foodImage: "",
   price: "",
 };
 const ProductList: React.FC = () => {
@@ -61,6 +63,7 @@ const ProductList: React.FC = () => {
           title: temp.title,
           description: temp.description,
           category: temp.category,
+          foodImage: temp.foodImage,
           price: temp.price,
         };
         return obj;
@@ -147,6 +150,7 @@ const ProductList: React.FC = () => {
           <table className="productlist__row__table">
             <tr className="productlist__row__table__row">
               <th className="productlist__row__table__row__text">Title</th>
+              <th className="productlist__row__table__row__text">Image</th>
               <th className="productlist__row__table__row__text">Category</th>
               <th className="productlist__row__table__row__text">Price</th>
               <th className="productlist__row__table__row__text">Actions</th>
@@ -156,6 +160,14 @@ const ProductList: React.FC = () => {
                 <tr className="productlist__row__table__row" key={foods?.id}>
                   <td className="productlist__row__table__row__text">
                     {foods.title}
+                  </td>
+                  <td className="productlist__row__table__row__text">
+                    <img
+                      height="50px"
+                      width="50px"
+                      src={foods.foodImage}
+                      alt="Food Images"
+                    />
                   </td>
                   <td className="productlist__row__table__row__text">
                     {foods.category}
