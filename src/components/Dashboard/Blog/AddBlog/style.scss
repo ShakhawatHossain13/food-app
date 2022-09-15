@@ -1,3 +1,7 @@
+.textSize {
+  word-wrap: break-word;
+  word-break: break-all;
+}
 .addBlog__row {
   margin: auto;
   width: 100%;
@@ -27,11 +31,12 @@
   float: left;
   margin-right: 10px;
 }
-.addBlog__row__form__row__input, .addBlog__row__form__row__input__select {
+.addBlog__row__form__row__input,
+.addBlog__row__form__row__input__select {
   padding: 5px;
   border: 1.5px solid #5e5b5b;
   border-radius: 3px;
-  font-family: inherit;;
+  font-family: inherit;
 }
 .addBlog__row__form__row__label__required {
   color: red;
@@ -51,4 +56,4 @@
   color: red;
   font-size: 12px;
   margin-left: 100%;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */
