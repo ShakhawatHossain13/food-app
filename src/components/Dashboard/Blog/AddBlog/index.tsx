@@ -8,7 +8,6 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import UploadImage from "../../../../database/UploadImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCheck } from "react-icons/fa";
@@ -95,6 +94,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
+  const [editPreview, setEditPreview] = React.useState<boolean>(true);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -239,6 +239,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                   notifyAdd();
                   setModalOpen(false);
                   setIsLoading(false);
+                  setButtonDisable(false);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -248,9 +249,14 @@ const AddBlog: React.FC<AddBlogProps> = ({
         );
       });
       Promise.all(promises)
-        .then(() => {})
+        .then(() => {
+          //backdrop for adding blog
+          const notifyAdd = () => toast("Adding Food item");
+          notifyAdd();
+        })
         .catch((err) => console.log(err));
     } else {
+      setButtonDisable(false);
       const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
@@ -353,6 +359,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
     setFormReset(true);
   };
 
+  // Get details if Edit form is loaded
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
@@ -392,7 +399,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
   }, []);
 
   console.log("images: ", images);
-  //console.log("Doc ID: ", idRef);
 
   return (
     <React.Fragment>
@@ -485,13 +491,34 @@ const AddBlog: React.FC<AddBlogProps> = ({
                     name="image"
                     // multiple
                     onChange={(e) => {
+                      setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
                     }}
                   />
                 </div>
 
-                <div className="image__preview">{renderImages()}</div>
+                {edit && editPreview ? (
+                  <div className="image__preview">
+                    {
+                      <img
+                        src={blogItem.blogImage}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "60px",
+                          marginTop: "12px",
+                          border: "2px solid cadetblue",
+                          padding: "0 5px",
+                        }}
+                        alt="Images"
+                      />
+                    }
+                  </div>
+                ) : edit && !editPreview ? (
+                  <div className="image__preview">{renderImages()}</div>
+                ) : (
+                  <div className="image__preview">{renderImages()}</div>
+                )}
               </div>
             </div>
             <button

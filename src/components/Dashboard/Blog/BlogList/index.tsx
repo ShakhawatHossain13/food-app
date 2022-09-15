@@ -1,14 +1,10 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import "./style.css";
 import Sidebar from "../../Sidebar";
 import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
@@ -296,7 +292,9 @@ const BlogList: React.FC = () => {
                 </tr>
               );
             })}
-            {!blogItem?.length && <h1 className="blogList__row__table__nodata">No Data Found!</h1>}
+            {!blogItem?.length && (
+              <h1 className="blogList__row__table__nodata">No Data Found!</h1>
+            )}
           </table>
         </div>
       </section>

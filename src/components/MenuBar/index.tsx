@@ -27,7 +27,9 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
   return (
     <React.Fragment>
       <div className="menubar">
-        <img src={logo} alt="Red Onion Logo" width="140px" />
+        <Link to="/">
+          <img src={logo} alt="Red Onion Logo" width="140px" />
+        </Link>
         <div className="menubar__left">
           {
             // @ts-ignore
