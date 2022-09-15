@@ -1,14 +1,10 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import "./style.css";
 import Sidebar from "../../Sidebar";
 import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
@@ -174,6 +170,7 @@ const BlogList: React.FC = () => {
           <table className="blogList__row__table">
             <tr className="blogList__row__table__row">
               <th className="blogList__row__table__row__text">Title</th>
+              <th className="blogList__row__table__row__text">Image</th>
               <th className="blogList__row__table__row__text">Description</th>
               <th className="blogList__row__table__row__text">Actions</th>
             </tr>
@@ -182,6 +179,14 @@ const BlogList: React.FC = () => {
                 <tr className="blogList__row__table__row" key={blog?.id}>
                   <td className="blogList__row__table__row__text">
                     {blog.title}
+                  </td>
+                  <td className="blogList__row__table__row__text">
+                    <img
+                      height="50px"
+                      width="50px"
+                      src={blog.blogImage}
+                      alt="Food Images"
+                    />
                   </td>
                   <td className="blogList__row__table__row__text">
                     {blog.description.slice(0, 85)}
@@ -287,7 +292,9 @@ const BlogList: React.FC = () => {
                 </tr>
               );
             })}
-            {!blogItem?.length && <h1 className="blogList__row__table__nodata">No Data Found!</h1>}
+            {!blogItem?.length && (
+              <h1 className="blogList__row__table__nodata">No Data Found!</h1>
+            )}
           </table>
         </div>
       </section>

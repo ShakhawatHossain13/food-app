@@ -8,13 +8,16 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import UploadImage from "../../../../database/UploadImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCheck } from "react-icons/fa";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
-import { async } from "@firebase/util";
 
 type AddProductDataType = {
   id: string;
@@ -91,16 +94,15 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editPreview, setEditPreview] = React.useState<boolean>(true);
   const [error, setError] = React.useState<ErrorType>(initialError);
+  const [inputError, setInputError] =
+    React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
-
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [inputBoxBorderColor, setInputBoxBorderColor] =
-    React.useState<string>();
 
   const priceRegex = "^[0-9]+$|^$";
 
@@ -120,12 +122,16 @@ const AddProduct: React.FC<AddProductProps> = ({
       ...prev,
       [name]: "",
     }));
-    setInputBoxBorderColor("#5e5b5b");
+    setInputError((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
   };
 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
+    const copyInputErrors: any = { ...inputError };
     const validationFields = ["title", "description", "category", "price"];
     for (let key in copyErrors) {
       if (
@@ -133,27 +139,47 @@ const AddProduct: React.FC<AddProductProps> = ({
         (foodItem[key as keyof typeof foodItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        setInputBoxBorderColor("red");
+        copyInputErrors[key] = true;
         hasError = true;
       }
     }
     setError(copyErrors);
+    setInputError(copyInputErrors);
     return hasError;
   };
 
-  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files).map((file) =>
+  const imageHandleChange = (e: any) => {
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      const fileArray = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
       setDisplayImages(fileArray);
     }
   };
+
   const handleImageChange = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    console.log("File extension: ", FileExtension);
+
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      // for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[0];
+      // setImages(newImage);
       setImages((prevState): any => [...prevState, newImage]);
+      // }
+    } else {
+      const notifyAdd = () =>
+        toast.error("Please upload a image on JPG, JPEG & PNG format");
+      notifyAdd();
     }
   };
 
@@ -235,6 +261,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       });
       Promise.all(promises)
         .then(() => {
+          //backdrop for adding blog
           const notifyAdd = () => toast("Adding Food item");
           notifyAdd();
         })
@@ -245,6 +272,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       notifyAdd();
     }
   };
+
   // Edit selected item
   const onEdit = async () => {
     setButtonDisable(true);
@@ -261,6 +289,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       };
       updateDoc(docRef, data)
         .then((docRef) => {
+          setIsLoading(false);
           console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
@@ -309,6 +338,21 @@ const AddProduct: React.FC<AddProductProps> = ({
     } else {
       update(foodItem?.foodImage);
     }
+    handleImageDelete();
+  };
+
+  //Image delete from firebase storage
+  const handleImageDelete = () => {
+    const imageURL = foodItem.foodImage.split("2F")[1].split("?")[0];
+    console.log("image direct link: ", imageURL);
+    const imageRef = ref(storage, `images/${imageURL}`);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image delete from firebase Storage");
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -357,7 +401,6 @@ const AddProduct: React.FC<AddProductProps> = ({
   React.useEffect(() => {
     if (ids) {
       fetchDetails();
-      console.log(foodItem);
       setEdit(true);
     }
   }, [ids]);
@@ -396,7 +439,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 type="text"
                 value={foodItem?.title}
                 onChange={handleChange}
-                style={{ borderColor: inputBoxBorderColor }}
+                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />
               <span className="addproduct__row__form__row__error">
                 {error.title}
@@ -415,7 +458,10 @@ const AddProduct: React.FC<AddProductProps> = ({
                 className="addproduct__row__form__input"
                 onChange={handleChange}
                 value={foodItem?.description}
-                style={{ height: "70px", borderColor: inputBoxBorderColor }}
+                style={{
+                  height: "70px",
+                  borderColor: inputError.description ? "red" : "#5e5b5b",
+                }}
               ></textarea>
               <span className="addproduct__row__form__row__error">
                 {error.description}
@@ -434,7 +480,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 id="category"
                 value={foodItem?.category}
                 onChange={handleChange}
-                style={{ borderColor: inputBoxBorderColor }}
+                style={{ borderColor: inputError.category ? "red" : "#5e5b5b" }}
               >
                 <option
                   className="addproduct__row__form__row__input__select__options"
@@ -477,10 +523,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
-                // pattern = "^[0-9]+$|^$"
                 value={foodItem?.price}
-                style={{ borderColor: inputBoxBorderColor }}
-                //  onChange={handleChange}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.match(priceRegex)) {
                     return handleChange(event);
@@ -488,6 +531,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                     return false;
                   }
                 }}
+                style={{ borderColor: inputError.price ? "red" : "#5e5b5b" }}
               />
               <span className="addproduct__row__form__row__error">
                 {error.price}
@@ -505,14 +549,16 @@ const AddProduct: React.FC<AddProductProps> = ({
                 <div>
                   <input
                     type="file"
+                    accept="image/*"
                     id="image"
                     name="image"
-                    multiple
-                    style={{ borderColor: inputBoxBorderColor }}
                     onChange={(e) => {
                       setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
+                    }}
+                    style={{
+                      borderColor: inputError.foodImage ? "red" : "#5e5b5b",
                     }}
                   />
                 </div>

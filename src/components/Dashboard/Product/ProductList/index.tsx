@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import "./style.css";
 import Sidebar from "../../Sidebar";
 import AddProduct from "../AddProduct";
@@ -6,16 +6,13 @@ import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
+import { deleteObject, ref } from "firebase/storage";
 
 type ProductListDataType = {
   id: string;
@@ -33,6 +30,7 @@ const initialData: ProductListDataType = {
   foodImage: "",
   price: "",
 };
+
 const ProductList: React.FC = () => {
   const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]);
   const [formTitle, setFormTitle] = React.useState<string>("");
@@ -46,6 +44,7 @@ const ProductList: React.FC = () => {
   const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
   const [foodID, setFoodID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [imageURL, setImageURL] = React.useState<string>("");
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -55,7 +54,7 @@ const ProductList: React.FC = () => {
   };
 
   const getData = async () => {
-    setBackdrop(true);
+    // setBackdrop(true);
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -73,11 +72,23 @@ const ProductList: React.FC = () => {
       });
       setFoodItem(prepareData);
       setIsLoading(true);
-      setBackdrop(false);
+      // setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //Image delete from firebase storage
+  const handleImageDelete = () => {
+    const imageRef = ref(storage, `images/${imageURL}`);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image delete from firebase Storage");
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   const handleDelete = (id: string) => {
@@ -85,7 +96,6 @@ const ProductList: React.FC = () => {
     if (val === true) {
       const db = getFirestore();
       const foodId = id.toString();
-      console.log("string: ", foodId);
       const docRef = doc(db, "food", `${foodId}`);
       deleteDoc(docRef)
         .then(() => {
@@ -98,6 +108,8 @@ const ProductList: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
+      //Image delete from firebase storage
+      handleImageDelete();
       return true;
     } else {
       console.log("Process Aborted");
@@ -231,6 +243,9 @@ const ProductList: React.FC = () => {
                           setDeleteModal(true);
                           console.log(foods.id);
                           setFoodID(foods.id);
+                          setImageURL(
+                            foods.foodImage.split("2F")[1].split("?")[0]
+                          );
                         }}
                       >
                         delete

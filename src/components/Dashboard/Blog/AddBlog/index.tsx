@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useRef } from "react";
 import "./style.css";
 import {
   getFirestore,
@@ -8,7 +8,6 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import UploadImage from "../../../../database/UploadImage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCheck } from "react-icons/fa";
@@ -54,14 +53,14 @@ const initialError: ErrorType = {
 type InputErrorType = {
   id: boolean;
   title: boolean;
-  description: boolean;   
+  description: boolean;
   date: boolean;
 };
-const initialInputError: InputErrorType = { 
+const initialInputError: InputErrorType = {
   id: false,
   title: false,
   description: false,
-  date:false,
+  date: false,
 };
 type AddBlogProps = {
   formTitle: string;
@@ -86,7 +85,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
-  const [inputError, setInputError] = React.useState<InputErrorType>(initialInputError);
+  const [inputError, setInputError] =
+    React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
@@ -94,6 +94,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
+  const [editPreview, setEditPreview] = React.useState<boolean>(true);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -111,12 +112,11 @@ const AddBlog: React.FC<AddBlogProps> = ({
       ...prev,
       [name]: "",
     }));
-       
+
     setInputError((prev) => ({
       ...prev,
       [name]: false,
     }));
-     
   };
 
   const isValid = () => {
@@ -130,7 +130,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
         (blogItem[key as keyof typeof blogItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        copyInputErrors[key]= true;
+        copyInputErrors[key] = true;
         hasError = true;
       }
     }
@@ -139,19 +139,38 @@ const AddBlog: React.FC<AddBlogProps> = ({
     return hasError;
   };
 
-  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files).map((file) =>
+  const imageHandleChange = (e: any) => {
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      const fileArray = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
       setDisplayImages(fileArray);
     }
   };
+
   const handleImageChange = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
+    const FileExtension = e.target.files[0].name.split(".")[1];
+    console.log("File extension: ", FileExtension);
+
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      // for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[0];
+      // setImages(newImage);
       setImages((prevState): any => [...prevState, newImage]);
+      // }
+    } else {
+      const notifyAdd = () =>
+        toast.error("Please upload a image on JPG, JPEG & PNG format");
+      notifyAdd();
     }
   };
 
@@ -220,6 +239,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                   notifyAdd();
                   setModalOpen(false);
                   setIsLoading(false);
+                  setButtonDisable(false);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -229,9 +249,14 @@ const AddBlog: React.FC<AddBlogProps> = ({
         );
       });
       Promise.all(promises)
-        .then(() => {})
+        .then(() => {
+          //backdrop for adding blog
+          const notifyAdd = () => toast("Adding Food item");
+          notifyAdd();
+        })
         .catch((err) => console.log(err));
     } else {
+      setButtonDisable(false);
       const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
@@ -334,6 +359,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
     setFormReset(true);
   };
 
+  // Get details if Edit form is loaded
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
@@ -373,7 +399,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
   }, []);
 
   console.log("images: ", images);
-  //console.log("Doc ID: ", idRef);
 
   return (
     <React.Fragment>
@@ -400,7 +425,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="text"
                 value={blogItem?.title}
                 onChange={handleChange}
-                style={{ borderColor: inputError.title ? 'red' : '#5e5b5b' }}  
+                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />
               <span className="addBlog__row__form__row__error">
                 {error.title}
@@ -418,8 +443,11 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 name="description"
                 className="addBlog__row__form__input"
                 onChange={handleChange}
-                value={blogItem?.description} 
-                style={{height: "70px" ,borderColor: inputError.description ? 'red' : '#5e5b5b' }}  
+                value={blogItem?.description}
+                style={{
+                  height: "70px",
+                  borderColor: inputError.description ? "red" : "#5e5b5b",
+                }}
               ></textarea>
               <span className="addBlog__row__form__row__error">
                 {error.description}
@@ -440,7 +468,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 type="date"
                 onChange={handleChange}
                 value={blogItem?.date}
-                style={{ borderColor: inputError.date ? 'red' : '#5e5b5b' }}  
+                style={{ borderColor: inputError.date ? "red" : "#5e5b5b" }}
               />
               <span className="addBlog__row__form__row__error">
                 {error.date}
@@ -458,18 +486,39 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 <div>
                   <input
                     type="file"
+                    accept="image/*"
                     id="image"
                     name="image"
-                    multiple
+                    // multiple
                     onChange={(e) => {
+                      setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
                     }}
-                    
                   />
                 </div>
 
-                <div className="image__preview">{renderImages()}</div>
+                {edit && editPreview ? (
+                  <div className="image__preview">
+                    {
+                      <img
+                        src={blogItem.blogImage}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "60px",
+                          marginTop: "12px",
+                          border: "2px solid cadetblue",
+                          padding: "0 5px",
+                        }}
+                        alt="Images"
+                      />
+                    }
+                  </div>
+                ) : edit && !editPreview ? (
+                  <div className="image__preview">{renderImages()}</div>
+                ) : (
+                  <div className="image__preview">{renderImages()}</div>
+                )}
               </div>
             </div>
             <button
