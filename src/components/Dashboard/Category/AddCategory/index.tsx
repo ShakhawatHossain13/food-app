@@ -39,7 +39,18 @@ const initialError: ErrorType = {
   description: "",
   categoryImage: "",
 };
-
+type InputErrorType = {
+  id: boolean;
+  title: boolean;
+  description: boolean; 
+  categoryImage: boolean;
+};
+const initialInputError: InputErrorType = {
+  id: false,
+  title: false,
+  description: false, 
+  categoryImage: false,  
+};
 type AddCategoryProps = {
   formTitle: string;
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -67,6 +78,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     React.useState<AddCategoryDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [error, setError] = React.useState<ErrorType>(initialError);
+  const [inputError, setInputError] = React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
   const [images, setImages] = React.useState([]);
@@ -89,13 +101,17 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       ...prev,
       [name]: "",
     }));
-    (document.getElementById(`${name}`) as HTMLInputElement).style.border =
-      "0.5px solid #000";
+       
+    setInputError((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
   };
 
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
+    const copyInputErrors: any = { ...inputError };
     const validationFields = ["title", "description"];
     for (let key in copyErrors) {
       if (
@@ -103,12 +119,12 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         (categoryItem[key as keyof typeof categoryItem] === "" || 0)
       ) {
         copyErrors[key] = `Please input ${key}`;
-        (document.getElementById(`${key}`) as HTMLInputElement).style.border =
-          "0.5px solid red";
+        copyInputErrors[key]= true;
         hasError = true;
       }
     }
     setError(copyErrors);
+    setInputError(copyInputErrors);
     return hasError;
   };
 
@@ -248,6 +264,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
                 type="text"
                 value={categoryItem?.title}
                 onChange={handleChange}
+                style={{ borderColor: inputError.title ? 'red' : '#5e5b5b' }}
               />
               <span className="addCategory__row__form__row__error">
                 {error.title}
@@ -265,8 +282,8 @@ const AddCategory: React.FC<AddCategoryProps> = ({
                 name="description"
                 className="addCategory__row__form__input"
                 onChange={handleChange}
-                value={categoryItem?.description}
-                style={{ height: "70px" }}
+                value={categoryItem?.description} 
+                style={{ height:"70px", borderColor: inputError.description ? 'red' : '#5e5b5b' }}
               ></textarea>
               <span className="addCategory__row__form__row__error">
                 {error.description}
@@ -286,7 +303,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
               type="submit"
               className="addCategory__row__form__row__button"
               disabled={buttonDisable}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer" }}              
             >
               {formTitle}
             </button>

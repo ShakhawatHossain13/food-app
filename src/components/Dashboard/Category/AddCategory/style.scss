@@ -29,6 +29,9 @@
 }
 .addCategory__row__form__row__input, .addCategory__row__form__row__input__select {
   padding: 5px;
+  border: 1.5px solid #5e5b5b;
+  border-radius: 3px;
+  font-family: inherit;;
 }
 .addCategory__row__form__row__label__required {
   color: red;
