@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
+import Backdrop from "../../../Backdrop";
 
 type ProductListDataType = {
   id: string;
@@ -44,6 +45,7 @@ const ProductList: React.FC = () => {
   const [edit, setEdit] = React.useState<Boolean>(false);
   const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
   const [foodID, setFoodID] = React.useState<string>("");
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -53,6 +55,7 @@ const ProductList: React.FC = () => {
   };
 
   const getData = async () => {
+    setBackdrop(true);
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -70,6 +73,7 @@ const ProductList: React.FC = () => {
       });
       setFoodItem(prepareData);
       setIsLoading(true);
+      setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -110,166 +114,170 @@ const ProductList: React.FC = () => {
       <Sidebar />
       <section className="productlist">
         <ToastContainer />
-        <div className="productlist__row">
-          <h3 className="productlist__row__title">Product list</h3>
-          <div className="productlist__row__button">
-            <button
-              className="productlist__row__button__btn"
-              onClick={() => {
-                handleModalOpen();
-                setAdd(true);
-              }}
-            >
-              + add
-            </button>
-            {add && modalOpen && (
-              <div id="modal" className="productlist__row__modal">
-                <div className="productlist__row__modal__content">
-                  <span
-                    className="productlist__row__modal__content__close"
-                    onClick={() => {
-                      setFormReset(true);
-                      handleModalClose();
-                      setAdd(false);
-                    }}
-                  >
-                    &times;
-                  </span>
-                  <AddProduct
-                    formTitle="Add Product"
-                    setFormTitle={setFormTitle}
-                    setIsLoading={setIsLoading}
-                    formReset={formReset}
-                    setFormReset={setFormReset}
-                    setModalOpen={setModalOpen}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <table className="productlist__row__table">
-            <tr className="productlist__row__table__row">
-              <th className="productlist__row__table__row__text">Title</th>
-              <th className="productlist__row__table__row__text">Image</th>
-              <th className="productlist__row__table__row__text">Category</th>
-              <th className="productlist__row__table__row__text">Price</th>
-              <th className="productlist__row__table__row__text">Actions</th>
-            </tr>
-            {foodItem?.map((foods) => {
-              return (
-                <tr className="productlist__row__table__row" key={foods?.id}>
-                  <td className="productlist__row__table__row__text">
-                    {foods.title}
-                  </td>
-                  <td className="productlist__row__table__row__text">
-                    <img
-                      height="50px"
-                      width="50px"
-                      src={foods.foodImage}
-                      alt="Food Images"
-                    />
-                  </td>
-                  <td className="productlist__row__table__row__text">
-                    {foods.category}
-                  </td>
-                  <td className="productlist__row__table__row__text">
-                    {foods.price}
-                  </td>
-                  <td className="productlist__row__table__row__text">
-                    <button
-                      className="productlist__row__table__row__button__edit"
+        {backdrop ? (
+          <Backdrop />
+        ) : (
+          <div className="productlist__row">
+            <h3 className="productlist__row__title">Product list</h3>
+            <div className="productlist__row__button">
+              <button
+                className="productlist__row__button__btn"
+                onClick={() => {
+                  handleModalOpen();
+                  setAdd(true);
+                }}
+              >
+                + add
+              </button>
+              {add && modalOpen && (
+                <div id="modal" className="productlist__row__modal">
+                  <div className="productlist__row__modal__content">
+                    <span
+                      className="productlist__row__modal__content__close"
                       onClick={() => {
-                        setFormTitle("Edit Product");
-                        setIds(foods.id);
-                        setTitle(foods.title);
-                        setEdit(true);
+                        setFormReset(true);
+                        handleModalClose();
                         setAdd(false);
-                        setModalOpen(true);
                       }}
                     >
-                      edit
-                    </button>
-                    {edit && modalOpen && (
-                      <div
-                        id="editModal"
-                        className="productlist__row__modal"
-                        style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
+                      &times;
+                    </span>
+                    <AddProduct
+                      formTitle="Add Product"
+                      setFormTitle={setFormTitle}
+                      setIsLoading={setIsLoading}
+                      formReset={formReset}
+                      setFormReset={setFormReset}
+                      setModalOpen={setModalOpen}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            <table className="productlist__row__table">
+              <tr className="productlist__row__table__row">
+                <th className="productlist__row__table__row__text">Title</th>
+                <th className="productlist__row__table__row__text">Image</th>
+                <th className="productlist__row__table__row__text">Category</th>
+                <th className="productlist__row__table__row__text">Price</th>
+                <th className="productlist__row__table__row__text">Actions</th>
+              </tr>
+              {foodItem?.map((foods) => {
+                return (
+                  <tr className="productlist__row__table__row" key={foods?.id}>
+                    <td className="productlist__row__table__row__text">
+                      {foods.title}
+                    </td>
+                    <td className="productlist__row__table__row__text">
+                      <img
+                        height="50px"
+                        width="50px"
+                        src={foods.foodImage}
+                        alt="Food Images"
+                      />
+                    </td>
+                    <td className="productlist__row__table__row__text">
+                      {foods.category}
+                    </td>
+                    <td className="productlist__row__table__row__text">
+                      {foods.price}
+                    </td>
+                    <td className="productlist__row__table__row__text">
+                      <button
+                        className="productlist__row__table__row__button__edit"
+                        onClick={() => {
+                          setFormTitle("Edit Product");
+                          setIds(foods.id);
+                          setTitle(foods.title);
+                          setEdit(true);
+                          setAdd(false);
+                          setModalOpen(true);
+                        }}
                       >
-                        <div className="productlist__row__modal__content">
+                        edit
+                      </button>
+                      {edit && modalOpen && (
+                        <div
+                          id="editModal"
+                          className="productlist__row__modal"
+                          style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
+                        >
+                          <div className="productlist__row__modal__content">
+                            <span
+                              className="productlist__row__modal__content__close"
+                              onClick={() => {
+                                handleModalClose();
+                                setEdit(false);
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <AddProduct
+                              formTitle="Edit Product"
+                              setFormTitle={setFormTitle}
+                              ids={ids}
+                              titleForm={title}
+                              setIsLoading={setIsLoading}
+                              formReset={formReset}
+                              setFormReset={setFormReset}
+                              setModalOpen={setModalOpen}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <button
+                        className="productlist__row__table__row__button__delete"
+                        onClick={() => {
+                          setDeleteModal(true);
+                          console.log(foods.id);
+                          setFoodID(foods.id);
+                        }}
+                      >
+                        delete
+                      </button>
+                      {deleteModal && (
+                        <div className="productlist__row__table__row__button__delete__modal">
                           <span
-                            className="productlist__row__modal__content__close"
+                            className="productlist__delete__modal__close"
                             onClick={() => {
-                              handleModalClose();
-                              setEdit(false);
+                              setDeleteModal(false);
                             }}
                           >
                             &times;
                           </span>
-                          <AddProduct
-                            formTitle="Edit Product"
-                            setFormTitle={setFormTitle}
-                            ids={ids}
-                            titleForm={title}
-                            setIsLoading={setIsLoading}
-                            formReset={formReset}
-                            setFormReset={setFormReset}
-                            setModalOpen={setModalOpen}
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <button
-                      className="productlist__row__table__row__button__delete"
-                      onClick={() => {
-                        setDeleteModal(true);
-                        console.log(foods.id);
-                        setFoodID(foods.id);
-                      }}
-                    >
-                      delete
-                    </button>
-                    {deleteModal && (
-                      <div className="productlist__row__table__row__button__delete__modal">
-                        <span
-                          className="productlist__delete__modal__close"
-                          onClick={() => {
-                            setDeleteModal(false);
-                          }}
-                        >
-                          &times;
-                        </span>
-                        <div className="productlist__delete__modal__confirm">
-                          <div>
-                            Are you sure you want to delete this record?
-                          </div>
-                          <div>
-                            <button
-                              style={{ backgroundColor: "crimson" }}
-                              onClick={() => {
-                                handleDelete(foodID);
-                              }}
-                            >
-                              Delete
-                            </button>
-                            <button
-                              style={{ backgroundColor: "grey" }}
-                              onClick={() => {
-                                setDeleteModal(false);
-                                console.log("cancel: ", foodID);
-                              }}
-                            >
-                              Cancel
-                            </button>
+                          <div className="productlist__delete__modal__confirm">
+                            <div>
+                              Are you sure you want to delete this record?
+                            </div>
+                            <div>
+                              <button
+                                style={{ backgroundColor: "crimson" }}
+                                onClick={() => {
+                                  handleDelete(foodID);
+                                }}
+                              >
+                                Delete
+                              </button>
+                              <button
+                                style={{ backgroundColor: "grey" }}
+                                onClick={() => {
+                                  setDeleteModal(false);
+                                  console.log("cancel: ", foodID);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </table>
-        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </table>
+          </div>
+        )}
       </section>
     </React.Fragment>
   );

@@ -1,0 +1,7 @@
+.backdrop {
+  position: fixed;
+  top: 42%;
+  left: 47%;
+  z-index: 1;
+  box-shadow: 0 0 0 1500px rgba(0, 0, 0, 0.5);
+}/*# sourceMappingURL=style.css.map */
