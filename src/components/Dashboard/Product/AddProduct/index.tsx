@@ -18,6 +18,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
+import { ProductListDataType } from "../ProductList";
 
 type AddProductDataType = {
   id: string;
@@ -71,20 +72,24 @@ const initialInputError: InputErrorType = {
 };
 type AddProductProps = {
   formTitle: string;
+  foodItemData: ProductListDataType[];
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
+  isChange?:Boolean;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
+  foodItemData,
   setFormTitle,
   ids,
   titleForm,
-  setIsLoading,
+  setIsChange,
+  isChange,
   formReset,
   setFormReset,
   setModalOpen,
@@ -98,13 +103,39 @@ const AddProduct: React.FC<AddProductProps> = ({
     React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = React.useState<any>();
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
 
   const priceRegex = "^[0-9]+$|^$";
+
+  //Check previous products title for add a new product for create unique product every time
+  const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
+    foodItemData?.map((singleFoodData: ProductListDataType) => {
+      console.log(
+        "Previous product Title: ",
+        singleFoodData.title.toLowerCase()
+      );
+      if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
+        console.log("Input Title: ", inputTitle.toLowerCase());
+
+        setButtonDisable(true);
+        setError((prev) => ({
+          ...prev,
+          title: "This Product already exists",
+        }));
+        setInputError((prev) => ({
+          ...prev,
+          title: true,
+        }));
+      } else {
+        setButtonDisable(false);
+      }
+    });
+  };
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -149,7 +180,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const imageHandleChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
@@ -163,18 +194,17 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
-    console.log("File extension: ", FileExtension);
-
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase(); 
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
       FileExtension === "png"
     ) {
       // for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[0];
-      // setImages(newImage);
-      setImages((prevState): any => [...prevState, newImage]);
+      const newImage = e.target.files[0];      
+      // setImages((prevState): any => [...prevState, newImage]);
+      setImages(newImage);
+      console.log("new Image: ", newImage);
       // }
     } else {
       const notifyAdd = () =>
@@ -209,11 +239,10 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
-    if (images.length > 0) {
-      const promises: any = [];
-      images.map((image) => {
+    if (images) {
+      const promises: any = [];     
         const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
         promises.push(uploadTask);
         uploadTask.on(
           "state_changed",
@@ -247,20 +276,19 @@ const AddProduct: React.FC<AddProductProps> = ({
                   console.log("Food item added successfully");
                   const notifyAdd = () => toast("Food item added successfully");
                   notifyAdd();
-                  setModalOpen(false);
-                  setIsLoading(false);
+                  setModalOpen(false);                 
                   setButtonDisable(false);
+                  setIsChange(!isChange);
                 })
                 .catch((error) => {
                   console.log(error);
                 });
             });
           }
-        );
-      });
+        );    
       Promise.all(promises)
         .then(() => {
-          //backdrop for adding blog
+          //backdrop for adding blog          
           const notifyAdd = () => toast("Adding Food item");
           notifyAdd();
         })
@@ -288,7 +316,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       };
       updateDoc(docRef, data)
         .then((docRef) => {
-          setIsLoading(false);
+          setIsChange(!isChange);
           console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
@@ -299,11 +327,10 @@ const AddProduct: React.FC<AddProductProps> = ({
         });
     };
 
-    if (images.length > 0) {
-      const promises: any = [];
-      images.map((image) => {
+    if (images) {
+      const promises: any = [];     
         const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
         promises.push(uploadTask);
         uploadTask.on(
           "state_changed",
@@ -325,9 +352,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               update(downloadURL);
             });
           }
-        );
-      });
-
+        );    
       Promise.all(promises)
         .then(() => {
           const notifyAdd = () => toast("Updating Food item");
@@ -368,8 +393,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
-
     setFormReset(true);
   };
 
@@ -391,7 +414,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-      setIsLoading(true);
+     // setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -437,6 +460,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 name="title"
                 type="text"
                 value={foodItem?.title}
+                onBlur={handleUniqueTitle}
                 onChange={handleChange}
                 style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />

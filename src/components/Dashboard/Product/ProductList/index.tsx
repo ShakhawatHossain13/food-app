@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
 
-type ProductListDataType = {
+export type ProductListDataType = {
   id: string;
   title: string;
   description: string;
@@ -37,6 +37,7 @@ const ProductList: React.FC = () => {
   const [ids, setIds] = React.useState<string>("");
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
+  const [isChange, setIsChange] = React.useState<Boolean>(false);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
@@ -72,8 +73,9 @@ const ProductList: React.FC = () => {
         return obj;
       });
       setFoodItem(prepareData);
-      setIsLoading(true);
       setBackdrop(false);
+     // setIsChange(false);
+     // setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -102,7 +104,7 @@ const ProductList: React.FC = () => {
       deleteDoc(docRef)
         .then(() => {
           console.log("One food item has been deleted successfully.");
-          setIsLoading(false);
+          setIsLoading(!isLoading);
           setDeleteModal(false);
           setButtonDisable(false);
           const notifyDelete = () => toast("Food item is deleted");
@@ -124,14 +126,18 @@ const ProductList: React.FC = () => {
     getData();
   }, [isLoading]);
 
+  React.useEffect(() => {
+    getData();
+  }, [isChange]);
+
+  console.log(foodItem);
+
   return (
     <React.Fragment>
       <Sidebar />
       <section className="productlist">
         <ToastContainer />
-        {backdrop ? (
-          <Backdrop />
-        ) : (
+      
           <div className="productlist__row">
             <h3 className="productlist__row__title">Product list</h3>
             <div className="productlist__row__button">
@@ -159,8 +165,10 @@ const ProductList: React.FC = () => {
                     </span>
                     <AddProduct
                       formTitle="Add Product"
+                      foodItemData ={foodItem}
                       setFormTitle={setFormTitle}
-                      setIsLoading={setIsLoading}
+                      isChange={isChange}
+                      setIsChange={setIsChange}
                       formReset={formReset}
                       setFormReset={setFormReset}
                       setModalOpen={setModalOpen}
@@ -177,6 +185,9 @@ const ProductList: React.FC = () => {
                 <th className="productlist__row__table__row__text">Price</th>
                 <th className="productlist__row__table__row__text">Actions</th>
               </tr>
+              {backdrop ? (
+              <Backdrop />
+            ) : (<>
               {foodItem?.map((foods) => {
                 return (
                   <tr className="productlist__row__table__row" key={foods?.id}>
@@ -229,10 +240,12 @@ const ProductList: React.FC = () => {
                             </span>
                             <AddProduct
                               formTitle="Edit Product"
+                              foodItemData ={foodItem}
                               setFormTitle={setFormTitle}
                               ids={ids}
                               titleForm={title}
-                              setIsLoading={setIsLoading}
+                              isChange={isChange}
+                              setIsChange={setIsChange}
                               formReset={formReset}
                               setFormReset={setFormReset}
                               setModalOpen={setModalOpen}
@@ -297,14 +310,17 @@ const ProductList: React.FC = () => {
                   </tr>
                 );
               })}
-              {!foodItem?.length && (
+                {!foodItem?.length && (
                 <h1 className="productlist__row__table__nodata">
                   No Data Found!
                 </h1>
               )}
+              </>
+                 )} 
+            
             </table>
           </div>
-        )}
+       
       </section>
     </React.Fragment>
   );
