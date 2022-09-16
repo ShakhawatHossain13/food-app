@@ -20,6 +20,9 @@
     margin: 10px auto;
     text-align: center;
  }
+ .signIn__slider__row__main__form input:focus{
+  outline: none;
+ }
  .signIn__slider__row__main__form__input{
     width: 100%;
     box-sizing: border-box;
@@ -36,7 +39,7 @@
   margin-left: 5px;
   position: absolute;
   left: 36%;
-  margin-top: 3.2%;
+  margin-top: -10px;
  }
  #submit{
   background-color: #dc3545;

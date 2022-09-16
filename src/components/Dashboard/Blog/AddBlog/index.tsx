@@ -256,9 +256,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
         })
         .catch((err) => console.log(err));
     } else {
-      setButtonDisable(false);
-      const notifyAdd = () => toast.error("Please upload Image!");
-      notifyAdd();
     }
   };
 
