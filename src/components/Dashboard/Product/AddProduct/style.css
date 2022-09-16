@@ -28,7 +28,9 @@
   margin-right: 10px;
 }
 
-.addproduct__row__form__row__input, .addproduct__row__form__input, .addproduct__row__form__row__input__select {
+.addproduct__row__form__row__input,
+.addproduct__row__form__input,
+.addproduct__row__form__row__input__select {
   padding: 5px;
   border: 1.5px solid #5e5b5b;
   border-radius: 3px;

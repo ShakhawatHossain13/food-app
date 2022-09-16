@@ -1,95 +1,95 @@
- button{
-    cursor: pointer;
- }
- .productlist{
-    margin-left: 200px;
-    &__row{
-       margin: auto;
-       width: 90%;    
-    }
+button {
+  cursor: pointer;
 }
-.productlist__row__button{
-   text-align: right;
+.productlist {
+  margin-left: 200px;
+  &__row {
+    margin: auto;
+    width: 90%;
+  }
 }
-.productlist__row__title{
-    font-size: 24px;
-    font-weight: 400;
-    margin-bottom: 10px;
-    text-align: center;
+.productlist__row__button {
+  text-align: right;
+}
+.productlist__row__title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  text-align: center;
 }
 .productlist__row__table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 90%;
-    float: right;
-    font-size: 14px;
-}  
-.productlist__row__button{   
-    width: 90%;
-    float: right;
-    font-size: 14px;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 90%;
+  float: right;
+  font-size: 14px;
 }
-.productlist__row__button__btn{
-    margin-bottom: 20px;
-    padding: 7px 43px;
-    background-color: #f0f0f0;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    color: #0a0a0a;
+.productlist__row__button {
+  width: 90%;
+  float: right;
+  font-size: 14px;
+}
+.productlist__row__button__btn {
+  margin-bottom: 20px;
+  padding: 7px 43px;
+  background-color: #f0f0f0;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  color: #0a0a0a;
 }
 .productlist__row__table__row__text {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    text-align: center;
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  text-align: center;
 }
-.productlist__row__table__row__button__edit{
-    width: 80px;
-    margin-right: 10px;
-    background-color: cadetblue;
-    border: 0;
-    padding: 5px 15px;
-    border-radius: 5px;
-    color: #fff;
+.productlist__row__table__row__button__edit {
+  width: 80px;
+  margin-right: 10px;
+  background-color: cadetblue;
+  border: 0;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: #fff;
 }
-.productlist__row__table__row__button__delete{
-    width: 80px;
-    margin-right: 10px;
-    background-color: crimson;
-    border: 0;
-    padding: 5px 15px;
-    border-radius: 5px;
-    color: #fff;
+.productlist__row__table__row__button__delete {
+  width: 80px;
+  margin-right: 10px;
+  background-color: crimson;
+  border: 0;
+  padding: 5px 15px;
+  border-radius: 5px;
+  color: #fff;
 }
 .productlist__row__modal {
-    display: block;  
-    position: fixed;  
-    z-index: 1;  
-    overflow-y: auto;
-    padding-top: 70px;  
-    right: 0;
-    top: 0;
-    width: 100%;  
-    height: 100%;  
-    background-color: rgba(0,0,0,0.4); 
-  }
+  display: block;
+  position: fixed;
+  z-index: 1;
+  overflow-y: auto;
+  padding-top: 70px;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 .productlist__row__modal__content {
-    background-color: #fefefe;
-    margin: auto;
-    border: 1px solid #888;
-    width: 55%;
-    padding: 15px 55px;
-    right: 5%;
-  }
+  background-color: #fefefe;
+  margin: auto;
+  border: 1px solid #888;
+  width: 55%;
+  padding: 15px 55px;
+  right: 5%;
+}
 .productlist__row__modal__content__close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 80px;
-    right: 270px;
-  }
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 80px;
+  right: 270px;
+}
 .productlist__row__modal__content__close:hover,
 .productlist__row__modal__content__close:focus {
   color: #000;
@@ -97,26 +97,26 @@
   cursor: pointer;
 }
 
-.productlist__row__table__row__button__delete__modal{
-    position: absolute;  
-    top: 40%;
-    left: 38%;
-    z-index: 1;   
-    width: 400px;  
-    height: 150px;  
-    box-shadow: 0 0 0 1500px rgba(0,0,0,0.1);
-    background-color: #fefefe;
-    border: 1px solid #888;
+.productlist__row__table__row__button__delete__modal {
+  position: absolute;
+  top: 40%;
+  left: 38%;
+  z-index: 1;
+  width: 400px;
+  height: 150px;
+  box-shadow: 0 0 0 1500px rgba(0, 0, 0, 0.1);
+  background-color: #fefefe;
+  border: 1px solid #888;
 }
 
-.productlist__delete__modal__close{
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 6px;
-    right: 15px;
+.productlist__delete__modal__close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 6px;
+  right: 15px;
 }
 
 .productlist__delete__modal__close:hover,
@@ -126,23 +126,23 @@
   cursor: pointer;
 }
 
-.productlist__delete__modal__confirm{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 50px;
-    font-weight: bold;
-    color: darkslategray;
+.productlist__delete__modal__confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+  font-weight: bold;
+  color: darkslategray;
 }
 
-.productlist__delete__modal__confirm button{
-     margin-top: 20px;
-     margin-inline: 5px;
-     height: 35px;
-     color: white;
-     border: 1px solid black;
+.productlist__delete__modal__confirm button {
+  margin-top: 20px;
+  margin-inline: 5px;
+  height: 35px;
+  color: white;
+  border: 1px solid black;
 }
-.productlist__row__table__nodata{
-     margin-top: 20px;
+.productlist__row__table__nodata {
+  margin-top: 20px;
 }
