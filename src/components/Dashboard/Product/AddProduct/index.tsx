@@ -72,24 +72,26 @@ const initialInputError: InputErrorType = {
 };
 type AddProductProps = {
   formTitle: string;
+  foodItemData: ProductListDataType[];
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
+  isChange?:Boolean;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
-  foodItemData: ProductListDataType[];
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
+  foodItemData,
   setFormTitle,
   ids,
   titleForm,
-  setIsLoading,
+  setIsChange,
+  isChange,
   formReset,
   setFormReset,
-  foodItemData,
   setModalOpen,
 }) => {
   const [foodItem, setFoodItem] =
@@ -101,7 +103,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = React.useState<any>();
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
@@ -119,7 +121,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       );
       if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
         console.log("Input Title: ", inputTitle.toLowerCase());
-        
+
         setButtonDisable(true);
         setError((prev) => ({
           ...prev,
@@ -161,13 +163,7 @@ const AddProduct: React.FC<AddProductProps> = ({
     let hasError = false;
     const copyErrors: any = { ...error };
     const copyInputErrors: any = { ...inputError };
-    const validationFields = [
-      "title",
-      "description",
-      "category",
-      "price",
-      "foodImage",
-    ];
+    const validationFields = ["title", "description", "category", "price"];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -198,18 +194,17 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
-    console.log("File extension: ", FileExtension);
-
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase(); 
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
       FileExtension === "png"
     ) {
       // for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[0];
-      // setImages(newImage);
-      setImages((prevState): any => [...prevState, newImage]);
+      const newImage = e.target.files[0];      
+      // setImages((prevState): any => [...prevState, newImage]);
+      setImages(newImage);
+      console.log("new Image: ", newImage);
       // }
     } else {
       const notifyAdd = () =>
@@ -244,11 +239,10 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
-    if (images.length > 0) {
-      const promises: any = [];
-      images.map((image) => {
+    if (images) {
+      const promises: any = [];     
         const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
         promises.push(uploadTask);
         uploadTask.on(
           "state_changed",
@@ -282,20 +276,19 @@ const AddProduct: React.FC<AddProductProps> = ({
                   console.log("Food item added successfully");
                   const notifyAdd = () => toast("Food item added successfully");
                   notifyAdd();
-                  setModalOpen(false);
-                  setIsLoading(false);
+                  setModalOpen(false);                 
                   setButtonDisable(false);
+                  setIsChange(!isChange);
                 })
                 .catch((error) => {
                   console.log(error);
                 });
             });
           }
-        );
-      });
+        );    
       Promise.all(promises)
         .then(() => {
-          //backdrop for adding blog
+          //backdrop for adding blog          
           const notifyAdd = () => toast("Adding Food item");
           notifyAdd();
         })
@@ -323,7 +316,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       };
       updateDoc(docRef, data)
         .then((docRef) => {
-          setIsLoading(false);
+          setIsChange(!isChange);
           console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
@@ -334,11 +327,10 @@ const AddProduct: React.FC<AddProductProps> = ({
         });
     };
 
-    if (images.length > 0) {
-      const promises: any = [];
-      images.map((image) => {
+    if (images) {
+      const promises: any = [];     
         const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
         promises.push(uploadTask);
         uploadTask.on(
           "state_changed",
@@ -360,9 +352,7 @@ const AddProduct: React.FC<AddProductProps> = ({
               update(downloadURL);
             });
           }
-        );
-      });
-
+        );    
       Promise.all(promises)
         .then(() => {
           const notifyAdd = () => toast("Updating Food item");
@@ -403,8 +393,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
-
     setFormReset(true);
   };
 
@@ -426,7 +414,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-      setIsLoading(true);
+     // setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -585,22 +573,17 @@ const AddProduct: React.FC<AddProductProps> = ({
                   <input
                     type="file"
                     accept="image/*"
-                    id="foodImage"
-                    name="foodImage"
+                    id="image"
+                    name="image"
                     onChange={(e) => {
                       setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
-                      handleChange(e);
                     }}
                     style={{
                       borderColor: inputError.foodImage ? "red" : "#5e5b5b",
                     }}
                   />
-                  <span className="addproduct__row__form__row__error">
-                    <br />
-                    {error.foodImage}
-                  </span>
                 </div>
 
                 {edit && editPreview ? (
