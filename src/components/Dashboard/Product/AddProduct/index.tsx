@@ -365,10 +365,11 @@ const AddProduct: React.FC<AddProductProps> = ({
           // notifyAdd();
         })
         .catch((err) => console.log(err));
+        handleImageDelete();
     } else {
       update(foodItem?.foodImage);
     }
-    handleImageDelete();
+    
   };
 
   //Image delete from firebase storage
