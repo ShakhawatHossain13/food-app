@@ -16,12 +16,12 @@ type CategoryDetailsSliderProps = {
 };
 
 type CategoryFilterDataType = {
+  id: string;
   title: string;
   description: string;
   foodImage: string;
   category: string;
-  price: string;
-  vat: string;
+  price: string; 
 };
 
 const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
@@ -45,14 +45,34 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
     selectedFood?.sort((a, b) => (a.price > b.price ? -1 : 1));
   }
 
-  React.useEffect(() => {
-    fetch("./food.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setFoodItem(data);
+  const getData = async () => {
+    const colRef = collection(firebaseDatabase, "food");
+    try {
+      const result = await getDocs(colRef);
+      const prepareData = result?.docs.map((item) => {
+        let temp = item.data();
+        let obj: CategoryFilterDataType = {
+          id: temp?.id,
+          title: temp.title,
+          description: temp.description,
+          foodImage: temp.foodImage,
+          category: temp.category,
+          price: temp.price,
+        };
+        return obj;
       });
+      setFoodItem(prepareData);
+
+      return prepareData;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    getData();
   }, []);
 
+  
   return (
     <React.Fragment>
       <section className="categoryFilter">

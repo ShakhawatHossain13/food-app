@@ -298,8 +298,8 @@ const AddProduct: React.FC<AddProductProps> = ({
         })
         .catch((err) => console.log(err));
     } else {
-      setButtonDisable(false);
-      setBackdrop(false);
+      setButtonDisable(false);  
+      setBackdrop(false) 
       const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
@@ -447,8 +447,12 @@ const AddProduct: React.FC<AddProductProps> = ({
     <React.Fragment>
       <section className="addproduct">
         <div className="addproduct__row">
-          <h3 className="addproduct__row__title">{formTitle}</h3>
-          {backdrop ? <Backdrop /> : <></>}
+          <h3 className="addproduct__row__title">{formTitle}</h3> 
+          {backdrop ? (
+              <Backdrop />
+            ) : (
+            <></>
+              )} 
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
@@ -594,10 +598,9 @@ const AddProduct: React.FC<AddProductProps> = ({
                   />
                 </div>
 
-                {edit && editPreview ? (
-                  <div className="image__preview">
-                    {
-                      <img
+                {edit && editPreview ? (    
+                  <div className="image__preview">                   
+                   { <img
                         src={foodItem.foodImage}
                         style={{
                           maxWidth: "100px",
@@ -607,12 +610,12 @@ const AddProduct: React.FC<AddProductProps> = ({
                           padding: "0 5px",
                         }}
                         alt="Images"
-                      />
-                    }
+                      />   
+                       }                
                   </div>
                 ) : edit && !editPreview ? (
                   <div className="image__preview">{renderImages()}</div>
-                ) : (
+                ) : (               
                   <div className="image__preview">{renderImages()}</div>
                 )}
               </div>
@@ -631,5 +634,6 @@ const AddProduct: React.FC<AddProductProps> = ({
     </React.Fragment>
   );
 };
-
+ 
 export default AddProduct;
+ 
