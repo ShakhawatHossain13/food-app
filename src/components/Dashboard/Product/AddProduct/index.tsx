@@ -604,6 +604,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                         src={foodItem.foodImage}
                         style={{
                           maxWidth: "100px", 
+                          maxHeight:"60px",
                           marginTop: "12px",
                           border: "2px solid cadetblue",
                           padding: "0 5px",

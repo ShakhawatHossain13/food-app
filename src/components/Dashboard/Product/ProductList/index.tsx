@@ -130,8 +130,6 @@ const ProductList: React.FC = () => {
     getData();
   }, [isChange]);
 
-  console.log(foodItem);
-
   return (
     <React.Fragment>
       <Sidebar />
