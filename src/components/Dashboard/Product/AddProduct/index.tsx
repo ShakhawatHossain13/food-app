@@ -599,12 +599,11 @@ const AddProduct: React.FC<AddProductProps> = ({
                 </div>
 
                 {edit && editPreview ? (    
-                  <div className="image__preview">                   
+                  <div className="image__preview" >                   
                    { <img
                         src={foodItem.foodImage}
                         style={{
-                          maxWidth: "100px",
-                          height: "60px",
+                          maxWidth: "100px", 
                           marginTop: "12px",
                           border: "2px solid cadetblue",
                           padding: "0 5px",
@@ -614,9 +613,9 @@ const AddProduct: React.FC<AddProductProps> = ({
                        }                
                   </div>
                 ) : edit && !editPreview ? (
-                  <div className="image__preview">{renderImages()}</div>
+                  <div className="image__preview" >{renderImages()}</div>
                 ) : (               
-                  <div className="image__preview">{renderImages()}</div>
+                  <div className="image__preview" >{renderImages()}</div>
                 )}
               </div>
             </div>
