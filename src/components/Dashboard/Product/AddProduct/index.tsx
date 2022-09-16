@@ -77,7 +77,7 @@ type AddProductProps = {
   ids?: string;
   titleForm?: string;
   setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
-  isChange?: Boolean;
+  isChange?:Boolean;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
@@ -194,14 +194,14 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase(); 
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
       FileExtension === "png"
     ) {
       // for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[0];
+      const newImage = e.target.files[0];      
       // setImages((prevState): any => [...prevState, newImage]);
       setImages(newImage);
       console.log("new Image: ", newImage);
@@ -240,55 +240,55 @@ const AddProduct: React.FC<AddProductProps> = ({
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
     if (images) {
-      const promises: any = [];
-      const storageRef = ref(storage, `/images/${Math.random()}`);
-      const uploadTask: any = uploadBytesResumable(storageRef, images);
-      promises.push(uploadTask);
-      uploadTask.on(
-        "state_changed",
-        (snapshot: any) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            if (downloadURL) {
-              setImgUrls(downloadURL);
-            }
-            const db = getFirestore();
-            const newDocRef = doc(collection(db, "food"));
-            setIdRef(newDocRef.id);
-            setDoc(newDocRef, {
-              id: newDocRef.id,
-              title: foodItem?.title,
-              description: foodItem?.description,
-              category: foodItem?.category,
-              foodImage: downloadURL,
-              price: foodItem?.price,
-            })
-              .then((docRef) => {
-                console.log("Food item added successfully");
-                const notifyAdd = () => toast("Food item added successfully");
-                notifyAdd();
-                setModalOpen(false);
-                setButtonDisable(false);
-                setIsChange(!isChange);
+      const promises: any = [];     
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+              const db = getFirestore();
+              const newDocRef = doc(collection(db, "food"));
+              setIdRef(newDocRef.id);
+              setDoc(newDocRef, {
+                id: newDocRef.id,
+                title: foodItem?.title,
+                description: foodItem?.description,
+                category: foodItem?.category,
+                foodImage: downloadURL,
+                price: foodItem?.price,
               })
-              .catch((error) => {
-                console.log(error);
-              });
-          });
-        }
-      );
+                .then((docRef) => {
+                  console.log("Food item added successfully");
+                  const notifyAdd = () => toast("Food item added successfully");
+                  notifyAdd();
+                  setModalOpen(false);                 
+                  setButtonDisable(false);
+                  setIsChange(!isChange);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+          }
+        );    
       Promise.all(promises)
         .then(() => {
-          //backdrop for adding blog
+          //backdrop for adding blog          
           const notifyAdd = () => toast("Adding Food item");
           notifyAdd();
         })
@@ -328,31 +328,31 @@ const AddProduct: React.FC<AddProductProps> = ({
     };
 
     if (images) {
-      const promises: any = [];
-      const storageRef = ref(storage, `/images/${Math.random()}`);
-      const uploadTask: any = uploadBytesResumable(storageRef, images);
-      promises.push(uploadTask);
-      uploadTask.on(
-        "state_changed",
-        (snapshot: any) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
-            if (downloadURL) {
-              setImgUrls(downloadURL);
-            }
-            update(downloadURL);
-          });
-        }
-      );
+      const promises: any = [];     
+        const storageRef = ref(storage, `/images/${Math.random()}`);
+        const uploadTask: any = uploadBytesResumable(storageRef, images);
+        promises.push(uploadTask);
+        uploadTask.on(
+          "state_changed",
+          (snapshot: any) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+          },
+          (error: any) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              if (downloadURL) {
+                setImgUrls(downloadURL);
+              }
+              update(downloadURL);
+            });
+          }
+        );    
       Promise.all(promises)
         .then(() => {
           const notifyAdd = () => toast("Updating Food item");
@@ -414,7 +414,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-      // setIsLoading(true);
+     // setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
