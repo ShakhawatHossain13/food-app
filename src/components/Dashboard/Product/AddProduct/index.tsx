@@ -19,6 +19,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import { ProductListDataType } from "../ProductList";
+import Backdrop from "../../../Backdrop";
 
 type AddProductDataType = {
   id: string;
@@ -77,7 +78,7 @@ type AddProductProps = {
   ids?: string;
   titleForm?: string;
   setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
-  isChange?:Boolean;
+  isChange?: Boolean;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
@@ -108,6 +109,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
   const priceRegex = "^[0-9]+$|^$";
 
@@ -194,14 +196,14 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase(); 
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
       FileExtension === "png"
     ) {
       // for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[0];      
+      const newImage = e.target.files[0];
       // setImages((prevState): any => [...prevState, newImage]);
       setImages(newImage);
       console.log("new Image: ", newImage);
@@ -239,58 +241,60 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
+    setBackdrop(true);
     if (images) {
-      const promises: any = [];     
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, images);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              if (downloadURL) {
-                setImgUrls(downloadURL);
-              }
-              const db = getFirestore();
-              const newDocRef = doc(collection(db, "food"));
-              setIdRef(newDocRef.id);
-              setDoc(newDocRef, {
-                id: newDocRef.id,
-                title: foodItem?.title,
-                description: foodItem?.description,
-                category: foodItem?.category,
-                foodImage: downloadURL,
-                price: foodItem?.price,
+      const promises: any = [];
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, images);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+            const db = getFirestore();
+            const newDocRef = doc(collection(db, "food"));
+            setIdRef(newDocRef.id);
+            setDoc(newDocRef, {
+              id: newDocRef.id,
+              title: foodItem?.title,
+              description: foodItem?.description,
+              category: foodItem?.category,
+              foodImage: downloadURL,
+              price: foodItem?.price,
+            })
+              .then((docRef) => {
+                setBackdrop(false);
+                console.log("Food item added successfully");
+                const notifyAdd = () => toast("Food item added successfully");
+                notifyAdd();
+                setModalOpen(false);
+                setButtonDisable(false);
+                setIsChange(!isChange);
               })
-                .then((docRef) => {
-                  console.log("Food item added successfully");
-                  const notifyAdd = () => toast("Food item added successfully");
-                  notifyAdd();
-                  setModalOpen(false);                 
-                  setButtonDisable(false);
-                  setIsChange(!isChange);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            });
-          }
-        );    
+              .catch((error) => {
+                console.log(error);
+              });
+          });
+        }
+      );
       Promise.all(promises)
         .then(() => {
-          //backdrop for adding blog          
-          const notifyAdd = () => toast("Adding Food item");
-          notifyAdd();
+          //backdrop for adding blog
+          // const notifyAdd = () => toast("Adding Food item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
@@ -303,6 +307,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   // Edit selected item
   const onEdit = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const update = (uploadImage: string) => {
       const db = getFirestore();
       const docRef = doc(db, "food", `${ids}`);
@@ -317,6 +322,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       updateDoc(docRef, data)
         .then((docRef) => {
           setIsChange(!isChange);
+          setBackdrop(false);
           console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
@@ -328,41 +334,41 @@ const AddProduct: React.FC<AddProductProps> = ({
     };
 
     if (images) {
-      const promises: any = [];     
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, images);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              if (downloadURL) {
-                setImgUrls(downloadURL);
-              }
-              update(downloadURL);
-            });
-          }
-        );    
+      const promises: any = [];
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, images);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+            update(downloadURL);
+          });
+        }
+      );
       Promise.all(promises)
         .then(() => {
-          const notifyAdd = () => toast("Updating Food item");
-          notifyAdd();
+          // const notifyAdd = () => toast("Updating Food item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
+      handleImageDelete();
     } else {
       update(foodItem?.foodImage);
     }
-    handleImageDelete();
   };
 
   //Image delete from firebase storage
@@ -414,7 +420,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-     // setIsLoading(true);
+      // setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -441,6 +447,14 @@ const AddProduct: React.FC<AddProductProps> = ({
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle} </h3>
+          {backdrop ? (
+            <Backdrop />
+          ) : (
+            <>
+              <p></p>
+            </>
+          )}
+          ;
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
