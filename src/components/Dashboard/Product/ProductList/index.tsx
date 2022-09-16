@@ -136,7 +136,7 @@ const ProductList: React.FC = () => {
     <React.Fragment>
       <Sidebar />
       <section className="productlist">
-        <ToastContainer />
+        <ToastContainer autoClose={2000} />
 
         <div className="productlist__row">
           <h3 className="productlist__row__title">Product list</h3>
