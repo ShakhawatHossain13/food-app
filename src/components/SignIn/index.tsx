@@ -8,6 +8,8 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, firebaseDatabase } from "../../database/firebaseConfig";
 import { collection, onSnapshot } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export type AddUserDataType = {
   id?: string;
@@ -55,6 +57,11 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
   const [data, setData] = React.useState<AddUserDataType[]>([]);
+  const [credentialError, setCredentialError] = React.useState<boolean>(false);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
+
+  const emailInput =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
 
   // useEffect(() => {
   //   // save data in localstorage
@@ -73,6 +80,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
       ...prev,
       [name]: "",
     }));
+    setButtonDisable(false);
   };
 
   const isValid = () => {
@@ -82,9 +90,9 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
-        loginInfo[key as keyof typeof loginInfo] === ""
+        (loginInfo[key as keyof typeof loginInfo] === "" || 0)
       ) {
-        copyErrors[key] = "Required";
+        copyErrors[key] = "This filed cannot be empty";
         hasError = true;
       }
     }
@@ -120,6 +128,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     if (isValid()) {
       return;
     }
+    setButtonDisable(true);
     try {
       const user = await signInWithEmailAndPassword(
         auth,
@@ -129,8 +138,16 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
       if (await user) {
         getData(String(user.user.email));
       }
-      navigate("/", { replace: true });
+      Swal.fire({
+        icon: "success",
+        title: "Welcome",
+        text: "Successfully Logged In!",
+      });
+      // const notifyLogin = () => toast("Successfully Logged In!");
+      // notifyLogin();
+      await navigate("/", { replace: true });
     } catch (error) {
+      setCredentialError(true);
       console.log(error);
     }
   };
@@ -145,6 +162,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
         className="signIn__slider"
         style={{ background: `url(${homeslider}) ` }}
       >
+        <ToastContainer />
         <div className="signIn__slider__row">
           <div className="signIn__slider__row__main">
             <img
@@ -159,10 +177,32 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (!event.target.value.match(emailInput)) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Invalid email address",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "",
+                    }));
+                    handleChange(event);
+                  }
+                  // handleChange(event);
+                }}
+                style={{
+                  border:
+                    error.email === "This filed cannot be empty" ||
+                    error.email === "Invalid email address" ||
+                    credentialError
+                      ? "2px solid red"
+                      : "",
+                }}
               />
               <span className="signIn__slider__row__main__form__error">
-                {error.name}
+                {error.email}
               </span>
               <input
                 type="password"
@@ -171,10 +211,22 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 name="password"
                 placeholder="Password"
                 onChange={handleChange}
+                style={{
+                  border:
+                    error.password === "This filed cannot be empty" ||
+                    credentialError
+                      ? "2px solid red"
+                      : "",
+                }}
               />
               <span className="signIn__slider__row__main__form__error">
-                {error.name}
+                {error.password}
               </span>
+              {credentialError && (
+                <span className="signIn__slider__row__main__form__error">
+                  Wrong Credentials
+                </span>
+              )}
               <button
                 type="submit"
                 className="signIn__slider__row__main__form__input"
@@ -184,6 +236,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                   e.preventDefault();
                   handleLogin();
                 }}
+                disabled={buttonDisable}
               >
                 Sign in
               </button>

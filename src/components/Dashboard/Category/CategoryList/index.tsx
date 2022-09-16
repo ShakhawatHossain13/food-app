@@ -39,7 +39,7 @@ const CategoryList: React.FC = () => {
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
-  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(true);
 
   const handleOpenClick = () => {
     setFormTitle("Add Category");

@@ -4,23 +4,37 @@ import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { firebaseDatabase, auth } from "../../database/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+import Swal from "sweetalert2";
 
 export type AddUserDataType = {
+  id: string;
   name: string;
   contact: string;
   email: string;
   password: string;
+  confirmPassword?: string;
   isAdmin: boolean;
 };
 
 const newUser: AddUserDataType = {
+  id: "",
   name: "",
   contact: "",
   email: "",
   password: "",
+  confirmPassword: "",
   isAdmin: false,
 };
 
@@ -37,10 +51,21 @@ const userError: ErrorTypeUser = {
   confirmPassword: "",
 };
 
-const SignUp: React.FC = () => {
+type SignUpProps = {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
   let navigate = useNavigate();
   const [addUser, setAddUser] = React.useState<AddUserDataType>(newUser);
   const [error, setError] = React.useState<ErrorTypeUser>(userError);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
+  const [registered, setRegistered] = React.useState<boolean>(true);
+
+  const emailInput =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
+  const letterRegEx = /^[a-zA-Z]+$/;
+  const numericHyphen = "^[0-9-]+$|^$";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -71,14 +96,20 @@ const SignUp: React.FC = () => {
         validationFields.includes(key) &&
         (addUser[key as keyof typeof addUser] === "" || 0)
       ) {
-        copyErrors[key] = "Required*";
+        const fieldKey = key[0].toUpperCase() + key.slice(1);
+        copyErrors[key] = `${fieldKey} field is required`;
         hasError = true;
       }
     }
     setError(copyErrors);
     return hasError;
   };
-  const register = async () => {
+  const register = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (isValid()) {
+      return;
+    }
     try {
       const user = await createUserWithEmailAndPassword(
         auth,
@@ -86,8 +117,15 @@ const SignUp: React.FC = () => {
         addUser.password
       );
       console.log(user);
-      navigate("/", { replace: true });
+      setRegistered(false);
+      handleSubmit(e);
     } catch (error) {
+      setRegistered(true);
+      Swal.fire({
+        icon: "error",
+        title: "Signup failed",
+        text: "Email already in use!",
+      });
       console.log(error);
     }
   };
@@ -99,6 +137,7 @@ const SignUp: React.FC = () => {
     if (isValid()) {
       return;
     }
+    setButtonDisable(true);
     const collectionRef = collection(firebaseDatabase, "user");
     addDoc(collectionRef, {
       name: addUser.name,
@@ -110,6 +149,24 @@ const SignUp: React.FC = () => {
       .then((docRef) => {
         console.log("Document has been added successfully");
         console.log(docRef.id);
+        Swal.fire({
+          icon: "success",
+          title: "Welcome",
+          text: "Signup Successful!",
+        });
+        signInWithEmailAndPassword(auth, addUser.email, addUser.password);
+        const temp: AddUserDataType[] = [];
+        temp.push({
+          id: addUser.id,
+          name: addUser.name,
+          contact: addUser.contact,
+          email: addUser.email,
+          password: addUser.password,
+          isAdmin: addUser.isAdmin,
+        });
+        localStorage.setItem("user", JSON.stringify(temp[0]));
+        setIsLoggedIn(true);
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         console.log(error);
@@ -136,20 +193,54 @@ const SignUp: React.FC = () => {
                 id="name"
                 name="name"
                 placeholder="Name"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (!event.target.value.match(letterRegEx)) {
+                    setError((prev) => ({
+                      ...prev,
+                      name: "Letters only",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      name: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
+                style={{
+                  border: error.name !== "" ? "2px solid red" : "",
+                }}
               />
               <span className="signup__slider__row__main__form__error">
                 {error.name}
               </span>
               <input
                 className="signup__slider__row__main__form__input"
+                type="text"
                 id="contact"
                 name="contact"
+                value={addUser?.contact}
                 placeholder="Contact No."
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (!event.target.value.match(numericHyphen)) {
+                    setError((prev) => ({
+                      ...prev,
+                      contact: "Digits and hyphen only",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      contact: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
+                style={{
+                  border: error.contact !== "" ? "2px solid red" : "",
+                }}
               />
               <span className="signup__slider__row__main__form__error">
-                {error.name}
+                {error.contact}
               </span>
               <input
                 type="email"
@@ -157,10 +248,30 @@ const SignUp: React.FC = () => {
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (!event.target.value.match(emailInput)) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Invalid email address",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
+                style={{
+                  border:
+                    error.email === "Invalid email address" ||
+                    error.email !== ""
+                      ? "2px solid red"
+                      : "",
+                }}
               />
               <span className="signup__slider__row__main__form__error">
-                {error.name}
+                {error.email}
               </span>
               <input
                 type="password"
@@ -168,10 +279,26 @@ const SignUp: React.FC = () => {
                 id="password"
                 name="password"
                 placeholder="Password"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value.length < 6) {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "Password must be at least 6 characters long",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
+                style={{
+                  border: error.password !== "" ? "2px solid red" : "",
+                }}
               />
               <span className="signup__slider__row__main__form__error">
-                {error.name}
+                {error.password}
               </span>
               <input
                 type="password"
@@ -179,10 +306,26 @@ const SignUp: React.FC = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Confirm Password"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value !== addUser.password) {
+                    setError((prev) => ({
+                      ...prev,
+                      confirmPassword: "Password does not match",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      confirmPassword: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
+                style={{
+                  border: error.confirmPassword !== "" ? "2px solid red" : "",
+                }}
               />
               <span className="signup__slider__row__main__form__error">
-                {error.name}
+                {error.confirmPassword}
               </span>
               <button
                 type="submit"
@@ -191,9 +334,12 @@ const SignUp: React.FC = () => {
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   e.preventDefault();
-                  register();
-                  handleSubmit(e);
+                  register(e);
+                  // if (!registered) {
+                  //   handleSubmit(e);
+                  // }
                 }}
+                disabled={buttonDisable}
               >
                 Sign Up
               </button>
