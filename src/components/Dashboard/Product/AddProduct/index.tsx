@@ -18,6 +18,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
+import { ProductListDataType } from "../ProductList";
 
 type AddProductDataType = {
   id: string;
@@ -78,6 +79,7 @@ type AddProductProps = {
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
+  foodItemData: ProductListDataType[];
 };
 const AddProduct: React.FC<AddProductProps> = ({
   formTitle,
@@ -87,6 +89,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   setIsLoading,
   formReset,
   setFormReset,
+  foodItemData,
   setModalOpen,
 }) => {
   const [foodItem, setFoodItem] =
@@ -105,6 +108,32 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [selected, setSelected] = React.useState(displayImages[0]);
 
   const priceRegex = "^[0-9]+$|^$";
+
+  //Check previous products title for add a new product for create unique product every time
+  const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
+    foodItemData?.map((singleFoodData: ProductListDataType) => {
+      console.log(
+        "Previous product Title: ",
+        singleFoodData.title.toLowerCase()
+      );
+      if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
+        console.log("Input Title: ", inputTitle.toLowerCase());
+        
+        setButtonDisable(true);
+        setError((prev) => ({
+          ...prev,
+          title: "This Product already exists",
+        }));
+        setInputError((prev) => ({
+          ...prev,
+          title: true,
+        }));
+      } else {
+        setButtonDisable(false);
+      }
+    });
+  };
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -132,7 +161,13 @@ const AddProduct: React.FC<AddProductProps> = ({
     let hasError = false;
     const copyErrors: any = { ...error };
     const copyInputErrors: any = { ...inputError };
-    const validationFields = ["title", "description", "category", "price"];
+    const validationFields = [
+      "title",
+      "description",
+      "category",
+      "price",
+      "foodImage",
+    ];
     for (let key in copyErrors) {
       if (
         validationFields.includes(key) &&
@@ -149,7 +184,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const imageHandleChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
@@ -163,7 +198,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     console.log("File extension: ", FileExtension);
 
     if (
@@ -437,6 +472,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 name="title"
                 type="text"
                 value={foodItem?.title}
+                onBlur={handleUniqueTitle}
                 onChange={handleChange}
                 style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />
@@ -549,17 +585,22 @@ const AddProduct: React.FC<AddProductProps> = ({
                   <input
                     type="file"
                     accept="image/*"
-                    id="image"
-                    name="image"
+                    id="foodImage"
+                    name="foodImage"
                     onChange={(e) => {
                       setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
+                      handleChange(e);
                     }}
                     style={{
                       borderColor: inputError.foodImage ? "red" : "#5e5b5b",
                     }}
                   />
+                  <span className="addproduct__row__form__row__error">
+                    <br />
+                    {error.foodImage}
+                  </span>
                 </div>
 
                 {edit && editPreview ? (
