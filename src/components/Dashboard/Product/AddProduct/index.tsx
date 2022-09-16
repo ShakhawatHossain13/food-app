@@ -19,6 +19,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
 import { ProductListDataType } from "../ProductList";
+import Backdrop from "../../../Backdrop";
 
 type AddProductDataType = {
   id: string;
@@ -108,6 +109,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
   const priceRegex = "^[0-9]+$|^$";
 
@@ -239,6 +241,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   };
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
+    setBackdrop(true);
     if (images) {
       const promises: any = [];     
         const storageRef = ref(storage, `/images/${Math.random()}`);
@@ -273,11 +276,12 @@ const AddProduct: React.FC<AddProductProps> = ({
                 price: foodItem?.price,
               })
                 .then((docRef) => {
+                  setBackdrop(false);
                   console.log("Food item added successfully");
                   const notifyAdd = () => toast("Food item added successfully");
                   notifyAdd();
                   setModalOpen(false);                 
-                  setButtonDisable(false);
+                  setButtonDisable(false);                 
                   setIsChange(!isChange);
                 })
                 .catch((error) => {
@@ -289,8 +293,8 @@ const AddProduct: React.FC<AddProductProps> = ({
       Promise.all(promises)
         .then(() => {
           //backdrop for adding blog          
-          const notifyAdd = () => toast("Adding Food item");
-          notifyAdd();
+          // const notifyAdd = () => toast("Adding Food item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
@@ -303,6 +307,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   // Edit selected item
   const onEdit = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const update = (uploadImage: string) => {
       const db = getFirestore();
       const docRef = doc(db, "food", `${ids}`);
@@ -317,6 +322,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       updateDoc(docRef, data)
         .then((docRef) => {
           setIsChange(!isChange);
+          setBackdrop(false);
           console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
@@ -355,8 +361,8 @@ const AddProduct: React.FC<AddProductProps> = ({
         );    
       Promise.all(promises)
         .then(() => {
-          const notifyAdd = () => toast("Updating Food item");
-          notifyAdd();
+          // const notifyAdd = () => toast("Updating Food item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
@@ -441,6 +447,12 @@ const AddProduct: React.FC<AddProductProps> = ({
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle} </h3>
+          {backdrop ? (
+              <Backdrop />
+            ) : (<>
+            <p></p>
+            </>
+              )};
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
@@ -617,7 +629,8 @@ const AddProduct: React.FC<AddProductProps> = ({
             >
               {formTitle}
             </button>
-          </form>
+          </form>         
+        
         </div>
       </section>
     </React.Fragment>
