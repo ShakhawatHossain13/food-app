@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef } from "react";
+import React, { FormEvent } from "react";
 import "./style.css";
 import {
   getFirestore,
@@ -18,6 +18,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../../../../database/firebaseConfig";
+import Backdrop from "../../../Backdrop";
+import { BlogListDataType } from "../BlogList";
 
 type AddBlogDataType = {
   id: string;
@@ -41,6 +43,7 @@ type ErrorType = {
   id: string;
   title: string;
   description: string;
+  blogImage: string;
   date: string;
 };
 
@@ -48,53 +51,84 @@ const initialError: ErrorType = {
   id: "",
   title: "",
   description: "",
+  blogImage: "",
   date: "",
 };
+
 type InputErrorType = {
   id: boolean;
   title: boolean;
   description: boolean;
+  blogImage: boolean;
   date: boolean;
 };
 const initialInputError: InputErrorType = {
   id: false,
   title: false,
   description: false,
+  blogImage: false,
   date: false,
 };
-type AddBlogProps = {
+type addBlogProps = {
   formTitle: string;
+  blogItemData: BlogListDataType[];
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
-  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+  setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
+  isChange?: Boolean;
   formReset?: Boolean;
   setFormReset: React.Dispatch<React.SetStateAction<Boolean>>;
   setModalOpen: React.Dispatch<React.SetStateAction<Boolean>>;
 };
-const AddBlog: React.FC<AddBlogProps> = ({
+const AddBlog: React.FC<addBlogProps> = ({
   formTitle,
+  blogItemData,
   setFormTitle,
   ids,
   titleForm,
-  setIsLoading,
+  setIsChange,
+  isChange,
   formReset,
   setFormReset,
   setModalOpen,
 }) => {
   const [blogItem, setBlogItem] = React.useState<AddBlogDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
+  const [editPreview, setEditPreview] = React.useState<boolean>(true);
   const [error, setError] = React.useState<ErrorType>(initialError);
   const [inputError, setInputError] =
     React.useState<InputErrorType>(initialInputError);
   const [idRef, setIdRef] = React.useState<string>();
   const [imgUrls, setImgUrls] = React.useState<string>();
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = React.useState<any>();
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [editPreview, setEditPreview] = React.useState<boolean>(true);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+
+  //Check previous products title for add a new product for create unique product every time
+  const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputTitle = event.target.value;
+    blogItemData?.map((singleBlogData: BlogListDataType) => {
+      if (inputTitle.toLowerCase() === singleBlogData.title.toLowerCase()) {
+        console.log("Input Title: ", inputTitle.toLowerCase());
+
+        setButtonDisable(true);
+        setError((prev) => ({
+          ...prev,
+          title: "This Blog already exists",
+        }));
+        setInputError((prev) => ({
+          ...prev,
+          title: true,
+        }));
+      } else {
+        setButtonDisable(false);
+      }
+    });
+  };
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -112,7 +146,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
       ...prev,
       [name]: "",
     }));
-
     setInputError((prev) => ({
       ...prev,
       [name]: false,
@@ -140,7 +173,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
   };
 
   const imageHandleChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
@@ -154,19 +187,15 @@ const AddBlog: React.FC<AddBlogProps> = ({
   };
 
   const handleImageChange = (e: any) => {
-    const FileExtension = e.target.files[0].name.split(".")[1];
-    console.log("File extension: ", FileExtension);
-
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
       FileExtension === "jpeg" ||
       FileExtension === "jpg" ||
       FileExtension === "png"
     ) {
-      // for (let i = 0; i < e.target.files.length; i++) {
       const newImage = e.target.files[0];
-      // setImages(newImage);
-      setImages((prevState): any => [...prevState, newImage]);
-      // }
+      setImages(newImage);
+      console.log("new Image: ", newImage);
     } else {
       const notifyAdd = () =>
         toast.error("Please upload a image on JPG, JPEG & PNG format");
@@ -184,7 +213,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
-              maxHeight: "60px",
+              height: "60px",
               marginTop: "12px",
               border: "2px solid cadetblue",
               padding: "0 5px",
@@ -198,70 +227,76 @@ const AddBlog: React.FC<AddBlogProps> = ({
       );
     });
   };
-  const onAdd = async (foodItem: AddBlogDataType) => {
-    if (images.length > 0) {
+  const onAdd = async (blogItem: AddBlogDataType) => {
+    setButtonDisable(true);
+    setBackdrop(true);
+    if (images) {
       const promises: any = [];
-      images.map((image) => {
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              if (downloadURL) {
-                setImgUrls(downloadURL);
-              }
-              const db = getFirestore();
-              const newDocRef = doc(collection(db, "blog"));
-              setIdRef(newDocRef.id);
-              setButtonDisable(true);
-              setDoc(newDocRef, {
-                id: newDocRef.id,
-                title: blogItem?.title,
-                description: blogItem?.description,
-                blogImage: downloadURL,
-                date: blogItem.date,
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, images);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+            const db = getFirestore();
+            const newDocRef = doc(collection(db, "blog"));
+            setIdRef(newDocRef.id);
+            setDoc(newDocRef, {
+              id: newDocRef.id,
+              title: blogItem?.title,
+              description: blogItem?.description,
+              icon: "https://cdn4.iconfinder.com/data/icons/dot/256/cafe_coffee.png",
+              blogImage: downloadURL,
+              date: blogItem?.date,
+            })
+              .then((docRef) => {
+                setBackdrop(false);
+                console.log("Blog added successfully");
+                const notifyAdd = () => toast("Blog added successfully");
+                notifyAdd();
+                setModalOpen(false);
+                setButtonDisable(false);
+                setIsChange(!isChange);
               })
-                .then((docRef) => {
-                  setButtonDisable(false);
-                  const notifyAdd = () => toast("Blog item added successfully");
-                  notifyAdd();
-                  setModalOpen(false);
-                  setIsLoading(false);
-                  setButtonDisable(false);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            });
-          }
-        );
-      });
+              .catch((error) => {
+                console.log(error);
+              });
+          });
+        }
+      );
       Promise.all(promises)
         .then(() => {
           //backdrop for adding blog
-          const notifyAdd = () => toast("Adding Food item");
-          notifyAdd();
+          // const notifyAdd = () => toast("Adding Blog item");
+          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
+      setButtonDisable(false);
+      setBackdrop(false);
+      const notifyAdd = () => toast.error("Please upload Image!");
+      notifyAdd();
     }
   };
 
   // Edit selected item
   const onEdit = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const update = (uploadImage: string) => {
       const db = getFirestore();
       const docRef = doc(db, "blog", `${ids}`);
@@ -274,7 +309,8 @@ const AddBlog: React.FC<AddBlogProps> = ({
       };
       updateDoc(docRef, data)
         .then((docRef) => {
-          setIsLoading(false);
+          setIsChange(!isChange);
+          setBackdrop(false);
           console.log("Blog is updated");
           const notifyEdit = () => toast("Blog is updated");
           notifyEdit();
@@ -285,42 +321,42 @@ const AddBlog: React.FC<AddBlogProps> = ({
         });
     };
 
-    if (images.length > 0) {
+    if (images) {
       const promises: any = [];
-      images.map((image) => {
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              if (downloadURL) {
-                setImgUrls(downloadURL);
-              }
-              update(downloadURL);
-            });
-          }
-        );
-      });
-
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, images);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+            update(downloadURL);
+          });
+        }
+      );
       Promise.all(promises)
-        .then(() => {})
+        .then(() => {
+          // const notifyAdd = () => toast("Updating Food item");
+          // notifyAdd();
+        })
         .catch((err) => console.log(err));
+      handleImageDelete();
     } else {
       update(blogItem?.blogImage);
     }
-    handleImageDelete();
   };
 
   //Image delete from firebase storage
@@ -351,8 +387,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(false);
-
     setFormReset(true);
   };
 
@@ -373,7 +407,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
         date: results?.date,
       };
       setBlogItem(obj);
-      setIsLoading(true);
+      // setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -395,13 +429,12 @@ const AddBlog: React.FC<AddBlogProps> = ({
     }
   }, []);
 
-  console.log("images: ", images);
-
   return (
     <React.Fragment>
       <section className="addBlog">
         <div className="addBlog__row">
-          <h3 className="addBlog__row__title">{formTitle} </h3>
+          <h3 className="addBlog__row__title">{formTitle}</h3>
+          {backdrop ? <Backdrop /> : <></>}
           <form
             className="addBlog__row__form"
             onSubmit={(e) => handleSubmit(e)}
@@ -421,6 +454,7 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 name="title"
                 type="text"
                 value={blogItem?.title}
+                onBlur={handleUniqueTitle}
                 onChange={handleChange}
                 style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
               />
@@ -450,7 +484,6 @@ const AddBlog: React.FC<AddBlogProps> = ({
                 {error.description}
               </span>
             </div>
-
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
                 Date
@@ -486,11 +519,13 @@ const AddBlog: React.FC<AddBlogProps> = ({
                     accept="image/*"
                     id="image"
                     name="image"
-                    // multiple
                     onChange={(e) => {
                       setEditPreview(false);
                       imageHandleChange(e);
                       handleImageChange(e);
+                    }}
+                    style={{
+                      borderColor: inputError.blogImage ? "red" : "#5e5b5b",
                     }}
                   />
                 </div>

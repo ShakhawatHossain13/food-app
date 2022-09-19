@@ -7,7 +7,8 @@ button {
 }
 .blogList__row {
   margin: auto;
-  width: 90%;
+  padding-left: 50px;
+  width: 88%;
 }
 
 .blogList__row__button {
@@ -25,13 +26,11 @@ button {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 
 .blogList__row__button {
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 

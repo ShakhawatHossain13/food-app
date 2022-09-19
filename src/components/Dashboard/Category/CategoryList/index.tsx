@@ -1,23 +1,21 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import "./style.css";
 import Sidebar from "../../Sidebar";
+// import AddProduct from "../AddProduct";
 import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { firebaseDatabase } from "../../../../database/firebaseConfig";
+import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
-import AddCategory from "../AddCategory";
 import Backdrop from "../../../Backdrop";
+import { deleteObject, ref } from "firebase/storage";
+import AddCategory from "../AddCategory";
 
-type CategoryListDataType = {
+export type CategoryListDataType = {
   id: string;
   title: string;
   description: string;
@@ -30,6 +28,7 @@ const initialData: CategoryListDataType = {
   description: "",
   categoryImage: "",
 };
+
 const CategoryList: React.FC = () => {
   const [categoryItem, setCategoryItem] = React.useState<
     CategoryListDataType[]
@@ -38,23 +37,22 @@ const CategoryList: React.FC = () => {
   const [ids, setIds] = React.useState<string>("");
   const [title, setTitle] = React.useState<string>("");
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
+  const [isChange, setIsChange] = React.useState<Boolean>(false);
   const [formReset, setFormReset] = React.useState<Boolean>(false);
+  const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
+  const [add, setAdd] = React.useState<Boolean>(false);
+  const [edit, setEdit] = React.useState<Boolean>(false);
+  const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
+  const [categoryID, setCategoryID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
+  const [imageURL, setImageURL] = React.useState<string>("");
 
-  const handleOpenClick = () => {
-    setFormTitle("Add Category");
-    (document.getElementById("modal") as HTMLInputElement).style.display =
-      "block";
+  const handleModalOpen = () => {
+    setModalOpen(true);
   };
-  const handleCloseClick = () => {
-    (document.getElementById("modal") as HTMLInputElement).style.display =
-      "none";
-    setFormReset(true);
-    console.log("formset: ", formReset);
-  };
-  const handleCloseClickEdit = () => {
-    (document.getElementById("editModal") as HTMLInputElement).style.display =
-      "none";
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   const getData = async () => {
@@ -73,30 +71,48 @@ const CategoryList: React.FC = () => {
         return obj;
       });
       setCategoryItem(prepareData);
-      setIsLoading(true);
       setBackdrop(false);
+      // setIsChange(false);
+      // setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
     }
   };
 
+  //Image delete from firebase storage
+  const handleImageDelete = () => {
+    const imageRef = ref(storage, `images/${imageURL}`);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("Image delete from firebase Storage");
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+  };
+
   const handleDelete = (id: string) => {
-    var val = window.confirm("Are you sure to delete?");
+    setButtonDisable(true);
+    var val = true;
     if (val === true) {
       const db = getFirestore();
-      const categoryId = id.toString();
-      const docRef = doc(db, "category", `${categoryId}`);
+      const categoryID = id.toString();
+      const docRef = doc(db, "category", `${categoryID}`);
       deleteDoc(docRef)
         .then(() => {
-          console.log("One Category item has been deleted successfully.");
-          setIsLoading(false);
-          const notifyDelete = () => toast("Category item is deleted");
+          console.log("One Category has been deleted successfully.");
+          setIsLoading(!isLoading);
+          setDeleteModal(false);
+          setButtonDisable(false);
+          const notifyDelete = () => toast("Category is deleted");
           notifyDelete();
         })
         .catch((error) => {
           console.log(error);
         });
+      //Image delete from firebase storage
+      handleImageDelete();
       return true;
     } else {
       console.log("Process Aborted");
@@ -108,122 +124,200 @@ const CategoryList: React.FC = () => {
     getData();
   }, [isLoading]);
 
+  React.useEffect(() => {
+    getData();
+  }, [isChange]);
+
   return (
     <React.Fragment>
       <Sidebar />
       <section className="categoryList">
-        <ToastContainer />
-        {backdrop ? (
-          <Backdrop />
-        ) : (
-          <div className="categoryList__row">
-            <h3 className="categoryList__row__title">Category list</h3>
-            <div className="categoryList__row__button">
-              <button
-                className="categoryList__row__button__btn"
-                onClick={handleOpenClick}
-              >
-                + add
-              </button>
+        <ToastContainer autoClose={2000} />
+        <div className="categoryList__row">
+          <h3 className="categoryList__row__title">Category list</h3>
+          <div className="categoryList__row__button">
+            <button
+              className="categoryList__row__button__btn"
+              onClick={() => {
+                handleModalOpen();
+                setAdd(true);
+              }}
+            >
+              + add
+            </button>
+            {add && modalOpen && (
               <div id="modal" className="categoryList__row__modal">
                 <div className="categoryList__row__modal__content">
                   <span
                     className="categoryList__row__modal__content__close"
-                    onClick={handleCloseClick}
+                    onClick={() => {
+                      setFormReset(true);
+                      handleModalClose();
+                      setAdd(false);
+                    }}
                   >
                     &times;
                   </span>
                   <AddCategory
-                    formTitle={formTitle}
+                    formTitle="Add Category"
+                    categoryItemData={categoryItem}
                     setFormTitle={setFormTitle}
-                    setIsLoading={setIsLoading}
-                    handleCloseClick={handleCloseClick}
+                    isChange={isChange}
+                    setIsChange={setIsChange}
                     formReset={formReset}
                     setFormReset={setFormReset}
+                    setModalOpen={setModalOpen}
                   />
                 </div>
               </div>
-            </div>
-            <table className="categoryList__row__table">
-              <tr className="categoryList__row__table__row">
-                <th className="categoryList__row__table__row__text">Title</th>
-                <th className="blogList__row__table__row__text">Image</th>
-                <th className="categoryList__row__table__row__text">
-                  Description
-                </th>
-                <th className="categoryList__row__table__row__text">Actions</th>
-              </tr>
-              {categoryItem?.map((item) => {
-                return (
-                  <tr className="categoryList__row__table__row" key={item?.id}>
-                    <td className="categoryList__row__table__row__text">
-                      {item.title}
-                    </td>
-                    <td className="blogList__row__table__row__text">
-                      <img
-                        height="50px"
-                        width="50px"
-                        src={item.categoryImage}
-                        alt="Category Images"
-                      />
-                    </td>
-                    <td className="categoryList__row__table__row__text">
-                      {item.description.slice(0, 85)}
-                    </td>
-                    <td className="categoryList__row__table__row__text">
-                      <button
-                        className="categoryList__row__table__row__button__edit"
-                        onClick={() => {
-                          setFormTitle("Edit Category");
-                          setIds(item.id);
-                          setTitle(item.title);
-                          (
-                            document.getElementById(
-                              "editModal"
-                            ) as HTMLInputElement
-                          ).style.display = "block";
-                        }}
-                      >
-                        edit
-                      </button>
-                      <div id="editModal" className="categoryList__row__modal">
-                        <div className="categoryList__row__modal__content">
-                          <span
-                            className="categoryList__row__modal__content__close"
-                            onClick={handleCloseClickEdit}
-                          >
-                            &times;
-                          </span>
-                          <AddCategory
-                            formTitle={formTitle}
-                            setFormTitle={setFormTitle}
-                            ids={ids}
-                            titleForm={title}
-                            setIsLoading={setIsLoading}
-                            handleCloseClickEdit={handleCloseClickEdit}
-                            formReset={formReset}
-                            setFormReset={setFormReset}
-                          />
-                        </div>
-                      </div>
-                      <button
-                        className="categoryList__row__table__row__button__delete"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-              {!categoryItem?.length && (
-                <h1 className="categoryList__row__table__nodata">
-                  No Data Found!
-                </h1>
-              )}
-            </table>
+            )}
           </div>
-        )}
+          <table className="categoryList__row__table">
+            <tr className="categoryList__row__table__row">
+              <th className="categoryList__row__table__row__text">Title</th>
+              <th className="categoryList__row__table__row__text">Image</th>
+              <th className="categoryList__row__table__row__text">
+                Description
+              </th>
+              <th className="categoryList__row__table__row__text">Actions</th>
+            </tr>
+            {backdrop ? (
+              <Backdrop />
+            ) : (
+              <>
+                {categoryItem?.map((category) => {
+                  return (
+                    <tr
+                      className="categoryList__row__table__row"
+                      key={category?.id}
+                    >
+                      <td className="categoryList__row__table__row__text">
+                        {category.title.slice(0, 25)}
+                      </td>
+                      <td className="categoryList__row__table__row__text">
+                        <img
+                          height="50px"
+                          width="50px"
+                          src={category.categoryImage}
+                          alt="Category Images"
+                        />
+                      </td>
+                      <td className="categoryList__row__table__row__text">
+                        {category.description.slice(0, 50)}
+                      </td>
+                      <td className="categoryList__row__table__row__text">
+                        <button
+                          className="categoryList__row__table__row__button__edit"
+                          onClick={() => {
+                            setFormTitle("Edit Category");
+                            setIds(category.id);
+                            setTitle(category.title);
+                            setEdit(true);
+                            setAdd(false);
+                            setModalOpen(true);
+                          }}
+                        >
+                          edit
+                        </button>
+                        {edit && modalOpen && (
+                          <div
+                            id="editModal"
+                            className="categoryList__row__modal"
+                            style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
+                          >
+                            <div className="categoryList__row__modal__content">
+                              <span
+                                className="categoryList__row__modal__content__close"
+                                onClick={() => {
+                                  handleModalClose();
+                                  setEdit(false);
+                                }}
+                              >
+                                &times;
+                              </span>
+                              <AddCategory
+                                formTitle="Edit Category"
+                                categoryItemData={categoryItem}
+                                setFormTitle={setFormTitle}
+                                ids={ids}
+                                titleForm={title}
+                                isChange={isChange}
+                                setIsChange={setIsChange}
+                                formReset={formReset}
+                                setFormReset={setFormReset}
+                                setModalOpen={setModalOpen}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        <button
+                          className="categoryList__row__table__row__button__delete"
+                          disabled={buttonDisable}
+                          onClick={() => {
+                            setDeleteModal(true);
+                            console.log(category.id);
+                            setCategoryID(category.id);
+                            setImageURL(
+                              category.categoryImage
+                                .split("2F")[1]
+                                .split("?")[0]
+                            );
+                          }}
+                        >
+                          delete
+                        </button>
+                        {deleteModal && (
+                          <div className="categoryList__row__table__row__button__delete__modal">
+                            <span
+                              className="categoryList__delete__modal__close"
+                              onClick={() => {
+                                setDeleteModal(false);
+                                setButtonDisable(false);
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <div className="categoryList__delete__modal__confirm">
+                              <div>
+                                Are you sure you want to delete this record?
+                              </div>
+                              <div>
+                                <button
+                                  style={{ backgroundColor: "crimson" }}
+                                  disabled={buttonDisable}
+                                  onClick={() => {
+                                    handleDelete(categoryID);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  style={{ backgroundColor: "grey" }}
+                                  onClick={() => {
+                                    setDeleteModal(false);
+                                    setButtonDisable(false);
+                                    console.log("cancel: ", categoryID);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {!categoryItem?.length && (
+                  <h1 className="categoryList__row__table__nodata">
+                    No Data Found!
+                  </h1>
+                )}
+              </>
+            )}
+          </table>
+        </div>
       </section>
     </React.Fragment>
   );
