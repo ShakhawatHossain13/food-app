@@ -6,7 +6,8 @@ button {
   margin-left: 200px;
   &__row {
     margin: auto;
-    width: 90%;
+    padding-left: 50px;
+    width: 88%;
   }
 }
 .productlist__row__button {
@@ -21,13 +22,11 @@ button {
 .productlist__row__table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-  // float: right;
+  width: 90%;
   font-size: 14px;
 }
 .productlist__row__button {
-  width: 100%;
-  // float: right;
+  width: 90%;
   font-size: 14px;
 }
 .productlist__row__button__btn {

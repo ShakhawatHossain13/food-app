@@ -1,0 +1,38 @@
+.SameCategory__card {
+  border: 1px solid #6c6263;
+  border-radius: 5px;
+  min-width: 280px;
+  margin: 10px;
+  padding: 5px 8px 30px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.SameCategory__card__image {
+  height: 150px;
+  width: 150px;
+  margin: 15px 0px;
+  border-radius: 50%;
+}
+.SameCategory__card__body__title {
+  color: #005bc7;
+}
+.SameCategory__card__body__title h3 {
+  font-weight: 400;
+  font-size: 1rem;
+}
+.SameCategory__card__body__description {
+  color: #808080;
+}
+.SameCategory__card__body h2 {
+  color: #808080;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.SameCategory__card__card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}/*# sourceMappingURL=style.css.map */

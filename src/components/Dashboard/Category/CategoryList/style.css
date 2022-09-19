@@ -7,7 +7,8 @@ button {
 }
 .categoryList__row {
   margin: auto;
-  width: 90%;
+  padding-left: 50px;
+  width: 88%;
 }
 
 .categoryList__row__button {
@@ -25,13 +26,11 @@ button {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 
 .categoryList__row__button {
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 
@@ -72,7 +71,7 @@ button {
 }
 
 .categoryList__row__modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1;
   overflow-y: auto;
@@ -108,6 +107,53 @@ button {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.categoryList__row__table__row__button__delete__modal {
+  position: absolute;
+  top: 40%;
+  left: 38%;
+  z-index: 1;
+  width: 400px;
+  height: 150px;
+  box-shadow: 0 0 0 1500px rgba(0, 0, 0, 0.1);
+  background-color: #fefefe;
+  border: 1px solid #888;
+}
+
+.categoryList__delete__modal__close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 6px;
+  right: 15px;
+}
+
+.categoryList__delete__modal__close:hover,
+.categoryList__delete__modal__close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.categoryList__delete__modal__confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+  font-weight: bold;
+  color: darkslategray;
+}
+
+.categoryList__delete__modal__confirm button {
+  margin-top: 20px;
+  margin-inline: 5px;
+  height: 35px;
+  color: white;
+  border: 1px solid black;
 }
 
 .categoryList__row__table__nodata {

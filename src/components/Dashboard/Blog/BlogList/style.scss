@@ -5,7 +5,8 @@ button {
   margin-left: 200px;
   &__row {
     margin: auto;
-    width: 90%;
+    padding-left: 50px;
+    width: 88%;
   }
 }
 .blogList__row__button {
@@ -21,12 +22,10 @@ button {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 .blogList__row__button {
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 .blogList__row__button__btn {
@@ -96,6 +95,7 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+
 .blogList__row__table__row__button__delete__modal {
   position: absolute;
   top: 40%;
@@ -142,6 +142,6 @@ button {
   color: white;
   border: 1px solid black;
 }
-.blogList__row__table__nodata{
+.blogList__row__table__nodata {
   margin-top: 20px;
 }
