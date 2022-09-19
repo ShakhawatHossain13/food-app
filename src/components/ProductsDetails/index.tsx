@@ -12,26 +12,33 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../database/firebaseConfig";
-import Cart from "../Cart";
- 
+import Cart from "../Cart"; 
 import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
 import ProductsDetailsBottom from "./ProductsDetailsBottom";
- 
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
-  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
+  const {
+    itemQuantity,
+    setItemQuantity,
+    foodItem,
+    setFoodItem,
+    cartItem,
+    setCartItem,
+    handleAddToCart,
+  } = React.useContext(CartContext) as CartBasicInfoProps;
   //const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   const [allFoodItem, setAllFoodItem] = React.useState<
     ProductsDetailsDataType[]
   >([]);
- 
- // const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
+
+  // const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
   //const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   // const categoryFood = foodItem.filter((food) => food.category === "Lunch");
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
- 
+
   const [disable, setDisable] = React.useState(false);
+  const numericInput = "^[1-9][0-9]*$";
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
@@ -118,7 +125,7 @@ const ProductsDetails: React.FC = () => {
   //     console.log("2nd Cart quantity: ", cart[1]?.quantity);
   //     console.log(
   //       "Two Cart price: ",
-  //       cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
+  //       cart[0].quantity  cart[0].price + cart[1]?.quantity  cart[1]?.price
   //     );
   //   }
   // }
@@ -193,7 +200,9 @@ const ProductsDetails: React.FC = () => {
                     name="itemQuantity"
                     value={itemQuantity}
                     onChange={(event) => {
-                      setItemQuantity(Number(event.target.value));
+                      if (event.target.value.match(numericInput)) {
+                        setItemQuantity(Number(event.target.value));
+                      }
                     }}
                   ></input>
                   <button
