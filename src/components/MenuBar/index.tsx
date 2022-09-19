@@ -40,13 +40,20 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
               JSON.parse(localStorage.getItem("user")).isAdmin ? (
                 <>
                   <Link to="/">Home</Link>
+                  <Link to="/about">About</Link>
                   <Link to="/productlist">Admin</Link>
                 </>
               ) : (
-                <Link to="/">Home</Link>
+                <>
+                  <Link to="/">Home</Link>
+                  <Link to="/about">About</Link>
+                </>
               )
             ) : (
-              <Link to="/">Home</Link>
+              <>
+                <Link to="/">Home</Link>
+                <Link to="/about">About</Link>
+              </>
             )
           }
         </div>

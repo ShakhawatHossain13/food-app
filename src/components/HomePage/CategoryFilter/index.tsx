@@ -66,7 +66,7 @@ const CategoryFilter: React.FC = () => {
       setBottomBar(3);
     }
   };
-
+  const categoryLink = selectedCategory.toLowerCase();
   return (
     <React.Fragment>
       <section className="categoryFilter">
@@ -135,7 +135,7 @@ const CategoryFilter: React.FC = () => {
         </div>
         <Link
           style={{ textDecoration: "none", color: "gray" }}
-          to={`/category-details/${selectedCategory}`}
+          to={`/category-details/${categoryLink}`}
         >
           <button className="productsDetails__card__body__cart">
             View Details
