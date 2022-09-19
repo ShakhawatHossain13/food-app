@@ -30,6 +30,10 @@ const App: React.FC = () => {
       setIsLoggedIn(true);
     }
   }, []);
+  // @ts-ignore
+  const loggedInUserID = JSON.parse(localStorage.getItem("user")).id;
+  console.log("Logged In userID: ", loggedInUserID);
+
   return (
     <React.Fragment>
       <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
@@ -52,10 +56,10 @@ const App: React.FC = () => {
           path="/signup"
           element={<SignUp setIsLoggedIn={setIsLoggedIn} />}
         />
+        <Route path="/dashboard" element={<ProductList />} />
+        <Route path="/dashboard/category-list" element={<CategoryList />} />
+        <Route path="/dashboard/productlist" element={<ProductList />} />
         <Route element={<RequireAdmin />}>
-          <Route path="/dashboard" element={<ProductList />} />
-          <Route path="/dashboard/category-list" element={<CategoryList />} />
-          <Route path="/dashboard/productlist" element={<ProductList />} />
           <Route path="/dashboard/blog-list" element={<BlogList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
@@ -66,3 +70,11 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+// import { getData } from "./database/crud";
+// import Blog from "./database/crud";
+//   // React.useEffect(() => {
+//   //   getData();
+//   // }, []);
+
+//     //  {/* <Blog /> */}
