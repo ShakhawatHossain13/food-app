@@ -1,7 +1,7 @@
 .cart {
   margin: auto;
   max-width: 1110px;
-  height: 410px;
+  min-height: 410px;
   background-position-x: 40% !important;
   background-position-y: 40% !important;
   background-size: cover !important;
@@ -23,14 +23,13 @@
 .cart__table__header {
   border-bottom: 1px solid #a29c9c;
   text-align: left;
-  padding: 5px;
+  padding: 5px 15px;
   color: #a29c9c;
 }
 .cart__table__field {
-  background-color: rgba(162, 156, 156, 0.6862745098);
   border-bottom: 1px solid rgba(255, 255, 255, 0.63);
   text-align: left;
-  padding: 5px;
+  padding: 5px 15px;
 }
 .cart__table__deleteButton {
   padding: 5px;
