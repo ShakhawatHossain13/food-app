@@ -2,10 +2,12 @@ button {
   cursor: pointer;
 }
 .productlist {
+  margin-top: 20px;
   margin-left: 200px;
   &__row {
     margin: auto;
-    width: 90%;
+    padding-left: 50px;
+    width: 88%;
   }
 }
 .productlist__row__button {
@@ -21,12 +23,10 @@ button {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 .productlist__row__button {
   width: 90%;
-  float: right;
   font-size: 14px;
 }
 .productlist__row__button__btn {

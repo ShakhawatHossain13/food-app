@@ -1,7 +1,3 @@
-.textSize {
-  word-wrap: break-word;
-  word-break: break-all;
-}
 .addBlog__row {
   margin: auto;
   width: 100%;
@@ -32,6 +28,7 @@
   margin-right: 10px;
 }
 .addBlog__row__form__row__input,
+.addBlog__row__form__input,
 .addBlog__row__form__row__input__select {
   padding: 5px;
   border: 1.5px solid #5e5b5b;
@@ -50,7 +47,18 @@
   margin-top: 20px;
   margin-left: 0;
 }
-
+.addBlog__row__form__row__input__error {
+  padding: 5px;
+  border: 1.5px solid red;
+  border-radius: 3px;
+  font-family: inherit;
+}
+.image__preview {
+  height: 60px;
+}
+.image__preview{
+  height: 60px;
+}
 .addBlog__row__form__row__error {
   width: 200%;
   color: red;
