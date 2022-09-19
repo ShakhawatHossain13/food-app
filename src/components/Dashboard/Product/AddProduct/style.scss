@@ -44,7 +44,7 @@
 .addproduct__row__form__row__button {
   padding: 10px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 0;
 }
 .addproduct__row__form__row__input__error {
@@ -55,10 +55,13 @@
 }
 .image__preview {
   height: 60px;
+  border: 1px solid #5e5b5b;
+  border-radius: 3px;
+  margin-top: 10px;
+  padding-bottom: 30px;
+  padding-left: 10px;
 }
-.image__preview{
-  height: 60px;
-}
+
 .addproduct__row__form__row__error {
   width: 200%;
   color: red;

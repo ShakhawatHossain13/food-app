@@ -1,17 +1,18 @@
 .menubar {
-  width: 80%;
+  width: 70%;
   max-width: 1110px;
   margin: auto;
-  padding: 15px;
+  padding: 15px 15%;
   display: grid;
   align-items: center;
-  grid-template-columns: 0.6fr 2.7fr 1.8fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: rgb(255, 248, 240);
 }
 
 .menubar__left {
   display: flex;
-  gap: 15px;
-  padding-inline: 15px;
+  justify-content: space-evenly;
+  padding-inline: 15%;
 }
 
 a {
