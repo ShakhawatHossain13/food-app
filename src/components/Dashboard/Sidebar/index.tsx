@@ -8,42 +8,52 @@ const Sidebar: React.FC = () => {
   return (
     <React.Fragment>
       <div className="sidebar">
-        <NavLink style = {({ isActive })=>  isActive
-                ? {
-                    color: '#fff',
-                    background: 'cadetblue',
-                  }
-                : { 
-                    color:'#000'} }
-                    className="sidebar__option" 
-                    to="/productlist" >
+        <NavLink
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+          className="sidebar__option"
+          to="/dashboard/productlist"
+        >
           Product List
         </NavLink>
-        <NavLink 
-          className="sidebar__option" 
-          to="/category-list"
-          style = {({ isActive })=>  isActive
-                ? {
-                    color: '#fff',
-                    background: 'cadetblue',
-                  }
-                : { 
-                    color:'#000'} }
-          
-          >
+        <NavLink
+          className="sidebar__option"
+          to="/dashboard/category-list"
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+        >
           Category List
         </NavLink>
-        <NavLink 
-            className="sidebar__option" 
-            to="/blog-list"
-            style = {({ isActive })=>  isActive
-                ? {
-                    color: '#fff',
-                    background: 'cadetblue',
-                  }
-                : { 
-                    color:'#000'} }
-            >
+        <NavLink
+          className="sidebar__option"
+          to="/dashboard/blog-list"
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+        >
           Blog List
         </NavLink>
       </div>

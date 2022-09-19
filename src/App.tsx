@@ -52,11 +52,11 @@ const App: React.FC = () => {
           path="/signup"
           element={<SignUp setIsLoggedIn={setIsLoggedIn} />}
         />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/productlist" element={<ProductList />} />
         <Route element={<RequireAdmin />}>
-          <Route path="/blog-list" element={<BlogList />} />
+          <Route path="/dashboard" element={<ProductList />} />
+          <Route path="/dashboard/category-list" element={<CategoryList />} />
+          <Route path="/dashboard/productlist" element={<ProductList />} />
+          <Route path="/dashboard/blog-list" element={<BlogList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/backdrop" element={<Backdrop />} />
@@ -66,11 +66,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// import { getData } from "./database/crud";
-// import Blog from "./database/crud";
-//   // React.useEffect(() => {
-//   //   getData();
-//   // }, []);
-
-//     //  {/* <Blog /> */}

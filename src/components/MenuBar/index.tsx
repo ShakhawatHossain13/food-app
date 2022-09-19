@@ -41,7 +41,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                 <>
                   <Link to="/">Home</Link>
                   <Link to="/about">About</Link>
-                  <Link to="/productlist">Admin</Link>
+                  <Link to="/dashboard">Admin</Link>
                 </>
               ) : (
                 <>
