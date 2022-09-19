@@ -14,33 +14,17 @@ import {
 import { firebaseDatabase } from "../../database/firebaseConfig";
 import { Link } from "react-router-dom";
 import Cart from "../Cart";
-
-type ProductsDetailsDataType = {
-  id?: string;
-  title: string;
-  description: string;
-  foodImage?: string;
-  category: string;
-  price: string;
-};
-
-export type CartDataType = {
-  id: string;
-  title: string;
-  foodImage?: string;
-  price: number;
-  quantity: number;
-};
-
+import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
+ 
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
-
-  const [itemQuantity, setItemQuantity] = React.useState<number>(1);
+  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
+  //const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   const [allFoodItem, setAllFoodItem] = React.useState<
     ProductsDetailsDataType[]
   >([]);
-  const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
-  const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
+ // const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
+  //const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   // const categoryFood = foodItem.filter((food) => food.category === "Lunch");
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
@@ -113,22 +97,16 @@ const ProductsDetails: React.FC = () => {
   //   setItemQuantity(Number(e.target.value));
   // };
 
-  const handleAddToCart = () => {
-    const cartProducts: CartDataType = {
-      id: String(foodItem?.id),
-      title: String(foodItem?.title),
-      price: Number(foodItem?.price),
-      quantity: itemQuantity,
-    };
-    setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-    localStorage.setItem("cart", JSON.stringify([...cartItem, cartProducts]));
-
-    // <Cart cartItem={cartItem} />;
-    setDisable(true);
-    setTimeout(() => {
-      setDisable(false);
-    }, 5000);
-  };
+  // const handleAddToCart = () => {
+  //   const cartProducts: CartDataType = {
+  //     id: String(foodItem?.id),
+  //     title: String(foodItem?.title),
+  //     price: Number(foodItem?.price),
+  //     quantity: itemQuantity,
+  //   };
+  //   setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+  //   localStorage.setItem("cart", JSON.stringify([...cartItem, cartProducts]));
+  // };
 
   console.log("All cart Items:", cartItem);
   // localStorage.setItem("cart", JSON.stringify(cartItem));

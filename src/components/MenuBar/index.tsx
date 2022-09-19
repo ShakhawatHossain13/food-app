@@ -24,6 +24,11 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
     setClose(false);
   };
 
+  
+  // @ts-ignore
+  const cart = JSON.parse(localStorage.getItem("cart"));
+
+   
   return (
     <React.Fragment>
       <div className="menubar">
@@ -132,7 +137,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/login" onClick={handleBurgerMenuClose}>
+                  <Link to="/login" onClick={handleBurgerMenuClose} >
                     Login
                   </Link>
                 </li>
