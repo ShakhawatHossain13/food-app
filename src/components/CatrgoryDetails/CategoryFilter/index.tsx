@@ -32,17 +32,16 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
-  console.log("Selected Category", selectedCategory);
-  console.log("Selected Food", selectedFood);
+
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
   let sortedFoodItems: Array<string>;
   if (sortByPrice === "lowHigh") {
     // Price Low To High
-    selectedFood?.sort((a, b) => (a.price > b.price ? 1 : -1));
+    selectedFood?.sort((a, b) => (Number(a.price) > Number(b.price) ? 1 : -1));
   } else if (sortByPrice === "highLow") {
     // Price High To Low
-    selectedFood?.sort((a, b) => (a.price > b.price ? -1 : 1));
+    selectedFood?.sort((a, b) => (Number(a.price) > Number(b.price) ? -1 : 1));
   }
 
   const getData = async () => {
