@@ -1,20 +1,61 @@
 import React from "react";
 import "./style.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import path from "path";
+import { getToPathname } from "react-router/lib/router";
 
 const Sidebar: React.FC = () => {
   return (
     <React.Fragment>
       <div className="sidebar">
-        <Link className="sidebar__option" to="/productlist">
+        <NavLink
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+          className="sidebar__option"
+          to="/dashboard/productlist"
+        >
           Product List
-        </Link>
-        <Link className="sidebar__option" to="/category-list">
+        </NavLink>
+        <NavLink
+          className="sidebar__option"
+          to="/dashboard/category-list"
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+        >
           Category List
-        </Link>
-        <Link className="sidebar__option" to="/blog-list">
+        </NavLink>
+        <NavLink
+          className="sidebar__option"
+          to="/dashboard/blog-list"
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#fff",
+                  background: "cadetblue",
+                }
+              : {
+                  color: "#000",
+                }
+          }
+        >
           Blog List
-        </Link>
+        </NavLink>
       </div>
     </React.Fragment>
   );
