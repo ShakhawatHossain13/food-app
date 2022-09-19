@@ -15,36 +15,40 @@ import { RequireAdmin } from "./Authentication/RequireAdmin";
 import { RequireAuth } from "./Authentication/RequireAuth";
 import CategoryList from "./components/Dashboard/Category/CategoryList";
 import BlogList from "./components/Dashboard/Blog/BlogList";
-import Backdrop from "./components/Backdrop";  
+import Backdrop from "./components/Backdrop";
 import { CartContext } from "../src/contexts/CartContext";
-import { ProductsDetailsDataType, CartDataType , initialDataProductsDetails} from "../src/contexts/CartContext";
+import {
+  ProductsDetailsDataType,
+  CartDataType,
+  initialDataProductsDetails,
+} from "../src/contexts/CartContext";
 import { async } from "@firebase/util";
 
- 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>(initialDataProductsDetails);
+  const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>(
+    initialDataProductsDetails
+  );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   let navigate = useNavigate();
-  
 
   const handleAddToCart = () => {
     const cartProducts: CartDataType = {
       user: loggedInUserID,
       id: String(foodItem?.id),
-      title: String(foodItem?.title), 
+      title: String(foodItem?.title),
       price: Number(foodItem?.price),
       foodImage: String(foodItem?.foodImage),
       quantity: itemQuantity,
     };
-    setCartItem((prevState): CartDataType[] => [...prevState, cartProducts])     
+    setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
   };
   // @ts-ignore
-  const loggedInUserID = JSON.parse(localStorage.getItem("user")).id;
-  
+  const loggedInUserID = JSON.parse(localStorage.getItem("user"))?.id;
+
   useEffect(() => {
-  // @ts-ignore
+    // @ts-ignore
     const data = JSON.parse(localStorage.getItem("user"));
     if (!data) {
       setIsLoggedIn(false);
@@ -53,14 +57,12 @@ const App: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
   }, [cartItem]);
- 
-
 
   return (
-    <React.Fragment>      
+    <React.Fragment>
       <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -69,21 +71,44 @@ const App: React.FC = () => {
           element={<CategoryDetails />}
         />
         <Route
-            path="/products-details/:id"
+          path="/products-details/:id"
+          element={
+            <CartContext.Provider
+              value={{
+                itemQuantity,
+                setItemQuantity,
+                foodItem,
+                setFoodItem,
+                cartItem,
+                setCartItem,
+                handleAddToCart,
+              }}
+            >
+              <ProductsDetails />
+            </CartContext.Provider>
+          }
+        />
+        <Route path="/blog-details/:id" element={<BlogDetails />} />
+        <Route element={<RequireAuth />}>
+          <Route
+            path="/cart"
             element={
-              <CartContext.Provider value={{itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, handleAddToCart}}>
-                <ProductsDetails />
+              <CartContext.Provider
+                value={{
+                  itemQuantity,
+                  setItemQuantity,
+                  foodItem,
+                  setFoodItem,
+                  cartItem,
+                  setCartItem,
+                  handleAddToCart,
+                }}
+              >
+                <Cart />
               </CartContext.Provider>
             }
           />
-        <Route path="/blog-details/:id" element={<BlogDetails />} />
-        <Route element={<RequireAuth />}>         
-          <Route path="/cart" element={            
-            <CartContext.Provider value={{itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, handleAddToCart}}>
-              <Cart />
-            </CartContext.Provider>
-            } />
-           </Route>           
+        </Route>
         <Route
           path="/signin"
           element={<SignIn setIsLoggedIn={setIsLoggedIn} />}
@@ -92,11 +117,11 @@ const App: React.FC = () => {
           path="/signup"
           element={<SignUp setIsLoggedIn={setIsLoggedIn} />}
         />
-        <Route path="/dashboard" element={<ProductList />} />
-        <Route path="/dashboard/category-list" element={<CategoryList />} />
-        <Route path="/dashboard/productlist" element={<ProductList />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/category-list" element={<CategoryList />} />
+        <Route path="/productlist" element={<ProductList />} />
         <Route element={<RequireAdmin />}>
-          <Route path="/dashboard/blog-list" element={<BlogList />} />
+          <Route path="/blog-list" element={<BlogList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/backdrop" element={<Backdrop />} />
@@ -107,3 +132,10 @@ const App: React.FC = () => {
 
 export default App;
 
+// import { getData } from "./database/crud";
+// import Blog from "./database/crud";
+//   // React.useEffect(() => {
+//   //   getData();
+//   // }, []);
+
+//     //  {/ <Blog /> /}

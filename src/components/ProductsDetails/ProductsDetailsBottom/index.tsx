@@ -4,8 +4,15 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ProductsDetailsDataType } from "..";
 
+type ProductsDetailsDataType = {
+  id?: string;
+  title: string;
+  description: string;
+  foodImage?: string;
+  category: string;
+  price: string;
+};
 type ProductsDetailsBottomProps = {
   sameCategoryFood: ProductsDetailsDataType[];
 };
