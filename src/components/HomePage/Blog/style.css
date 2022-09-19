@@ -13,7 +13,7 @@
 }
 .blog__navbar__item {
   margin-right: 10px;
-  color: #015EC9;
+  color: #015ec9;
   padding: 10px;
   font-weight: 400;
   cursor: pointer;
@@ -35,11 +35,12 @@
   padding: 0 15px;
 }
 .blog__card {
+  border: 1px solid #6c6263;
   min-width: 300px;
   margin: auto;
   cursor: pointer;
   padding: 10px;
-  border-radius: 5%;
+  border-radius: 2%;
 }
 .blog__card__image {
   height: 220px;

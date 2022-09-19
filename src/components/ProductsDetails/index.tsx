@@ -12,10 +12,10 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../database/firebaseConfig";
-import { Link } from "react-router-dom";
 import Cart from "../Cart";
+import ProductsDetailsBottom from "./ProductsDetailsBottom";
 
-type ProductsDetailsDataType = {
+export type ProductsDetailsDataType = {
   id?: string;
   title: string;
   description: string;
@@ -41,21 +41,10 @@ const ProductsDetails: React.FC = () => {
   >([]);
   const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
-  // const categoryFood = foodItem.filter((food) => food.category === "Lunch");
-  const [startItem, setStartItem] = React.useState(0);
-  const [endItem, setEndItem] = React.useState(3);
   const [disable, setDisable] = React.useState(false);
-  // const initialImage = foodItem?.map((food) => food.foodImage);
-  //const [selected, setSelected] = React.useState(initialImage[0]);
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
-
-  const Pagination = (start: number, end: number) => {
-    setStartItem(start);
-    setEndItem(end);
-  };
-  // console.log(initialImage[0]);
 
   //Get all Food Data
   const getAllFoodData = async () => {
@@ -239,59 +228,16 @@ const ProductsDetails: React.FC = () => {
               </button>
             </div>
           </div>
+          {/* Product in Same category section Slider*/}
 
-          {/* Product in Same category section */}
-          <h1 className="productsDetails__endTitle">
-            Product in Same Category
-          </h1>
-          <div className="productsDetails__sameCategory">
-            {categoryFood?.slice(startItem, endItem).map((foods) => {
-              return (
-                <Link
-                  style={{ textDecoration: "none", color: "gray" }}
-                  to={`/products-details/${foods?.id?.trim()}`}
-                >
-                  <div className="productsDetails__sameCategory__card">
-                    <img
-                      className="productsDetails__sameCategory__card__image"
-                      src={foods?.foodImage}
-                      alt="Food Images"
-                    />
-                    <div className="productsDetails__sameCategory__card__body">
-                      <div className="productsDetails__sameCategory__card__body__title">
-                        <h3>{foods?.title}</h3>
-                      </div>
-                      <div className="productsDetails__sameCategory__card__body__description">
-                        <p>{foods?.description.slice(0, 26)}...</p>
-                      </div>
-                      <h2>{foods?.price} $</h2>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="productsDetails__pagination">
-            <button
-              className="productsDetails__pagination"
-              onClick={() => Pagination(0, 2)}
-            >
-              .
-            </button>
-            <button
-              className="productsDetails__pagination"
-              onClick={() => Pagination(3, 5)}
-            >
-              .
-            </button>
-            <button
-              className="productsDetails__pagination"
-              onClick={() => Pagination(6, 9)}
-            >
-              .
-            </button>
-          </div>
+          {categoryFood.length > 0 && (
+            <div>
+              <h2 className="productsDetails__endTitle">
+                Product in Same Category
+              </h2>
+              <ProductsDetailsBottom sameCategoryFood={categoryFood} />
+            </div>
+          )}
         </div>
       </section>
       <Footer />
