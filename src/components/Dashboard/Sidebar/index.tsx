@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { Link, NavLink } from "react-router-dom";
 import path from "path";
-import { getToPathname } from "react-router/lib/router";
+// import { getToPathname } from "react-router/lib/router";
 
 const Sidebar: React.FC = () => {
   return (

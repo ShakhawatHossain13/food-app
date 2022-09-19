@@ -28,7 +28,9 @@
   margin-right: 10px;
 }
 
-.addCategory__row__form__row__input, .addCategory__row__form__row__input__select {
+.addCategory__row__form__row__input,
+.addCategory__row__form__input,
+.addCategory__row__form__row__input__select {
   padding: 5px;
   border: 1.5px solid #5e5b5b;
   border-radius: 3px;
@@ -46,6 +48,21 @@
   width: 100%;
   margin-top: 20px;
   margin-left: 0;
+}
+
+.addCategory__row__form__row__input__error {
+  padding: 5px;
+  border: 1.5px solid red;
+  border-radius: 3px;
+  font-family: inherit;
+}
+
+.image__preview {
+  height: 60px;
+}
+
+.image__preview {
+  height: 60px;
 }
 
 .addCategory__row__form__row__error {
