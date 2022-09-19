@@ -47,6 +47,9 @@ const ProductsDetails: React.FC = () => {
   const [disable, setDisable] = React.useState(false);
   // const initialImage = foodItem?.map((food) => food.foodImage);
   //const [selected, setSelected] = React.useState(initialImage[0]);
+
+  const numericInput = "^[1-9][0-9]*$";
+
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
@@ -220,7 +223,9 @@ const ProductsDetails: React.FC = () => {
                     name="itemQuantity"
                     value={itemQuantity}
                     onChange={(event) => {
-                      setItemQuantity(Number(event.target.value));
+                      if (event.target.value.match(numericInput)) {
+                        setItemQuantity(Number(event.target.value));
+                      }
                     }}
                   ></input>
                   <button
