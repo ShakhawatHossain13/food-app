@@ -214,14 +214,15 @@ const ProductsDetails: React.FC = () => {
                       <AiOutlineMinus size="18px" />
                     </button>
                   )}
-                  <h1>{itemQuantity}</h1>
-                  {/* <input
-                    type="number"
+                  <input
+                    type="text"
                     id="itemQuantity"
                     name="itemQuantity"
                     value={itemQuantity}
-                    onChange={handleItemQuantity}
-                  ></input> */}
+                    onChange={(event) => {
+                      setItemQuantity(Number(event.target.value));
+                    }}
+                  ></input>
                   <button
                     onClick={handleItemQuantityPlus}
                     className="productsDetails__card__body__price__quantity__plus"

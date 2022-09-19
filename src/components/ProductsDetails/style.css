@@ -1,4 +1,14 @@
 /* Products Details Section Start*/
+#itemQuantity {
+  text-align: center;
+  width: 35px;
+  font-size: 18px;
+  font-weight: 800;
+  margin-inline: 2px;
+  border: none;
+  outline: none;
+}
+
 .productsDetails {
   max-width: 1110px;
   margin: auto;
@@ -63,11 +73,12 @@
   display: flex;
 }
 .productsDetails__card__body__price__quantity {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   height: 35px;
-  width: 18%;
+  width: 22%;
   margin-top: 5px;
-  margin-left: 50px;
+  margin-left: 30px;
   border-radius: 25px;
   border: 1px solid black;
 }
@@ -88,13 +99,13 @@
   border: none;
   color: #dc3545;
   cursor: pointer;
-  padding: 0px 10px;
+  padding: 0px 8px;
 }
 .productsDetails__card__body__price__quantity__minus {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0px 10px;
+  padding: 0px 8px;
 }
 .productsDetails__card__body h2 {
   font-size: 2rem;

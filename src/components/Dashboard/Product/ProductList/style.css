@@ -3,6 +3,7 @@ button {
 }
 
 .productlist {
+  margin-top: 20px;
   margin-left: 200px;
 }
 .productlist__row {
@@ -24,14 +25,12 @@ button {
 .productlist__row__table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 90%;
-  float: right;
+  width: 100%;
   font-size: 14px;
 }
 
 .productlist__row__button {
-  width: 90%;
-  float: right;
+  width: 100%;
   font-size: 14px;
 }
 
