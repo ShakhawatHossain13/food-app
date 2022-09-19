@@ -40,6 +40,7 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 2%;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
     &__image {
       height: 220px;
       width: 320px;
@@ -73,10 +74,10 @@
       line-height: 1.8rem;
     }
   }
-  &__card:hover {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-  }
+  // &__card:hover {
+  //   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
+  //   border-radius: 5px;
+  // }
 }
 
 // tablet-version
