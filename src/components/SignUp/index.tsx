@@ -65,7 +65,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
   const emailInput =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
   const letterRegEx = /^[a-zA-Z]+$/;
-  const numericHyphen = "^[0-9-]+$|^$";
+  const numericHyphen = "^[0-9]*-?[0-9]*$";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

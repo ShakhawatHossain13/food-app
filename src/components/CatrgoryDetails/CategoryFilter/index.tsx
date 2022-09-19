@@ -21,7 +21,7 @@ type CategoryFilterDataType = {
   description: string;
   foodImage: string;
   category: string;
-  price: string; 
+  price: string;
 };
 
 const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
@@ -30,7 +30,7 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
   // const [selectedCategoryLunch, setSelectedCategoryLunch] = React.useState("Lunch");
   const selectedFood = foodItem.filter(
-    (food) => food.category === selectedCategory
+    (food) => food.category.toLowerCase() === selectedCategory
   );
 
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
@@ -71,7 +71,6 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
     getData();
   }, []);
 
-  
   return (
     <React.Fragment>
       <section className="categoryFilter">

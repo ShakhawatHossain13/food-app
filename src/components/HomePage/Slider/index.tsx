@@ -2,10 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
 
@@ -16,6 +13,7 @@ type SliderFoodItemType = {
 };
 type SliderCategoryType = {
   title: string;
+  categoryImage: string;
 };
 
 const Slider: React.FC = () => {
@@ -42,18 +40,39 @@ const Slider: React.FC = () => {
       console.log(error);
     }
   };
-  const getCategoryData = () => {
-    fetch("./category.json")
-      .then((categories) => categories.json())
-      .then((getPost) => {
-        setCategory(getPost);
-      })
-      .catch((error) => {
-        console.log(error);
+  const getCategoryData = async () => {
+    const colRef = collection(firebaseDatabase, "category");
+    try {
+      const result = await getDocs(colRef);
+      const prepareData = result?.docs.map((item) => {
+        let temp = item.data();
+        let obj: SliderCategoryType = {
+          title: temp.title,
+          categoryImage: temp.categoryImage,
+        };
+        return obj;
       });
+      setCategory(prepareData);
+      return prepareData;
+    } catch (error) {
+      console.log(error);
+    }
   };
+  // const getCategoryData = () => {
+  //   fetch("./category.json")
+  //     .then((categories) => categories.json())
+  //     .then((getPost) => {
+  //       setCategory(getPost);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   let filteredItems = foodItem.filter((p) =>
     p.title.toLowerCase().includes(query)
+  );
+  let filteredCategory = category.filter((categoryItem) =>
+    categoryItem.title.toLowerCase().includes(query)
   );
 
   const eventOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +107,7 @@ const Slider: React.FC = () => {
                 />
               </div>
               <button className="slider__row__main__search__btn">Search</button>
-              {filteredItems?.slice(0, 3).map((item) => {
+              {filteredItems?.slice(0, 2).map((item) => {
                 if (query !== "") {
                   return (
                     <div className="slider__row__main__search__input__results">
@@ -98,6 +117,30 @@ const Slider: React.FC = () => {
                             className="slider__row__main__search__input__results__row__image"
                             src={item?.foodImage}
                             alt="Food Images"
+                          />
+                          <p className="slider__row__main__search__input__results__row__title">
+                            {item?.title}
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                }
+              })}
+              {filteredCategory?.slice(0, 2).map((item) => {
+                if (query !== "") {
+                  return (
+                    <div className="slider__row__main__search__input__results">
+                      <Link
+                        to={`/category-details/${item?.title
+                          ?.trim()
+                          .toLowerCase()}`}
+                      >
+                        <div className="slider__row__main__search__input__results__row">
+                          <img
+                            className="slider__row__main__search__input__results__row__image"
+                            src={item?.categoryImage}
+                            alt="Category Images"
                           />
                           <p className="slider__row__main__search__input__results__row__title">
                             {item?.title}
