@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
                 }
           }
           className="sidebar__option"
-          to="/dashboard/productlist"
+          to="/dashboard/product-list"
         >
           Product List
         </NavLink>
