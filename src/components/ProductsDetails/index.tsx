@@ -15,6 +15,7 @@ import { firebaseDatabase } from "../../database/firebaseConfig";
 import Cart from "../Cart";
  
 import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
+import ProductsDetailsBottom from "./ProductsDetailsBottom";
  
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
