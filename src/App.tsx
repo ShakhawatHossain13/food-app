@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
@@ -8,7 +8,6 @@ import CategoryDetails from "./components/CatrgoryDetails";
 import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import Dashboard from "./components/Dashboard";
 import ProductList from "./components/Dashboard/Product/ProductList";
 import NotFound from "./components/NotFound/NotFound";
 import { RequireAdmin } from "./Authentication/RequireAdmin";
@@ -22,7 +21,6 @@ import {
   CartDataType,
   initialDataProductsDetails,
 } from "../src/contexts/CartContext";
-import { async } from "@firebase/util";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +29,8 @@ const App: React.FC = () => {
   );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
-  let navigate = useNavigate();
+ 
+  const [updateCart, setUpdateCart] = React.useState<boolean>(false);
 
   const handleAddToCart = () => {
     console.log(foodItem);
@@ -89,11 +88,23 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <MenuBar
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        cartItem={cartItem}
-      />
+       <CartContext.Provider
+              value={{
+                itemQuantity,
+                setItemQuantity,
+                foodItem,
+                setFoodItem,
+                cartItem,
+                setCartItem,
+                updateCart, setUpdateCart,
+                handleAddToCart,
+              }}
+            >
+            <MenuBar
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}            
+            />
+      </CartContext.Provider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -111,6 +122,7 @@ const App: React.FC = () => {
                 setFoodItem,
                 cartItem,
                 setCartItem,
+                updateCart, setUpdateCart,
                 handleAddToCart,
               }}
             >
@@ -131,6 +143,7 @@ const App: React.FC = () => {
                   setFoodItem,
                   cartItem,
                   setCartItem,
+                  updateCart, setUpdateCart,
                   handleAddToCart,
                 }}
               >

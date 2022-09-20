@@ -33,6 +33,8 @@ export type CartBasicInfoProps ={
   setFoodItem : React.Dispatch<React.SetStateAction<ProductsDetailsDataType>>;
   cartItem: CartDataType[]; 
   setCartItem: React.Dispatch<React.SetStateAction<CartDataType[]>>; 
+  updateCart: boolean;
+  setUpdateCart: React.Dispatch<React.SetStateAction<boolean>>;
   handleAddToCart: (event: React.MouseEvent<HTMLButtonElement>) => void;
   };
 

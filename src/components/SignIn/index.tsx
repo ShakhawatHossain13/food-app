@@ -1,15 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./style.css";
 import homeslider from "./home_slider.png";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, firebaseDatabase } from "../../database/firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
+import { FcGoogle } from "react-icons/fc";
 
 export type AddUserDataType = {
   id?: string;
@@ -99,9 +105,9 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     setError(copyErrors);
     return hasError;
   };
+  const temp: AddUserDataType[] = [];
 
   const getData = async (email: string) => {
-    const temp: AddUserDataType[] = [];
     const q = query(
       collection(firebaseDatabase, "user"),
       where("email", "==", email)
@@ -153,7 +159,48 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   };
 
   const handleGoogleSignIn = () => {
-    // signInWithGoogle(location, history);
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user1 = result.user;
+
+        temp.push({
+          id: "",
+          name: user1?.displayName || "",
+          contact: "",
+          email: user1?.email || "",
+          password: "",
+          isAdmin: false,
+        });
+
+        //Save the user to database
+        const collectionRef = collection(firebaseDatabase, "user");
+        addDoc(collectionRef, {
+          id: collectionRef.id,
+          name: temp[0].name,
+          contact: temp[0].contact,
+          email: temp[0].email,
+          password: "",
+          isAdmin: false,
+        });
+        //Save the user to database end
+
+        localStorage.setItem("user", JSON.stringify(temp[0]));
+
+        setData(temp);
+        setIsLoggedIn(true);
+
+        Swal.fire({
+          icon: "success",
+          title: "Welcome",
+          text: "Successfully Logged In!",
+        });
+        navigate("/", { replace: true });
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   return (
@@ -242,7 +289,12 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
               </button>
             </form>
             <p>------------ or ------------</p>
-            <button onClick={handleGoogleSignIn}>Google Sign In</button>
+            <button
+              onClick={handleGoogleSignIn}
+              className="signIn__slider__row__main__form__googleButton"
+            >
+              <FcGoogle size="24px" /> Google
+            </button>
             <p className="signIn__slider__row__main__form__link">
               Don't have an account?
               <Link to="/signup"> Click here...</Link>
