@@ -2,7 +2,6 @@
 .blog {
   text-align: center;
   align-content: center;
-  height: 440px;
   padding: 20px;
   margin: auto;
   margin-top: 10px;
@@ -23,7 +22,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 40px;
-  margin: 50px 0px;
+  margin: 50px 0;
 }
 .blog__title {
   font-size: 48px;
