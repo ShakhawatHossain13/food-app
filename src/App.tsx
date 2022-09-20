@@ -31,9 +31,6 @@ const App: React.FC = () => {
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
  
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
- 
-  let navigate = useNavigate();
- 
 
   const handleAddToCart = () => {
     const cartProducts: CartDataType = {
