@@ -118,6 +118,7 @@ const Cart = () => {
                       ()=>{
                         let filteredArray = cartFinal.filter(item => item.id !== cart?.id)
                         setCartFinal(filteredArray);
+                        localStorage.setItem("cart", JSON.stringify(filteredArray));
                       }
                     }
                     >

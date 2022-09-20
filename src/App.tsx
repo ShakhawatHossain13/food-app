@@ -57,10 +57,11 @@ const App: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
-  }, [cartItem]);
-
+  if(cartItem.length>0){
+      localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
+  }
+      
+    
   return (
     <React.Fragment>
       <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
