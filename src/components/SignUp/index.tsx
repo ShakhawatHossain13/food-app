@@ -147,7 +147,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       isAdmin: addUser.isAdmin,
     })
       .then((docRef) => {
-        console.log("Document has been added successfully");
+        console.log("User has been added successfully");
         console.log(docRef.id);
         Swal.fire({
           icon: "success",
