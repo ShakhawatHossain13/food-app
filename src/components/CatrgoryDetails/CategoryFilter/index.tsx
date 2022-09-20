@@ -10,6 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
+import { Link } from "react-router-dom";
 
 type CategoryDetailsSliderProps = {
   selectedCategory?: string;
@@ -112,20 +113,25 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
           {selectedFood?.slice(0, Number(numberOfItemsShow)).map((foods) => {
             return (
               <div className="categoryFilter__card">
-                <img
-                  className="categoryFilter__card__image"
-                  src={foods?.foodImage}
-                  alt="Food Images"
-                />
-                <div className="categoryFilter__card__body">
-                  <div className="categoryFilter__card__body__title">
-                    <h3>{foods?.title}</h3>
+                <Link
+                  style={{ textDecoration: "none", color: "gray" }}
+                  to={`/products-details/${foods?.id?.trim()}`}
+                >
+                  <img
+                    className="categoryFilter__card__image"
+                    src={foods?.foodImage}
+                    alt="Food Images"
+                  />
+                  <div className="categoryFilter__card__body">
+                    <div className="categoryFilter__card__body__title">
+                      <h3>{foods?.title}</h3>
+                    </div>
+                    <div className="categoryFilter__card__body__description">
+                      <p>{foods?.description.slice(0, 26)}...</p>
+                    </div>
+                    <h2>{foods?.price} $</h2>
                   </div>
-                  <div className="categoryFilter__card__body__description">
-                    <p>{foods?.description.slice(0, 26)}...</p>
-                  </div>
-                  <h2>{foods?.price} $</h2>
-                </div>
+                </Link>
               </div>
             );
           })}
