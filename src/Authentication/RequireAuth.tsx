@@ -4,14 +4,16 @@ import Swal from "sweetalert2";
 
 export const RequireAuth = () => {
   const user = localStorage.getItem("user");
+  // @ts-ignore
+  const isAdmin = JSON.parse(localStorage.getItem("user"))?.isAdmin;
 
   const location = useLocation();
 
-  if (!user) {
+  if (!user || isAdmin === true) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "You are not allowed, Please login ...",
+      text: "You are not allowed, Please login as User ...",
     });
     localStorage.removeItem("user");
     return <Navigate to="/signin" state={{ from: location }} replace />;
