@@ -34,16 +34,38 @@ const App: React.FC = () => {
   let navigate = useNavigate();
 
   const handleAddToCart = () => {
-    const cartProducts: CartDataType = {
-      user: loggedInUserID,
-      id: String(foodItem?.id),
-      title: String(foodItem?.title),
-      price: Number(foodItem?.price),
-      foodImage: String(foodItem?.foodImage),
-      quantity: itemQuantity,
-    };
-    setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+    console.log(foodItem);
+
+    let isItemAlreadyAdded = false;
+
+    cartItem.map((item) => {
+      if (item.id === foodItem.id) {
+        isItemAlreadyAdded = true;
+      }
+    });
+
+    if (isItemAlreadyAdded) {
+      let tempCartProducts: CartDataType[] = [...cartItem];
+      tempCartProducts = tempCartProducts.map((product) => {
+        if (foodItem.id === product.id) {
+          product.quantity += itemQuantity;
+        }
+        return product;
+      });
+      setCartItem(tempCartProducts);
+    } else {
+      const cartProducts: CartDataType = {
+        user: loggedInUserID,
+        id: String(foodItem?.id),
+        title: String(foodItem?.title),
+        price: Number(foodItem?.price),
+        foodImage: String(foodItem?.foodImage),
+        quantity: itemQuantity,
+      };
+      setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+    }
   };
+
   // @ts-ignore
   const loggedInUserID = JSON.parse(localStorage.getItem("user"))?.id;
 
@@ -57,11 +79,14 @@ const App: React.FC = () => {
     }
   }, []);
 
-  if(cartItem.length>0){
-      localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
+  // useEffect(() => {
+  //   localStorage.setItem("cart", JSON.stringify([...cartItem]));
+  // }, [cartItem]);
+
+  if (cartItem.length > 0) {
+    localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
   }
-      
-    
+
   return (
     <React.Fragment>
       <MenuBar

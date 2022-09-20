@@ -99,7 +99,7 @@ const ProductsDetails: React.FC = () => {
     getData();
     getAllFoodData();
     // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  }, [foodItem]);
+  }, [id]);
   // const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setItemQuantity(Number(e.target.value));
   // };
@@ -142,7 +142,6 @@ const ProductsDetails: React.FC = () => {
     if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
 
-  console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
       <section className="productsDetails">
