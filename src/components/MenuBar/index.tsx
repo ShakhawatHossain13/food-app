@@ -3,13 +3,15 @@ import "./style.css";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { CartDataType } from "../../contexts/CartContext";
 
 type MenuBarProps = {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  cartItem: CartDataType[];
 };
 
-const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
+const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
   let navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -24,11 +26,9 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
     setClose(false);
   };
 
-  
   // @ts-ignore
   const cart = JSON.parse(localStorage.getItem("cart"));
 
-   
   return (
     <React.Fragment>
       <div className="menubar">
@@ -76,7 +76,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
               }}
             >
               <FaShoppingCart size="18px" />
-              <span style={{ color: "#007bff" }}>0</span>
+              <span style={{ color: "#007bff" }}>{cartItem.length}</span>
             </button>
           ) : null}
           {!isLoggedIn ? (
@@ -144,7 +144,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/login" onClick={handleBurgerMenuClose} >
+                  <Link to="/login" onClick={handleBurgerMenuClose}>
                     Login
                   </Link>
                 </li>
