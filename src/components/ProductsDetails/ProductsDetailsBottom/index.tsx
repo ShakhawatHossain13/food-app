@@ -31,8 +31,8 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
   return (
     <div style={{ marginBottom: "50px" }}>
       <Slider {...settings}>
-        {sameCategoryFood?.map((foods) => (
-          <div>
+        {sameCategoryFood?.map((foods, key) => (
+          <div key={key}>
             <Link
               style={{ textDecoration: "none", color: "gray" }}
               to={`/products-details/${foods?.id?.trim()}`}

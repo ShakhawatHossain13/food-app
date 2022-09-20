@@ -117,10 +117,8 @@ const CategoryFilter: React.FC = () => {
                   />
                   <div className="categoryFilter__card__body">
                     <div className="categoryFilter__card__body__title">
-                      <h3>
-                        <Link to={`/products-details/${foods?.id?.trim()}`}>
-                          {foods?.title}
-                        </Link>
+                      <h3>                
+                          {foods?.title} 
                       </h3>
                     </div>
                     <div className="categoryFilter__card__body__description">
