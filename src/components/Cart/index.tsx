@@ -10,7 +10,7 @@ const Cart = () => {
   // const {id, title, foodImage, price, quantity} = cartItem;
 
   // const { id } = useParams();
-  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
+  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, updateCart, setUpdateCart,handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
    const [cartFinal, setCartFinal] = React.useState<CartDataType[]>([]);
   const [allCartItem, setAllCartItem] = React.useState<CartDataType[]>([]);
   const navigate = useNavigate();
@@ -77,6 +77,7 @@ const Cart = () => {
     setCartFinal(cart);        
   }, []);
  
+ 
   
   let i:number = 1;
   let total:number = 0;
@@ -125,7 +126,7 @@ const Cart = () => {
                       ()=>{
                         let filteredArray = cartFinal.filter(item => item.id !== cart?.id)
                         setCartFinal(filteredArray);
-                        localStorage.setItem("cart", JSON.stringify(filteredArray));
+                        localStorage.setItem("cart", JSON.stringify(filteredArray)); 
                       }
                     }
                     >
@@ -137,7 +138,7 @@ const Cart = () => {
                 ))}
                  
                 </tbody>
-           {cart?.length < 2 && (
+                {cart?.length < 2 && (
                   <p className="productlist__row__table__nodata">
                       No food item found in cart
                   </p>
