@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
@@ -12,8 +12,13 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { firebaseDatabase } from "../../database/firebaseConfig";
-import Cart from "../Cart"; 
-import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
+import Cart from "../Cart";
+import {
+  CartContext,
+  CartBasicInfoProps,
+  ProductsDetailsDataType,
+  CartDataType,
+} from "../../contexts/CartContext";
 import ProductsDetailsBottom from "./ProductsDetailsBottom";
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
@@ -94,7 +99,7 @@ const ProductsDetails: React.FC = () => {
     getData();
     getAllFoodData();
     // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  }, [foodItem?.id]);
+  }, [foodItem]);
   // const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setItemQuantity(Number(e.target.value));
   // };
@@ -136,6 +141,7 @@ const ProductsDetails: React.FC = () => {
   const handleItemQuantityMinus = () => {
     if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
+
   console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
