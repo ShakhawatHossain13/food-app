@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
@@ -8,7 +8,6 @@ import CategoryDetails from "./components/CatrgoryDetails";
 import Cart from "./components/Cart";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
-import Dashboard from "./components/Dashboard";
 import ProductList from "./components/Dashboard/Product/ProductList";
 import NotFound from "./components/NotFound/NotFound";
 import { RequireAdmin } from "./Authentication/RequireAdmin";
@@ -22,7 +21,6 @@ import {
   CartDataType,
   initialDataProductsDetails,
 } from "../src/contexts/CartContext";
-import { async } from "@firebase/util";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +29,6 @@ const App: React.FC = () => {
   );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
-  let navigate = useNavigate();
 
   const handleAddToCart = () => {
     const cartProducts: CartDataType = {
@@ -57,11 +54,10 @@ const App: React.FC = () => {
     }
   }, []);
 
-  if(cartItem.length>0){
-      localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
+  if (cartItem.length > 0) {
+    localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
   }
-      
-    
+
   return (
     <React.Fragment>
       <MenuBar

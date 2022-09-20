@@ -29,7 +29,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
 
   React.useEffect(() => {
     // @ts-ignore
-    setCartCount(JSON.parse(localStorage.getItem("cart")).length - 1);
+    setCartCount(JSON.parse(localStorage.getItem("cart"))?.length - 1);
     console.log(cartCount);
   }, [cartItem]);
 
