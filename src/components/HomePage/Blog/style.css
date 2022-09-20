@@ -36,7 +36,8 @@
   padding: 0 15px;
 }
 .blog__card {
-  border: 1px solid #6c6263;
+  border: 1px solid #015ec9;
+  height: 440px;
   min-width: 300px;
   margin: auto;
   padding: 10px;
@@ -59,6 +60,7 @@
   max-width: 83.333333%;
 }
 .blog__card__body__details__title {
+  height: 52px;
   font-weight: 400;
   margin: 0;
 }

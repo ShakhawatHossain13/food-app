@@ -99,7 +99,7 @@ const ProductsDetails: React.FC = () => {
     getData();
     getAllFoodData();
     // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  }, [foodItem]);
+  }, []);
   // const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setItemQuantity(Number(e.target.value));
   // };

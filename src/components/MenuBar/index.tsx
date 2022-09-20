@@ -16,6 +16,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
 
   const [open, setOpen] = React.useState(false);
   const [close, setClose] = React.useState(false);
+  const [cartCount, setCartCount] = React.useState(false);
 
   const handleBurgerMenuOpen = () => {
     setOpen(true);
@@ -26,8 +27,11 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
     setClose(false);
   };
 
-  // @ts-ignore
-  const cart = JSON.parse(localStorage.getItem("cart"));
+  React.useEffect(() => {
+    // @ts-ignore
+    setCartCount(JSON.parse(localStorage.getItem("cart")).length - 1);
+    console.log(cartCount);
+  }, [cartItem]);
 
   return (
     <React.Fragment>
@@ -76,7 +80,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
               }}
             >
               <FaShoppingCart size="18px" />
-              <span style={{ color: "#007bff" }}>{cartItem.length}</span>
+              <span style={{ color: "#007bff" }}>{cartCount}</span>
             </button>
           ) : null}
           {!isLoggedIn ? (
