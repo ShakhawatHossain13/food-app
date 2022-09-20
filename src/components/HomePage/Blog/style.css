@@ -2,6 +2,7 @@
 .blog {
   text-align: center;
   align-content: center;
+  height: 440px;
   padding: 20px;
   margin: auto;
   margin-top: 10px;
@@ -37,7 +38,6 @@
 .blog__card {
   border: 1px solid #6c6263;
   min-width: 300px;
-  height: 440px;
   margin: auto;
   padding: 10px;
   border-radius: 2%;
@@ -59,7 +59,6 @@
   max-width: 83.333333%;
 }
 .blog__card__body__details__title {
-  height: 50px;
   font-weight: 400;
   margin: 0;
 }

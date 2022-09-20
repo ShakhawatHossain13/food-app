@@ -71,13 +71,20 @@ const Cart = () => {
       setCartFinal(filteredArray);
   }
   
-
   useEffect(() => {
     const cartStr = localStorage.getItem("cart"); 
     const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : ""); 
-    setCartFinal(cart);
+    setCartFinal(cart);        
   }, []);
+ 
+  
+  let i:number = 1;
+  let total:number = 0;
 
+  while (i < cartFinal.length) {
+    total = (Number(cartFinal[i]?.price) * Number(cartFinal[i]?.quantity))+ total;
+    i = i + 1;
+  } 
 
   return (
     <React.Fragment>
@@ -93,8 +100,8 @@ const Cart = () => {
               <th className="cart__table__header">Price</th>
               <th className="cart__table__header">Action</th>
             </tr>
-            {cart && cartFinal?.slice(1).map((cart, index) => (
-              <tbody>
+            <tbody>
+            {cart && cartFinal?.slice(1).map((cart, index) => (              
                 <tr>
                   {/* <td className="cart__table__field">{index + 1}</td> */}
                   <td className="cart__table__field">{index+1}</td>
@@ -111,7 +118,7 @@ const Cart = () => {
                     {cart?.title}
                   </td>
                   <td className="cart__table__field">{cart?.quantity}</td>
-                  <td className="cart__table__field">{(cart?.price)*(cart?.quantity)}</td>
+                  <td className="cart__table__field">${(cart?.price)*(cart?.quantity)}</td>
                   <td className="cart__table__field">
                     <button className="cart__table__deleteButton"
                     onClick={
@@ -125,21 +132,32 @@ const Cart = () => {
                       Delete
                     </button>
                   </td>
-                </tr>
-              </tbody>
-            ))}
+                </tr>    
+                          
+                ))}
+                 
+                </tbody>
            {cart?.length < 2 && (
                   <p className="productlist__row__table__nodata">
                       No food item found in cart
                   </p>
                 )}
+                 <tr>
+                      <td className="cart__table__footer"></td>
+                      <td className="cart__table__footer"></td>
+                      <td className="cart__table__footer"></td>
+                      <td className="cart__table__footer">Total</td>
+                      <th className="cart__table__footer">${total}</th>
+                      <th className="cart__table__footer"> </th>
+                    </tr>
+
           </table>
           <div className="cart__checkout">
             <button
               onClick={handleCheckoutSubmit}
               className="cart__checkoutButton"
             >
-              Process to Checkout
+              Procced to Checkout
             </button>
           </div>
         </div>
