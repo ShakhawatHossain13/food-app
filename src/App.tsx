@@ -29,7 +29,7 @@ const App: React.FC = () => {
   );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
- 
+
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
 
   const handleAddToCart = () => {
@@ -86,24 +86,28 @@ const App: React.FC = () => {
     localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
   }
 
+  // useEffect(() => {
+  //   if (cartItem.length > 0) {
+  //     localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
+  //   }
+  // }, [cartItem]);
+
   return (
     <React.Fragment>
-       <CartContext.Provider
-              value={{
-                itemQuantity,
-                setItemQuantity,
-                foodItem,
-                setFoodItem,
-                cartItem,
-                setCartItem,
-                updateCart, setUpdateCart,
-                handleAddToCart,
-              }}
-            >
-            <MenuBar
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}            
-            />
+      <CartContext.Provider
+        value={{
+          itemQuantity,
+          setItemQuantity,
+          foodItem,
+          setFoodItem,
+          cartItem,
+          setCartItem,
+          updateCart,
+          setUpdateCart,
+          handleAddToCart,
+        }}
+      >
+        <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </CartContext.Provider>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -122,7 +126,8 @@ const App: React.FC = () => {
                 setFoodItem,
                 cartItem,
                 setCartItem,
-                updateCart, setUpdateCart,
+                updateCart,
+                setUpdateCart,
                 handleAddToCart,
               }}
             >
@@ -143,7 +148,8 @@ const App: React.FC = () => {
                   setFoodItem,
                   cartItem,
                   setCartItem,
-                  updateCart, setUpdateCart,
+                  updateCart,
+                  setUpdateCart,
                   handleAddToCart,
                 }}
               >

@@ -5,7 +5,7 @@ import Footer from "../Footer";
 const NotFound = () => {
   return (
     <React.Fragment>
-      <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <img src={notFoundImage} alt="404 error!" />
       </div>
       <Footer />
