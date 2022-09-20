@@ -117,10 +117,11 @@ const App: React.FC = () => {
           path="/signup"
           element={<SignUp setIsLoggedIn={setIsLoggedIn} />}
         />
-        <Route path="/dashboard" element={<ProductList />} />
-        <Route path="/dashboard/category-list" element={<CategoryList />} />
-        <Route path="/dashboard/product-list" element={<ProductList />} />
+
         <Route element={<RequireAdmin />}>
+          <Route path="/dashboard" element={<ProductList />} />
+          <Route path="/dashboard/product-list" element={<ProductList />} />
+          <Route path="/dashboard/category-list" element={<CategoryList />} />
           <Route path="/dashboard/blog-list" element={<BlogList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
@@ -131,11 +132,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// import { getData } from "./database/crud";
-// import Blog from "./database/crud";
-//   // React.useEffect(() => {
-//   //   getData();
-//   // }, []);
-
-//     //  {/ <Blog /> /}
