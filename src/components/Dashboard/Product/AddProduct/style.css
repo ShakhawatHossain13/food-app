@@ -66,10 +66,6 @@
   padding-left: 10px;
 }
 
-.image__preview {
-  height: 60px;
-}
-
 .addproduct__row__form__row__error {
   width: 200%;
   color: red;

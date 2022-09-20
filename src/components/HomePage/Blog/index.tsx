@@ -82,7 +82,10 @@ const Blog: React.FC = () => {
                     <div className="blog__card__body__details__description">
                       <p>{post?.description.slice(0, 100)}...</p>
                     </div>
-                    <Link to={`/blog-details/${post?.id?.trim()}`}>
+                    <Link
+                      className="blog__card__body__details__seeMore"
+                      to={`/blog-details/${post?.id?.trim()}`}
+                    >
                       See More...
                     </Link>
                   </div>

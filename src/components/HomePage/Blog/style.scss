@@ -21,7 +21,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 40px;
-    margin-top: 30px;
+    margin: 50px 0px;
   }
   &__title {
     font-size: 48px;
@@ -37,7 +37,6 @@
     border: 1px solid #6c6263;
     min-width: 300px;
     margin: auto;
-    cursor: pointer;
     padding: 10px;
     border-radius: 2%;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
@@ -72,6 +71,9 @@
       color: #808080;
       font-size: 14px;
       line-height: 1.8rem;
+    }
+    &__body__details__seeMore {
+      cursor: pointer;
     }
   }
   // &__card:hover {
