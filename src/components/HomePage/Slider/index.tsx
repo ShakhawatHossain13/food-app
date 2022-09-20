@@ -21,7 +21,12 @@ const Slider: React.FC = () => {
   const [category, setCategory] = useState<SliderCategoryType[]>([]);
   const [query, setQuery] = React.useState<string>("");
 
-  const getFoodData = async () => {
+  /**
+   *
+   * @param value
+   * @returns
+   */
+  const getFoodData = async (value?: string) => {
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -40,6 +45,11 @@ const Slider: React.FC = () => {
       console.log(error);
     }
   };
+
+  /**
+   * Get product category
+   * @returns product category
+   */
   const getCategoryData = async () => {
     const colRef = collection(firebaseDatabase, "category");
     try {
@@ -68,6 +78,7 @@ const Slider: React.FC = () => {
   //       console.log(error);
   //     });
   // };
+
   let filteredItems = foodItem.filter((p) =>
     p.title.toLowerCase().includes(query)
   );
