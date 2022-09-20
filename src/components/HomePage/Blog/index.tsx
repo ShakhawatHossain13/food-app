@@ -80,7 +80,7 @@ const Blog: React.FC = () => {
                       {post?.title.slice(0, 46)}
                     </p>
                     <div className="blog__card__body__details__description">
-                      <p>{post?.description.slice(0, 100)}...</p>
+                      {post?.description.slice(0, 80)}
                     </div>
                     <Link
                       className="blog__card__body__details__seeMore"
