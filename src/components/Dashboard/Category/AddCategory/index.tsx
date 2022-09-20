@@ -87,7 +87,8 @@ const AddCategory: React.FC<AddCategoryProps> = ({
   setFormReset,
   setModalOpen,
 }) => {
-  const [categoryItem, setCategoryItem] = React.useState<AddCategoryDataType>(initialData);
+  const [categoryItem, setCategoryItem] =
+    React.useState<AddCategoryDataType>(initialData);
   const [edit, setEdit] = React.useState<boolean>(false);
   const [editPreview, setEditPreview] = React.useState<boolean>(true);
   const [error, setError] = React.useState<ErrorType>(initialError);
@@ -251,7 +252,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
               id: newDocRef.id,
               title: categoryItem?.title,
               description: categoryItem?.description,
-              categoryImage: downloadURL
+              categoryImage: downloadURL,
             })
               .then((docRef) => {
                 setBackdrop(false);
