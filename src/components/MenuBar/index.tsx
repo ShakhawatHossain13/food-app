@@ -33,6 +33,8 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
     console.log(cartCount);
   }, [cartItem]);
 
+  React.useEffect(() => {});
+
   return (
     <React.Fragment>
       <div className="menubar">
