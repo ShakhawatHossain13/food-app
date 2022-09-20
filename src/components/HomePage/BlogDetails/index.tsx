@@ -3,8 +3,6 @@ import Footer from "../../Footer";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { firebaseDatabase } from "../../../database/firebaseConfig";
-import { initializeApp } from "firebase/app";
 
 type blogDetailsDataType = {
   id: string;
@@ -17,7 +15,6 @@ type blogDetailsDataType = {
 
 const BlogDetails: React.FC = () => {
   // const [selected, setSelected] = React.useState(images[0].bannerImage);
-  // console.log(images[0]);
   const [blog, setBlog] = React.useState<blogDetailsDataType>();
   const { id } = useParams();
 
@@ -29,7 +26,6 @@ const BlogDetails: React.FC = () => {
     try {
       const docSnap = await getDoc(docRef);
       const results = docSnap.data();
-      // console.log(results);
       let obj: blogDetailsDataType = {
         id: results?.id,
         title: results?.title,
