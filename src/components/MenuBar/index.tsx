@@ -2,16 +2,16 @@ import React from "react";
 import "./style.css";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
-import { CartDataType } from "../../contexts/CartContext";
+import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa"; 
+import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
 
 type MenuBarProps = {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  cartItem: CartDataType[];
+   
 };
-
-const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
+const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
+  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, updateCart, setUpdateCart, handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
   let navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
@@ -31,10 +31,8 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn, cartItem }: MenuBarProps) => {
     // @ts-ignore
     setCartCount(JSON.parse(localStorage.getItem("cart"))?.length - 1);
     console.log(cartCount);
-  }, [cartItem]);
-
-  React.useEffect(() => {});
-
+  }, [cartItem, updateCart]); 
+ 
   return (
     <React.Fragment>
       <div className="menubar">

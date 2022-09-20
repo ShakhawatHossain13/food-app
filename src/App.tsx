@@ -29,6 +29,11 @@ const App: React.FC = () => {
   );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
+ 
+  const [updateCart, setUpdateCart] = React.useState<boolean>(false);
+ 
+  let navigate = useNavigate();
+ 
 
   const handleAddToCart = () => {
     const cartProducts: CartDataType = {
@@ -60,11 +65,23 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <MenuBar
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        cartItem={cartItem}
-      />
+       <CartContext.Provider
+              value={{
+                itemQuantity,
+                setItemQuantity,
+                foodItem,
+                setFoodItem,
+                cartItem,
+                setCartItem,
+                updateCart, setUpdateCart,
+                handleAddToCart,
+              }}
+            >
+            <MenuBar
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}            
+            />
+      </CartContext.Provider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -82,6 +99,7 @@ const App: React.FC = () => {
                 setFoodItem,
                 cartItem,
                 setCartItem,
+                updateCart, setUpdateCart,
                 handleAddToCart,
               }}
             >
@@ -102,6 +120,7 @@ const App: React.FC = () => {
                   setFoodItem,
                   cartItem,
                   setCartItem,
+                  updateCart, setUpdateCart,
                   handleAddToCart,
                 }}
               >
