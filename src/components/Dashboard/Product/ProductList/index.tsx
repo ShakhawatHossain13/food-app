@@ -175,13 +175,16 @@ const ProductList: React.FC = () => {
             )}
           </div>
           <table className="productlist__row__table">
-            <tr className="productlist__row__table__row">
-              <th className="productlist__row__table__row__text">Title</th>
-              <th className="productlist__row__table__row__text">Image</th>
-              <th className="productlist__row__table__row__text">Category</th>
-              <th className="productlist__row__table__row__text">Price</th>
-              <th className="productlist__row__table__row__text">Actions</th>
-            </tr>
+            <thead>
+              <tr className="productlist__row__table__row">
+                <th className="productlist__row__table__row__text">Title</th>
+                <th className="productlist__row__table__row__text">Image</th>
+                <th className="productlist__row__table__row__text">Category</th>
+                <th className="productlist__row__table__row__text">Price</th>
+                <th className="productlist__row__table__row__text">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
             {backdrop ? (
               <Backdrop />
             ) : (
@@ -224,6 +227,7 @@ const ProductList: React.FC = () => {
                           edit
                         </button>
                         {edit && modalOpen && (
+                          <tbody>
                           <div
                             id="editModal"
                             className="productlist__row__modal"
@@ -253,6 +257,7 @@ const ProductList: React.FC = () => {
                               />
                             </div>
                           </div>
+                          </tbody>
                         )}
                         <button
                           className="productlist__row__table__row__button__delete"
@@ -269,6 +274,7 @@ const ProductList: React.FC = () => {
                           delete
                         </button>
                         {deleteModal && (
+                          <tbody>
                           <div className="productlist__row__table__row__button__delete__modal">
                             <span
                               className="productlist__delete__modal__close"
@@ -306,6 +312,7 @@ const ProductList: React.FC = () => {
                               </div>
                             </div>
                           </div>
+                          </tbody>
                         )}
                       </td>
                     </tr>
@@ -318,6 +325,7 @@ const ProductList: React.FC = () => {
                 )}
               </>
             )}
+            </tbody>
           </table>
         </div>
       </section>
