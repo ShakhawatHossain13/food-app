@@ -142,7 +142,6 @@ const ProductsDetails: React.FC = () => {
     if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
 
-  console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
       <section className="productsDetails">
