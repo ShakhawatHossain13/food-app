@@ -63,7 +63,11 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <MenuBar
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+        cartItem={cartItem}
+      />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
