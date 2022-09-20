@@ -202,7 +202,7 @@ const BlogList: React.FC = () => {
                         />
                       </td>
                       <td className="blogList__row__table__row__text">
-                        {blog.description.slice(0, 50)}
+                        {blog.description.slice(0, 40)}
                       </td>
                       <td className="blogList__row__table__row__text">
                         {blog.date}
@@ -238,7 +238,7 @@ const BlogList: React.FC = () => {
                                 &times;
                               </span>
                               <AddBlog
-                                formTitle="Edit Product"
+                                formTitle="Edit Blog"
                                 blogItemData={blogItem}
                                 setFormTitle={setFormTitle}
                                 ids={ids}

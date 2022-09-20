@@ -132,11 +132,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// import { getData } from "./database/crud";
-// import Blog from "./database/crud";
-//   // React.useEffect(() => {
-//   //   getData();
-//   // }, []);
-
-//     //  {/ <Blog /> /}
