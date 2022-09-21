@@ -1,8 +1,6 @@
 import React from "react";
 import "./style.css";
-import { Link, NavLink } from "react-router-dom";
-import path from "path";
-// import { getToPathname } from "react-router/lib/router";
+import { NavLink } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
   return (
@@ -19,7 +17,7 @@ const Sidebar: React.FC = () => {
                   color: "#000",
                 }
           }
-          className="sidebar__option"
+          className="sidebar__option default__active"
           to="/dashboard/product-list"
         >
           Product List
