@@ -15,7 +15,17 @@ const Cart = () => {
   // const {id, title, foodImage, price, quantity} = cartItem;
 
   // const { id } = useParams();
-  const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, updateCart, setUpdateCart,handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
+  const {
+    itemQuantity,
+    setItemQuantity,
+    foodItem,
+    setFoodItem,
+    cartItem,
+    setCartItem,
+    updateCart,
+    setUpdateCart,
+    handleAddToCart,
+  } = React.useContext(CartContext) as CartBasicInfoProps;
   const [cartFinal, setCartFinal] = React.useState<CartDataType[]>([]);
   const [allCartItem, setAllCartItem] = React.useState<CartDataType[]>([]);
   const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
@@ -34,11 +44,11 @@ const Cart = () => {
     // navigate("/");
   };
 
-  const handleDelete = (id: string) => {   
+  const handleDelete = (id: string) => {
     setButtonDisable(true);
-    let filteredArray = cartFinal.filter(item => item.id !== id)
+    let filteredArray = cartFinal.filter((item) => item.id !== id);
     setCartFinal(filteredArray);
-    localStorage.setItem("cart", JSON.stringify(filteredArray)); 
+    localStorage.setItem("cart", JSON.stringify(filteredArray));
     setDeleteModal(false);
     setButtonDisable(false);
   };
@@ -48,8 +58,8 @@ const Cart = () => {
     const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
     setCartFinal(cart);
   }, []);
-  let i:number = 1;
-  let total:number = 0;
+  let i: number = 1;
+  let total: number = 0;
   while (i < cartFinal.length) {
     total =
       Number(cartFinal[i]?.price) * Number(cartFinal[i]?.quantity) + total;
@@ -72,37 +82,37 @@ const Cart = () => {
               <th className="cart__table__header">Action</th>
             </tr>
             <tbody>
-            {cart && cartFinal?.slice(1).map((cart, index) => (              
-                <tr key={index+1}>
-                  {/* <td className="cart__table__field">{index + 1}</td> */}
-                  <td className="cart__table__field">{index+1}</td>
-                  {/* <td className="cart__table__field">products images</td> */}
-                  <td className="cart__table__field">
-                    <img
-                      src={cart?.foodImage}
-                      alt="Food Images"
-                      height="50px"
-                      width="50px"
-                    />
-                  </td>
-                  <td className="cart__table__field">
-                    {cart?.title}
-                  </td>
-                  <td className="cart__table__field">{cart?.quantity}</td>
-                  <td className="cart__table__field">${(cart?.price)*(cart?.quantity)}</td>
-                  <td className="cart__table__field">
-                    <button className="cart__table__deleteButton"
-                    onClick={
-                      ()=>{                      
-                        setCartItemID(cart?.id);   
-                        setDeleteModal(true); 
-                      }
-                    }
-                    >
-                      Delete
-                    </button>
-                    {deleteModal && (
-                          <tbody>
+              {cart &&
+                cartFinal?.slice(1).map((cart, index) => (
+                  <tr key={index + 1}>
+                    {/* <td className="cart__table__field">{index + 1}</td> */}
+                    <td className="cart__table__field">{index + 1}</td>
+                    {/* <td className="cart__table__field">products images</td> */}
+                    <td className="cart__table__field">
+                      <img
+                        src={cart?.foodImage}
+                        alt="Food Images"
+                        height="50px"
+                        width="50px"
+                      />
+                    </td>
+                    <td className="cart__table__field">{cart?.title}</td>
+                    <td className="cart__table__field">{cart?.quantity}</td>
+                    <td className="cart__table__field">
+                      ${cart?.price * cart?.quantity}
+                    </td>
+                    <td className="cart__table__field">
+                      <button
+                        className="cart__table__deleteButton"
+                        onClick={() => {
+                          setCartItemID(cart?.id);
+                          setDeleteModal(true);
+                        }}
+                      >
+                        Delete
+                      </button>
+                      {deleteModal && (
+                        <tbody>
                           <div className="productlist__row__table__row__button__delete__modal">
                             <span
                               className="productlist__delete__modal__close"
@@ -140,37 +150,35 @@ const Cart = () => {
                               </div>
                             </div>
                           </div>
-                          </tbody>
-                        )}
-                  </td>
-                </tr>    
-                          
+                        </tbody>
+                      )}
+                    </td>
+                  </tr>
                 ))}
-                 
-                </tbody>
-                {cart?.length < 2 && (
-                  <p className="productlist__row__table__nodata">
-                      No food item found in cart
-                  </p>
-                )}
-                 <tr>
-                      <td className="cart__table__footer"></td>
-                      <td className="cart__table__footer"></td>
-                      <td className="cart__table__footer"></td>
-                      <td className="cart__table__footer">Total</td>
-                      <th className="cart__table__footer">${total}</th>
-                      <th className="cart__table__footer"> </th>
-                    </tr>
-              </table>
-              <div className="cart__checkout">
-                {cart?.length > 1 && (
-                      <button
-                        onClick={handleCheckoutSubmit}
-                        className="cart__checkoutButton"
-                      >
-                        Procced to Checkout
-                 </button>
-              )}          
+            </tbody>
+            {cart?.length < 2 && (
+              <p className="productlist__row__table__nodata">
+                No food item found in cart
+              </p>
+            )}
+            <tr>
+              <td className="cart__table__footer"></td>
+              <td className="cart__table__footer"></td>
+              <td className="cart__table__footer"></td>
+              <td className="cart__table__footer">Total</td>
+              <th className="cart__table__footer">${total}</th>
+              <th className="cart__table__footer"> </th>
+            </tr>
+          </table>
+          <div className="cart__checkout">
+            {cart?.length > 1 && (
+              <button
+                onClick={handleCheckoutSubmit}
+                className="cart__checkoutButton"
+              >
+                Proceed to Checkout
+              </button>
+            )}
           </div>
         </div>
       </div>
