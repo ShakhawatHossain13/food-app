@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "../../Footer";
 import { useParams } from "react-router-dom";
 import "./style.css";
+import Backdrop from "../../Backdrop";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 
 type blogDetailsDataType = {
@@ -16,6 +17,7 @@ type blogDetailsDataType = {
 const BlogDetails: React.FC = () => {
   // const [selected, setSelected] = React.useState(images[0].bannerImage);
   const [blog, setBlog] = React.useState<blogDetailsDataType>();
+  const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const { id } = useParams();
 
   const getData = async () => {
@@ -35,17 +37,23 @@ const BlogDetails: React.FC = () => {
         date: results?.date,
       };
       setBlog(obj);
+      setBackdrop(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   React.useEffect(() => {
+    setBackdrop(true);
     getData();
   }, []);
 
   return (
     <React.Fragment>
+        {backdrop ? (
+              <Backdrop />
+            ) : (
+            <> 
       <div className="blogDetails">
         <div className="blogDetails__image">
           <div className="blogDetails__image__main">
@@ -76,6 +84,8 @@ const BlogDetails: React.FC = () => {
         </div>
       </div>
       <Footer />
+      </>
+         )}
     </React.Fragment>
   );
 };
