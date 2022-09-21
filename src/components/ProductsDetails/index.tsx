@@ -21,6 +21,7 @@ import {
   CartDataType,
 } from "../../contexts/CartContext";
 import ProductsDetailsBottom from "./ProductsDetailsBottom";
+import { ToastContainer } from "react-toastify";
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
   const {
@@ -146,6 +147,8 @@ const ProductsDetails: React.FC = () => {
   return (
     <React.Fragment>
       <section className="productsDetails">
+        <ToastContainer autoClose={1000} />
+
         <div className="">
           <div className="productsDetails__card">
             <div>
