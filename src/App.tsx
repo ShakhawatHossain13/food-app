@@ -30,7 +30,6 @@ const App: React.FC = () => {
   );
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
-
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
 
   const handleAddToCart = () => {
@@ -49,6 +48,10 @@ const App: React.FC = () => {
         }
         return product;
       });
+      // @ts-ignore
+      const prevCart = JSON.parse(localStorage.getItem("cart"));
+      console.log("prevCart: ", prevCart);
+      // setCartItem([...prevCart, tempCartProducts]);
       setCartItem(tempCartProducts);
     } else {
       const cartProducts: CartDataType = {
@@ -59,7 +62,9 @@ const App: React.FC = () => {
         foodImage: String(foodItem?.foodImage),
         quantity: itemQuantity,
       };
-      setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
+      // @ts-ignore
+      const prevCart: CartDataType[] = JSON.parse(localStorage.getItem("cart"));
+      setCartItem([...prevCart, cartProducts]);
     }
     const notifyEdit = () => toast("Food item Added to Cart");
     notifyEdit();
@@ -83,7 +88,7 @@ const App: React.FC = () => {
   // }, [cartItem]);
 
   if (cartItem.length > 0) {
-    localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
+    localStorage.setItem("cart", JSON.stringify([...cartItem]));
   }
 
   // useEffect(() => {

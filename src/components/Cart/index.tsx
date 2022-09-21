@@ -59,7 +59,7 @@ const Cart = () => {
     const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
     setCartFinal(cart);
   }, []);
-  let i: number = 1;
+  let i: number = 0;
   let total: number = 0;
   while (i < cartFinal.length) {
     total =
@@ -86,7 +86,7 @@ const Cart = () => {
             </thead>
             <tbody>
               {cart &&
-                cartFinal?.slice(1).map((cart, index) => (
+                cartFinal?.map((cart, index) => (
                   <tr key={index + 1}>
                     <td className="cart__table__field">{index + 1}</td>
                     <td className="cart__table__field">
@@ -157,7 +157,7 @@ const Cart = () => {
                   </tr>
                 ))}
             </tbody>
-            {cart?.length < 2 && (
+            {cart?.length < 1 && (
               <p className="productlist__row__table__nodata">
                 No food item found in cart
               </p>

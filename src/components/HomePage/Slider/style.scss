@@ -61,8 +61,11 @@
 }
 .slider__row__main__search__input__results__row__image{
   margin: auto;
-  width: 40px;
-  height: auto;
+  padding-top: 2px;
+  padding-left: 2px;
+  width: 60px;
+  height: 38px;
+  object-fit: cover;
   float: left;
   margin-right: 10px;
 }

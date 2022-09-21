@@ -10,7 +10,6 @@
 .signup__slider__row__main {
   margin: auto;
   width: 40%;
-  text-align: center;
 }
 
 .signup__slider__row__main__logo {
@@ -22,7 +21,6 @@
 .signup__slider__row__main__form {
   max-width: 400px;
   margin: 10px auto;
-  text-align: center;
 }
 
 .signup__slider__row__main__form input:focus {
@@ -33,7 +31,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 10px 10px;
-  margin: 8px 5px;
+  margin-top: 8px;
   border: 1px solid #f0f0f0;
   background-color: rgba(128, 128, 128, 0.168627451);
   font-size: 14px;
@@ -44,9 +42,6 @@
   color: red;
   font-size: 11px;
   margin-left: 5px;
-  position: absolute;
-  left: 36%;
-  margin-top: -10px;
 }
 
 #submit {

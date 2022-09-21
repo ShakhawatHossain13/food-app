@@ -183,11 +183,13 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       >
         <div className="signup__slider__row">
           <div className="signup__slider__row__main">
-            <img
-              className="signup__slider__row__main__logo"
-              src={logo}
-              alt="Red Onion Logo"
-            />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <img
+                className="signup__slider__row__main__logo"
+                src={logo}
+                alt="Red Onion Logo"
+              />
+            </div>
             <form className="signup__slider__row__main__form">
               <input
                 type="text"
