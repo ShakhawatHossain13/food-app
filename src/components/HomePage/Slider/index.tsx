@@ -18,7 +18,9 @@ type SliderCategoryType = {
 
 const Slider: React.FC = () => {
   const [foodItem, setFoodItem] = useState<SliderFoodItemType[]>([]);
+  const [filteredItems, setFilteredItems] = useState<SliderFoodItemType[]>([]);  
   const [category, setCategory] = useState<SliderCategoryType[]>([]);
+  const [filteredCategory, setFilteredCategory] = useState<SliderCategoryType[]>([]);
   const [query, setQuery] = React.useState<string>("");
 
   /**
@@ -68,29 +70,21 @@ const Slider: React.FC = () => {
       console.log(error);
     }
   };
-  // const getCategoryData = () => {
-  //   fetch("./category.json")
-  //     .then((categories) => categories.json())
-  //     .then((getPost) => {
-  //       setCategory(getPost);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
-  let filteredItems = foodItem.filter((p) =>
-    p.title.toLowerCase().includes(query)
-  );
-  let filteredCategory = category.filter((categoryItem) =>
-    categoryItem.title.toLowerCase().includes(query)
-  );
 
-  const eventOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value.toLowerCase());
+  const handleQuery =  (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value.toLowerCase());    
+    let QueryItems =  foodItem.filter((p) =>
+    p.title.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setFilteredItems(QueryItems);
+
+    let QueryCategory =  category.filter((categoryItem) =>
+    categoryItem.title.toLowerCase().includes(e.target.value.toLowerCase())
+    ); 
+    setFilteredCategory(QueryCategory);
   };
-  // console.log(filteredItems);
-
+   
   React.useEffect(() => {
     getFoodData();
     getCategoryData();
@@ -113,7 +107,7 @@ const Slider: React.FC = () => {
                   className="slider__row__main__search__input__box"
                   name="searchInput"
                   type="text"
-                  onChange={eventOnChange}
+                  onChange={handleQuery}
                   placeholder="Search"
                 />
               </div>
