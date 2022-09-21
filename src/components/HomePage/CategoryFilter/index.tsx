@@ -1,14 +1,6 @@
 import React from "react";
 import "./style.css";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
 
@@ -28,7 +20,13 @@ const CategoryFilter: React.FC = () => {
   const selectedFood = foodItem.filter(
     (food) => food.category === selectedCategory
   );
+  const categoryLink = selectedCategory.toLowerCase();
 
+  // ============================== Methods =========================
+
+  /**
+   * @returns The all food data from the database
+   */
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "food");
     try {
@@ -52,9 +50,11 @@ const CategoryFilter: React.FC = () => {
       console.log(error);
     }
   };
-  React.useEffect(() => {
-    getData();
-  }, []);
+
+  /**
+   * @param e for get the selected category from homepage
+   * save the selected category to the state
+   */
 
   const handleCategoryNavbar = (e: string) => {
     setSelectedCategory(e);
@@ -66,7 +66,13 @@ const CategoryFilter: React.FC = () => {
       setBottomBar(3);
     }
   };
-  const categoryLink = selectedCategory.toLowerCase();
+
+  //========================== Effects ========================
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <React.Fragment>
       <section className="categoryFilter">
@@ -117,9 +123,7 @@ const CategoryFilter: React.FC = () => {
                   />
                   <div className="categoryFilter__card__body">
                     <div className="categoryFilter__card__body__title">
-                      <h3>                
-                          {foods?.title} 
-                      </h3>
+                      <h3>{foods?.title}</h3>
                     </div>
                     <div className="categoryFilter__card__body__description">
                       <p>{foods?.description.slice(0, 26)}...</p>

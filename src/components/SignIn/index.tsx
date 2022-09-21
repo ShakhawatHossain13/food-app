@@ -69,11 +69,12 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   const emailInput =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
 
-  // useEffect(() => {
-  //   // save data in localstorage
-  //   console.log("Signin: ", data);
-  // }, [data]);
+  // ============================== Methods =========================
 
+  /**
+   * @param get the all data from the text field
+   * @Return Save the input value into state variable
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setLoginInfo((prev) => {
@@ -89,6 +90,10 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     setButtonDisable(false);
   };
 
+  /**
+   * @returns Check all the input field data are valid or not
+   * return the validation result True or False
+   */
   const isValid = () => {
     let hasError = false;
     const copyErrors: ErrorTypeLogin = { ...error };
@@ -107,6 +112,11 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   };
   const temp: AddUserDataType[] = [];
 
+  /**
+   *
+   * @param email get from the request for checking specific user information
+   * If user found & password match give the login information
+   */
   const getData = async (email: string) => {
     const q = query(
       collection(firebaseDatabase, "user"),
@@ -130,6 +140,10 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     });
   };
 
+  /**
+   *
+   * @returns the user login information, if login information is available then return the user information
+   */
   const handleLogin = async () => {
     if (isValid()) {
       return;
@@ -158,6 +172,9 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
     }
   };
 
+  /**
+   * Sign in with google account and save the credentials information into the user data
+   */
   const handleGoogleSignIn = () => {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();

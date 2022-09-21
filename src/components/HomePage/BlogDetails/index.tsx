@@ -20,6 +20,11 @@ const BlogDetails: React.FC = () => {
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const { id } = useParams();
 
+  // ============================== Methods =========================
+
+  /**
+   * Returns specific single blog details
+   */
   const getData = async () => {
     const db = getFirestore();
     const docRef = doc(db, "blog", `${id}`);
@@ -43,6 +48,8 @@ const BlogDetails: React.FC = () => {
     }
   };
 
+  //========================== Effects ========================
+
   React.useEffect(() => {
     setBackdrop(true);
     getData();
@@ -50,22 +57,22 @@ const BlogDetails: React.FC = () => {
 
   return (
     <React.Fragment>
-        {backdrop ? (
-              <Backdrop />
-            ) : (
-            <> 
-      <div className="blogDetails">
-        <div className="blogDetails__image">
-          <div className="blogDetails__image__main">
-            <img
-              src={blog?.blogImage}
-              className="blogDetails__image__main--selected"
-              alt="Blog Images"
-            />
-          </div>
-        </div>
-        <div className="blogDetails__image__sub">
-          {/* {images.map((img) => (
+      {backdrop ? (
+        <Backdrop />
+      ) : (
+        <>
+          <div className="blogDetails">
+            <div className="blogDetails__image">
+              <div className="blogDetails__image__main">
+                <img
+                  src={blog?.blogImage}
+                  className="blogDetails__image__main--selected"
+                  alt="Blog Images"
+                />
+              </div>
+            </div>
+            <div className="blogDetails__image__sub">
+              {/* {images.map((img) => (
             <img
               style={{
                 border:
@@ -76,16 +83,16 @@ const BlogDetails: React.FC = () => {
               onClick={() => setSelected(img.bannerImage)}
             />
           ))} */}
-        </div>
-        <div className="blogDetails__details">
-          <h3>{blog?.title}</h3>
-          <p>{blog?.date.toString()}</p>
-          <p>{blog?.description}</p>
-        </div>
-      </div>
-      <Footer />
-      </>
-         )}
+            </div>
+            <div className="blogDetails__details">
+              <h3>{blog?.title}</h3>
+              <p>{blog?.date.toString()}</p>
+              <p>{blog?.description}</p>
+            </div>
+          </div>
+          <Footer />
+        </>
+      )}
     </React.Fragment>
   );
 };

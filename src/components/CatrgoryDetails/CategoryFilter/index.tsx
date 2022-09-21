@@ -45,6 +45,12 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
     selectedFood?.sort((a, b) => (Number(a.price) > Number(b.price) ? -1 : 1));
   }
 
+  // ============================== Methods =========================
+
+  /**
+   *
+   * @returns All food data from fire-storage database
+   */
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "food");
     try {
@@ -68,6 +74,9 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
       console.log(error);
     }
   };
+
+  //========================== Effects ========================
+
   React.useEffect(() => {
     getData();
   }, []);

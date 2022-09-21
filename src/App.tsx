@@ -32,6 +32,11 @@ const App: React.FC = () => {
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
 
+  // ============================== Methods =========================
+
+  /**
+   * This method is for add products to the cart
+   */
   const handleAddToCart = () => {
     let isItemAlreadyAdded = false;
     cartItem.map((item) => {
@@ -72,6 +77,8 @@ const App: React.FC = () => {
 
   // @ts-ignore
   const loggedInUserID = JSON.parse(localStorage.getItem("user"))?.id;
+
+  //========================== Effects ========================
 
   useEffect(() => {
     // @ts-ignore
