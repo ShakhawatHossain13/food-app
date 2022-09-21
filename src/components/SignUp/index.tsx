@@ -194,10 +194,10 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="name"
                 placeholder="Name"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (!event.target.value.match(letterRegEx)) {
+                  if (event.target.value.length < 3) {
                     setError((prev) => ({
                       ...prev,
-                      name: "Letters only",
+                      name: "Name must be at least 3 character",
                     }));
                   } else {
                     setError((prev) => ({
