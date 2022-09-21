@@ -118,10 +118,10 @@ const Slider: React.FC = () => {
                 />
               </div>
               <button className="slider__row__main__search__btn">Search</button>
-              {filteredItems?.slice(0, 2).map((item) => {
+              {filteredItems?.slice(0, 2).map((item, index) => {
                 if (query !== "") {
                   return (
-                    <div className="slider__row__main__search__input__results">
+                    <div className="slider__row__main__search__input__results"  key={index}>
                       <Link to={`/products-details/${item?.id?.trim()}`}>
                         <div className="slider__row__main__search__input__results__row">
                           <img
@@ -138,10 +138,10 @@ const Slider: React.FC = () => {
                   );
                 }
               })}
-              {filteredCategory?.slice(0, 2).map((item) => {
+              {filteredCategory?.slice(0, 2).map((item, index) => {
                 if (query !== "") {
                   return (
-                    <div className="slider__row__main__search__input__results">
+                    <div className="slider__row__main__search__input__results" key={index}>
                       <Link
                         to={`/category-details/${item?.title
                           ?.trim()
