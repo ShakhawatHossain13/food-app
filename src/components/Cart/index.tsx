@@ -9,7 +9,7 @@ import {
   ProductsDetailsDataType,
   CartDataType,
 } from "../../contexts/CartContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 const Cart = () => {
   // const Cart = ({ cartItem }: CartProps) => {
   // const {id, title, foodImage, price, quantity} = cartItem;
@@ -28,10 +28,10 @@ const Cart = () => {
   const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
 
   const handleCheckoutSubmit = () => {
-    const notifyAdd = () =>
+    const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
-    notifyAdd();
-    navigate("/");
+    notifyEdit();
+    // navigate("/");
   };
 
   const handleDelete = (id: string) => {   
@@ -60,6 +60,7 @@ const Cart = () => {
     <React.Fragment>
       <div className="cart" style={{ background: `url(${homeslider})` }}>
         <div className="cart__row">
+          <ToastContainer autoClose={2000} />
           <h2 className="cart__title">Cart</h2>
           <table className="cart__table">
             <tr>

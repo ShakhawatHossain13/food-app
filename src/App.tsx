@@ -21,6 +21,7 @@ import {
   CartDataType,
   initialDataProductsDetails,
 } from "../src/contexts/CartContext";
+import { toast } from "react-toastify";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,6 +61,8 @@ const App: React.FC = () => {
       };
       setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
     }
+    const notifyEdit = () => toast("Item added to cart!");
+    notifyEdit();
   };
 
   // @ts-ignore
