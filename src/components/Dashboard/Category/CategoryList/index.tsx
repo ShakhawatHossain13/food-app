@@ -203,7 +203,9 @@ const CategoryList: React.FC = () => {
                         />
                       </td>
                       <td className="categoryList__row__table__row__text">
-                        {category.description.slice(0, 50)}
+                        <p className="categoryList__row__table__row__text__paragraph">
+                          {category.description.slice(0, 50)}
+                        </p>
                       </td>
                       <td className="categoryList__row__table__row__text">
                         <button
