@@ -48,6 +48,7 @@ const CategoryList: React.FC = () => {
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
 
+
   const handleModalOpen = () => {
     setModalOpen(true);
   };
