@@ -3,6 +3,7 @@ import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa";
 import Footer from "../Footer";
+import { toast } from "react-toastify";
 import { useParams } from "react-router";
 import {
   collection,
@@ -219,7 +220,12 @@ const ProductsDetails: React.FC = () => {
                 </div>
               </div>
               <button
-                onClick={handleAddToCart}
+              //  onClick={handleAddToCart}
+                onClick={(e)=>{
+                  handleAddToCart(e);
+                  const notifyAdd = () => toast("Food item Added to Cart");
+                  notifyAdd();
+                }}
                 className="productsDetails__card__body__cart"
                 disabled={disable}
               >
