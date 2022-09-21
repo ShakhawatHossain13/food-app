@@ -61,7 +61,7 @@ const App: React.FC = () => {
       };
       setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
     }
-    const notifyEdit = () => toast("Item added to cart!");
+    const notifyEdit = () => toast("Food item Added to Cart");
     notifyEdit();
   };
 

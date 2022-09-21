@@ -223,12 +223,7 @@ const ProductsDetails: React.FC = () => {
                 </div>
               </div>
               <button
-              //  onClick={handleAddToCart}
-                onClick={(e)=>{
-                  handleAddToCart(e);
-                  const notifyAdd = () => toast("Food item Added to Cart");
-                  notifyAdd();
-                }}
+                onClick={handleAddToCart}
                 className="productsDetails__card__body__cart"
                 disabled={disable}
               >
