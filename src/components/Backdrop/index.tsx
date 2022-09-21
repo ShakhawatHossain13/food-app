@@ -2,6 +2,10 @@ import React from "react";
 import "./style.css";
 import { TailSpin } from "react-loader-spinner";
 
+/**
+ *
+ * @returns A backdrop spinner for show loading indicator
+ */
 const Backdrop: React.FC = () => {
   return (
     <React.Fragment>

@@ -18,17 +18,19 @@ type SliderCategoryType = {
 
 const Slider: React.FC = () => {
   const [foodItem, setFoodItem] = useState<SliderFoodItemType[]>([]);
-  const [filteredItems, setFilteredItems] = useState<SliderFoodItemType[]>([]);  
+  const [filteredItems, setFilteredItems] = useState<SliderFoodItemType[]>([]);
   const [category, setCategory] = useState<SliderCategoryType[]>([]);
-  const [filteredCategory, setFilteredCategory] = useState<SliderCategoryType[]>([]);
+  const [filteredCategory, setFilteredCategory] = useState<
+    SliderCategoryType[]
+  >([]);
   const [query, setQuery] = React.useState<string>("");
 
+  // ============================== Methods =========================
+
   /**
-   *
-   * @param value
-   * @returns
+   * @returns all food items from the database
    */
-  const getFoodData = async (value?: string) => {
+  const getFoodData = async () => {
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -71,20 +73,26 @@ const Slider: React.FC = () => {
     }
   };
 
-
-  const handleQuery =  (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value.toLowerCase());    
-    let QueryItems =  foodItem.filter((p) =>
-    p.title.toLowerCase().includes(e.target.value.toLowerCase())
+  /**
+   *
+   * @param e get the request food / category name
+   * @return the filtered results
+   */
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value.toLowerCase());
+    let QueryItems = foodItem.filter((p) =>
+      p.title.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setFilteredItems(QueryItems);
 
-    let QueryCategory =  category.filter((categoryItem) =>
-    categoryItem.title.toLowerCase().includes(e.target.value.toLowerCase())
-    ); 
+    let QueryCategory = category.filter((categoryItem) =>
+      categoryItem.title.toLowerCase().includes(e.target.value.toLowerCase())
+    );
     setFilteredCategory(QueryCategory);
   };
-   
+
+  //========================== Effects ========================
+
   React.useEffect(() => {
     getFoodData();
     getCategoryData();
@@ -115,7 +123,10 @@ const Slider: React.FC = () => {
               {filteredItems?.slice(0, 2).map((item, index) => {
                 if (query !== "") {
                   return (
-                    <div className="slider__row__main__search__input__results"  key={index}>
+                    <div
+                      className="slider__row__main__search__input__results"
+                      key={index}
+                    >
                       <Link to={`/products-details/${item?.id?.trim()}`}>
                         <div className="slider__row__main__search__input__results__row">
                           <img
@@ -135,7 +146,10 @@ const Slider: React.FC = () => {
               {filteredCategory?.slice(0, 2).map((item, index) => {
                 if (query !== "") {
                   return (
-                    <div className="slider__row__main__search__input__results" key={index}>
+                    <div
+                      className="slider__row__main__search__input__results"
+                      key={index}
+                    >
                       <Link
                         to={`/category-details/${item?.title
                           ?.trim()

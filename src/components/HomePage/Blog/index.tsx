@@ -1,14 +1,6 @@
 import React from "react";
 import "./style.css";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
 
@@ -20,9 +12,15 @@ type BlogFilterDataType = {
   icon: string;
   date: string;
 };
+
 const Blog: React.FC = () => {
   const [blog, setBlog] = React.useState<BlogFilterDataType[]>([]);
 
+  // ============================== Methods =========================
+
+  /**
+   * @returns The all blog data from the database
+   */
   const getData = async () => {
     const colRef = collection(firebaseDatabase, "blog");
     try {
@@ -45,6 +43,8 @@ const Blog: React.FC = () => {
       console.log(error);
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     getData();

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa"; 
-import Footer from "../Footer"; 
-import Backdrop from "../Backdrop";   
+import { FaShoppingCart } from "react-icons/fa";
+import Footer from "../Footer";
+import Backdrop from "../Backdrop";
 import { useParams } from "react-router";
 import {
   collection,
@@ -50,7 +50,12 @@ const ProductsDetails: React.FC = () => {
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
 
-  //Get all Food Data
+  // ============================== Methods =========================
+
+  /**
+   *
+   * @returns Get all Food Data
+   */
   const getAllFoodData = async () => {
     const colRef = collection(firebaseDatabase, "food");
     try {
@@ -75,6 +80,9 @@ const ProductsDetails: React.FC = () => {
     }
   };
 
+  /**
+   * Get specific Food data
+   */
   const getData = async () => {
     const db = getFirestore();
     const docRef = doc(db, "food", `${id}`);
@@ -98,6 +106,18 @@ const ProductsDetails: React.FC = () => {
     }
   };
 
+  /**
+   * Update product quantity for order
+   */
+  const handleItemQuantityPlus = () => {
+    setItemQuantity(itemQuantity + 1);
+  };
+  const handleItemQuantityMinus = () => {
+    if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
+  };
+
+  //========================== Effects ========================
+
   React.useEffect(() => {
     setBackdrop(true);
     getData();
@@ -118,8 +138,6 @@ const ProductsDetails: React.FC = () => {
   //   setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
   //   localStorage.setItem("cart", JSON.stringify([...cartItem, cartProducts]));
   // };
-
-  console.log("All cart Items:", cartItem);
   // localStorage.setItem("cart", JSON.stringify(cartItem));
   // const cartStr = localStorage.getItem("cart");
   // setCartItem((prevState): CartDataType[] => [
@@ -139,41 +157,31 @@ const ProductsDetails: React.FC = () => {
   //   }
   // }
 
-  const handleItemQuantityPlus = () => {
-    setItemQuantity(itemQuantity + 1);
-  };
-  const handleItemQuantityMinus = () => {
-    if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
-  };
-
   return (
     <React.Fragment>
       {backdrop ? (
-              <Backdrop />
-            ) : (
-            <> 
-      <section className="productsDetails">
+        <Backdrop />
+      ) : (
+        <>
+          <section className="productsDetails">
+            <div className="">
+              <ToastContainer autoClose={1000} />
 
-        <div className="">
-      
-        <ToastContainer autoClose={1000} />
-
-        <div className="">       
- 
-          <div className="productsDetails__card">
-            <div>
-              <div className="productsDetails__card__image">
-                <div className="productsDetails__card__image__main">
-                  <img
-                    // src={selected || initialImage[0]}
-                    src={foodItem?.foodImage}
-                    className="productsDetails__card__image__main--selected"
-                    alt="selected"
-                  />
-                </div>
-              </div>
-              <div className="productsDetails__card__image__sub">
-                {/* {foodItem?.slice(0, 4).map((singleFood) => (
+              <div className="">
+                <div className="productsDetails__card">
+                  <div>
+                    <div className="productsDetails__card__image">
+                      <div className="productsDetails__card__image__main">
+                        <img
+                          // src={selected || initialImage[0]}
+                          src={foodItem?.foodImage}
+                          className="productsDetails__card__image__main--selected"
+                          alt="selected"
+                        />
+                      </div>
+                    </div>
+                    <div className="productsDetails__card__image__sub">
+                      {/* {foodItem?.slice(0, 4).map((singleFood) => (
                   <img
                     style={{
                       border:
@@ -186,77 +194,77 @@ const ProductsDetails: React.FC = () => {
                     onClick={() => setSelected(singleFood.foodImage)}
                   />
                 ))} */}
-              </div>
-            </div>
-            <div className="productsDetails__card__body">
-              <div className="productsDetails__card__body__title">
-                <h3>{foodItem?.title}</h3>
-              </div>
-              <div className="productsDetails__card__body__description">
-                <p>{foodItem?.description}</p>
-              </div>
-              <div className="productsDetails__card__body__price">
-                <h2>{foodItem?.price} $</h2>
-                <div className="productsDetails__card__body__price__quantity">
-                  {itemQuantity > 1 ? (
+                    </div>
+                  </div>
+                  <div className="productsDetails__card__body">
+                    <div className="productsDetails__card__body__title">
+                      <h3>{foodItem?.title}</h3>
+                    </div>
+                    <div className="productsDetails__card__body__description">
+                      <p>{foodItem?.description}</p>
+                    </div>
+                    <div className="productsDetails__card__body__price">
+                      <h2>{foodItem?.price} $</h2>
+                      <div className="productsDetails__card__body__price__quantity">
+                        {itemQuantity > 1 ? (
+                          <button
+                            onClick={handleItemQuantityMinus}
+                            className="productsDetails__card__body__price__quantity__minus"
+                          >
+                            <AiOutlineMinus size="18px" />
+                          </button>
+                        ) : (
+                          <button
+                            disabled
+                            className="productsDetails__card__body__price__quantity__minus"
+                          >
+                            <AiOutlineMinus size="18px" />
+                          </button>
+                        )}
+                        <input
+                          type="text"
+                          id="itemQuantity"
+                          name="itemQuantity"
+                          value={itemQuantity}
+                          onChange={(event) => {
+                            if (event.target.value.match(numericInput)) {
+                              setItemQuantity(Number(event.target.value));
+                            }
+                          }}
+                        ></input>
+                        <button
+                          onClick={handleItemQuantityPlus}
+                          className="productsDetails__card__body__price__quantity__plus"
+                        >
+                          <AiOutlinePlus size="18px" />
+                        </button>
+                      </div>
+                    </div>
                     <button
-                      onClick={handleItemQuantityMinus}
-                      className="productsDetails__card__body__price__quantity__minus"
+                      onClick={handleAddToCart}
+                      className="productsDetails__card__body__cart"
+                      disabled={disable}
                     >
-                      <AiOutlineMinus size="18px" />
+                      <FaShoppingCart size="18px" /> Add To Cart
                     </button>
-                  ) : (
-                    <button
-                      disabled
-                      className="productsDetails__card__body__price__quantity__minus"
-                    >
-                      <AiOutlineMinus size="18px" />
-                    </button>
-                  )}
-                  <input
-                    type="text"
-                    id="itemQuantity"
-                    name="itemQuantity"
-                    value={itemQuantity}
-                    onChange={(event) => {
-                      if (event.target.value.match(numericInput)) {
-                        setItemQuantity(Number(event.target.value));
-                      }
-                    }}
-                  ></input>
-                  <button
-                    onClick={handleItemQuantityPlus}
-                    className="productsDetails__card__body__price__quantity__plus"
-                  >
-                    <AiOutlinePlus size="18px" />
-                  </button>
+                  </div>
                 </div>
-              </div>
-              <button
-                onClick={handleAddToCart}
-                className="productsDetails__card__body__cart"
-                disabled={disable}
-              >
-                <FaShoppingCart size="18px" /> Add To Cart
-              </button>
-            </div>
-          </div>
-          {/* Product in Same category section Slider*/}
+                {/* Product in Same category section Slider*/}
 
-          {categoryFood.length > 0 && (
-            <div>
-              <h2 className="productsDetails__endTitle">
-                Product in Same Category
-              </h2>
-              <ProductsDetailsBottom sameCategoryFood={categoryFood} />
+                {categoryFood.length > 0 && (
+                  <div>
+                    <h2 className="productsDetails__endTitle">
+                      Product in Same Category
+                    </h2>
+                    <ProductsDetailsBottom sameCategoryFood={categoryFood} />
+                  </div>
+                )}
+              </div>
             </div>
-          )}
-        </div>        
-        </div> 
-      </section>
-      <Footer />
-      </>
-         )}
+          </section>
+          <Footer />
+        </>
+      )}
     </React.Fragment>
   );
 };

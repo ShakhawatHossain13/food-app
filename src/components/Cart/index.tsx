@@ -38,6 +38,11 @@ const Cart = () => {
   const cartStr = localStorage.getItem("cart");
   const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
 
+  // ============================== Methods =========================
+
+  /**
+   * This is for add product to cart
+   */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
@@ -45,6 +50,10 @@ const Cart = () => {
     // navigate("/");
   };
 
+  /**
+   * @param id is for indicate specific product for delete
+   * return the remaining cart item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     let filteredArray = cartFinal.filter((item) => item.id !== id);
@@ -54,6 +63,7 @@ const Cart = () => {
     setButtonDisable(false);
   };
 
+  //========================== Effects ========================
   useEffect(() => {
     const cartStr = localStorage.getItem("cart");
     const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
