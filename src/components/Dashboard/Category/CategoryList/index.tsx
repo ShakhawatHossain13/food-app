@@ -206,7 +206,7 @@ const CategoryList: React.FC = () => {
                           />
                         </td>
                         <td className="categoryList__row__table__row__text">
-                          {category.description.slice(0, 50)}
+                          {category.description.slice(0, 50)}...
                         </td>
                         <td className="categoryList__row__table__row__text">
                           <button

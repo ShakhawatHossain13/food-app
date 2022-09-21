@@ -15,6 +15,7 @@ const Cart = () => {
   // const {id, title, foodImage, price, quantity} = cartItem;
 
   // const { id } = useParams();
+
   const {
     itemQuantity,
     setItemQuantity,
@@ -87,9 +88,7 @@ const Cart = () => {
               {cart &&
                 cartFinal?.slice(1).map((cart, index) => (
                   <tr key={index + 1}>
-                    {/* <td className="cart__table__field">{index + 1}</td> */}
                     <td className="cart__table__field">{index + 1}</td>
-                    {/* <td className="cart__table__field">products images</td> */}
                     <td className="cart__table__field">
                       <img
                         src={cart?.foodImage}
