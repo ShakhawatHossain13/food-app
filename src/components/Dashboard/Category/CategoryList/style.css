@@ -56,6 +56,9 @@ button {
 .categoryList__row__table__row__text__paragraph {
   max-width: 200px;
   margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .categoryList__row__table__row__button__edit {
