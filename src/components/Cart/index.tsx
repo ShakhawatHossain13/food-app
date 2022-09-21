@@ -115,7 +115,7 @@ const Cart = () => {
                             </span>
                             <div className="productlist__delete__modal__confirm">
                               <div>
-                                Are you sure you want to delete this record?
+                                Are you sure you want to delete this item?
                               </div>
                               <div>
                                 <button
