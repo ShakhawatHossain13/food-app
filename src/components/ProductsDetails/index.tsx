@@ -3,9 +3,7 @@ import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { FaShoppingCart } from "react-icons/fa"; 
 import Footer from "../Footer"; 
-import Backdrop from "../Backdrop"; 
-import { ToastContainer } from "react-toastify";
- 
+import Backdrop from "../Backdrop";   
 import { useParams } from "react-router";
 import {
   collection,
