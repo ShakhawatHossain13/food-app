@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import HomePage from "./components/HomePage";
+import { Routes, Route, Navigate } from "react-router-dom"; 
+import HomePage from "./components/HomePage"; 
 import BlogDetails from "./components/HomePage/BlogDetails";
 import MenuBar from "./components/MenuBar";
 import ProductsDetails from "./components/ProductsDetails";
@@ -108,7 +108,7 @@ const App: React.FC = () => {
         }}
       >
         <MenuBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      </CartContext.Provider>
+      </CartContext.Provider> 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -168,7 +168,7 @@ const App: React.FC = () => {
         />
 
         <Route element={<RequireAdmin />}>
-          <Route path="/dashboard" element={<ProductList />} />
+          <Route path="/dashboard" element={<Navigate to="/dashboard/product-list" />} />
           <Route path="/dashboard/product-list" element={<ProductList />} />
           <Route path="/dashboard/category-list" element={<CategoryList />} />
           <Route path="/dashboard/blog-list" element={<BlogList />} />
