@@ -93,7 +93,9 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
               }}
             >
               <FaShoppingCart size="18px" />
-              <span style={{ color: "#007bff" }}>{cartCount}</span>
+              <span style={{ color: "#007bff" }}>
+                {cartCount ? cartCount : cartItem.length}
+              </span>
             </button>
           ) : null}
           {!isLoggedIn ? (
