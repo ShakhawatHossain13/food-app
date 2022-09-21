@@ -33,10 +33,7 @@ const App: React.FC = () => {
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
 
   const handleAddToCart = () => {
-    console.log(foodItem);
-
     let isItemAlreadyAdded = false;
-
     cartItem.map((item) => {
       if (item.id === foodItem.id) {
         isItemAlreadyAdded = true;
