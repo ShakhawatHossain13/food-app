@@ -1,24 +1,23 @@
 .sidebar {
-    height: 100%;
-    width: 200px;
-    position: absolute;
-    top: 75px;
-    left: 0;
-    background-color: rgba(233, 233, 233, 0.897);
-    overflow-x: hidden;
-    text-align: center;
-    border-right: 1px solid #f0f0f0 ;
-  }
-  
-  .sidebar__option {
-    padding: 16px 8px 16px 16px;
-    text-decoration: none;
-    font-size: 16px;
-    color: black;
-    display: block;
-  }
-  .sidebar__option:hover {
-    color: #0a0a0a;
-    background-color: #fff;
-  }
- 
+  height: 100%;
+  width: 200px;
+  position: absolute;
+  top: 75px;
+  left: 0;
+  background-color: rgba(233, 233, 233, 0.897);
+  overflow-x: hidden;
+  text-align: center;
+  border-right: 1px solid #f0f0f0;
+}
+
+.sidebar__option {
+  padding: 16px 8px 16px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  color: black;
+  display: block;
+}
+.sidebar__option:hover {
+  color: #0a0a0a;
+  background-color: #fff;
+}

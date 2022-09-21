@@ -68,6 +68,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
   const numericHyphen = "^[0-9]*-?[0-9]*$";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setButtonDisable(false);
     const { name, value } = event.target;
     setAddUser((prev) => {
       return {
@@ -107,6 +108,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
   const register = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    setButtonDisable(true);
     if (isValid()) {
       return;
     }
@@ -133,11 +135,11 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    setButtonDisable(true);
     e.preventDefault();
     if (isValid()) {
       return;
     }
-    setButtonDisable(true);
     const collectionRef = collection(firebaseDatabase, "user");
     addDoc(collectionRef, {
       name: addUser.name,
@@ -194,10 +196,10 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="name"
                 placeholder="Name"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (!event.target.value.match(letterRegEx)) {
+                  if (event.target.value.length < 3) {
                     setError((prev) => ({
                       ...prev,
-                      name: "Letters only",
+                      name: "Name must be at least 3 character",
                     }));
                   } else {
                     setError((prev) => ({

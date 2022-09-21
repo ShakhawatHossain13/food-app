@@ -5,59 +5,73 @@
   background-position-y: 40% !important;
   background-size: cover !important;
 }
-.signIn__slider__row__main{
+.signIn__slider__row__main {
   margin: auto;
   width: 40%;
   text-align: center;
 }
-.signIn__slider__row__main__logo{
-    width: 160px;
-    height: auto;
-    margin-top: 25px;
- }
- .signIn__slider__row__main__form{
-    max-width: 400px; 
-    margin: 10px auto;
-    text-align: center;
- }
- .signIn__slider__row__main__form input:focus{
+.signIn__slider__row__main__logo {
+  width: 160px;
+  height: auto;
+  margin-top: 25px;
+}
+.signIn__slider__row__main__form {
+  max-width: 400px;
+  margin: 10px auto;
+  text-align: center;
+}
+.signIn__slider__row__main__form input:focus {
   outline: none;
- }
- .signIn__slider__row__main__form__input{
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px 10px;
-    margin: 8px 5px;
-    border: 1px solid #f0f0f0;
-    background-color: #8080802B;
-    font-size: 14px;
-    border-radius: 5px;
- }
- .signIn__slider__row__main__form__error{
+}
+.signIn__slider__row__main__form__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  margin: 8px 5px;
+  border: 1px solid #f0f0f0;
+  background-color: #8080802b;
+  font-size: 14px;
+  border-radius: 5px;
+}
+.signIn__slider__row__main__form__googleButton {
+  display: flex;
+  justify-content: center;
+  width: 77%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0;
+  margin-left: 65px;
+  border: 1px solid #f0f0f0;
+  font-size: 20px;
+  border-radius: 5px;
+}
+.signIn__slider__row__main__form__error {
   color: red;
   font-size: 11px;
   margin-left: 5px;
   position: absolute;
   left: 36%;
   margin-top: -10px;
- }
- #submit{
+}
+#submit {
   background-color: #dc3545;
   color: #fff;
+}
+#submit:disabled{
+  background-color: #ffbdc4;
  }
- .signIn__slider__row__main__form__link{
+.signIn__slider__row__main__form__link {
   font-size: 14px;
- }
+}
 @media screen and (max-width: 768px) {
-  .signIn__slider__row__main{    
-    width: 60%; 
+  .signIn__slider__row__main {
+    width: 60%;
   }
 }
 @media screen and (max-width: 480px) {
-  .signIn__slider__row__main{    
-    width: 80%; 
+  .signIn__slider__row__main {
+    width: 80%;
   }
 }
 @media screen and (max-width: 375px) {
- 
 }

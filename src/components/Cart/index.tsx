@@ -3,94 +3,64 @@ import "./style.css";
 import homeslider from "./home_slider.png";
 import { useNavigate, useParams } from "react-router";
 import Footer from "../Footer";
-import { CartContext, CartBasicInfoProps, ProductsDetailsDataType, CartDataType } from "../../contexts/CartContext";
-import { toast } from "react-toastify";
+import {
+  CartContext,
+  CartBasicInfoProps,
+  ProductsDetailsDataType,
+  CartDataType,
+} from "../../contexts/CartContext";
+import { toast, ToastContainer } from "react-toastify";
 const Cart = () => {
   // const Cart = ({ cartItem }: CartProps) => {
   // const {id, title, foodImage, price, quantity} = cartItem;
 
   // const { id } = useParams();
   const {itemQuantity, setItemQuantity, foodItem, setFoodItem, cartItem, setCartItem, updateCart, setUpdateCart,handleAddToCart  } = React.useContext(CartContext) as CartBasicInfoProps;
-   const [cartFinal, setCartFinal] = React.useState<CartDataType[]>([]);
+  const [cartFinal, setCartFinal] = React.useState<CartDataType[]>([]);
   const [allCartItem, setAllCartItem] = React.useState<CartDataType[]>([]);
+  const [deleteModal, setDeleteModal] = React.useState<Boolean>(false);
+  const [cartItemID, setCartItemID] = React.useState<string>("");
+  const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
+  const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
-  // const cartProducts: CartDataType = {
-  //   id:  cartItem.id,
-  //   title: String(title),
-  //   price: Number(price),
-  //   quantity: quantity,
-  // };
-  //  setAllCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  //  console.log(allCartItem);
+  const cartStr = localStorage.getItem("cart");
+  const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
 
-  // const handleAddToCart = () => {
-  //   const cartProducts: CartDataType = {
-  //     foodId: String(foodItem?.id),
-  //     foodTitle: String(foodItem?.title),
-  //     price: Number(foodItem?.price),
-  //     quantity: itemQuantity,
-  //   };
-  //   setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  // };
-
- 
-    const cartStr = localStorage.getItem("cart"); 
-    const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : ""); 
-   
-   
-    // if (cart.length > 0) {
-    //     setAllCartItem((prevState): any => [...prevState, cart]);
-
-    //   console.log("1st Cart quantity: ", cart[0].quantity);
-    //   console.log("2nd Cart quantity: ", cart[1]?.quantity);
-    //   console.log(
-    //     "Two Cart price: ",
-    //     cart[0].quantity * cart[0].price + cart[1]?.quantity * cart[1]?.price
-    //   );
-    // } 
-
-
-  //   const handleDelete = (id:number) =>{
-  //     const newTodos = [...cart];
-  //     const index = cart.findIndex((cart) => cart?.id === id);
-  //     newTodos.splice(index, 1);
-  //     (newTodos)
-  // }
-
-  console.log("cart: ", allCartItem);
-  const handleCheckoutSubmit = () => {   
-    const notifyAdd = () => toast("We have received your order. Thanks for ordering !");
-    notifyAdd();
-    navigate("/");
+  const handleCheckoutSubmit = () => {
+    const notifyEdit = () =>
+      toast("We have received your order. Thanks for ordering !");
+    notifyEdit();
+    // navigate("/");
   };
 
-   
-    const handleDelete = (id:string) =>{
-      let filteredArray = cartFinal.filter(item => item.id !== id)
-      setCartFinal(filteredArray);
-  }
-  
+  const handleDelete = (id: string) => {   
+    setButtonDisable(true);
+    let filteredArray = cartFinal.filter(item => item.id !== id)
+    setCartFinal(filteredArray);
+    localStorage.setItem("cart", JSON.stringify(filteredArray)); 
+    setDeleteModal(false);
+    setButtonDisable(false);
+  };
+
   useEffect(() => {
-    const cartStr = localStorage.getItem("cart"); 
-    const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : ""); 
-    setCartFinal(cart);        
+    const cartStr = localStorage.getItem("cart");
+    const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
+    setCartFinal(cart);
   }, []);
- 
- 
-  
   let i:number = 1;
   let total:number = 0;
-
   while (i < cartFinal.length) {
-    total = (Number(cartFinal[i]?.price) * Number(cartFinal[i]?.quantity))+ total;
+    total =
+      Number(cartFinal[i]?.price) * Number(cartFinal[i]?.quantity) + total;
     i = i + 1;
-  } 
+  }
 
   return (
     <React.Fragment>
       <div className="cart" style={{ background: `url(${homeslider})` }}>
         <div className="cart__row">
+          <ToastContainer autoClose={2000} />
           <h2 className="cart__title">Cart</h2>
           <table className="cart__table">
             <tr>
@@ -103,7 +73,7 @@ const Cart = () => {
             </tr>
             <tbody>
             {cart && cartFinal?.slice(1).map((cart, index) => (              
-                <tr>
+                <tr key={index+1}>
                   {/* <td className="cart__table__field">{index + 1}</td> */}
                   <td className="cart__table__field">{index+1}</td>
                   {/* <td className="cart__table__field">products images</td> */}
@@ -123,15 +93,55 @@ const Cart = () => {
                   <td className="cart__table__field">
                     <button className="cart__table__deleteButton"
                     onClick={
-                      ()=>{
-                        let filteredArray = cartFinal.filter(item => item.id !== cart?.id)
-                        setCartFinal(filteredArray);
-                        localStorage.setItem("cart", JSON.stringify(filteredArray)); 
+                      ()=>{                      
+                        setCartItemID(cart?.id);   
+                        setDeleteModal(true); 
                       }
                     }
                     >
                       Delete
                     </button>
+                    {deleteModal && (
+                          <tbody>
+                          <div className="productlist__row__table__row__button__delete__modal">
+                            <span
+                              className="productlist__delete__modal__close"
+                              onClick={() => {
+                                setDeleteModal(false);
+                                setButtonDisable(false);
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <div className="productlist__delete__modal__confirm">
+                              <div>
+                                Are you sure you want to delete this item?
+                              </div>
+                              <div>
+                                <button
+                                  style={{ backgroundColor: "crimson" }}
+                                  disabled={buttonDisable}
+                                  onClick={() => {
+                                    handleDelete(cartItemID);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  style={{ backgroundColor: "grey" }}
+                                  onClick={() => {
+                                    setDeleteModal(false);
+                                    setButtonDisable(false);
+                                    console.log("cancel: ", cart?.id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          </tbody>
+                        )}
                   </td>
                 </tr>    
                           
@@ -151,15 +161,16 @@ const Cart = () => {
                       <th className="cart__table__footer">${total}</th>
                       <th className="cart__table__footer"> </th>
                     </tr>
-
-          </table>
-          <div className="cart__checkout">
-            <button
-              onClick={handleCheckoutSubmit}
-              className="cart__checkoutButton"
-            >
-              Procced to Checkout
-            </button>
+              </table>
+              <div className="cart__checkout">
+                {cart?.length > 1 && (
+                      <button
+                        onClick={handleCheckoutSubmit}
+                        className="cart__checkoutButton"
+                      >
+                        Procced to Checkout
+                 </button>
+              )}          
           </div>
         </div>
       </div>

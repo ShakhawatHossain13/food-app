@@ -13,6 +13,7 @@ button {
 }
 
 .productlist__row__button {
+  padding-top: 40px;
   text-align: right;
 }
 
@@ -20,7 +21,8 @@ button {
   font-size: 24px;
   font-weight: 400;
   margin-bottom: 10px;
-  text-align: center;
+  left: 45%;
+  position: absolute;
 }
 
 .productlist__row__table {

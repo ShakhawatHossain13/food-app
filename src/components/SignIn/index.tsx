@@ -15,6 +15,7 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
+import { FcGoogle } from "react-icons/fc";
 
 export type AddUserDataType = {
   id?: string;
@@ -288,7 +289,12 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
               </button>
             </form>
             <p>------------ or ------------</p>
-            <button onClick={handleGoogleSignIn}>Google Sign In</button>
+            <button
+              onClick={handleGoogleSignIn}
+              className="signIn__slider__row__main__form__googleButton"
+            >
+              <FcGoogle size="24px" /> Google
+            </button>
             <p className="signIn__slider__row__main__form__link">
               Don't have an account?
               <Link to="/signup"> Click here...</Link>

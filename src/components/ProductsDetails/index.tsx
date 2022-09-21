@@ -5,6 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import Footer from "../Footer"; 
 import Backdrop from "../Backdrop"; 
 import { ToastContainer } from "react-toastify";
+ 
 import { useParams } from "react-router";
 import {
   collection,
@@ -22,6 +23,7 @@ import {
   CartDataType,
 } from "../../contexts/CartContext";
 import ProductsDetailsBottom from "./ProductsDetailsBottom";
+import { ToastContainer } from "react-toastify";
 const ProductsDetails: React.FC = () => {
   const { id } = useParams();
   const {
@@ -146,7 +148,6 @@ const ProductsDetails: React.FC = () => {
     if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
   };
 
-  console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
       {backdrop ? (
@@ -154,9 +155,8 @@ const ProductsDetails: React.FC = () => {
             ) : (
             <> 
       <section className="productsDetails">
- 
+
         <div className="">
- 
       
         <ToastContainer autoClose={1000} />
 
