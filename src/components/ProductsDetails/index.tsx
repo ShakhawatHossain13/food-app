@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import "./style.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
-import Footer from "../Footer";
+import { FaShoppingCart } from "react-icons/fa"; 
+import Footer from "../Footer"; 
+import Backdrop from "../Backdrop"; 
+import { ToastContainer } from "react-toastify";
 import { useParams } from "react-router";
 import {
   collection,
@@ -41,8 +43,8 @@ const ProductsDetails: React.FC = () => {
   // const categoryFood = foodItem.filter((food) => food.category === "Lunch");
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
-
   const [disable, setDisable] = React.useState(false);
+  const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const numericInput = "^[1-9][0-9]*$";
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
@@ -66,7 +68,7 @@ const ProductsDetails: React.FC = () => {
         return obj;
       });
       setAllFoodItem(prepareData);
-
+      setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -90,12 +92,14 @@ const ProductsDetails: React.FC = () => {
         price: results?.price,
       };
       setFoodItem(obj);
+      setBackdrop(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   React.useEffect(() => {
+    setBackdrop(true);
     getData();
     getAllFoodData();
     // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
@@ -145,8 +149,19 @@ const ProductsDetails: React.FC = () => {
   console.log("Cart Item: ", cartItem);
   return (
     <React.Fragment>
+      {backdrop ? (
+              <Backdrop />
+            ) : (
+            <> 
       <section className="productsDetails">
+ 
         <div className="">
+ 
+      
+        <ToastContainer autoClose={1000} />
+
+        <div className="">       
+ 
           <div className="productsDetails__card">
             <div>
               <div className="productsDetails__card__image">
@@ -238,9 +253,12 @@ const ProductsDetails: React.FC = () => {
               <ProductsDetailsBottom sameCategoryFood={categoryFood} />
             </div>
           )}
-        </div>
+        </div>        
+        </div> 
       </section>
       <Footer />
+      </>
+         )}
     </React.Fragment>
   );
 };
