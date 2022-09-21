@@ -54,6 +54,10 @@
   color: #fff;
 }
 
+#submit:disabled {
+  background-color: #ffbdc4;
+}
+
 .signup__slider__row__main__form__link {
   font-size: 14px;
 }
