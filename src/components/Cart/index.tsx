@@ -73,14 +73,16 @@ const Cart = () => {
           <ToastContainer autoClose={2000} />
           <h2 className="cart__title">Cart</h2>
           <table className="cart__table">
-            <tr>
-              <th className="cart__table__header">Sl No</th>
-              <th className="cart__table__header">Image</th>
-              <th className="cart__table__header">Product Name</th>
-              <th className="cart__table__header">Quantity</th>
-              <th className="cart__table__header">Price</th>
-              <th className="cart__table__header">Action</th>
-            </tr>
+            <thead>
+              <tr>
+                <th className="cart__table__header">Sl No</th>
+                <th className="cart__table__header">Image</th>
+                <th className="cart__table__header">Product Name</th>
+                <th className="cart__table__header">Quantity</th>
+                <th className="cart__table__header">Price</th>
+                <th className="cart__table__header">Action</th>
+              </tr>
+            </thead>
             <tbody>
               {cart &&
                 cartFinal?.slice(1).map((cart, index) => (
@@ -161,14 +163,16 @@ const Cart = () => {
                 No food item found in cart
               </p>
             )}
-            <tr>
-              <td className="cart__table__footer"></td>
-              <td className="cart__table__footer"></td>
-              <td className="cart__table__footer"></td>
-              <td className="cart__table__footer">Total</td>
-              <th className="cart__table__footer">${total}</th>
-              <th className="cart__table__footer"> </th>
-            </tr>
+            <tbody>
+              <tr>
+                <td className="cart__table__footer"></td>
+                <td className="cart__table__footer"></td>
+                <td className="cart__table__footer"></td>
+                <td className="cart__table__footer">Total</td>
+                <th className="cart__table__footer">${total}</th>
+                <th className="cart__table__footer"> </th>
+              </tr>
+            </tbody>
           </table>
           <div className="cart__checkout">
             {cart?.length > 1 && (
