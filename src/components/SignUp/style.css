@@ -55,6 +55,8 @@
 
 .signup__slider__row__main__form__link {
   font-size: 14px;
+  margin: auto;
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -65,5 +67,8 @@
 @media screen and (max-width: 480px) {
   .signup__slider__row__main {
     width: 80%;
+  }
+  .signup__slider__row__main__form__input {
+    margin-top: 2px;
   }
 }/*# sourceMappingURL=style.css.map */

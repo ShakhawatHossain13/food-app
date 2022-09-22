@@ -24,7 +24,7 @@
   border: 2px solid cadetblue;
 }
 .blogDetails__image__sub {
-  display: flex;
+  display: none;
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
@@ -42,4 +42,21 @@
   gap: 10px;
   justify-content: center;
   text-align: justify;
+}
+
+@media screen and (max-width: 768px) {
+  .blogDetails {
+    width: 80%;
+    padding: 70px 0;
+  }
+}
+@media screen and (max-width: 480px) {
+  .blogDetails {
+    width: 92%;
+    padding: 50px 10px;
+  }
+  .blogDetails__image__main--selected {
+    width: 320px;
+    height: auto;
+  }
 }/*# sourceMappingURL=style.css.map */

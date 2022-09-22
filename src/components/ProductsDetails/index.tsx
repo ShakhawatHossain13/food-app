@@ -32,15 +32,11 @@ const ProductsDetails: React.FC = () => {
     cartItem,
     setCartItem,
     handleAddToCart,
-  } = React.useContext(CartContext) as CartBasicInfoProps;
-  //const [itemQuantity, setItemQuantity] = React.useState<number>(1);
+  } = React.useContext(CartContext) as CartBasicInfoProps; 
   const [allFoodItem, setAllFoodItem] = React.useState<
     ProductsDetailsDataType[]
   >([]);
-
-  // const [foodItem, setFoodItem] = React.useState<ProductsDetailsDataType>();
-  //const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
-  // const categoryFood = foodItem.filter((food) => food.category === "Lunch");
+ 
   const [startItem, setStartItem] = React.useState(0);
   const [endItem, setEndItem] = React.useState(3);
   const [disable, setDisable] = React.useState(false);
@@ -122,40 +118,7 @@ const ProductsDetails: React.FC = () => {
     setBackdrop(true);
     getData();
     getAllFoodData();
-    // setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
   }, [id]);
-  // const handleItemQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setItemQuantity(Number(e.target.value));
-  // };
-
-  // const handleAddToCart = () => {
-  //   const cartProducts: CartDataType = {
-  //     id: String(foodItem?.id),
-  //     title: String(foodItem?.title),
-  //     price: Number(foodItem?.price),
-  //     quantity: itemQuantity,
-  //   };
-  //   setCartItem((prevState): CartDataType[] => [...prevState, cartProducts]);
-  //   localStorage.setItem("cart", JSON.stringify([...cartItem, cartProducts]));
-  // };
-  // localStorage.setItem("cart", JSON.stringify(cartItem));
-  // const cartStr = localStorage.getItem("cart");
-  // setCartItem((prevState): CartDataType[] => [
-  //   ...prevState,
-  //   JSON.parse(cartStr || ""),
-  // ]);
-
-  // if (cartStr) {
-  //   const cart: CartDataType[] = JSON.parse(cartStr);
-  //   if (cart.length > 0) {
-  //     console.log("1st Cart quantity: ", cart[0].quantity);
-  //     console.log("2nd Cart quantity: ", cart[1]?.quantity);
-  //     console.log(
-  //       "Two Cart price: ",
-  //       cart[0].quantity  cart[0].price + cart[1]?.quantity  cart[1]?.price
-  //     );
-  //   }
-  // }
 
   return (
     <React.Fragment>
