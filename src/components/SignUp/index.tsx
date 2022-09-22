@@ -64,9 +64,14 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
 
   const emailInput =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
-  const letterRegEx = /^[a-zA-Z]+$/;
   const numericHyphen = "^[0-9]*-?[0-9]*$";
 
+  // ============================== Methods =========================
+
+  /**
+   * @param get the all data from the text field
+   * @Return Save the input value into state variable
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setButtonDisable(false);
     const { name, value } = event.target;
@@ -82,6 +87,10 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
     }));
   };
 
+  /**
+   * @returns Check all the input field data are valid or not
+   * return the validation result True or False
+   */
   const isValid = () => {
     let hasError = false;
     const copyErrors: ErrorTypeUser = { ...error };
@@ -131,7 +140,11 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       console.log(error);
     }
   };
-
+  /**
+   *
+   * @param e Get all the information from the user in a state & check validation
+   * @returns If the validation is successful then the user is registered and logged in to the system
+   */
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -183,11 +196,13 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       >
         <div className="signup__slider__row">
           <div className="signup__slider__row__main">
-            <img
-              className="signup__slider__row__main__logo"
-              src={logo}
-              alt="Red Onion Logo"
-            />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <img
+                className="signup__slider__row__main__logo"
+                src={logo}
+                alt="Red Onion Logo"
+              />
+            </div>
             <form className="signup__slider__row__main__form">
               <input
                 type="text"

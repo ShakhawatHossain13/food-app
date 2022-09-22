@@ -38,6 +38,11 @@ const Cart = () => {
   const cartStr = localStorage.getItem("cart");
   const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
 
+  // ============================== Methods =========================
+
+  /**
+   * This is for add product to cart
+   */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
@@ -45,6 +50,10 @@ const Cart = () => {
     // navigate("/");
   };
 
+  /**
+   * @param id is for indicate specific product for delete
+   * return the remaining cart item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     let filteredArray = cartFinal.filter((item) => item.id !== id);
@@ -54,12 +63,13 @@ const Cart = () => {
     setButtonDisable(false);
   };
 
+  //========================== Effects ========================
   useEffect(() => {
     const cartStr = localStorage.getItem("cart");
     const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
     setCartFinal(cart);
   }, []);
-  let i: number = 1;
+  let i: number = 0;
   let total: number = 0;
   while (i < cartFinal.length) {
     total =
@@ -86,7 +96,7 @@ const Cart = () => {
             </thead>
             <tbody>
               {cart &&
-                cartFinal?.slice(1).map((cart, index) => (
+                cartFinal?.map((cart, index) => (
                   <tr key={index + 1}>
                     <td className="cart__table__field">{index + 1}</td>
                     <td className="cart__table__field">
@@ -157,7 +167,7 @@ const Cart = () => {
                   </tr>
                 ))}
             </tbody>
-            {cart?.length < 2 && (
+            {cart?.length < 1 && (
               <p className="productlist__row__table__nodata">
                 No food item found in cart
               </p>
@@ -174,7 +184,7 @@ const Cart = () => {
             </tbody>
           </table>
           <div className="cart__checkout">
-            {cart?.length > 1 && (
+            {cart?.length > 0 && (
               <button
                 onClick={handleCheckoutSubmit}
                 className="cart__checkoutButton"

@@ -4,7 +4,6 @@ import './pagination.css';
 const Pagination = (props:any) => {
 
     const { totalData, setPage, itemPerPage } = props;
-
     const [pageNumber, setPageNumber] = useState(0);
     const [button, setButton] = useState([]);
 
@@ -23,12 +22,11 @@ const Pagination = (props:any) => {
 
 
     let paginationBar = button.map((_, index) => {
-        return <button
-            key={index}
-            onClick={() => setPage(index + 1)}>
+        return (
+          <button key={index} onClick={() => setPage(index + 1)}>
             {index + 1}
-
-        </button>
+          </button>
+        );
     })
 
     return (

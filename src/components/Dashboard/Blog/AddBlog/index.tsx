@@ -108,7 +108,12 @@ const AddBlog: React.FC<addBlogProps> = ({
   const [selected, setSelected] = React.useState(displayImages[0]);
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
-  //Check previous products title for add a new product for create unique product every time
+  // ============================== Methods =========================
+
+  /**
+   * @param event get the input title value from the text field
+   * @returns Check previous blogs title for add a new blog for create unique blog every time
+   */
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     blogItemData?.map((singleBlogData: BlogListDataType) => {
@@ -130,6 +135,10 @@ const AddBlog: React.FC<addBlogProps> = ({
     });
   };
 
+  /**
+   * @param get the all data from the text field
+   * @Return Save the input value into state variable
+   */
   const handleChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -152,6 +161,10 @@ const AddBlog: React.FC<addBlogProps> = ({
     }));
   };
 
+  /**
+   * @returns Check all the input field data are valid or not
+   * return the validation result True or False
+   */
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -172,6 +185,10 @@ const AddBlog: React.FC<addBlogProps> = ({
     return hasError;
   };
 
+  /**
+   * @param e get the image file
+   * @returns show the image in the div section for preview
+   */
   const imageHandleChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
@@ -186,6 +203,10 @@ const AddBlog: React.FC<addBlogProps> = ({
     }
   };
 
+  /**
+   * @param e get the image file
+   * @returns save the image file into the state variable
+   */
   const handleImageChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
@@ -202,6 +223,10 @@ const AddBlog: React.FC<addBlogProps> = ({
       notifyAdd();
     }
   };
+
+  /**
+   * @returns show the image in the div section for preview
+   */
 
   const renderImages = () => {
     return displayImages.map((photo) => {
@@ -227,6 +252,11 @@ const AddBlog: React.FC<addBlogProps> = ({
       );
     });
   };
+
+  /**
+   * @param blogItem get the blog item details from state variable for add
+   * @returns the blog item details save into the database
+   */
   const onAdd = async (blogItem: AddBlogDataType) => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -293,7 +323,10 @@ const AddBlog: React.FC<addBlogProps> = ({
     }
   };
 
-  // Edit selected item
+  /**
+   * @param blogItem get the selected blog item details for edit
+   * @returns update the blog item details update into the database
+   */
   const onEdit = async () => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -359,7 +392,9 @@ const AddBlog: React.FC<addBlogProps> = ({
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageURL = blogItem.blogImage.split("2F")[1].split("?")[0];
     console.log("image direct link: ", imageURL);
@@ -373,6 +408,10 @@ const AddBlog: React.FC<addBlogProps> = ({
       });
   };
 
+  /**
+   * @param e get the params for edit blog or add new blog
+   * @returns Render the add blog form / edit blog form
+   */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid()) {
@@ -390,7 +429,9 @@ const AddBlog: React.FC<addBlogProps> = ({
     setFormReset(true);
   };
 
-  // Get details if Edit form is loaded
+  /**
+   * Get details of specific blog item
+   */
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
@@ -412,6 +453,8 @@ const AddBlog: React.FC<addBlogProps> = ({
       console.log(error);
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     if (ids) {

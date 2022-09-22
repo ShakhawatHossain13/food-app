@@ -103,7 +103,13 @@ const AddCategory: React.FC<AddCategoryProps> = ({
   const [selected, setSelected] = React.useState(displayImages[0]);
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
-  //Check previous products title for add a new product for create unique product every time
+  // ============================== Methods =========================
+
+  /**
+   * @param event get the input title value from the text field
+   * @returns Check previous category title for add a new category for create unique category every time
+   */
+
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     categoryItemData?.map((singleCategoryData: CategoryListDataType) => {
@@ -122,6 +128,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       }
     });
   };
+
+  /**
+   * @param get the all data from the text field
+   * @Return Save the input value into state variable
+   */
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -145,6 +156,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     }));
   };
 
+  /**
+   * @returns Check all the input field data are valid or not
+   * return the validation result True or False
+   */
+
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -165,6 +181,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     return hasError;
   };
 
+  /**
+   * @param e get the image file
+   * @returns show the image in the div section for preview
+   */
+
   const imageHandleChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
@@ -178,6 +199,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       setDisplayImages(fileArray);
     }
   };
+
+  /**
+   * @param e get the image file
+   * @returns save the image file into the state variable
+   */
 
   const handleImageChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
@@ -195,6 +221,10 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       notifyAdd();
     }
   };
+
+  /**
+   * @returns show the image in the div section for preview
+   */
 
   const renderImages = () => {
     return displayImages.map((photo) => {
@@ -220,6 +250,12 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       );
     });
   };
+
+  /**
+   * @param categoryItem get the category item details from state variable for add
+   * @returns the category item details save into the database
+   */
+
   const onAdd = async (categoryItem: AddCategoryDataType) => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -284,7 +320,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     }
   };
 
-  // Edit selected item
+  /**
+   * @param categoryItem get the selected category item details for edit
+   * @returns update the category item details update into the database
+   */
+
   const onEdit = async () => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -349,7 +389,9 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageURL = categoryItem.categoryImage.split("2F")[1].split("?")[0];
     console.log("image direct link: ", imageURL);
@@ -362,6 +404,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         console.log("Error: ", error);
       });
   };
+
+  /**
+   * @param e get the params for edit category or add new category
+   * @returns Render the add category form / edit category form
+   */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -380,7 +427,9 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     setFormReset(true);
   };
 
-  // Get details if Edit form is loaded
+  /**
+   * Get details of specific blog item
+   */
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "category", `${ids}`);
@@ -401,6 +450,8 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       console.log(error);
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     if (ids) {

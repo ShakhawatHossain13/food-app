@@ -13,6 +13,7 @@ import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
+import Pagination from "../../../Pagination/pagination";
 
 export type BlogListDataType = {
   id: string;
@@ -33,6 +34,8 @@ const initialData: BlogListDataType = {
 };
 
 const BlogList: React.FC = () => {
+  const itemPerPage = 3;
+
   const [blogItem, setBlogItem] = React.useState<BlogListDataType[]>([]);
   const [formTitle, setFormTitle] = React.useState<string>("");
   const [ids, setIds] = React.useState<string>("");
@@ -48,6 +51,11 @@ const BlogList: React.FC = () => {
   const [blogID, setBlogID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
+  const [page, setPage] = React.useState<number>(1);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
+
+  // ============================== Methods =========================
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -56,6 +64,9 @@ const BlogList: React.FC = () => {
     setModalOpen(false);
   };
 
+  /**
+   * @returns Blog data from the database
+   */
   const getData = async () => {
     setBackdrop(true);
     const colRef = collection(firebaseDatabase, "blog");
@@ -83,7 +94,9 @@ const BlogList: React.FC = () => {
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
@@ -95,6 +108,10 @@ const BlogList: React.FC = () => {
       });
   };
 
+  /**
+   * @param id get the specific blog id
+   * @returns delete the specific blog item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     var val = true;
@@ -123,6 +140,8 @@ const BlogList: React.FC = () => {
     }
   };
 
+  //========================== Effects ========================
+
   React.useEffect(() => {
     getData();
   }, [isLoading]);
@@ -130,6 +149,9 @@ const BlogList: React.FC = () => {
   React.useEffect(() => {
     getData();
   }, [isChange]);
+
+  //get the total number of blog items from database
+  const totalData = blogItem?.length;
 
   return (
     <React.Fragment>
@@ -187,7 +209,7 @@ const BlogList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {blogItem?.map((blog) => {
+                {blogItem?.slice(startIndex, endIndex).map((blog) => {
                   return (
                     <tr className="blogList__row__table__row" key={blog?.id}>
                       <td className="blogList__row__table__row__text">
@@ -203,7 +225,7 @@ const BlogList: React.FC = () => {
                       </td>
                       <td className="blogList__row__table__row__text">
                         <p className="blogList__row__table__row__text__paragraph">
-                          {blog.description.slice(0, 40)}
+                          {blog.description}
                         </p>
                       </td>
                       <td className="blogList__row__table__row__text">
@@ -319,6 +341,13 @@ const BlogList: React.FC = () => {
               </>
             )}
           </table>
+          {totalData > itemPerPage && (
+            <Pagination
+              totalData={totalData}
+              setPage={setPage}
+              itemPerPage={itemPerPage}
+            />
+          )}
         </div>
       </section>
     </React.Fragment>

@@ -113,7 +113,13 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const priceRegex = "^[0-9]+$|^$";
 
-  //Check previous products title for add a new product for create unique product every time
+  // ============================== Methods =========================
+
+  /**
+   * @param event get the input title value from the text field
+   * @returns Check previous products title for add a new product for create unique product every time
+   */
+
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     foodItemData?.map((singleFoodData: ProductListDataType) => {
@@ -139,6 +145,11 @@ const AddProduct: React.FC<AddProductProps> = ({
     });
   };
 
+  /**
+   * @param get the all data from the text field
+   * @Return Save the input value into state variable
+   */
+
   const handleChange = (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -161,6 +172,11 @@ const AddProduct: React.FC<AddProductProps> = ({
     }));
   };
 
+  /**
+   * @returns Check all the input field data are valid or not
+   * return the validation result True or False
+   */
+
   const isValid = () => {
     let hasError = false;
     const copyErrors: any = { ...error };
@@ -181,6 +197,11 @@ const AddProduct: React.FC<AddProductProps> = ({
     return hasError;
   };
 
+  /**
+   * @param e get the image file
+   * @returns show the image in the div section for preview
+   */
+
   const imageHandleChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
     if (
@@ -194,6 +215,11 @@ const AddProduct: React.FC<AddProductProps> = ({
       setDisplayImages(fileArray);
     }
   };
+
+  /**
+   * @param e get the image file
+   * @returns save the image file into the state variable
+   */
 
   const handleImageChange = (e: any) => {
     const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
@@ -214,6 +240,10 @@ const AddProduct: React.FC<AddProductProps> = ({
       notifyAdd();
     }
   };
+
+  /**
+   * @returns show the image in the div section for preview
+   */
 
   const renderImages = () => {
     return displayImages.map((photo) => {
@@ -239,6 +269,12 @@ const AddProduct: React.FC<AddProductProps> = ({
       );
     });
   };
+
+  /**
+   * @param foodItem get the food item details from state variable for add
+   * @returns the food item details save into the database
+   */
+
   const onAdd = async (foodItem: AddProductDataType) => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -305,7 +341,11 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  // Edit selected item
+  /**
+   * @param foodItem get the selected food item details for edit
+   * @returns update the food item details update into the database
+   */
+
   const onEdit = async () => {
     setButtonDisable(true);
     setBackdrop(true);
@@ -372,7 +412,10 @@ const AddProduct: React.FC<AddProductProps> = ({
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
+
   const handleImageDelete = () => {
     const imageURL = foodItem.foodImage.split("2F")[1].split("?")[0];
     console.log("image direct link: ", imageURL);
@@ -385,6 +428,11 @@ const AddProduct: React.FC<AddProductProps> = ({
         console.log("Error: ", error);
       });
   };
+
+  /**
+   * @param e get the params for edit food or add new food
+   * @returns Render the add food form / edit food form
+   */
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -403,7 +451,9 @@ const AddProduct: React.FC<AddProductProps> = ({
     setFormReset(true);
   };
 
-  // Get details if Edit form is loaded
+  /**
+   * Get details of specific blog item
+   */
   const fetchDetails = async () => {
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
@@ -426,6 +476,8 @@ const AddProduct: React.FC<AddProductProps> = ({
       console.log(error);
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     if (ids) {
@@ -599,9 +651,9 @@ const AddProduct: React.FC<AddProductProps> = ({
                     {
                       <img
                         src={foodItem.foodImage}
-                        style={{ 
-                          maxWidth: "100px", 
-                          maxHeight:"60px", 
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "60px",
                           marginTop: "12px",
                           border: "2px solid cadetblue",
                           padding: "0 5px",

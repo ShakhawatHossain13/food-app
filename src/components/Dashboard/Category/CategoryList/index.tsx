@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
 import AddCategory from "../AddCategory";
+import Pagination from "../../../Pagination/pagination";
 
 export type CategoryListDataType = {
   id: string;
@@ -30,6 +31,8 @@ const initialData: CategoryListDataType = {
 };
 
 const CategoryList: React.FC = () => {
+  const itemPerPage = 3;
+
   const [categoryItem, setCategoryItem] = React.useState<
     CategoryListDataType[]
   >([]);
@@ -47,6 +50,11 @@ const CategoryList: React.FC = () => {
   const [categoryID, setCategoryID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
+  const [page, setPage] = React.useState<number>(1);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
+
+  // ============================== Methods =========================
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -55,6 +63,9 @@ const CategoryList: React.FC = () => {
     setModalOpen(false);
   };
 
+  /**
+   * @returns Category data from the database
+   */
   const getData = async () => {
     setBackdrop(true);
     const colRef = collection(firebaseDatabase, "category");
@@ -72,15 +83,15 @@ const CategoryList: React.FC = () => {
       });
       setCategoryItem(prepareData);
       setBackdrop(false);
-      // setIsChange(false);
-      // setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
@@ -92,6 +103,10 @@ const CategoryList: React.FC = () => {
       });
   };
 
+  /**
+   * @param id get the specific category id
+   * @returns delete the specific category item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     var val = true;
@@ -120,6 +135,8 @@ const CategoryList: React.FC = () => {
     }
   };
 
+  //========================== Effects ========================
+
   React.useEffect(() => {
     getData();
   }, [isLoading]);
@@ -127,6 +144,9 @@ const CategoryList: React.FC = () => {
   React.useEffect(() => {
     getData();
   }, [isChange]);
+
+  //get the total number of category items from database
+  const totalData = categoryItem?.length;
 
   return (
     <React.Fragment>
@@ -185,7 +205,7 @@ const CategoryList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {categoryItem?.map((category) => {
+                {categoryItem?.slice(startIndex, endIndex).map((category) => {
                   return (
                     <tr
                       className="categoryList__row__table__row"
@@ -204,7 +224,7 @@ const CategoryList: React.FC = () => {
                       </td>
                       <td className="categoryList__row__table__row__text">
                         <p className="categoryList__row__table__row__text__paragraph">
-                          {category.description.slice(0, 50)}
+                          {category.description}
                         </p>
                       </td>
                       <td className="categoryList__row__table__row__text">
@@ -319,6 +339,13 @@ const CategoryList: React.FC = () => {
               </>
             )}
           </table>
+          {totalData > itemPerPage && (
+            <Pagination
+              totalData={totalData}
+              setPage={setPage}
+              itemPerPage={itemPerPage}
+            />
+          )}
         </div>
       </section>
     </React.Fragment>
