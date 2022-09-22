@@ -48,6 +48,8 @@ const CategoryList: React.FC = () => {
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
 
+  // ============================== Methods =========================
+
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -55,6 +57,9 @@ const CategoryList: React.FC = () => {
     setModalOpen(false);
   };
 
+  /**
+   * @returns Category data from the database
+   */
   const getData = async () => {
     setBackdrop(true);
     const colRef = collection(firebaseDatabase, "category");
@@ -72,15 +77,15 @@ const CategoryList: React.FC = () => {
       });
       setCategoryItem(prepareData);
       setBackdrop(false);
-      // setIsChange(false);
-      // setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
@@ -92,6 +97,10 @@ const CategoryList: React.FC = () => {
       });
   };
 
+  /**
+   * @param id get the specific category id
+   * @returns delete the specific category item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     var val = true;
@@ -119,6 +128,8 @@ const CategoryList: React.FC = () => {
       return false;
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     getData();

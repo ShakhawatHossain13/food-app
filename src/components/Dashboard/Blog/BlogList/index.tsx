@@ -58,6 +58,9 @@ const BlogList: React.FC = () => {
     setModalOpen(false);
   };
 
+  /**
+   * @returns Blog data from the database
+   */
   const getData = async () => {
     setBackdrop(true);
     const colRef = collection(firebaseDatabase, "blog");
@@ -85,7 +88,9 @@ const BlogList: React.FC = () => {
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
@@ -97,6 +102,10 @@ const BlogList: React.FC = () => {
       });
   };
 
+  /**
+   * @param id get the specific blog id
+   * @returns delete the specific blog item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     var val = true;
@@ -124,6 +133,8 @@ const BlogList: React.FC = () => {
       return false;
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     getData();
