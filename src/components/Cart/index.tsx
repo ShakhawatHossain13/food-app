@@ -184,7 +184,7 @@ const Cart = () => {
             </tbody>
           </table>
           <div className="cart__checkout">
-            {cart?.length > 1 && (
+            {cart?.length > 0 && (
               <button
                 onClick={handleCheckoutSubmit}
                 className="cart__checkoutButton"
