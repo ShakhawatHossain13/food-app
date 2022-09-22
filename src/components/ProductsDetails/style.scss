@@ -23,8 +23,8 @@
     text-align: center;
     cursor: pointer;
     &__image {
-      height: 300px;
-      width: 300px;
+      height: 500px;
+      width: 500px;
       // margin: 5px;
       border-radius: 50%;
       &__main {
@@ -132,7 +132,6 @@
     &__card__image {
       height: 250px;
       width: 300px;
-      margin: 5px;
       border-radius: 50%;
       margin-top: 25px;
     }
@@ -199,10 +198,8 @@
         }
       }
     }
-    &__card__image {
-      height: 150px;
+    &__card__image { 
       width: 200px;
-      margin: 5px;
       border-radius: 50%;
       margin-top: 25px;
     }
@@ -213,6 +210,12 @@
     &__card__body h2 {
       font-size: 1rem;
       font-weight: 500;
+    }
+    &__card__body__price{
+      margin-top: 40px;
+    }
+    &__card__body__price__quantity {
+      width: 27%;
     }
     &__card__body__price__quantity h1 {
       font-size: 1rem;
@@ -254,10 +257,8 @@
         }
       }
     }
-    &__card__image {
-      height: 150px;
+    &__card__image { 
       width: 200px;
-      margin: 5px;
       border-radius: 50%;
       margin-top: 25px;
     }
