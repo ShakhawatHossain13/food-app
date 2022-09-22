@@ -54,6 +54,7 @@ a {
 ul {
   list-style: none;
   padding: 0;
+  margin-inline: 5%;
 }
 
 ul a {
@@ -69,7 +70,7 @@ li {
   width: 100px;
   position: absolute;
   right: 10%;
-  top: 68px;
+  top: 74px;
   text-align: right;
   padding-inline: 10px;
   display: none;
@@ -97,10 +98,11 @@ ul :hover {
     display: block;
   }
 }
-@media (max-width: 420px) {
+@media (max-width: 360px) {
   .menubar__burgermenu--span {
     width: 100%;
     right: 0;
+    padding-inline: 0;
     display: block;
     text-align: center;
   }
