@@ -48,6 +48,8 @@ const ProductList: React.FC = () => {
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
 
+  // ============================== Methods =========================
+
   const handleModalOpen = () => {
     setModalOpen(true);
   };
@@ -55,6 +57,9 @@ const ProductList: React.FC = () => {
     setModalOpen(false);
   };
 
+  /**
+   * @returns Food data from the database
+   */
   const getData = async () => {
     setBackdrop(true);
     const colRef = collection(firebaseDatabase, "food");
@@ -74,15 +79,15 @@ const ProductList: React.FC = () => {
       });
       setFoodItem(prepareData);
       setBackdrop(false);
-      // setIsChange(false);
-      // setIsLoading(true);
       return prepareData;
     } catch (error) {
       console.log(error);
     }
   };
 
-  //Image delete from firebase storage
+  /**
+   * Delete Image from firebase storage when edit/delete blog item
+   */
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
@@ -94,6 +99,10 @@ const ProductList: React.FC = () => {
       });
   };
 
+  /**
+   * @param id get the specific food id
+   * @returns delete the specific food item
+   */
   const handleDelete = (id: string) => {
     setButtonDisable(true);
     var val = true;
@@ -121,6 +130,8 @@ const ProductList: React.FC = () => {
       return false;
     }
   };
+
+  //========================== Effects ========================
 
   React.useEffect(() => {
     getData();
@@ -185,146 +196,148 @@ const ProductList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-            {backdrop ? (
-              <Backdrop />
-            ) : (
-              <>
-                {foodItem?.map((foods) => {
-                  return (
-                    <tr
-                      className="productlist__row__table__row"
-                      key={foods?.id}
-                    >
-                      <td className="productlist__row__table__row__text">
-                        {foods.title}
-                      </td>
-                      <td className="productlist__row__table__row__text">
-                        <img
-                          height="50px"
-                          width="50px"
-                          src={foods.foodImage}
-                          alt="Food Images"
-                        />
-                      </td>
-                      <td className="productlist__row__table__row__text">
-                        {foods.category}
-                      </td>
-                      <td className="productlist__row__table__row__text">
-                        {foods.price}
-                      </td>
-                      <td className="productlist__row__table__row__text">
-                        <button
-                          className="productlist__row__table__row__button__edit"
-                          onClick={() => {
-                            setFormTitle("Edit Product");
-                            setIds(foods.id);
-                            setTitle(foods.title);
-                            setEdit(true);
-                            setAdd(false);
-                            setModalOpen(true);
-                          }}
-                        >
-                          edit
-                        </button>
-                        {edit && modalOpen && (
-                          <tbody>
-                          <div
-                            id="editModal"
-                            className="productlist__row__modal"
-                            style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
+              {backdrop ? (
+                <Backdrop />
+              ) : (
+                <>
+                  {foodItem?.map((foods) => {
+                    return (
+                      <tr
+                        className="productlist__row__table__row"
+                        key={foods?.id}
+                      >
+                        <td className="productlist__row__table__row__text">
+                          {foods.title}
+                        </td>
+                        <td className="productlist__row__table__row__text">
+                          <img
+                            height="50px"
+                            width="50px"
+                            src={foods.foodImage}
+                            alt="Food Images"
+                          />
+                        </td>
+                        <td className="productlist__row__table__row__text">
+                          {foods.category}
+                        </td>
+                        <td className="productlist__row__table__row__text">
+                          {foods.price}
+                        </td>
+                        <td className="productlist__row__table__row__text">
+                          <button
+                            className="productlist__row__table__row__button__edit"
+                            onClick={() => {
+                              setFormTitle("Edit Product");
+                              setIds(foods.id);
+                              setTitle(foods.title);
+                              setEdit(true);
+                              setAdd(false);
+                              setModalOpen(true);
+                            }}
                           >
-                            <div className="productlist__row__modal__content">
-                              <span
-                                className="productlist__row__modal__content__close"
-                                onClick={() => {
-                                  handleModalClose();
-                                  setEdit(false);
+                            edit
+                          </button>
+                          {edit && modalOpen && (
+                            <tbody>
+                              <div
+                                id="editModal"
+                                className="productlist__row__modal"
+                                style={{
+                                  backgroundColor: "rgba(0, 0, 0, 0.08)",
                                 }}
                               >
-                                &times;
-                              </span>
-                              <AddProduct
-                                formTitle="Edit Product"
-                                foodItemData={foodItem}
-                                setFormTitle={setFormTitle}
-                                ids={ids}
-                                titleForm={title}
-                                isChange={isChange}
-                                setIsChange={setIsChange}
-                                formReset={formReset}
-                                setFormReset={setFormReset}
-                                setModalOpen={setModalOpen}
-                              />
-                            </div>
-                          </div>
-                          </tbody>
-                        )}
-                        <button
-                          className="productlist__row__table__row__button__delete"
-                          disabled={buttonDisable}
-                          onClick={() => {
-                            setDeleteModal(true);
-                            console.log(foods.id);
-                            setFoodID(foods.id);
-                            setImageURL(
-                              foods.foodImage.split("2F")[1].split("?")[0]
-                            );
-                          }}
-                        >
-                          delete
-                        </button>
-                        {deleteModal && (
-                          <tbody>
-                          <div className="productlist__row__table__row__button__delete__modal">
-                            <span
-                              className="productlist__delete__modal__close"
-                              onClick={() => {
-                                setDeleteModal(false);
-                                setButtonDisable(false);
-                              }}
-                            >
-                              &times;
-                            </span>
-                            <div className="productlist__delete__modal__confirm">
-                              <div>
-                                Are you sure you want to delete this record?
+                                <div className="productlist__row__modal__content">
+                                  <span
+                                    className="productlist__row__modal__content__close"
+                                    onClick={() => {
+                                      handleModalClose();
+                                      setEdit(false);
+                                    }}
+                                  >
+                                    &times;
+                                  </span>
+                                  <AddProduct
+                                    formTitle="Edit Product"
+                                    foodItemData={foodItem}
+                                    setFormTitle={setFormTitle}
+                                    ids={ids}
+                                    titleForm={title}
+                                    isChange={isChange}
+                                    setIsChange={setIsChange}
+                                    formReset={formReset}
+                                    setFormReset={setFormReset}
+                                    setModalOpen={setModalOpen}
+                                  />
+                                </div>
                               </div>
-                              <div>
-                                <button
-                                  style={{ backgroundColor: "crimson" }}
-                                  disabled={buttonDisable}
-                                  onClick={() => {
-                                    handleDelete(foodID);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                                <button
-                                  style={{ backgroundColor: "grey" }}
+                            </tbody>
+                          )}
+                          <button
+                            className="productlist__row__table__row__button__delete"
+                            disabled={buttonDisable}
+                            onClick={() => {
+                              setDeleteModal(true);
+                              console.log(foods.id);
+                              setFoodID(foods.id);
+                              setImageURL(
+                                foods.foodImage.split("2F")[1].split("?")[0]
+                              );
+                            }}
+                          >
+                            delete
+                          </button>
+                          {deleteModal && (
+                            <tbody>
+                              <div className="productlist__row__table__row__button__delete__modal">
+                                <span
+                                  className="productlist__delete__modal__close"
                                   onClick={() => {
                                     setDeleteModal(false);
                                     setButtonDisable(false);
-                                    console.log("cancel: ", foodID);
                                   }}
                                 >
-                                  Cancel
-                                </button>
+                                  &times;
+                                </span>
+                                <div className="productlist__delete__modal__confirm">
+                                  <div>
+                                    Are you sure you want to delete this record?
+                                  </div>
+                                  <div>
+                                    <button
+                                      style={{ backgroundColor: "crimson" }}
+                                      disabled={buttonDisable}
+                                      onClick={() => {
+                                        handleDelete(foodID);
+                                      }}
+                                    >
+                                      Delete
+                                    </button>
+                                    <button
+                                      style={{ backgroundColor: "grey" }}
+                                      onClick={() => {
+                                        setDeleteModal(false);
+                                        setButtonDisable(false);
+                                        console.log("cancel: ", foodID);
+                                      }}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                          </tbody>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-                {!foodItem?.length && (
-                  <h1 className="productlist__row__table__nodata">
-                    No Data Found!
-                  </h1>
-                )}
-              </>
-            )}
+                            </tbody>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {!foodItem?.length && (
+                    <h1 className="productlist__row__table__nodata">
+                      No Data Found!
+                    </h1>
+                  )}
+                </>
+              )}
             </tbody>
           </table>
         </div>
