@@ -50,7 +50,9 @@
   background-color: #ffbdc4;
  }
  .signup__slider__row__main__form__link{
-  font-size: 14px;
+  font-size: 14px; 
+  margin: auto;
+  text-align: center;
  }
 @media screen and (max-width: 768px) {
   .signup__slider__row__main{    
@@ -60,6 +62,9 @@
 @media screen and (max-width: 480px) {
   .signup__slider__row__main{    
     width: 80%; 
+  }
+  .signup__slider__row__main__form__input{
+    margin-top: 2px;
   }
 }
 @media screen and (max-width: 375px) {

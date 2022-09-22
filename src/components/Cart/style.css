@@ -58,6 +58,22 @@
   margin-top: 50px;
 }
 
+.cart__productlist__row__table__row__button__delete__modal {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  z-index: 1;
+  width: 50%;
+  height: 150px;
+  box-shadow: 0 0 0 1500px rgba(0, 0, 0, 0.1);
+  background-color: #fefefe;
+  border: 1px solid #888;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  min-width: 300px;
+}
+
 @media screen and (max-width: 768px) {
   .cart__checkout {
     margin: auto;
@@ -65,7 +81,7 @@
 }
 @media screen and (max-width: 480px) {
   .cart__table__field {
-    padding: 0;
+    padding: 5px;
   }
   .cart__table {
     font-size: 12px;
