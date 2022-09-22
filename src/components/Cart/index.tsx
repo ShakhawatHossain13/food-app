@@ -36,7 +36,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const cartStr = localStorage.getItem("cart");
-  const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
+  const cart: CartDataType[] = JSON?.parse(cartStr ? cartStr : "");
 
   // ============================== Methods =========================
 
