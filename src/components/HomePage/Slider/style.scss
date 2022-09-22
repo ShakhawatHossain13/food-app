@@ -102,12 +102,21 @@
     padding: 10px 10px;
     padding-top: 12px;
   }
+  .slider__row__main__search__input__box {
+    padding: 8px 12px; 
+    padding-bottom: 8px;    
+    width: 54%;
+    font-size: 14px;
+  }
+  .slider__row__main__search__btn {
+    margin-left: 0;
+    padding: 8px 10px;  
+    padding-top: 7px;
+  }
 }
 @media screen and (max-width: 375px) {
   .slider__row__main__search {
     min-width: 300px;
 }
-  .slider__row__main__search__btn {
-    margin-left: 10px;
-  }
+ 
 }

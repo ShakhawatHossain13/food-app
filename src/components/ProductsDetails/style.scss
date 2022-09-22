@@ -125,6 +125,10 @@
 
 @media screen and (max-width: 768px) {
   .productsDetails {
+    &__card{
+      width: 80%;
+      grid-gap: 30px;
+    }
     &__card__image {
       height: 250px;
       width: 300px;
@@ -143,15 +147,24 @@
     &__card__body__price__quantity {
       display: flex;
       height: 25px;
-      width: 25%;
-      margin-top: 5px;
-      margin-left: 50px;
+      width: 29%;
+      margin-top: 5px; 
       border-radius: 25px;
       border: 1px solid black;
     }
     &__card__body__price__quantity h1 {
       font-size: 1rem;
     }
+  }
+  .productsDetails__card__body__price__quantity__minus, .productsDetails__card__body__price__quantity__plus{
+    padding: 4px;
+  }
+  #itemQuantity {    
+    width: 22px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-inline: 0px; 
+    font-size: 14px;
   }
 }
 
