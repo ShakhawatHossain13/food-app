@@ -98,7 +98,15 @@
     grid-gap: 50px;
   }
 }
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
+  .blog__title {
+    font-size: 32px;
+  }
+  .blog__row {
+    margin: 40px 0;
+  }
+}
+@media screen and (max-width: 375px) {
   .blog {
     text-align: center;
   }
@@ -113,8 +121,11 @@
     grid-template-columns: 1fr;
     grid-gap: 20px;
   }
+  .blog__card__image {
+    width: 300px;
+  }
 }
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 360px) {
   .blog {
     text-align: center;
   }

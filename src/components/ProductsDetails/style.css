@@ -119,6 +119,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .productsDetails__card {
+    width: 80%;
+    grid-gap: 30px;
+  }
   .productsDetails__card__image {
     height: 250px;
     width: 300px;
@@ -137,14 +141,23 @@
   .productsDetails__card__body__price__quantity {
     display: flex;
     height: 25px;
-    width: 25%;
+    width: 29%;
     margin-top: 5px;
-    margin-left: 50px;
     border-radius: 25px;
     border: 1px solid black;
   }
   .productsDetails__card__body__price__quantity h1 {
     font-size: 1rem;
+  }
+  .productsDetails__card__body__price__quantity__minus, .productsDetails__card__body__price__quantity__plus {
+    padding: 4px;
+  }
+  #itemQuantity {
+    width: 22px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-inline: 0px;
+    font-size: 14px;
   }
 }
 @media screen and (max-width: 375px) {
