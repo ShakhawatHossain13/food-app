@@ -148,31 +148,110 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
           {open && (
             <span className="menubar__burgermenu--span">
               <ul>
-                <li>
-                  <Link to="/" onClick={handleBurgerMenuClose}>
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/news" onClick={handleBurgerMenuClose}>
-                    News
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/cart" onClick={handleBurgerMenuClose}>
-                    Cart
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/signin" onClick={handleBurgerMenuClose}>
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/signup" onClick={handleBurgerMenuClose}>
-                    Sign Up
-                  </Link>
-                </li>
+                {
+                  // @ts-ignore
+                  localStorage.getItem("user") ? (
+                    // @ts-ignore
+                    localStorage.getItem("user") &&
+                    // @ts-ignore
+                    JSON.parse(localStorage.getItem("user")).isAdmin ? (
+                      <>
+                        <li>
+                          <Link to="/" onClick={handleBurgerMenuClose}>
+                            Home
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/about" onClick={handleBurgerMenuClose}>
+                            About
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/dashboard" onClick={handleBurgerMenuClose}>
+                            Admin
+                          </Link>
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li>
+                          <Link to="/" onClick={handleBurgerMenuClose}>
+                            Home
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/about" onClick={handleBurgerMenuClose}>
+                            About
+                          </Link>
+                        </li>
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <li>
+                        <Link to="/" onClick={handleBurgerMenuClose}>
+                          Home
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/about" onClick={handleBurgerMenuClose}>
+                          About
+                        </Link>
+                      </li>
+                    </>
+                  )
+                }
+                {!isLoggedIn ||
+                (localStorage.getItem("user") &&
+                  !JSON.parse(
+                    // @ts-ignore
+                    localStorage.getItem("user")
+                  ).isAdmin) ? (
+                  <li>
+                    <Link to="/cart" onClick={handleBurgerMenuClose}>
+                      Cart
+                    </Link>
+                  </li>
+                ) : null}
+                {!isLoggedIn ? (
+                  <>
+                    <li>
+                      <Link to="/signin" onClick={handleBurgerMenuClose}>
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/signup" onClick={handleBurgerMenuClose}>
+                        Sign Up
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li style={{ color: "black" }}>
+                      <span style={{ color: "white" }}>Logged in as </span>
+                      {
+                        // @ts-ignore
+                        localStorage.getItem("user") &&
+                          JSON.parse(
+                            // @ts-ignore
+                            localStorage.getItem("user")
+                          ).name.toUpperCase()
+                      }
+                    </li>
+                    <li>
+                      <Link
+                        to="/signin"
+                        onClick={() => {
+                          setIsLoggedIn(false);
+                          localStorage.removeItem("user");
+                        }}
+                      >
+                        Log Out
+                      </Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </span>
           )}

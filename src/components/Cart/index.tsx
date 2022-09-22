@@ -62,6 +62,8 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(filteredArray));
     setDeleteModal(false);
     setButtonDisable(false);
+    const notifyEdit = () => toast("Item removed from cart!");
+    notifyEdit();
   };
 
   //========================== Effects ========================
@@ -82,7 +84,7 @@ const Cart = () => {
     <React.Fragment>
       <div className="cart" style={{ background: `url(${homeslider})` }}>
         <div className="cart__row">
-          <ToastContainer autoClose={2000} />
+          <ToastContainer autoClose={1000} />
           <h2 className="cart__title">Cart</h2>
           <table className="cart__table">
             <thead>
