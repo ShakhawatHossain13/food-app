@@ -1,6 +1,6 @@
 .signup__slider {
   width: 100%;
-  height: 510px;
+  height: 530px;
   background-position-x: 40% !important;
   background-position-y: 40% !important;
   background-size: cover !important;
@@ -41,7 +41,7 @@
 .signup__slider__row__main__form__error {
   color: red;
   font-size: 11px;
-  margin-left: 5px;
+  margin-left: 12px;
 }
 
 #submit {
@@ -54,6 +54,7 @@
 }
 
 .signup__slider__row__main__form__link {
+  text-align: center;
   font-size: 14px;
   margin: auto;
   text-align: center;

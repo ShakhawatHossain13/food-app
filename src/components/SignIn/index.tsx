@@ -229,11 +229,14 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
         <ToastContainer />
         <div className="signIn__slider__row">
           <div className="signIn__slider__row__main">
-            <img
-              className="signIn__slider__row__main__logo"
-              src={logo}
-              alt="Red Onion Logo"
-            />
+            <div style={{ textAlign: "center" }}>
+              <img
+                className="signIn__slider__row__main__logo"
+                src={logo}
+                alt="Red Onion Logo"
+              />
+            </div>
+
             <form className="signIn__slider__row__main__form">
               <input
                 type="email"
@@ -305,7 +308,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 Sign in
               </button>
             </form>
-            <p>------------ or ------------</p>
+            <p style={{ textAlign: "center" }}>------------ or ------------</p>
             <button
               onClick={handleGoogleSignIn}
               className="signIn__slider__row__main__form__googleButton"

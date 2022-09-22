@@ -16,14 +16,14 @@
   &__card {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 60px;
+    grid-gap: 40px;
     min-width: 300px;
     margin: auto;
-    padding: 5px 8px 30px 8px;
+    padding: 5px 8px 10px 8px;
     text-align: center;
     cursor: pointer;
     &__image {
-      height: 500px;
+      height: 430px;
       width: 500px;
       // margin: 5px;
       border-radius: 50%;
@@ -116,8 +116,7 @@
   }
   &__endTitle {
     text-align: center;
-    margin-top: 100px;
-    margin-bottom: 40px;
+    margin-inline: 40px;
   }
 }
 

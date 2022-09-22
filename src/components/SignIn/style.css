@@ -1,6 +1,6 @@
 .signIn__slider {
   width: 100%;
-  height: 410px;
+  height: 510px;
   background-position-x: 40% !important;
   background-position-y: 40% !important;
   background-size: cover !important;
@@ -9,7 +9,6 @@
 .signIn__slider__row__main {
   margin: auto;
   width: 40%;
-  text-align: center;
 }
 
 .signIn__slider__row__main__logo {
@@ -21,7 +20,6 @@
 .signIn__slider__row__main__form {
   max-width: 400px;
   margin: 10px auto;
-  text-align: center;
 }
 
 .signIn__slider__row__main__form input:focus {
@@ -32,7 +30,7 @@
   width: 98%;
   box-sizing: border-box;
   padding: 10px 10px;
-  margin: 8px 5px;
+  margin-top: 5px;
   border: 1px solid #f0f0f0;
   background-color: rgba(128, 128, 128, 0.168627451);
   font-size: 14px;
@@ -54,10 +52,7 @@
 .signIn__slider__row__main__form__error {
   color: red;
   font-size: 11px;
-  margin-left: 5px;
-  position: absolute;
-  left: 36%;
-  margin-top: -10px;
+  margin-left: 12px;
 }
 
 #submit {
@@ -70,6 +65,7 @@
 }
 
 .signIn__slider__row__main__form__link {
+  text-align: center;
   font-size: 14px;
 }
 
