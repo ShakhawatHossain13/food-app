@@ -74,9 +74,13 @@ const Cart = () => {
   }, []);
   let i: number = 0;
   let total: number = 0;
+  let vatAmount: number = 0;
+  let deliveryCharge: number = 60;
+
   while (i < cartFinal.length) {
     total =
       Number(cartFinal[i]?.price) * Number(cartFinal[i]?.quantity) + total;
+    vatAmount = total * 0.05;
     i = i + 1;
   }
 
@@ -177,11 +181,59 @@ const Cart = () => {
             )}
             <tbody>
               <tr>
-                <td className="cart__table__footer"></td>
-                <td className="cart__table__footer"></td>
-                <td className="cart__table__footer"></td>
-                <td className="cart__table__footer">Total</td>
-                <th className="cart__table__footer">${total}</th>
+                <td
+                  colSpan={4}
+                  style={{ textAlign: "right", color: "black" }}
+                  className="cart__table__footer"
+                >
+                  Sub Total
+                </td>
+                <th style={{ color: "black" }} className="cart__table__footer">
+                  ${total}
+                </th>
+                <th className="cart__table__footer"> </th>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td
+                  colSpan={4}
+                  style={{ textAlign: "right" }}
+                  className="cart__table__price"
+                >
+                  (+) VAT
+                </td>
+                <th className="cart__table__price">${vatAmount.toFixed(2)}</th>
+                <th className="cart__table__price"> </th>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td
+                  colSpan={4}
+                  style={{ textAlign: "right", color: "black" }}
+                  className="cart__table__footer"
+                >
+                  (+) Delivery Charge
+                </td>
+                <th style={{ color: "black" }} className="cart__table__footer">
+                  ${deliveryCharge}
+                </th>
+                <th className="cart__table__footer"> </th>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td
+                  colSpan={4}
+                  style={{ textAlign: "right" }}
+                  className="cart__table__footer"
+                >
+                  Net Payable
+                </td>
+                <th className="cart__table__footer">
+                  ${total + vatAmount + deliveryCharge}
+                </th>
                 <th className="cart__table__footer"> </th>
               </tr>
             </tbody>
