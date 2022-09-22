@@ -127,7 +127,7 @@ const Cart = () => {
                       </button>
                       {deleteModal && (
                         <tbody>
-                          <div className="productlist__row__table__row__button__delete__modal">
+                          <div className="cart__productlist__row__table__row__button__delete__modal">
                             <span
                               className="productlist__delete__modal__close"
                               onClick={() => {

@@ -118,6 +118,9 @@
 }
 
 @media screen and (max-width: 768px) {
+  .productsDetails {
+    margin-top: 25px;
+  }
   .productsDetails__card {
     width: 80%;
     grid-gap: 30px;
@@ -238,7 +241,7 @@
     margin: 0;
     display: flex;
     height: 25px;
-    width: 22%;
+    width: 26%;
     border-radius: 25px;
     border: 1px solid black;
   }

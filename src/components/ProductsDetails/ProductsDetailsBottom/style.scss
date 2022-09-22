@@ -37,3 +37,11 @@
     border-radius: 5px;
   }
 }
+
+.slick-next, .slick-arrow {
+  right: 0;
+  display: none !important;
+}
+.slick-track{
+  float:left;
+}

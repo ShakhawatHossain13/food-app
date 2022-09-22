@@ -35,4 +35,13 @@
 .SameCategory__card__card:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+}
+
+.slick-next, .slick-arrow {
+  right: 0;
+  display: none !important;
+}
+
+.slick-track {
+  float: left;
 }/*# sourceMappingURL=style.css.map */
