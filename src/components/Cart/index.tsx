@@ -58,6 +58,7 @@ const Cart = () => {
     setButtonDisable(true);
     let filteredArray = cartFinal.filter((item) => item.id !== id);
     setCartFinal(filteredArray);
+    setCartItem(filteredArray);
     localStorage.setItem("cart", JSON.stringify(filteredArray));
     setDeleteModal(false);
     setButtonDisable(false);

@@ -40,11 +40,12 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
     setOpen(false);
     setClose(false);
   };
+  console.log("cartCount:", cartCount);
 
   React.useEffect(() => {
     // @ts-ignore
     setCartCount(JSON.parse(localStorage.getItem("cart"))?.length);
-  }, [cartItem, updateCart]);
+  }, [cartItem]);
 
   return (
     <React.Fragment>
