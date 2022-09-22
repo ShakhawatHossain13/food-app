@@ -13,6 +13,7 @@ import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
+import Pagination from "../../../Pagination/pagination";
 
 export type ProductListDataType = {
   id: string;
@@ -32,6 +33,8 @@ const initialData: ProductListDataType = {
 };
 
 const ProductList: React.FC = () => {
+  const itemPerPage = 3;
+
   const [foodItem, setFoodItem] = React.useState<ProductListDataType[]>([]);
   const [formTitle, setFormTitle] = React.useState<string>("");
   const [ids, setIds] = React.useState<string>("");
@@ -47,6 +50,11 @@ const ProductList: React.FC = () => {
   const [foodID, setFoodID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
+  const [page, setPage] = React.useState<number>(1);
+  // const [startIndex, setStartIndex] = React.useState<number>(0);
+  // const [endIndex, setEndIndex] = React.useState<number>(itemPerPage);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
 
   // ============================== Methods =========================
 
@@ -141,6 +149,9 @@ const ProductList: React.FC = () => {
     getData();
   }, [isChange]);
 
+  //get the total number of food items from database
+  const totalData = foodItem?.length;
+
   return (
     <React.Fragment>
       <Sidebar />
@@ -200,7 +211,7 @@ const ProductList: React.FC = () => {
                 <Backdrop />
               ) : (
                 <>
-                  {foodItem?.map((foods) => {
+                  {foodItem?.slice(startIndex, endIndex).map((foods) => {
                     return (
                       <tr
                         className="productlist__row__table__row"
@@ -331,6 +342,7 @@ const ProductList: React.FC = () => {
                       </tr>
                     );
                   })}
+
                   {!foodItem?.length && (
                     <h1 className="productlist__row__table__nodata">
                       No Data Found!
@@ -340,6 +352,13 @@ const ProductList: React.FC = () => {
               )}
             </tbody>
           </table>
+          {totalData > itemPerPage && (
+            <Pagination
+              totalData={totalData}
+              setPage={setPage}
+              itemPerPage={itemPerPage}
+            />
+          )}
         </div>
       </section>
     </React.Fragment>

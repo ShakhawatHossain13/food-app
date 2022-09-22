@@ -13,6 +13,7 @@ import { firebaseDatabase, storage } from "../../../../database/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
+import Pagination from "../../../Pagination/pagination";
 
 export type BlogListDataType = {
   id: string;
@@ -33,6 +34,8 @@ const initialData: BlogListDataType = {
 };
 
 const BlogList: React.FC = () => {
+  const itemPerPage = 3;
+
   const [blogItem, setBlogItem] = React.useState<BlogListDataType[]>([]);
   const [formTitle, setFormTitle] = React.useState<string>("");
   const [ids, setIds] = React.useState<string>("");
@@ -48,6 +51,9 @@ const BlogList: React.FC = () => {
   const [blogID, setBlogID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
+  const [page, setPage] = React.useState<number>(1);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
 
   // ============================== Methods =========================
 
@@ -144,6 +150,9 @@ const BlogList: React.FC = () => {
     getData();
   }, [isChange]);
 
+  //get the total number of blog items from database
+  const totalData = blogItem?.length;
+
   return (
     <React.Fragment>
       <Sidebar />
@@ -200,7 +209,7 @@ const BlogList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {blogItem?.map((blog) => {
+                {blogItem?.slice(startIndex, endIndex).map((blog) => {
                   return (
                     <tr className="blogList__row__table__row" key={blog?.id}>
                       <td className="blogList__row__table__row__text">
@@ -332,6 +341,13 @@ const BlogList: React.FC = () => {
               </>
             )}
           </table>
+          {totalData > itemPerPage && (
+            <Pagination
+              totalData={totalData}
+              setPage={setPage}
+              itemPerPage={itemPerPage}
+            />
+          )}
         </div>
       </section>
     </React.Fragment>

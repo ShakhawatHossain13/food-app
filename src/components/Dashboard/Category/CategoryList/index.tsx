@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Backdrop from "../../../Backdrop";
 import { deleteObject, ref } from "firebase/storage";
 import AddCategory from "../AddCategory";
+import Pagination from "../../../Pagination/pagination";
 
 export type CategoryListDataType = {
   id: string;
@@ -30,6 +31,8 @@ const initialData: CategoryListDataType = {
 };
 
 const CategoryList: React.FC = () => {
+  const itemPerPage = 3;
+
   const [categoryItem, setCategoryItem] = React.useState<
     CategoryListDataType[]
   >([]);
@@ -47,6 +50,9 @@ const CategoryList: React.FC = () => {
   const [categoryID, setCategoryID] = React.useState<string>("");
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
   const [imageURL, setImageURL] = React.useState<string>("");
+  const [page, setPage] = React.useState<number>(1);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
 
   // ============================== Methods =========================
 
@@ -139,6 +145,9 @@ const CategoryList: React.FC = () => {
     getData();
   }, [isChange]);
 
+  //get the total number of category items from database
+  const totalData = categoryItem?.length;
+
   return (
     <React.Fragment>
       <Sidebar />
@@ -196,7 +205,7 @@ const CategoryList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {categoryItem?.map((category) => {
+                {categoryItem?.slice(startIndex, endIndex).map((category) => {
                   return (
                     <tr
                       className="categoryList__row__table__row"
@@ -330,6 +339,13 @@ const CategoryList: React.FC = () => {
               </>
             )}
           </table>
+          {totalData > itemPerPage && (
+            <Pagination
+              totalData={totalData}
+              setPage={setPage}
+              itemPerPage={itemPerPage}
+            />
+          )}
         </div>
       </section>
     </React.Fragment>
