@@ -199,6 +199,7 @@ const ProductList: React.FC = () => {
           <table className="productlist__row__table">
             <thead>
               <tr className="productlist__row__table__row">
+                <th className="productlist__row__table__row__text">Sl No</th>
                 <th className="productlist__row__table__row__text">Title</th>
                 <th className="productlist__row__table__row__text">Image</th>
                 <th className="productlist__row__table__row__text">Category</th>
@@ -211,12 +212,15 @@ const ProductList: React.FC = () => {
                 <Backdrop />
               ) : (
                 <>
-                  {foodItem?.slice(startIndex, endIndex).map((foods) => {
+                  {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
                     return (
                       <tr
                         className="productlist__row__table__row"
                         key={foods?.id}
                       >
+                        <td className="productlist__row__table__row__text">
+                          {index + 1}
+                        </td>
                         <td className="productlist__row__table__row__text">
                           {foods.title}
                         </td>
