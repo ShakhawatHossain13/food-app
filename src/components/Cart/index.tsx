@@ -134,7 +134,7 @@ const Cart = () => {
                     <td className="cart__table__field">{cart?.title}</td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
-                      ${cart?.price * cart?.quantity}
+                      {cart?.price * cart?.quantity} $
                     </td>
                     <td className="cart__table__field">
                       <button
@@ -204,7 +204,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                      $ {total}
+                       {total} $
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -222,7 +222,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                      ${vatAmount.toFixed(1)}
+                      {vatAmount.toFixed(1)} $
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -240,7 +240,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                      $ {deliveryCharge}
+                       {deliveryCharge} $
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -255,7 +255,7 @@ const Cart = () => {
                       Net Payable
                     </td>
                     <th className="cart__table__footer">
-                      ${total + vatAmount + deliveryCharge}
+                      {total + vatAmount + deliveryCharge} $
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
