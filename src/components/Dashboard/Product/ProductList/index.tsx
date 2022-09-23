@@ -120,7 +120,6 @@ const ProductList: React.FC = () => {
       const docRef = doc(db, "food", `${foodId}`);
       deleteDoc(docRef)
         .then(() => {
-          console.log("One food item has been deleted successfully.");
           setIsLoading(!isLoading);
           setDeleteModal(false);
           setButtonDisable(false);
@@ -214,10 +213,7 @@ const ProductList: React.FC = () => {
                 <>
                   {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
                     return (
-                      <tr
-                        className="productlist__row__table__row"
-                        key={index}
-                      >
+                      <tr className="productlist__row__table__row" key={index}>
                         <td className="productlist__row__table__row__text">
                           {(page - 1) * 3 + index + 1}
                         </td>
@@ -253,46 +249,43 @@ const ProductList: React.FC = () => {
                             edit
                           </button>
                           {edit && modalOpen && (
-                            <tbody>
-                              <div
-                                id="editModal"
-                                className="productlist__row__modal"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.08)",
-                                }}
-                              >
-                                <div className="productlist__row__modal__content">
-                                  <span
-                                    className="productlist__row__modal__content__close"
-                                    onClick={() => {
-                                      handleModalClose();
-                                      setEdit(false);
-                                    }}
-                                  >
-                                    &times;
-                                  </span>
-                                  <AddProduct
-                                    formTitle="Edit Product"
-                                    foodItemData={foodItem}
-                                    setFormTitle={setFormTitle}
-                                    ids={ids}
-                                    titleForm={title}
-                                    isChange={isChange}
-                                    setIsChange={setIsChange}
-                                    formReset={formReset}
-                                    setFormReset={setFormReset}
-                                    setModalOpen={setModalOpen}
-                                  />
-                                </div>
+                            <div
+                              id="editModal"
+                              className="productlist__row__modal"
+                              style={{
+                                backgroundColor: "rgba(0, 0, 0, 0.08)",
+                              }}
+                            >
+                              <div className="productlist__row__modal__content">
+                                <span
+                                  className="productlist__row__modal__content__close"
+                                  onClick={() => {
+                                    handleModalClose();
+                                    setEdit(false);
+                                  }}
+                                >
+                                  &times;
+                                </span>
+                                <AddProduct
+                                  formTitle="Edit Product"
+                                  foodItemData={foodItem}
+                                  setFormTitle={setFormTitle}
+                                  ids={ids}
+                                  titleForm={title}
+                                  isChange={isChange}
+                                  setIsChange={setIsChange}
+                                  formReset={formReset}
+                                  setFormReset={setFormReset}
+                                  setModalOpen={setModalOpen}
+                                />
                               </div>
-                            </tbody>
+                            </div>
                           )}
                           <button
                             className="productlist__row__table__row__button__delete"
                             disabled={buttonDisable}
                             onClick={() => {
                               setDeleteModal(true);
-                              console.log(foods.id);
                               setFoodID(foods.id);
                               setImageURL(
                                 foods.foodImage.split("2F")[1].split("?")[0]
@@ -302,45 +295,42 @@ const ProductList: React.FC = () => {
                             delete
                           </button>
                           {deleteModal && (
-                            <tbody>
-                              <div className="productlist__row__table__row__button__delete__modal">
-                                <span
-                                  className="productlist__delete__modal__close"
-                                  onClick={() => {
-                                    setDeleteModal(false);
-                                    setButtonDisable(false);
-                                  }}
-                                >
-                                  &times;
-                                </span>
-                                <div className="productlist__delete__modal__confirm">
-                                  <div>
-                                    Are you sure you want to delete this record?
-                                  </div>
-                                  <div>
-                                    <button
-                                      style={{ backgroundColor: "crimson" }}
-                                      disabled={buttonDisable}
-                                      onClick={() => {
-                                        handleDelete(foodID);
-                                      }}
-                                    >
-                                      Delete
-                                    </button>
-                                    <button
-                                      style={{ backgroundColor: "grey" }}
-                                      onClick={() => {
-                                        setDeleteModal(false);
-                                        setButtonDisable(false);
-                                        console.log("cancel: ", foodID);
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
+                            <div className="productlist__row__table__row__button__delete__modal">
+                              <span
+                                className="productlist__delete__modal__close"
+                                onClick={() => {
+                                  setDeleteModal(false);
+                                  setButtonDisable(false);
+                                }}
+                              >
+                                &times;
+                              </span>
+                              <div className="productlist__delete__modal__confirm">
+                                <div>
+                                  Are you sure you want to delete this record?
+                                </div>
+                                <div>
+                                  <button
+                                    style={{ backgroundColor: "crimson" }}
+                                    disabled={buttonDisable}
+                                    onClick={() => {
+                                      handleDelete(foodID);
+                                    }}
+                                  >
+                                    Delete
+                                  </button>
+                                  <button
+                                    style={{ backgroundColor: "grey" }}
+                                    onClick={() => {
+                                      setDeleteModal(false);
+                                      setButtonDisable(false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
                                 </div>
                               </div>
-                            </tbody>
+                            </div>
                           )}
                         </td>
                       </tr>

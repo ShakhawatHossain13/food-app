@@ -1,14 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./style.css";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
 
@@ -29,14 +21,12 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
   selectedCategory,
 }) => {
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
-  // const [selectedCategoryLunch, setSelectedCategoryLunch] = React.useState("Lunch");
   const selectedFood = foodItem.filter(
     (food) => food.category.toLowerCase() === selectedCategory
   );
 
   const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
-  let sortedFoodItems: Array<string>;
   if (sortByPrice === "lowHigh") {
     // Price Low To High
     selectedFood?.sort((a, b) => (Number(a.price) > Number(b.price) ? 1 : -1));
@@ -121,7 +111,7 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
         <div className="categoryFilter__row">
           {selectedFood?.slice(0, Number(numberOfItemsShow)).map((foods) => {
             return (
-              <div className="categoryFilter__card">
+              <div key={foods.id} className="categoryFilter__card">
                 <Link
                   style={{ textDecoration: "none", color: "gray" }}
                   to={`/products-details/${foods?.id?.trim()}`}
