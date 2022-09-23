@@ -47,8 +47,9 @@ const Cart = () => {
     const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
     notifyEdit();
-    // navigate("/");
-    localStorage.removeItem("cart");
+    setTimeout(() => {
+      navigate("/");
+    }, 2500);
   };
 
   /**

@@ -38,7 +38,7 @@ const App: React.FC = () => {
    * This method is for add products to the cart
    */
   const handleAddToCart = () => {
-    if(cartItem?.length === 0){
+    if (cartItem?.length === 0) {
       localStorage.setItem("cart", JSON.stringify([]));
     }
     let isItemAlreadyAdded = false;
@@ -93,21 +93,9 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("cart", JSON.stringify([...cartItem]));
-  // }, [cartItem]);
-
-  // if (cartItem.length < 1) {
-  //   localStorage.setItem("cart", JSON.stringify([...cartItem]));
-  // }
   if (cartItem.length > 0) {
     localStorage.setItem("cart", JSON.stringify([...cartItem]));
   }
-  // useEffect(() => {
-  //   if (cartItem.length > 0) {
-  //     localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
-  //   }
-  // }, [cartItem]);
 
   return (
     <React.Fragment>
