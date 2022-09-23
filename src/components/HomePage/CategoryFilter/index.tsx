@@ -111,7 +111,7 @@ const CategoryFilter: React.FC = () => {
         <div className="categoryFilter__row">
           {selectedFood?.slice(0, 6).map((foods) => {
             return (
-              <div key={foods.id} className="categoryFilter__card">
+              <div key={foods?.id} className="categoryFilter__card">
                 <Link
                   style={{ textDecoration: "none", color: "gray" }}
                   to={`/products-details/${foods?.id?.trim()}`}

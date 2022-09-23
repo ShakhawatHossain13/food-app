@@ -71,18 +71,7 @@ const BlogDetails: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="blogDetails__image__sub">
-              {/* {images.map((img) => (
-            <img
-              style={{
-                border:
-                  selected === img.bannerImage ? "2px solid cadetblue" : "",
-              }}
-              src={img.bannerImage}
-              alt="Blog Images"
-              onClick={() => setSelected(img.bannerImage)}
-            />
-          ))} */}
+            <div className="blogDetails__image__sub">              
             </div>
             <div className="blogDetails__details">
               <h3>{blog?.title}</h3>
