@@ -35,8 +35,8 @@ const Cart = () => {
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
-  const cartStr = localStorage.getItem("cart");
-  const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
+  const cartStr = localStorage?.getItem("cart");
+  const cart: CartDataType[] = JSON?.parse(cartStr ? cartStr : "");
 
   // ============================== Methods =========================
 
@@ -47,7 +47,9 @@ const Cart = () => {
     const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
     notifyEdit();
-    // navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 2500);
   };
 
   /**
@@ -179,64 +181,79 @@ const Cart = () => {
                 No food item found in cart
               </p>
             )}
-            <tbody>
-              <tr>
-                <td
-                  colSpan={4}
-                  style={{ textAlign: "right", color: "black" }}
-                  className="cart__table__footer"
-                >
-                  Sub Total
-                </td>
-                <th style={{ color: "black" }} className="cart__table__footer">
-                  ${total}
-                </th>
-                <th className="cart__table__footer"> </th>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td
-                  colSpan={4}
-                  style={{ textAlign: "right" }}
-                  className="cart__table__price"
-                >
-                  (+) VAT
-                </td>
-                <th className="cart__table__price">${vatAmount.toFixed(2)}</th>
-                <th className="cart__table__price"> </th>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td
-                  colSpan={4}
-                  style={{ textAlign: "right", color: "black" }}
-                  className="cart__table__footer"
-                >
-                  (+) Delivery Charge
-                </td>
-                <th style={{ color: "black" }} className="cart__table__footer">
-                  ${deliveryCharge}
-                </th>
-                <th className="cart__table__footer"> </th>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td
-                  colSpan={4}
-                  style={{ textAlign: "right" }}
-                  className="cart__table__footer"
-                >
-                  Net Payable
-                </td>
-                <th className="cart__table__footer">
-                  ${total + vatAmount + deliveryCharge}
-                </th>
-                <th className="cart__table__footer"> </th>
-              </tr>
-            </tbody>
+            {cart?.length > 0 && (
+              <>
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "right", color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      Sub Total
+                    </td>
+                    <th
+                      style={{ color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      $ {total}
+                    </th>
+                    <th className="cart__table__footer"> </th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "right", color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      (+) VAT
+                    </td>
+                    <th
+                      style={{ color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      ${vatAmount.toFixed(1)}
+                    </th>
+                    <th className="cart__table__footer"> </th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "right", color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      (+) Delivery Charge
+                    </td>
+                    <th
+                      style={{ color: "black" }}
+                      className="cart__table__footer"
+                    >
+                      $ {deliveryCharge}
+                    </th>
+                    <th className="cart__table__footer"> </th>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={4}
+                      style={{ textAlign: "right" }}
+                      className="cart__table__footer"
+                    >
+                      Net Payable
+                    </td>
+                    <th className="cart__table__footer">
+                      ${total + vatAmount + deliveryCharge}
+                    </th>
+                    <th className="cart__table__footer"> </th>
+                  </tr>
+                </tbody>
+              </>
+            )}
           </table>
           <div className="cart__checkout">
             {cart?.length > 0 && (
