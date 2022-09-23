@@ -36,7 +36,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const cartStr = localStorage.getItem("cart");
-  const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
+  const cart: CartDataType[] = cartStr ? JSON.parse(cartStr) : [];
 
   // ============================== Methods =========================
 
@@ -50,6 +50,7 @@ const Cart = () => {
     setTimeout(() => {
       navigate("/");
     }, 2500);
+    localStorage.removeItem("cart");
   };
 
   /**
@@ -71,7 +72,7 @@ const Cart = () => {
   //========================== Effects ========================
   useEffect(() => {
     const cartStr = localStorage.getItem("cart");
-    const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
+    const cart: CartDataType[] = cartStr ? JSON.parse(cartStr) : [];
     setCartFinal(cart);
   }, []);
   let i: number = 0;
