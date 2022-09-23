@@ -30,10 +30,10 @@ const Footer: React.FC = () => {
           <span>Dhaka-1212, Bangladesh</span>
         </div>
         <div className="footer__socialmedia">
-          <FaFacebookSquare size="24px" />
-          <FaTwitterSquare size="24px" />
-          <FaInstagramSquare size="24px" />
-          <FaYoutubeSquare size="24px" />
+          <a className="footer__socialmedia__icon"><FaFacebookSquare size="24px" /></a>         
+          <a className="footer__socialmedia__icon"><FaTwitterSquare size="24px" /></a>  
+          <a className="footer__socialmedia__icon"><FaInstagramSquare size="24px" /></a>    
+          <a className="footer__socialmedia__icon"><FaYoutubeSquare size="24px" /></a>    
         </div>
       </div>
     </React.Fragment>

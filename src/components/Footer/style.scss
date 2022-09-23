@@ -33,11 +33,14 @@ margin: 5px 0;
 }
 
 .footer__socialmedia {
-display: flex;
-gap: 10px;
-padding-left: 50%;
+    display: flex;
+    gap: 10px;
+    padding-left: 50%;
 }
-
+.footer__socialmedia__icon{
+    color: #fff;
+    cursor: pointer;
+}
 // mobile-version
 
 @media(max-width: 420px) {

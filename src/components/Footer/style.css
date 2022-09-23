@@ -40,6 +40,11 @@
   padding-left: 50%;
 }
 
+.footer__socialmedia__icon {
+  color: #fff;
+  cursor: pointer;
+}
+
 @media (max-width: 420px) {
   .footer {
     grid-template-columns: none;
