@@ -199,6 +199,7 @@ const BlogList: React.FC = () => {
           </div>
           <table className="blogList__row__table">
             <tr className="blogList__row__table__row">
+             <th className="blogList__row__table__row__text">Sl No</th>
               <th className="blogList__row__table__row__text">Title</th>
               <th className="blogList__row__table__row__text">Image</th>
               <th className="blogList__row__table__row__text">Description</th>
@@ -209,9 +210,12 @@ const BlogList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {blogItem?.slice(startIndex, endIndex).map((blog) => {
+                {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
                   return (
-                    <tr className="blogList__row__table__row" key={blog?.id}>
+                    <tr className="blogList__row__table__row" key={index}>
+                       <td className="blogList__row__table__row__text">
+                          {(page - 1) * 3 + index + 1}
+                        </td>
                       <td className="blogList__row__table__row__text">
                         {blog.title.slice(0, 25)}
                       </td>
