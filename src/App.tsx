@@ -39,9 +39,6 @@ const App: React.FC = () => {
    * This method is for add products to the cart
    */
   const handleAddToCart = () => {
-    // if (cartItem?.length === 0) {
-    //   localStorage.setItem("cart", JSON.stringify([]));
-    // }
     let isItemAlreadyAdded = false;
     cartItem.map((item) => {
       if (item.id === foodItem.id) {
