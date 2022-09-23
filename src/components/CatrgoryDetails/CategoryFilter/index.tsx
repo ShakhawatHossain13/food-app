@@ -3,6 +3,7 @@ import "./style.css";
 import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
+import Pagination from "../../Pagination/pagination";
 
 type CategoryDetailsSliderProps = {
   selectedCategory?: string;
@@ -20,12 +21,16 @@ type CategoryFilterDataType = {
 const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
   selectedCategory,
 }) => {
+  const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [foodItem, setFoodItem] = React.useState<CategoryFilterDataType[]>([]);
+  const [page, setPage] = React.useState<number>(1);
+  const itemPerPage = Number(numberOfItemsShow);
+  const startIndex = page * itemPerPage - itemPerPage;
+  const endIndex = page * itemPerPage;
   const selectedFood = foodItem.filter(
     (food) => food.category.toLowerCase() === selectedCategory
   );
 
-  const [numberOfItemsShow, setnumberOfItemsShow] = React.useState<string>("9");
   const [sortByPrice, setSortByPrice] = React.useState<string>("lowHigh");
   if (sortByPrice === "lowHigh") {
     // Price Low To High
@@ -71,6 +76,9 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
     getData();
   }, []);
 
+  //get the total number of category items from database
+  const totalData = selectedFood?.length;
+
   return (
     <React.Fragment>
       <section className="categoryFilter">
@@ -109,7 +117,7 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
           </option>
         </select>
         <div className="categoryFilter__row">
-          {selectedFood?.slice(0, Number(numberOfItemsShow)).map((foods) => {
+          {selectedFood?.slice(startIndex, endIndex).map((foods) => {
             return (
               <div key={foods.id} className="categoryFilter__card">
                 <Link
@@ -135,6 +143,14 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
             );
           })}
         </div>
+
+        {totalData > itemPerPage && (
+          <Pagination
+            totalData={totalData}
+            setPage={setPage}
+            itemPerPage={itemPerPage}
+          />
+        )}
       </section>
     </React.Fragment>
   );
