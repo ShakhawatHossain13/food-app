@@ -19,6 +19,12 @@
 }
 .SameCategory__card__body__title {
   color: #005bc7;
+  margin: 0;
+  max-width: 200px;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .SameCategory__card__body__title h3 {
   font-weight: 400;
@@ -26,6 +32,11 @@
 }
 .SameCategory__card__body__description {
   color: #808080;
+  max-width: 200px;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .SameCategory__card__body h2 {
   color: #808080;

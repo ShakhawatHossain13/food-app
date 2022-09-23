@@ -12,7 +12,7 @@
 
     &__item {
       margin-right: 10px;
-      color: #015EC9;
+      color: #015ec9;
       padding: 10px;
       font-weight: 400;
       cursor: pointer;
@@ -38,6 +38,12 @@
     }
     &__body__title {
       color: #005bc7;
+      margin: 0;
+      max-width: 200px;
+      margin: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__body__title h3 {
       font-weight: 400;
@@ -45,6 +51,11 @@
     }
     &__body__description {
       color: #808080;
+      max-width: 200px;
+      margin: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__body h2 {
       color: #808080;
@@ -53,7 +64,7 @@
     }
   }
   &__card:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.10);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     // transform: scale(1.1);
   }
