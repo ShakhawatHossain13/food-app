@@ -93,19 +93,9 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("cart", JSON.stringify([...cartItem]));
-  // }, [cartItem]);
-
-  if (cartItem?.length > 0) {
+  if (cartItem.length > 0) {
     localStorage.setItem("cart", JSON.stringify([...cartItem]));
   }
-
-  // useEffect(() => {
-  //   if (cartItem.length > 0) {
-  //     localStorage.setItem("cart", JSON.stringify([cartItem, ...cartItem]));
-  //   }
-  // }, [cartItem]);
 
   return (
     <React.Fragment>

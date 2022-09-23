@@ -110,6 +110,7 @@
 .productsDetails__endTitle {
   text-align: center;
   margin-inline: 40px;
+  padding-top: 20px;
 }
 
 @media screen and (max-width: 768px) {

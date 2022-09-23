@@ -35,8 +35,8 @@ const Cart = () => {
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
-  const cartStr = localStorage?.getItem("cart");
-  const cart: CartDataType[] = JSON?.parse(cartStr ? cartStr : "");
+  const cartStr = localStorage.getItem("cart");
+  const cart: CartDataType[] = JSON.parse(cartStr ? cartStr : "");
 
   // ============================== Methods =========================
 
@@ -104,6 +104,17 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
+              {cart?.length < 1 && (
+                <>
+                  <tr>
+                    <td colSpan={6}>
+                      <p className="cart__nodata">
+                        No food item found in cart!
+                      </p>
+                    </td>
+                  </tr>
+                </>
+              )}
               {cart &&
                 cartFinal?.map((cart, index) => (
                   <tr key={index + 1}>
@@ -176,11 +187,7 @@ const Cart = () => {
                   </tr>
                 ))}
             </tbody>
-            {cart?.length < 1 && (
-              <p className="productlist__row__table__nodata">
-                No food item found in cart
-              </p>
-            )}
+
             {cart?.length > 0 && (
               <>
                 <tbody>
