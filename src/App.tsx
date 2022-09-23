@@ -39,9 +39,9 @@ const App: React.FC = () => {
    * This method is for add products to the cart
    */
   const handleAddToCart = () => {
-    if (cartItem?.length === 0) {
-      localStorage.setItem("cart", JSON.stringify([]));
-    }
+    // if (cartItem?.length === 0) {
+    //   localStorage.setItem("cart", JSON.stringify([]));
+    // }
     let isItemAlreadyAdded = false;
     cartItem.map((item) => {
       if (item.id === foodItem.id) {
@@ -73,7 +73,12 @@ const App: React.FC = () => {
       };
       // @ts-ignore
       const prevCart: CartDataType[] = JSON.parse(localStorage.getItem("cart"));
-      setCartItem([...prevCart, cartProducts]);
+
+      // if (prevCart) {
+      setCartItem(prevCart ? [...prevCart, cartProducts] : [cartProducts]);
+      // } else {
+      //   setCartItem([cartProducts]);
+      // }
     }
     const notifyEdit = () => toast("Food item Added to Cart");
     notifyEdit();

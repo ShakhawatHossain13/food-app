@@ -51,6 +51,9 @@ const Cart = () => {
       navigate("/");
     }, 2500);
     localStorage.removeItem("cart");
+    setTimeout(() => {
+      setCartItem([]);
+    }, 2700);
   };
 
   /**
