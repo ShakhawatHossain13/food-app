@@ -15,8 +15,8 @@ export const RequireAdmin = () => {
       title: "Oops...",
       text: "You are not allowed, Please login as Admin",
     });
-    localStorage.removeItem("user");
-    return <Navigate to="/signin" state={{ from: location }} replace />;
+    // localStorage.removeItem("user");
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
   return <Outlet />;
 };

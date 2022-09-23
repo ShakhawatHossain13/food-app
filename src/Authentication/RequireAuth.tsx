@@ -15,7 +15,6 @@ export const RequireAuth = () => {
       title: "Oops...",
       text: "You are not allowed, Please login as User ...",
     });
-    localStorage.removeItem("user");
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
   return <Outlet />;
