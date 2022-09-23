@@ -30,6 +30,12 @@
   text-align: center;
   font-weight: 700;
 }
+.cart__table__price {
+  padding: 10px 15px;
+  color: black;
+  text-align: center;
+  font-weight: 700;
+}
 .cart__table__field {
   border-bottom: 1px solid rgba(255, 255, 255, 0.63);
   text-align: center;
