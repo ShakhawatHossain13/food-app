@@ -20,8 +20,7 @@
     min-width: 300px;
     margin: auto;
     padding: 5px 8px 10px 8px;
-    text-align: center;
-    cursor: pointer;
+    text-align: center; 
     &__image {
       height: 430px;
       width: 500px;
@@ -53,8 +52,7 @@
         width: 100px;
         height: 100px;
         margin: 5px 0;
-        display: block;
-        cursor: pointer;
+        display: block; 
       }
     }
     &__body {
@@ -93,20 +91,17 @@
       border-radius: 25px;
       font-size: 16px;
       color: #fff;
-      padding-inline: 10px;
-      cursor: pointer;
+      padding-inline: 10px;     
     }
     &__body__price__quantity__plus {
       background: transparent;
       border: none;
-      color: #dc3545;
-      cursor: pointer;
+      color: #dc3545; 
       padding: 0px 8px;
     }
     &__body__price__quantity__minus {
       background: transparent;
-      border: none;
-      cursor: pointer;
+      border: none; 
       padding: 0px 8px;
     }
     &__body h2 {
@@ -178,8 +173,7 @@
       min-width: 300px;
       margin: auto;
       padding: 5px 8px 30px 8px;
-      text-align: center;
-      cursor: pointer;
+      text-align: center; 
       &__body {
         text-align: center;
       }
@@ -237,8 +231,7 @@
       min-width: 300px;
       margin: auto;
       padding: 5px 8px 30px 8px;
-      text-align: center;
-      cursor: pointer;
+      text-align: center; 
       &__body {
         text-align: center;
       }

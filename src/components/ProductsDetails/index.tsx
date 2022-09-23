@@ -143,20 +143,7 @@ const ProductsDetails: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <div className="productsDetails__card__image__sub">
-                      {/* {foodItem?.slice(0, 4).map((singleFood) => (
-                  <img
-                    style={{
-                      border:
-                        selected === singleFood.foodImage
-                          ? "2px solid cadetblue"
-                          : "",
-                    }}
-                    src={singleFood.foodImage}
-                    alt="Food Images"
-                    onClick={() => setSelected(singleFood.foodImage)}
-                  />
-                ))} */}
+                    <div className="productsDetails__card__image__sub">                      
                     </div>
                   </div>
                   <div className="productsDetails__card__body">
@@ -214,7 +201,7 @@ const ProductsDetails: React.FC = () => {
                 </div>
                 {/* Product in Same category section Slider*/}
 
-                {categoryFood.length > 0 && (
+                {categoryFood?.length > 0 && (
                   <div>
                     <h2 className="productsDetails__endTitle">
                       Product in Same Category
