@@ -56,7 +56,7 @@
   border-radius: 5px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1140px) {
   .categoryFilter {
     text-align: center;
   }
@@ -68,11 +68,11 @@
   }
   .categoryFilter__row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr !important;
     grid-gap: 50px;
   }
 }
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 680px) {
   .categoryFilter {
     text-align: center;
   }
@@ -84,7 +84,7 @@
   }
   .categoryFilter__row {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     grid-gap: 20px;
   }
 }
@@ -100,7 +100,7 @@
   }
   .categoryFilter__row {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     grid-gap: 20px;
   }
 }/*# sourceMappingURL=style.css.map */
