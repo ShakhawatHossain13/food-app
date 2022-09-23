@@ -194,6 +194,7 @@ const CategoryList: React.FC = () => {
           </div>
           <table className="categoryList__row__table">
             <tr className="categoryList__row__table__row">
+              <th className="categoryList__row__table__row__text">Sl No</th>
               <th className="categoryList__row__table__row__text">Title</th>
               <th className="categoryList__row__table__row__text">Image</th>
               <th className="categoryList__row__table__row__text">
@@ -205,12 +206,15 @@ const CategoryList: React.FC = () => {
               <Backdrop />
             ) : (
               <>
-                {categoryItem?.slice(startIndex, endIndex).map((category) => {
+                {categoryItem?.slice(startIndex, endIndex).map((category, index) => {
                   return (
                     <tr
                       className="categoryList__row__table__row"
-                      key={category?.id}
+                      key={index}
                     >
+                      <td className="categoryList__row__table__row__text">
+                          {(page - 1) * 3 + index + 1}
+                        </td>
                       <td className="categoryList__row__table__row__text">
                         {category.title.slice(0, 25)}
                       </td>

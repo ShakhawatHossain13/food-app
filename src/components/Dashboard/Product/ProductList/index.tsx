@@ -216,10 +216,10 @@ const ProductList: React.FC = () => {
                     return (
                       <tr
                         className="productlist__row__table__row"
-                        key={foods?.id}
+                        key={index}
                       >
                         <td className="productlist__row__table__row__text">
-                          {index + 1}
+                          {(page - 1) * 3 + index + 1}
                         </td>
                         <td className="productlist__row__table__row__text">
                           {foods.title}
