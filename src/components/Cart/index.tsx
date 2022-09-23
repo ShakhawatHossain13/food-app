@@ -147,45 +147,42 @@ const Cart = () => {
                         Delete
                       </button>
                       {deleteModal && (
-                        <tbody>
-                          <div className="productlist__row__table__row__button__delete__modal">
-                            <span
-                              className="productlist__delete__modal__close"
-                              onClick={() => {
-                                setDeleteModal(false);
-                                setButtonDisable(false);
-                              }}
-                            >
-                              &times;
-                            </span>
-                            <div className="productlist__delete__modal__confirm">
-                              <div>
-                                Are you sure you want to delete this item?
-                              </div>
-                              <div>
-                                <button
-                                  style={{ backgroundColor: "crimson" }}
-                                  disabled={buttonDisable}
-                                  onClick={() => {
-                                    handleDelete(cartItemID);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                                <button
-                                  style={{ backgroundColor: "grey" }}
-                                  onClick={() => {
-                                    setDeleteModal(false);
-                                    setButtonDisable(false);
-                                    console.log("cancel: ", cart?.id);
-                                  }}
-                                >
-                                  Cancel
-                                </button>
-                              </div>
+                        <div className="productlist__row__table__row__button__delete__modal">
+                          <span
+                            className="productlist__delete__modal__close"
+                            onClick={() => {
+                              setDeleteModal(false);
+                              setButtonDisable(false);
+                            }}
+                          >
+                            &times;
+                          </span>
+                          <div className="productlist__delete__modal__confirm">
+                            <div>
+                              Are you sure you want to delete this item?
+                            </div>
+                            <div>
+                              <button
+                                style={{ backgroundColor: "crimson" }}
+                                disabled={buttonDisable}
+                                onClick={() => {
+                                  handleDelete(cartItemID);
+                                }}
+                              >
+                                Delete
+                              </button>
+                              <button
+                                style={{ backgroundColor: "grey" }}
+                                onClick={() => {
+                                  setDeleteModal(false);
+                                  setButtonDisable(false);
+                                }}
+                              >
+                                Cancel
+                              </button>
                             </div>
                           </div>
-                        </tbody>
+                        </div>
                       )}
                     </td>
                   </tr>

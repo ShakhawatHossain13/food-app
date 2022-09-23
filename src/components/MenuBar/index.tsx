@@ -40,7 +40,6 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
     setOpen(false);
     setClose(false);
   };
-  console.log("cartCount:", cartCount);
 
   React.useEffect(() => {
     // @ts-ignore

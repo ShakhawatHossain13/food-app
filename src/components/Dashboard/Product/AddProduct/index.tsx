@@ -123,13 +123,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     foodItemData?.map((singleFoodData: ProductListDataType) => {
-      console.log(
-        "Previous product Title: ",
-        singleFoodData.title.toLowerCase()
-      );
       if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
-        console.log("Input Title: ", inputTitle.toLowerCase());
-
         setButtonDisable(true);
         setError((prev) => ({
           ...prev,
@@ -232,7 +226,6 @@ const AddProduct: React.FC<AddProductProps> = ({
       const newImage = e.target.files[0];
       // setImages((prevState): any => [...prevState, newImage]);
       setImages(newImage);
-      console.log("new Image: ", newImage);
       // }
     } else {
       const notifyAdd = () =>
@@ -296,7 +289,6 @@ const AddProduct: React.FC<AddProductProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -313,7 +305,6 @@ const AddProduct: React.FC<AddProductProps> = ({
             })
               .then((docRef) => {
                 setBackdrop(false);
-                console.log("Food item added successfully");
                 const notifyAdd = () => toast("Food item added successfully");
                 notifyAdd();
                 setModalOpen(false);
@@ -328,9 +319,6 @@ const AddProduct: React.FC<AddProductProps> = ({
       );
       Promise.all(promises)
         .then(() => {
-          //backdrop for adding blog
-          // const notifyAdd = () => toast("Adding Food item");
-          // notifyAdd();
         })
         .catch((err) => console.log(err));
     } else {
@@ -364,7 +352,6 @@ const AddProduct: React.FC<AddProductProps> = ({
         .then((docRef) => {
           setIsChange(!isChange);
           setBackdrop(false);
-          console.log("Food item is updated");
           const notifyEdit = () => toast("Food item is updated");
           notifyEdit();
           setModalOpen(false);
@@ -392,7 +379,6 @@ const AddProduct: React.FC<AddProductProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -418,7 +404,6 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const handleImageDelete = () => {
     const imageURL = foodItem.foodImage.split("2F")[1].split("?")[0];
-    console.log("image direct link: ", imageURL);
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
       .then(() => {
