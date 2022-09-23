@@ -73,7 +73,6 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
    * @Return Save the input value into state variable
    */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setButtonDisable(false);
     const { name, value } = event.target;
     setAddUser((prev) => {
       return {
@@ -112,6 +111,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       }
     }
     setError(copyErrors);
+
     return hasError;
   };
   const register = async (
@@ -187,6 +187,16 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
         console.log(error);
       });
   };
+  console.log("error: ", error);
+  console.log("userError: ", userError);
+
+  React.useEffect(() => {
+    if (JSON.stringify(error) === JSON.stringify(userError)) {
+      setButtonDisable(false);
+    } else {
+      setButtonDisable(true);
+    }
+  }, [error]);
 
   return (
     <React.Fragment>
@@ -211,7 +221,12 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="name"
                 placeholder="Name"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (event.target.value.length < 3) {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      name: "Name field is required",
+                    }));
+                  } else if (event.target.value.length < 3) {
                     setError((prev) => ({
                       ...prev,
                       name: "Name must be at least 3 character",
@@ -266,11 +281,22 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="email"
                 placeholder="Email"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (!event.target.value.match(emailInput)) {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Email field is required",
+                    }));
+                  } else if (!event.target.value.match(emailInput)) {
                     setError((prev) => ({
                       ...prev,
                       email: "Invalid email address",
                     }));
+                    setAddUser((prev) => {
+                      return {
+                        ...prev,
+                        email: event.target.value,
+                      };
+                    });
                   } else {
                     setError((prev) => ({
                       ...prev,
@@ -280,11 +306,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                   }
                 }}
                 style={{
-                  border:
-                    error.email === "Invalid email address" ||
-                    error.email !== ""
-                      ? "2px solid red"
-                      : "",
+                  border: error.email !== "" ? "2px solid red" : "",
                 }}
               />
               <span className="signup__slider__row__main__form__error">
@@ -297,7 +319,12 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="password"
                 placeholder="Password"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (event.target.value.length < 6) {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "Password field is required",
+                    }));
+                  } else if (event.target.value.length < 6) {
                     setError((prev) => ({
                       ...prev,
                       password: "Password must be at least 6 characters long",
@@ -324,7 +351,12 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (event.target.value !== addUser.password) {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      confirmPassword: "Confirm password field is required",
+                    }));
+                  } else if (event.target.value !== addUser.password) {
                     setError((prev) => ({
                       ...prev,
                       confirmPassword: "Password does not match",
@@ -352,9 +384,6 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                 onClick={(e) => {
                   e.preventDefault();
                   register(e);
-                  // if (!registered) {
-                  //   handleSubmit(e);
-                  // }
                 }}
                 disabled={buttonDisable}
               >
