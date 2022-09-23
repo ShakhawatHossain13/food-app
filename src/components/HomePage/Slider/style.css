@@ -102,10 +102,20 @@
   .slider__row__main {
     padding: 150px 0;
   }
+  .slider__row__main__search__input__results {
+    font-size: 14px;
+    width: 47%;
+  }
+  .slider__row__main__search__input__results__row__image {
+    height: 32px;
+  }
 }
 @media screen and (max-width: 480px) {
   .slider__row__main__title {
     font-size: 32px;
+  }
+  .slider__row__main {
+    padding: 120px 0;
   }
   .slider__row__main__search__input {
     font-size: 14px;
@@ -127,6 +137,14 @@
     margin-left: 0;
     padding: 8px 10px;
     padding-top: 7px;
+  }
+  .slider__row__main__search__input__results {
+    margin: auto;
+    font-size: 12px;
+    width: 80%;
+  }
+  .slider__row__main__search__input__results__row__image {
+    height: 27px;
   }
 }
 @media screen and (max-width: 375px) {
