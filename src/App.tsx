@@ -22,6 +22,7 @@ import {
   initialDataProductsDetails,
 } from "../src/contexts/CartContext";
 import { toast } from "react-toastify";
+import About from "./components/About";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -181,6 +182,7 @@ const App: React.FC = () => {
           <Route path="/dashboard/category-list" element={<CategoryList />} />
           <Route path="/dashboard/blog-list" element={<BlogList />} />
         </Route>
+        <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/backdrop" element={<Backdrop />} />
       </Routes>

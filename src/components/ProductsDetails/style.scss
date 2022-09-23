@@ -1,10 +1,10 @@
 /* Products Details Section Start*/
 #itemQuantity {
- text-align: center;
+  text-align: center;
   width: 35px;
   font-size: 18px;
   font-weight: 800;
-  margin-inline: 2px ;
+  margin-inline: 2px;
   border: none;
   outline: none;
 }
@@ -20,7 +20,7 @@
     min-width: 300px;
     margin: auto;
     padding: 5px 8px 10px 8px;
-    text-align: center; 
+    text-align: center;
     &__image {
       height: 430px;
       width: 500px;
@@ -52,7 +52,7 @@
         width: 100px;
         height: 100px;
         margin: 5px 0;
-        display: block; 
+        display: block;
       }
     }
     &__body {
@@ -91,17 +91,17 @@
       border-radius: 25px;
       font-size: 16px;
       color: #fff;
-      padding-inline: 10px;     
+      padding-inline: 10px;
     }
     &__body__price__quantity__plus {
       background: transparent;
       border: none;
-      color: #dc3545; 
+      color: #dc3545;
       padding: 0px 8px;
     }
     &__body__price__quantity__minus {
       background: transparent;
-      border: none; 
+      border: none;
       padding: 0px 8px;
     }
     &__body h2 {
@@ -121,7 +121,7 @@
 @media screen and (max-width: 768px) {
   .productsDetails {
     margin-top: 25px;
-    &__card{
+    &__card {
       width: 80%;
       grid-gap: 30px;
     }
@@ -143,22 +143,26 @@
       display: flex;
       height: 25px;
       width: 29%;
-      margin-top: 5px; 
+      margin-top: 5px;
       border-radius: 25px;
       border: 1px solid black;
     }
     &__card__body__price__quantity h1 {
       font-size: 1rem;
     }
+    &__endTitle {
+    margin-top: 50px;
   }
-  .productsDetails__card__body__price__quantity__minus, .productsDetails__card__body__price__quantity__plus{
+  }
+  .productsDetails__card__body__price__quantity__minus,
+  .productsDetails__card__body__price__quantity__plus {
     padding: 4px;
   }
-  #itemQuantity {    
+  #itemQuantity {
     width: 22px;
     font-size: 18px;
     font-weight: 600;
-    margin-inline: 0px; 
+    margin-inline: 0px;
     font-size: 14px;
   }
 }
@@ -174,7 +178,7 @@
       min-width: 300px;
       margin: auto;
       padding: 5px 8px 30px 8px;
-      text-align: center; 
+      text-align: center;
       &__body {
         text-align: center;
       }
@@ -193,7 +197,7 @@
         }
       }
     }
-    &__card__image { 
+    &__card__image {
       width: 200px;
       border-radius: 50%;
       margin-top: 25px;
@@ -206,7 +210,7 @@
       font-size: 1rem;
       font-weight: 500;
     }
-    &__card__body__price{
+    &__card__body__price {
       margin-top: 40px;
     }
     &__card__body__price__quantity {
@@ -232,7 +236,7 @@
       min-width: 300px;
       margin: auto;
       padding: 5px 8px 30px 8px;
-      text-align: center; 
+      text-align: center;
       &__body {
         text-align: center;
       }
@@ -251,7 +255,7 @@
         }
       }
     }
-    &__card__image { 
+    &__card__image {
       width: 200px;
       border-radius: 50%;
       margin-top: 25px;

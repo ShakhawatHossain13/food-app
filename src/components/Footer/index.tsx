@@ -14,15 +14,15 @@ const Footer: React.FC = () => {
     <React.Fragment>
       <div className="footer">
         <div className="footer__logo">
-          <img src={logo} alt="Red Onion Logo" width="140px" />
+          <Link to="/">
+            <img src={logo} alt="Red Onion Logo" width="140px" />
+          </Link>
           <p style={{ fontSize: "12px" }}>Copyright @ bjitgroup</p>
         </div>
         <div className="footer__page">
           <Link to="/">Home</Link>
-          <Link to="/news">News</Link>
-          <Link to="/categorydetails">Category Details</Link>
-          <Link to="/productsdetails">Product Details</Link>
-          <Link to="/blogdetails">Blog Details</Link>
+          <Link to="/about">About</Link>
+          <Link to="/category-details/lunch">Category Details</Link>
         </div>
         <div className="footer__address">
           <span>H-2275, 2279, Panchkhula,</span>
