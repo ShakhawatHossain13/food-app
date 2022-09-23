@@ -43,7 +43,7 @@ margin: 5px 0;
 }
 // mobile-version
 
-@media(max-width: 420px) {
+@media(max-width: 680px) {
     .footer {
      grid-template-columns: none;   
         grid-template-rows: 1fr 1fr 1fr 1fr;
