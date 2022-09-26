@@ -1,15 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import "./style.css";
-import homeslider from "./home_slider.png"; 
-import { auth } from "../../../database/firebaseConfig";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import homeSlider from "../../../images/home_slider.png"; 
+import { collection} from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import {
  
-  doc,
-  getDoc,
   getDocs,
   getFirestore,
 } from "firebase/firestore";
@@ -132,13 +129,11 @@ const Slider: React.FC = () => {
     getCategoryData();
   }, []);
 
-  console.log(foodItem);
-
   return (
     <React.Fragment>
       <section
         className="slider"
-        style={{ background: `url(${homeslider}) fixed ` }}
+        style={{ background: `url(${homeSlider}) fixed ` }}
       >
         <div className="slider__row">
           <div className="slider__row__main">
