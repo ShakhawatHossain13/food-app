@@ -93,6 +93,7 @@ const Cart = () => {
   return (
     <React.Fragment>
       <div className="cart" style={{ background: `url(${homeslider})` }}>
+      {/* <div className="cart" style={{ background: `url(${homeslider})` }}> */}
         <div className="cart__row">
           <ToastContainer autoClose={1000} />
           <h2 className="cart__title">Cart</h2>

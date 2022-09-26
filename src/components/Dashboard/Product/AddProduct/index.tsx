@@ -109,9 +109,10 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [backdrop, setBackdrop] = React.useState<Boolean>(false); 
-  const priceRegex = "^([0-9]*[.][0-9]{0,2}|[0-9]{0,2})$|^$"; 
-  
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [previousTitle, setPreviousTitle] = React.useState<string>("");
+
+  const priceRegex = "^([0-9]*[.][0-9]{0,2}|[0-9]{0,5})$|^$";
   // ============================== Methods =========================
 
   /**
@@ -121,21 +122,23 @@ const AddProduct: React.FC<AddProductProps> = ({
 
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
-    foodItemData?.map((singleFoodData: ProductListDataType) => {
-      if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
-        setButtonDisable(true);
-        setError((prev) => ({
-          ...prev,
-          title: "This Product already exists",
-        }));
-        setInputError((prev) => ({
-          ...prev,
-          title: true,
-        }));
-      } else {
-        setButtonDisable(false);
-      }
-    });
+    if (previousTitle !== inputTitle) {
+      foodItemData?.map((singleFoodData: ProductListDataType) => {
+        if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
+          setButtonDisable(true);
+          setError((prev) => ({
+            ...prev,
+            title: "This Product already exists",
+          }));
+          setInputError((prev) => ({
+            ...prev,
+            title: true,
+          }));
+        } else {
+          setButtonDisable(false);
+        }
+      });
+    }
   };
 
   /**
@@ -454,6 +457,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
+      setPreviousTitle(obj?.title);
       // setIsLoading(true);
     } catch (error) {
       console.log(error);
@@ -586,15 +590,14 @@ const AddProduct: React.FC<AddProductProps> = ({
                 </span>
               </label>
               <input
-                className="addproduct__row__form__row__input"     
+                className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
                 value={foodItem?.price}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.match(priceRegex)) {
                     return handleChange(event);
-                  } 
-                  else {
+                  } else {
                     return false;
                   }
                 }}

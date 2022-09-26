@@ -20,7 +20,9 @@
   background-color: #060515;
   color: white;
 }
-.pagination button:focus {
-  background-color: cadetblue;
-  color: white;
+
+.pagination__active {
+  background-color: cadetblue !important;
+  color: #fff !important;
+  border-color: cadetblue !important;
 }/*# sourceMappingURL=pagination.css.map */
