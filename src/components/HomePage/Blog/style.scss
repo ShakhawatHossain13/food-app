@@ -60,6 +60,11 @@
       height: 52px;
       font-weight: 400;
       margin: 0;
+      max-width: 200px;
+      margin: auto;
+      white-space: wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__body__icon {
       max-width: 25px;
@@ -71,10 +76,15 @@
     }
     &__body__details__description {
       padding-top: 5px;
-      height: 100px;
+      height: 110px;
       color: #808080;
       font-size: 14px;
       line-height: 1.8rem;
+      max-width: 200px;
+      margin: auto;
+      white-space: wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__body__details__seeMore {
       cursor: pointer;
@@ -123,8 +133,8 @@
       grid-gap: 20px;
     }
   }
-  .blog__card__image { 
-    width: 300px; 
+  .blog__card__image {
+    width: 300px;
   }
 }
 
@@ -156,4 +166,3 @@
     }
   }
 }
-

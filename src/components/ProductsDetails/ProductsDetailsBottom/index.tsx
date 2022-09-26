@@ -74,7 +74,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
                     <h3>{foods?.title}</h3>
                   </div>
                   <div className="SameCategory__card__body__description">
-                    <p>{foods?.description.slice(0, 26)}...</p>
+                    <p>{foods?.description}</p>
                   </div>
                   <h2>{foods?.price} $</h2>
                 </div>
