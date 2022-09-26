@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import homeslider from "./home_slider.png";
+import homeSlider from "../../images/home_slider.png";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
@@ -194,7 +194,7 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
     <React.Fragment>
       <section
         className="signup__slider"
-        style={{ background: `url(${homeslider}) ` }}
+        style={{ background: `url(${homeSlider}) ` }}
       >
         <div className="signup__slider__row">
           <div className="signup__slider__row__main">
