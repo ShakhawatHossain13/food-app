@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./style.css";
-import homeslider from "./home_slider.png";
+import homeSlider from "../../images/home_slider.png";
 import { useNavigate, useParams } from "react-router";
 import Footer from "../Footer";
 import {
@@ -92,8 +92,8 @@ const Cart = () => {
 
   return (
     <React.Fragment>
-      <div className="cart" style={{ background: `url(${homeslider})` }}>
-      {/* <div className="cart" style={{ background: `url(${homeslider})` }}> */}
+      <div className="cart" style={{ background: `url(${homeSlider})` }}>
+        {/* <div className="cart" style={{ background: `url(${homeslider})` }}> */}
         <div className="cart__row">
           <ToastContainer autoClose={1000} />
           <h2 className="cart__title">Cart</h2>
@@ -137,7 +137,7 @@ const Cart = () => {
                     </td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
-                      {cart?.price * cart?.quantity} $
+                      ${cart?.price * cart?.quantity}
                       <br />
                       <span style={{ fontSize: "12px" }}>
                         ({cart?.price} x {cart?.quantity})
