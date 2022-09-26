@@ -351,6 +351,7 @@ const BlogList: React.FC = () => {
           {totalData > itemPerPage && (
             <Pagination
               totalData={totalData}
+              page={page}
               setPage={setPage}
               itemPerPage={itemPerPage}
             />

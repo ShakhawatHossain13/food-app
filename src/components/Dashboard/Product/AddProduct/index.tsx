@@ -110,7 +110,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
   const [backdrop, setBackdrop] = React.useState<Boolean>(false); 
-  const priceRegex = "^([0-9]*[.][0-9]{0,2}|[0-9]{0,2})$|^$"; 
+  const priceRegex = "^([0-9]*[.][0-9]{0,2}|[0-9]{0,5})$|^$"; 
   
   // ============================== Methods =========================
 
