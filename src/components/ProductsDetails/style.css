@@ -81,6 +81,10 @@
   border-radius: 25px;
   border: 1px solid black;
 }
+.productsDetails__card__body__price__quantity__error {
+  color: red;
+  margin: 10px;
+}
 .productsDetails__card__body__cart {
   margin-top: 20px;
   height: 35px;

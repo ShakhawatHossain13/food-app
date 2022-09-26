@@ -220,6 +220,14 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
       });
   };
 
+  React.useEffect(() => {
+    if (JSON.stringify(error) === JSON.stringify(loginError)) {
+      setButtonDisable(false);
+    } else {
+      setButtonDisable(true);
+    }
+  }, [error]);
+
   return (
     <React.Fragment>
       <section
@@ -245,11 +253,22 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 name="email"
                 placeholder="Email"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (!event.target.value.match(emailInput)) {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Email field is required",
+                    }));
+                  } else if (!event.target.value.match(emailInput)) {
                     setError((prev) => ({
                       ...prev,
                       email: "Invalid email address",
                     }));
+                    setLoginInfo((prev) => {
+                      return {
+                        ...prev,
+                        email: event.target.value,
+                      };
+                    });
                   } else {
                     setError((prev) => ({
                       ...prev,
@@ -261,9 +280,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 }}
                 style={{
                   border:
-                    error.email === "This filed cannot be empty" ||
-                    error.email === "Invalid email address" ||
-                    credentialError
+                    error.email !== "" || credentialError
                       ? "2px solid red"
                       : "",
                 }}
@@ -277,10 +294,23 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 id="password"
                 name="password"
                 placeholder="Password"
-                onChange={handleChange}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "Password field is required",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
                 style={{
                   border:
-                    error.password === "This filed cannot be empty" ||
+                    error.password !== "" ||
                     credentialError
                       ? "2px solid red"
                       : "",

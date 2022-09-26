@@ -187,8 +187,6 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
         console.log(error);
       });
   };
-  console.log("error: ", error);
-  console.log("userError: ", userError);
 
   React.useEffect(() => {
     if (JSON.stringify(error) === JSON.stringify(userError)) {

@@ -80,6 +80,10 @@
         margin-left: 30px;
         border-radius: 25px;
         border: 1px solid black;
+        &__error {
+          color: red;
+          margin: 10px;
+        }
       }
     }
     &__body__cart {
@@ -152,8 +156,8 @@
       font-size: 1rem;
     }
     &__endTitle {
-    margin-top: 50px;
-  }
+      margin-top: 50px;
+    }
   }
   .productsDetails__card__body__price__quantity__minus,
   .productsDetails__card__body__price__quantity__plus {
