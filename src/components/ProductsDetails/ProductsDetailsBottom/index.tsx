@@ -34,25 +34,25 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
-        }
+          dots: true,
+        },
       },
       {
         breakpoint: 960,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2
-        }
+          initialSlide: 2,
+        },
       },
       {
         breakpoint: 540,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <div style={{ marginBottom: "50px" }}>
@@ -76,7 +76,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
                   <div className="SameCategory__card__body__description">
                     <p>{foods?.description}</p>
                   </div>
-                  <h2>{foods?.price} $</h2>
+                  <h2>${foods?.price}</h2>
                 </div>
               </div>
             </Link>
