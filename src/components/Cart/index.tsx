@@ -46,11 +46,14 @@ const Cart = () => {
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
       toast("We have received your order. Thanks for ordering !");
-    localStorage.removeItem("cart");
     notifyEdit();
     setTimeout(() => {
       navigate("/");
-    }, 1000);
+    }, 2500);
+    localStorage.removeItem("cart");
+    setTimeout(() => {
+      setCartItem([]);
+    }, 2700);
   };
 
   /**
@@ -134,8 +137,10 @@ const Cart = () => {
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
                       {cart?.price * cart?.quantity} $
-                      <br/>
-                      <span style={{fontSize: "12px"}}>({cart?.price} x {cart?.quantity})</span>
+                      <br />
+                      <span style={{ fontSize: "12px" }}>
+                        ({cart?.price} x {cart?.quantity})
+                      </span>
                     </td>
                     <td className="cart__table__field">
                       <button
