@@ -45,8 +45,8 @@ const Cart = () => {
    */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
-    toast("We have received your order. Thanks for ordering !");
-    localStorage.removeItem("cart");  
+      toast("We have received your order. Thanks for ordering !");
+    localStorage.removeItem("cart");
     notifyEdit();
     setTimeout(() => {
       navigate("/");
@@ -128,10 +128,16 @@ const Cart = () => {
                         width="50px"
                       />
                     </td>
-                    <td className="cart__table__field">{cart?.title}</td>
+                    <td className="cart__table__field">
+                      <p className="cart__table__field__title">{cart?.title}</p>
+                    </td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
-                      {cart?.price * cart?.quantity} $
+                      ${cart?.price * cart?.quantity}
+                      <br />
+                      <span style={{ fontSize: "8px" }}>
+                        ({cart?.price} x {cart?.quantity})
+                      </span>
                     </td>
                     <td className="cart__table__field">
                       <button
@@ -201,7 +207,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                       {total} $
+                      ${total.toFixed(2)}
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -219,7 +225,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                      {vatAmount.toFixed(1)} $
+                      ${vatAmount.toFixed(2)}
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -237,7 +243,7 @@ const Cart = () => {
                       style={{ color: "black" }}
                       className="cart__table__footer"
                     >
-                       {deliveryCharge} $
+                      ${deliveryCharge.toFixed(2)}
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>
@@ -252,7 +258,7 @@ const Cart = () => {
                       Net Payable
                     </td>
                     <th className="cart__table__footer">
-                      {total + vatAmount + deliveryCharge} $
+                      ${(total + vatAmount + deliveryCharge).toFixed(2)}
                     </th>
                     <th className="cart__table__footer"> </th>
                   </tr>

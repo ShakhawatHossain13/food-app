@@ -36,6 +36,13 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.63);
       text-align: center;
       padding: 5px 15px;
+      &__title {
+        max-width: 160px;
+        margin: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
     &__deleteButton {
       padding: 5px;
@@ -116,6 +123,15 @@
       font-family: arial, sans-serif;
       border-collapse: collapse;
       margin-left: 0;
+      &__field {
+        &__title {
+          max-width: 65px;
+          margin: auto;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }
@@ -124,6 +140,15 @@
     &__table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
+      &__field {
+        &__title {
+          max-width: 60px;
+          margin: auto;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }
