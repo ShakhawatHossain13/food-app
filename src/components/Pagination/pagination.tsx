@@ -3,9 +3,10 @@ import './pagination.css';
 
 const Pagination = (props:any) => {
 
-    const { totalData, setPage, itemPerPage } = props;
+    const { totalData,page, setPage, itemPerPage } = props;
     const [pageNumber, setPageNumber] = useState(0);
     const [button, setButton] = useState([]);
+    const [active, setActive] = React.useState<string>();
 
     useEffect(() => {
         setPageNumber(Math.ceil(totalData / itemPerPage));
@@ -17,13 +18,20 @@ const Pagination = (props:any) => {
             btn.push({ id: i });
         }
         setButton(btn);
+        setActive("inactive");
 
     }, [pageNumber]);
 
-
     let paginationBar = button.map((_, index) => {
-        return (
-          <button key={index} onClick={() => setPage(index + 1)}>
+        return (             
+          <button  
+            className={page === (index+1) ? 'pagination__active' : ''}
+            key={index} 
+            onClick={() =>{
+                setPage(index + 1); 
+                }            
+             }           
+             >
             {index + 1}
           </button>
         );
