@@ -5,6 +5,12 @@ import homeslider from "./home_slider.png";
 import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
+import {
+  CartContext,
+  CartBasicInfoProps,
+  ProductsDetailsDataType,
+  CartDataType,
+} from "../../../contexts/CartContext";
 
 type SliderFoodItemType = {
   id: string;
@@ -23,7 +29,7 @@ const Slider: React.FC = () => {
   const [filteredCategory, setFilteredCategory] = useState<
     SliderCategoryType[]
   >([]);
-  const [query, setQuery] = React.useState<string>("");
+  const [query, setQuery] = React.useState<string>("");  
 
   // ============================== Methods =========================
 

@@ -38,7 +38,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
         }
       },
       {
-        breakpoint: 768,
+        breakpoint: 960,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -46,7 +46,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
         }
       },
       {
-        breakpoint: 480,
+        breakpoint: 540,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1
