@@ -45,15 +45,12 @@ const Cart = () => {
    */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
-      toast("We have received your order. Thanks for ordering !");
+    toast("We have received your order. Thanks for ordering !");
+    localStorage.removeItem("cart");  
     notifyEdit();
     setTimeout(() => {
       navigate("/");
-    }, 2500);
-    localStorage.removeItem("cart");
-    setTimeout(() => {
-      setCartItem([]);
-    }, 2700);
+    }, 1000);
   };
 
   /**
