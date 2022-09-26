@@ -121,11 +121,12 @@ const AddProduct: React.FC<AddProductProps> = ({
    */
 
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setButtonDisable(false);
     const inputTitle = event.target.value;
     if (previousTitle !== inputTitle) {
+      setButtonDisable(false);
       foodItemData?.map((singleFoodData: ProductListDataType) => {
         if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
-          setButtonDisable(true);
           setError((prev) => ({
             ...prev,
             title: "This Product already exists",
@@ -134,8 +135,7 @@ const AddProduct: React.FC<AddProductProps> = ({
             ...prev,
             title: true,
           }));
-        } else {
-          setButtonDisable(false);
+          setButtonDisable(true);
         }
       });
     }
