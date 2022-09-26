@@ -136,7 +136,7 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
                     <div className="categoryFilter__card__body__description">
                       <p>{foods?.description}</p>
                     </div>
-                    <h2>{foods?.price} $</h2>
+                    <h2>${foods?.price}</h2>
                   </div>
                 </Link>
               </div>

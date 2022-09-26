@@ -39,9 +39,8 @@ const ProductsDetails: React.FC = () => {
 
   const [disable, setDisable] = React.useState(false);
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
-  const [quantityError, setQuantityError] = React.useState<Boolean>(false);
-  // const numericInput = "^[1-9][0-9]*$";
-  const numericInput = "^([1-9][0-9]{0,2})$";
+  const [quantityError, setQuantityError] = React.useState<string>("");
+  const numericInput = /^[0-9]*$/;
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
@@ -102,13 +101,25 @@ const ProductsDetails: React.FC = () => {
   };
 
   /**
-   * Update product quantity for order
+   *
+   * Increase product quantity for order
    */
   const handleItemQuantityPlus = () => {
     setItemQuantity(itemQuantity + 1);
+    if (itemQuantity > 0) {
+      setQuantityError("");
+    }
   };
+  /**
+   * Reduce product quantity for order
+   */
   const handleItemQuantityMinus = () => {
-    if (itemQuantity > 1) setItemQuantity(itemQuantity - 1);
+    if (itemQuantity > 1) {
+      setItemQuantity(itemQuantity - 1);
+      if (itemQuantity < 1000) {
+        setQuantityError("");
+      }
+    }
   };
 
   //========================== Effects ========================
@@ -117,6 +128,7 @@ const ProductsDetails: React.FC = () => {
     setBackdrop(true);
     getData();
     getAllFoodData();
+    setItemQuantity(1);
   }, [id]);
 
   return (
@@ -152,7 +164,7 @@ const ProductsDetails: React.FC = () => {
                       <p>{foodItem?.description}</p>
                     </div>
                     <div className="productsDetails__card__body__price">
-                      <h2>{foodItem?.price} $</h2>
+                      <h2>${foodItem?.price}</h2>
                       <div className="productsDetails__card__body__price__quantity">
                         {itemQuantity > 1 ? (
                           <button
@@ -175,11 +187,24 @@ const ProductsDetails: React.FC = () => {
                           name="itemQuantity"
                           value={itemQuantity}
                           onChange={(event) => {
-                            if (!event.target.value.match(numericInput)) {
-                              setQuantityError(true);
+                            if (event.target.value.match(numericInput)) {
+                              if (
+                                Number(event.target.value) <= 999 &&
+                                Number(event.target.value) > 0
+                              ) {
+                                setQuantityError("");
+                                setItemQuantity(Number(event.target.value));
+                              } else if (Number(event.target.value) < 1) {
+                                setQuantityError("Minimum quantity is 1");
+                              } else if (
+                                !event.target.value.match(numericInput)
+                              ) {
+                                setQuantityError("Numeric value only");
+                              } else {
+                                setQuantityError("Maximum quantity is 999");
+                              }
                             } else {
-                              setQuantityError(false);
-                              setItemQuantity(Number(event.target.value));
+                              setQuantityError("Numeric value only");
                             }
                           }}
                         ></input>
@@ -200,9 +225,9 @@ const ProductsDetails: React.FC = () => {
                           </button>
                         )}
                       </div>
-                      {quantityError && (
+                      {quantityError !== "" && (
                         <span className="productsDetails__card__body__price__quantity__error">
-                          Max Quantity is 999!
+                          {quantityError}
                         </span>
                       )}
                     </div>
