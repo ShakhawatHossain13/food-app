@@ -107,6 +107,7 @@ const AddBlog: React.FC<addBlogProps> = ({
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [previousTitle, setPreviousTitle] = React.useState<string>("");
 
   // ============================== Methods =========================
 
@@ -116,23 +117,25 @@ const AddBlog: React.FC<addBlogProps> = ({
    */
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
-    blogItemData?.map((singleBlogData: BlogListDataType) => {
-      if (inputTitle.toLowerCase() === singleBlogData.title.toLowerCase()) {
-        console.log("Input Title: ", inputTitle.toLowerCase());
+    if (previousTitle !== inputTitle) {
+      blogItemData?.map((singleBlogData: BlogListDataType) => {
+        if (inputTitle.toLowerCase() === singleBlogData.title.toLowerCase()) {
+          console.log("Input Title: ", inputTitle.toLowerCase());
 
-        setButtonDisable(true);
-        setError((prev) => ({
-          ...prev,
-          title: "This Blog already exists",
-        }));
-        setInputError((prev) => ({
-          ...prev,
-          title: true,
-        }));
-      } else {
-        setButtonDisable(false);
-      }
-    });
+          setButtonDisable(true);
+          setError((prev) => ({
+            ...prev,
+            title: "This Blog already exists",
+          }));
+          setInputError((prev) => ({
+            ...prev,
+            title: true,
+          }));
+        } else {
+          setButtonDisable(false);
+        }
+      });
+    }
   };
 
   /**
@@ -448,6 +451,7 @@ const AddBlog: React.FC<addBlogProps> = ({
         date: results?.date,
       };
       setBlogItem(obj);
+      setPreviousTitle(obj?.title);
       // setIsLoading(true);
     } catch (error) {
       console.log(error);
