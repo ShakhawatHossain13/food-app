@@ -112,7 +112,8 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
 
   // const priceRegex = "^[0-9]+$|^$";
-  const priceRegex = "^([0-9]+.?[0-9]*|.[0-9]+)$";
+  const priceRegex = "^([0-9]*.[0-9]{0,2}|.[0-9]{0,2})$|^$";
+  // const priceRegex = "^([0-9]+.?[0-9]*|.[0-9]+)$";
   // const priceRegex = "^d*(.d{0,2})?$";
   // ============================== Methods =========================
 
@@ -587,7 +588,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                   *
                 </span>
               </label>
-              {/* <input
+              <input
                 className="addproduct__row__form__row__input"
                 id="price"
                 name="price"
@@ -595,21 +596,11 @@ const AddProduct: React.FC<AddProductProps> = ({
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.match(priceRegex)) {
                     return handleChange(event);
-                  } else {
+                  } 
+                  else {
                     return false;
                   }
                 }}
-                step="0.01"
-                style={{ borderColor: inputError.price ? "red" : "#5e5b5b" }}
-              /> */}
-              <input
-                className="addproduct__row__form__row__input"
-                id="price"
-                name="price"
-                value={foodItem?.price}
-                onChange={handleChange}
-                // step="0.01"
-                step="2"
                 style={{ borderColor: inputError.price ? "red" : "#5e5b5b" }}
               />
               <span className="addproduct__row__form__row__error">

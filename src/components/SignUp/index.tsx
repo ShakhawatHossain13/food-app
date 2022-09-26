@@ -9,13 +9,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseDatabase, auth } from "../../database/firebaseConfig";
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 export type AddUserDataType = {
