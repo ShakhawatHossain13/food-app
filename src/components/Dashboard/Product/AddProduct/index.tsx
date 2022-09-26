@@ -113,7 +113,6 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [previousTitle, setPreviousTitle] = React.useState<string>("");
 
   const priceRegex = "^([0-9]*[.][0-9]{0,2}|[0-9]{0,5})$|^$";
-
   // ============================== Methods =========================
 
   /**

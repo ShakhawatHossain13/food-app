@@ -21,8 +21,10 @@
     background-color: #060515;
     color: white;
   }
-  & button:focus {
-    background-color: cadetblue;
-    color: white;
-  }
+  
+}
+.pagination__active{
+  background-color: cadetblue !important;
+  color: #fff !important;
+  border-color: cadetblue !important;
 }
