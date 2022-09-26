@@ -1,10 +1,19 @@
 import React from "react";
 import { useState } from "react";
 import "./style.css";
-import homeslider from "./home_slider.png";
-import { collection, getDocs } from "firebase/firestore";
-import { firebaseDatabase } from "../../../database/firebaseConfig";
+import homeslider from "./home_slider.png"; 
+import { auth } from "../../../database/firebaseConfig";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import {
+ 
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
+import { firebaseDatabase } from "../../../database/firebaseConfig";
 import {
   CartContext,
   CartBasicInfoProps,
@@ -29,7 +38,7 @@ const Slider: React.FC = () => {
   const [filteredCategory, setFilteredCategory] = useState<
     SliderCategoryType[]
   >([]);
-  const [query, setQuery] = React.useState<string>("");  
+  const [querys, setQuery] = React.useState<string>("");  
 
   // ============================== Methods =========================
 
@@ -55,7 +64,25 @@ const Slider: React.FC = () => {
       console.log(error);
     }
   };
+  // const temp: SliderFoodItemType[] = [];
+  // const getData = async (title: string) => {
+  //   const q = query(
+  //     collection(firebaseDatabase, "food"),
+  //     where("title", "==", title)
+  //   );
 
+  //   await onSnapshot(q, (querySnapshot) => {
+  //     querySnapshot.docs.map((doc) => {
+  //       temp.push({ 
+  //         id:  doc.id,
+  //         title:  doc.id,
+  //         foodImage:  doc.id, 
+  //       });
+        
+  //     });
+  //     setFoodItem(temp);
+  //   });
+  // };
   /**
    * Get product category
    * @returns product category
@@ -84,8 +111,9 @@ const Slider: React.FC = () => {
    * @param e get the request food / category name
    * @return the filtered results
    */
-  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value.toLowerCase());
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {    
+   // getData(e.target.value.toLowerCase());
+   setQuery(e.target.value.toLowerCase());
     let QueryItems = foodItem.filter((p) =>
       p.title.toLowerCase().includes(e.target.value.toLowerCase())
     );
@@ -103,6 +131,8 @@ const Slider: React.FC = () => {
     getFoodData();
     getCategoryData();
   }, []);
+
+  console.log(foodItem);
 
   return (
     <React.Fragment>
@@ -127,7 +157,7 @@ const Slider: React.FC = () => {
               </div>
               <button className="slider__row__main__search__btn">Search</button>
               {filteredItems?.slice(0, 2).map((item, index) => {
-                if (query !== "") {
+                if (querys !== "") {
                   return (
                     <div
                       className="slider__row__main__search__input__results"
@@ -150,7 +180,7 @@ const Slider: React.FC = () => {
                 }
               })}
               {filteredCategory?.slice(0, 2).map((item, index) => {
-                if (query !== "") {
+                if (querys !== "") {
                   return (
                     <div
                       className="slider__row__main__search__input__results"

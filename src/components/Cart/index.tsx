@@ -133,11 +133,9 @@ const Cart = () => {
                     </td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
-                      ${cart?.price * cart?.quantity}
-                      <br />
-                      <span style={{ fontSize: "8px" }}>
-                        ({cart?.price} x {cart?.quantity})
-                      </span>
+                      {cart?.price * cart?.quantity} $
+                      <br/>
+                      <span style={{fontSize: "12px"}}>({cart?.price} x {cart?.quantity})</span>
                     </td>
                     <td className="cart__table__field">
                       <button
