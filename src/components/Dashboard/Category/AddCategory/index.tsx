@@ -112,8 +112,10 @@ const AddCategory: React.FC<AddCategoryProps> = ({
    */
 
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setButtonDisable(false);
     const inputTitle = event.target.value;
     if (previousTitle !== inputTitle) {
+      setButtonDisable(false);
       categoryItemData?.map((singleCategoryData: CategoryListDataType) => {
         if (
           inputTitle.toLowerCase() === singleCategoryData.title.toLowerCase()
@@ -127,8 +129,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
             ...prev,
             title: true,
           }));
-        } else {
-          setButtonDisable(false);
+          setButtonDisable(true);
         }
       });
     }

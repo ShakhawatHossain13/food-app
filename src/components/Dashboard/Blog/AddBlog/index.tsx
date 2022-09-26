@@ -116,13 +116,12 @@ const AddBlog: React.FC<addBlogProps> = ({
    * @returns Check previous blogs title for add a new blog for create unique blog every time
    */
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setButtonDisable(false);
     const inputTitle = event.target.value;
     if (previousTitle !== inputTitle) {
+      setButtonDisable(false);
       blogItemData?.map((singleBlogData: BlogListDataType) => {
         if (inputTitle.toLowerCase() === singleBlogData.title.toLowerCase()) {
-          console.log("Input Title: ", inputTitle.toLowerCase());
-
-          setButtonDisable(true);
           setError((prev) => ({
             ...prev,
             title: "This Blog already exists",
@@ -131,8 +130,7 @@ const AddBlog: React.FC<addBlogProps> = ({
             ...prev,
             title: true,
           }));
-        } else {
-          setButtonDisable(false);
+          setButtonDisable(true);
         }
       });
     }
