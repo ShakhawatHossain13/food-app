@@ -39,15 +39,17 @@ const App: React.FC = () => {
    * This method is for add products to the cart
    */
   const handleAddToCart = () => {
+    // @ts-ignore
+    const prevCart: CartDataType[] = JSON.parse(localStorage.getItem("cart"));
     let isItemAlreadyAdded = false;
-    cartItem.map((item) => {
+    prevCart.map((item) => {
       if (item.id === foodItem.id) {
         isItemAlreadyAdded = true;
       }
     });
 
     if (isItemAlreadyAdded) {
-      let tempCartProducts: CartDataType[] = [...cartItem];
+      let tempCartProducts: CartDataType[] = [...prevCart];
       tempCartProducts = tempCartProducts.map((product) => {
         if (foodItem.id === product.id) {
           product.quantity += itemQuantity;
@@ -55,7 +57,7 @@ const App: React.FC = () => {
         return product;
       });
       // @ts-ignore
-      const prevCart = JSON.parse(localStorage.getItem("cart"));
+      // const prevCart = JSON.parse(localStorage.getItem("cart"));
       console.log("prevCart: ", prevCart);
       // setCartItem([...prevCart, tempCartProducts]);
       setCartItem(tempCartProducts);
