@@ -109,12 +109,9 @@ const AddProduct: React.FC<AddProductProps> = ({
   const [progress, setProgress] = React.useState<number>(0);
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
-  const [backdrop, setBackdrop] = React.useState<Boolean>(false);
-
-  // const priceRegex = "^[0-9]+$|^$";
-  const priceRegex = "^([0-9]*.[0-9]{0,2}|.[0-9]{0,2})$|^$";
-  // const priceRegex = "^([0-9]+.?[0-9]*|.[0-9]+)$";
-  // const priceRegex = "^d*(.d{0,2})?$";
+  const [backdrop, setBackdrop] = React.useState<Boolean>(false); 
+  const priceRegex = "^([0-9]*[.][0-9]{0,2}|.[0-9]{0,2})$|^$";
+   
   // ============================== Methods =========================
 
   /**
@@ -589,7 +586,7 @@ const AddProduct: React.FC<AddProductProps> = ({
                 </span>
               </label>
               <input
-                className="addproduct__row__form__row__input"
+                className="addproduct__row__form__row__input"     
                 id="price"
                 name="price"
                 value={foodItem?.price}
