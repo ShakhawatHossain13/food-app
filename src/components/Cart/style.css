@@ -35,6 +35,13 @@
   text-align: center;
   padding: 5px 15px;
 }
+.cart__table__field__title {
+  max-width: 160px;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .cart__table__deleteButton {
   padding: 5px;
   border: none;
@@ -108,10 +115,24 @@
     border-collapse: collapse;
     margin-left: 0;
   }
+  .cart__table__field__title {
+    max-width: 65px;
+    margin: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 @media screen and (max-width: 360px) {
   .cart__table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
+  }
+  .cart__table__field__title {
+    max-width: 60px;
+    margin: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }/*# sourceMappingURL=style.css.map */
