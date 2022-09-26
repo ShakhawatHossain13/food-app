@@ -1,18 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import "./style.css";
-import homeslider from "./home_slider.png"; 
+import homeslider from "./home_slider.png";
 import { auth } from "../../../database/firebaseConfig";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import {
- 
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-} from "firebase/firestore";
+import { doc, getDoc, getDocs, getFirestore } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import {
   CartContext,
@@ -38,7 +32,7 @@ const Slider: React.FC = () => {
   const [filteredCategory, setFilteredCategory] = useState<
     SliderCategoryType[]
   >([]);
-  const [querys, setQuery] = React.useState<string>("");  
+  const [querys, setQuery] = React.useState<string>("");
 
   // ============================== Methods =========================
 
@@ -73,12 +67,12 @@ const Slider: React.FC = () => {
 
   //   await onSnapshot(q, (querySnapshot) => {
   //     querySnapshot.docs.map((doc) => {
-  //       temp.push({ 
+  //       temp.push({
   //         id:  doc.id,
   //         title:  doc.id,
-  //         foodImage:  doc.id, 
+  //         foodImage:  doc.id,
   //       });
-        
+
   //     });
   //     setFoodItem(temp);
   //   });
@@ -111,9 +105,9 @@ const Slider: React.FC = () => {
    * @param e get the request food / category name
    * @return the filtered results
    */
-  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {    
-   // getData(e.target.value.toLowerCase());
-   setQuery(e.target.value.toLowerCase());
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // getData(e.target.value.toLowerCase());
+    setQuery(e.target.value.toLowerCase());
     let QueryItems = foodItem.filter((p) =>
       p.title.toLowerCase().includes(e.target.value.toLowerCase())
     );
@@ -131,8 +125,6 @@ const Slider: React.FC = () => {
     getFoodData();
     getCategoryData();
   }, []);
-
-  console.log(foodItem);
 
   return (
     <React.Fragment>
