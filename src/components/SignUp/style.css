@@ -56,8 +56,6 @@
 .signup__slider__row__main__form__link {
   text-align: center;
   font-size: 14px;
-  margin: auto;
-  text-align: center;
 }
 
 @media screen and (max-width: 768px) {

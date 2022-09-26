@@ -4,7 +4,7 @@ import Footer from "../Footer";
 const About = () => {
   return (
     <div>
-      <h1 style={{ margin: "10px 0", textAlign: "center", color: "#dc3545" }}>
+      <h1 style={{ margin: "50px 10px 0", textAlign: "center", color: "#dc3545" }}>
         Red Onion
       </h1>
       <p
@@ -24,7 +24,7 @@ const About = () => {
       </p>
       <p
         style={{
-          margin: "5px 0 30px 0",
+          margin: "5px 0 50px 0",
           padding: "10px 15%",
           textAlign: "justify",
         }}
