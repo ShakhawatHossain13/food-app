@@ -219,7 +219,9 @@ const BlogList: React.FC = () => {
                           {(page - 1) * 3 + index + 1}
                         </td>
                         <td className="blogList__row__table__row__text">
-                          {blog.title.slice(0, 25)}
+                          <p className="blogList__row__table__row__text__title">
+                            {blog.title}
+                          </p>
                         </td>
                         <td className="blogList__row__table__row__text">
                           <img

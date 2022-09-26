@@ -45,6 +45,13 @@ button {
   padding: 8px;
   text-align: center;
 }
+.productlist__row__table__row__text__title {
+  max-width: 180px;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .productlist__row__table__row__button__edit {
   width: 80px;
   margin-right: 10px;
