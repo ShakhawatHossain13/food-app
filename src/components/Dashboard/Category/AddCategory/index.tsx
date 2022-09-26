@@ -102,6 +102,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
   const [backdrop, setBackdrop] = React.useState<Boolean>(false);
+  const [previousTitle, setPreviousTitle] = React.useState<string>("");
 
   // ============================== Methods =========================
 
@@ -112,21 +113,25 @@ const AddCategory: React.FC<AddCategoryProps> = ({
 
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
-    categoryItemData?.map((singleCategoryData: CategoryListDataType) => {
-      if (inputTitle.toLowerCase() === singleCategoryData.title.toLowerCase()) {
-        setButtonDisable(true);
-        setError((prev) => ({
-          ...prev,
-          title: "This Category already exists",
-        }));
-        setInputError((prev) => ({
-          ...prev,
-          title: true,
-        }));
-      } else {
-        setButtonDisable(false);
-      }
-    });
+    if (previousTitle !== inputTitle) {
+      categoryItemData?.map((singleCategoryData: CategoryListDataType) => {
+        if (
+          inputTitle.toLowerCase() === singleCategoryData.title.toLowerCase()
+        ) {
+          setButtonDisable(true);
+          setError((prev) => ({
+            ...prev,
+            title: "This Category already exists",
+          }));
+          setInputError((prev) => ({
+            ...prev,
+            title: true,
+          }));
+        } else {
+          setButtonDisable(false);
+        }
+      });
+    }
   };
 
   /**
@@ -445,6 +450,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         categoryImage: results?.categoryImage,
       };
       setCategoryItem(obj);
+      setPreviousTitle(obj?.title);
       // setIsLoading(true);
     } catch (error) {
       console.log(error);
