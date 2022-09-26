@@ -58,6 +58,9 @@
   border-top: 0;
   width: 80%;
   border-radius: 5px; 
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  align-items: center;
 }
 .slider__row__main__search__input__results__row__image{
   margin: auto;
