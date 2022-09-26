@@ -32,16 +32,16 @@ const ProductsDetails: React.FC = () => {
     cartItem,
     setCartItem,
     handleAddToCart,
-  } = React.useContext(CartContext) as CartBasicInfoProps; 
+  } = React.useContext(CartContext) as CartBasicInfoProps;
   const [allFoodItem, setAllFoodItem] = React.useState<
     ProductsDetailsDataType[]
   >([]);
- 
-  const [startItem, setStartItem] = React.useState(0);
-  const [endItem, setEndItem] = React.useState(3);
+
   const [disable, setDisable] = React.useState(false);
   const [backdrop, setBackdrop] = React.useState<Boolean>(true);
-  const numericInput = "^[1-9][0-9]*$";
+  const [quantityError, setQuantityError] = React.useState<Boolean>(false);
+  // const numericInput = "^[1-9][0-9]*$";
+  const numericInput = "^([1-9][0-9]{0,2})$";
   const categoryFood = allFoodItem.filter(
     (food) => food.category === foodItem?.category && food.id !== foodItem?.id
   );
@@ -49,7 +49,6 @@ const ProductsDetails: React.FC = () => {
   // ============================== Methods =========================
 
   /**
-   *
    * @returns Get all Food Data
    */
   const getAllFoodData = async () => {
@@ -143,8 +142,7 @@ const ProductsDetails: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <div className="productsDetails__card__image__sub">                      
-                    </div>
+                    <div className="productsDetails__card__image__sub"></div>
                   </div>
                   <div className="productsDetails__card__body">
                     <div className="productsDetails__card__body__title">
@@ -177,18 +175,36 @@ const ProductsDetails: React.FC = () => {
                           name="itemQuantity"
                           value={itemQuantity}
                           onChange={(event) => {
-                            if (event.target.value.match(numericInput)) {
+                            if (!event.target.value.match(numericInput)) {
+                              setQuantityError(true);
+                            } else {
+                              setQuantityError(false);
                               setItemQuantity(Number(event.target.value));
                             }
                           }}
                         ></input>
-                        <button
-                          onClick={handleItemQuantityPlus}
-                          className="productsDetails__card__body__price__quantity__plus"
-                        >
-                          <AiOutlinePlus size="18px" />
-                        </button>
+                        {itemQuantity < 999 ? (
+                          <button
+                            onClick={handleItemQuantityPlus}
+                            className="productsDetails__card__body__price__quantity__plus"
+                          >
+                            <AiOutlinePlus size="18px" />
+                          </button>
+                        ) : (
+                          <button
+                            disabled
+                            style={{ color: "gray" }}
+                            className="productsDetails__card__body__price__quantity__plus"
+                          >
+                            <AiOutlinePlus size="18px" />
+                          </button>
+                        )}
                       </div>
+                      {quantityError && (
+                        <span className="productsDetails__card__body__price__quantity__error">
+                          Max Quantity is 999!
+                        </span>
+                      )}
                     </div>
                     <button
                       onClick={handleAddToCart}
