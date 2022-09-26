@@ -218,7 +218,9 @@ const ProductList: React.FC = () => {
                           {(page - 1) * 3 + index + 1}
                         </td>
                         <td className="productlist__row__table__row__text">
-                          {foods.title}
+                          <p className="productlist__row__table__row__text__title">
+                            {foods.title}
+                          </p>
                         </td>
                         <td className="productlist__row__table__row__text">
                           <img

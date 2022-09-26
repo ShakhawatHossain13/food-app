@@ -217,7 +217,9 @@ const CategoryList: React.FC = () => {
                             {(page - 1) * 3 + index + 1}
                           </td>
                           <td className="categoryList__row__table__row__text">
-                            {category.title.slice(0, 25)}
+                            <p className="categoryList__row__table__row__text__title">
+                              {category.title}
+                            </p>
                           </td>
                           <td className="categoryList__row__table__row__text">
                             <img
