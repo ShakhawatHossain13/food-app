@@ -220,13 +220,13 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
       });
   };
 
-  React.useEffect(() => {
-    if (JSON.stringify(error) === JSON.stringify(loginError)) {
-      setButtonDisable(false);
-    } else {
-      setButtonDisable(true);
-    }
-  }, [error]);
+  // React.useEffect(() => {
+  //   if (JSON.stringify(error) === JSON.stringify(loginError)) {
+  //     setButtonDisable(false);
+  //   } else {
+  //     setButtonDisable(true);
+  //   }
+  // }, [error]);
 
   return (
     <React.Fragment>
