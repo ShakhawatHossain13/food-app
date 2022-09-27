@@ -81,6 +81,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr !important;
     grid-gap: 50px;
+    width: 75%;
+  }
+}
+@media screen and (max-width: 980px) {
+  .categoryFilter__row {
+    width: 85%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .categoryFilter__row {
+    width: 100%;
   }
 }
 @media screen and (max-width: 680px) {

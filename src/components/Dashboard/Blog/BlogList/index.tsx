@@ -207,7 +207,7 @@ const BlogList: React.FC = () => {
               </tr>
             </thead>
             {backdrop ? (
-              <Backdrop />
+              ""
             ) : (
               <>
                 {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
