@@ -39,27 +39,25 @@ const App: React.FC = () => {
    * This method is for add products to the cart
    */
   const handleAddToCart = () => {
-    // @ts-ignore
-    const prevCart: CartDataType[] = JSON.parse(localStorage.getItem("cart"));
+    const tempCart: CartDataType[] = localStorage.getItem("cart")
+      ? // @ts-ignore
+        JSON.parse(localStorage.getItem("cart"))
+      : null;
     let isItemAlreadyAdded = false;
-    prevCart.map((item) => {
+    tempCart?.map((item) => {
       if (item.id === foodItem.id) {
         isItemAlreadyAdded = true;
       }
     });
 
     if (isItemAlreadyAdded) {
-      let tempCartProducts: CartDataType[] = [...prevCart];
+      let tempCartProducts: CartDataType[] = [...tempCart];
       tempCartProducts = tempCartProducts.map((product) => {
         if (foodItem.id === product.id) {
           product.quantity += itemQuantity;
         }
         return product;
       });
-      // @ts-ignore
-      // const prevCart = JSON.parse(localStorage.getItem("cart"));
-      console.log("prevCart: ", prevCart);
-      // setCartItem([...prevCart, tempCartProducts]);
       setCartItem(tempCartProducts);
     } else {
       const cartProducts: CartDataType = {
