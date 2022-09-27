@@ -74,14 +74,14 @@
 .cart__productlist__row__table__row__button__delete__modal {
   position: absolute;
   top: 40%;
-  left: 0;
+  left: 0 !important;
   z-index: 1;
   width: 50%;
   height: 150px;
   box-shadow: 0 0 0 1500px rgba(0, 0, 0, 0.1);
   background-color: #fefefe;
   border: 1px solid #888;
-  right: 0;
+  right: 0 !important;
   margin: auto;
   text-align: center;
   min-width: 300px;
@@ -92,7 +92,7 @@
     margin: auto;
   }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 580px) {
   .cart__table__field {
     padding: 5px;
   }
