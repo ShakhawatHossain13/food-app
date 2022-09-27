@@ -10,6 +10,7 @@ import {
   CartDataType,
 } from "../../contexts/CartContext";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 const Cart = () => {
   // const Cart = ({ cartItem }: CartProps) => {
   // const {id, title, foodImage, price, quantity} = cartItem;
@@ -45,7 +46,7 @@ const Cart = () => {
    */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
-    toast("We have received your order. Thanks for ordering !");
+      toast("We have received your order. Thanks for ordering !");
     notifyEdit();
     localStorage.removeItem("cart");
     setTimeout(() => {
@@ -131,7 +132,14 @@ const Cart = () => {
                       />
                     </td>
                     <td className="cart__table__field">
-                      <p className="cart__table__field__title">{cart?.title}</p>
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to={`/products-details/${cart?.id?.trim()}`}
+                      >
+                        <p className="cart__table__field__title">
+                          {cart?.title}
+                        </p>
+                      </Link>
                     </td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
