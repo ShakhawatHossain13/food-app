@@ -54,16 +54,8 @@ const App: React.FC = () => {
       let tempCartProducts: CartDataType[] = [...tempCart];
       tempCartProducts = tempCartProducts.map((product) => {
         if (foodItem.id === product.id) {
-          if (product.quantity + itemQuantity < 1000) {
-            product.quantity += itemQuantity;
-            const notifyEdit = () => toast("Food item quantity increased");
-            notifyEdit();
-          } else {
-            const notifyAdd = () => toast.error("The maximum quantity is 999!");
-            notifyAdd();
-          }
+          product.quantity += itemQuantity;
         }
-
         return product;
       });
       setCartItem(tempCartProducts);
@@ -81,12 +73,12 @@ const App: React.FC = () => {
 
       // if (prevCart) {
       setCartItem(prevCart ? [...prevCart, cartProducts] : [cartProducts]);
-      const notifyEdit = () => toast("Food item Added to Cart");
-      notifyEdit();
       // } else {
       //   setCartItem([cartProducts]);
       // }
     }
+    const notifyEdit = () => toast("Food item Added to Cart");
+    notifyEdit();
   };
 
   // @ts-ignore

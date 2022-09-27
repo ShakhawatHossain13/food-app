@@ -143,7 +143,7 @@ const Cart = () => {
                     </td>
                     <td className="cart__table__field">{cart?.quantity}</td>
                     <td className="cart__table__field">
-                      ${cart?.price * cart?.quantity}
+                      ${(cart?.price * cart?.quantity).toFixed(2)}
                       <br />
                       <span style={{ fontSize: "12px" }}>
                         ({cart?.price} x {cart?.quantity})

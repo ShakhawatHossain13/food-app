@@ -201,6 +201,7 @@ const ProductsDetails: React.FC = () => {
                               ) {
                                 setQuantityError("Numeric value only");
                               } else {
+                                setItemQuantity(999);
                                 setQuantityError("Maximum quantity is 999");
                               }
                             } else {
