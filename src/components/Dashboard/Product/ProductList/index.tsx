@@ -206,11 +206,13 @@ const ProductList: React.FC = () => {
                 <th className="productlist__row__table__row__text">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {backdrop ? (
-                ""
-              ) : (
-                <>
+          </table>
+          {backdrop ? (
+            <Backdrop />
+          ) : (
+            <>
+              <table className="productlist__row__table">
+                <tbody>
                   {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
                     return (
                       <tr className="productlist__row__table__row" key={index}>
@@ -250,39 +252,7 @@ const ProductList: React.FC = () => {
                           >
                             edit
                           </button>
-                          {edit && modalOpen && (
-                            <div
-                              id="editModal"
-                              className="productlist__row__modal"
-                              style={{
-                                backgroundColor: "rgba(0, 0, 0, 0.08)",
-                              }}
-                            >
-                              <div className="productlist__row__modal__content">
-                                <span
-                                  className="productlist__row__modal__content__close"
-                                  onClick={() => {
-                                    handleModalClose();
-                                    setEdit(false);
-                                  }}
-                                >
-                                  &times;
-                                </span>
-                                <AddProduct
-                                  formTitle="Edit Product"
-                                  foodItemData={foodItem}
-                                  setFormTitle={setFormTitle}
-                                  ids={ids}
-                                  titleForm={title}
-                                  isChange={isChange}
-                                  setIsChange={setIsChange}
-                                  formReset={formReset}
-                                  setFormReset={setFormReset}
-                                  setModalOpen={setModalOpen}
-                                />
-                              </div>
-                            </div>
-                          )}
+
                           <button
                             className="productlist__row__table__row__button__delete"
                             disabled={buttonDisable}
@@ -296,44 +266,6 @@ const ProductList: React.FC = () => {
                           >
                             delete
                           </button>
-                          {deleteModal && (
-                            <div className="productlist__row__table__row__button__delete__modal">
-                              <span
-                                className="productlist__delete__modal__close"
-                                onClick={() => {
-                                  setDeleteModal(false);
-                                  setButtonDisable(false);
-                                }}
-                              >
-                                &times;
-                              </span>
-                              <div className="productlist__delete__modal__confirm">
-                                <div>
-                                  Are you sure you want to delete this record?
-                                </div>
-                                <div>
-                                  <button
-                                    style={{ backgroundColor: "crimson" }}
-                                    disabled={buttonDisable}
-                                    onClick={() => {
-                                      handleDelete(foodID);
-                                    }}
-                                  >
-                                    Delete
-                                  </button>
-                                  <button
-                                    style={{ backgroundColor: "grey" }}
-                                    onClick={() => {
-                                      setDeleteModal(false);
-                                      setButtonDisable(false);
-                                    }}
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
                         </td>
                       </tr>
                     );
@@ -343,10 +275,11 @@ const ProductList: React.FC = () => {
                       No Data Found!
                     </h1>
                   )}
-                </>
-              )}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </>
+          )}
+
           {totalData > itemPerPage && (
             <Pagination
               totalData={totalData}
@@ -354,6 +287,76 @@ const ProductList: React.FC = () => {
               setPage={setPage}
               itemPerPage={itemPerPage}
             />
+          )}
+
+          {edit && modalOpen && (
+            <div
+              id="editModal"
+              className="productlist__row__modal"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.08)",
+              }}
+            >
+              <div className="productlist__row__modal__content">
+                <span
+                  className="productlist__row__modal__content__close"
+                  onClick={() => {
+                    handleModalClose();
+                    setEdit(false);
+                  }}
+                >
+                  &times;
+                </span>
+                <AddProduct
+                  formTitle="Edit Product"
+                  foodItemData={foodItem}
+                  setFormTitle={setFormTitle}
+                  ids={ids}
+                  titleForm={title}
+                  isChange={isChange}
+                  setIsChange={setIsChange}
+                  formReset={formReset}
+                  setFormReset={setFormReset}
+                  setModalOpen={setModalOpen}
+                />
+              </div>
+            </div>
+          )}
+          {deleteModal && (
+            <div className="productlist__row__table__row__button__delete__modal">
+              <span
+                className="productlist__delete__modal__close"
+                onClick={() => {
+                  setDeleteModal(false);
+                  setButtonDisable(false);
+                }}
+              >
+                &times;
+              </span>
+              <div className="productlist__delete__modal__confirm">
+                <div>Are you sure you want to delete this record?</div>
+                <div>
+                  <button
+                    style={{ backgroundColor: "crimson" }}
+                    disabled={buttonDisable}
+                    onClick={() => {
+                      handleDelete(foodID);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    style={{ backgroundColor: "grey" }}
+                    onClick={() => {
+                      setDeleteModal(false);
+                      setButtonDisable(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </section>

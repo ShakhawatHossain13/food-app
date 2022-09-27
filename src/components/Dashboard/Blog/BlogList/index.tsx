@@ -100,8 +100,7 @@ const BlogList: React.FC = () => {
   const handleImageDelete = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
-      .then(() => {
-      })
+      .then(() => {})
       .catch((error) => {
         console.log("Error: ", error);
       });
@@ -206,10 +205,12 @@ const BlogList: React.FC = () => {
                 <th className="blogList__row__table__row__text">Actions</th>
               </tr>
             </thead>
-            {backdrop ? (
-              ""
-            ) : (
-              <>
+          </table>
+          {backdrop ? (
+            <Backdrop />
+          ) : (
+            <>
+              <table className="blogList__row__table">
                 {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
                   return (
                     <tbody key={blog.id}>
@@ -344,9 +345,9 @@ const BlogList: React.FC = () => {
                     No Data Found!
                   </h1>
                 )}
-              </>
-            )}
-          </table>
+              </table>
+            </>
+          )}
           {totalData > itemPerPage && (
             <Pagination
               totalData={totalData}
