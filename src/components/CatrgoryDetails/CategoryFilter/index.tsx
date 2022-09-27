@@ -148,6 +148,7 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
           <Pagination
             totalData={totalData}
             setPage={setPage}
+            page={page}
             itemPerPage={itemPerPage}
           />
         )}
