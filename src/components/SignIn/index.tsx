@@ -286,6 +286,37 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                     setButtonDisable(true);
                   }
                 }}
+                onBlur={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Email field is required",
+                    }));
+                  } else if (!event.target.value.match(emailInput)) {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "Invalid email address",
+                    }));
+                    setLoginInfo((prev) => {
+                      return {
+                        ...prev,
+                        email: event.target.value,
+                      };
+                    });
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      email: "",
+                    }));
+                    handleChange(event);
+                  }
+                  // handleChange(event);
+                  if (JSON.stringify(error) === JSON.stringify(loginError)) {
+                    setButtonDisable(false);
+                  } else {
+                    setButtonDisable(true);
+                  }
+                }}
                 style={{
                   border:
                     error.email !== "" || credentialError
@@ -303,6 +334,25 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 name="password"
                 placeholder="Password"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (event.target.value.length < 1) {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "Password field is required",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      password: "",
+                    }));
+                    handleChange(event);
+                  }
+                  if (JSON.stringify(error) === JSON.stringify(loginError)) {
+                    setButtonDisable(false);
+                  } else {
+                    setButtonDisable(true);
+                  }
+                }}
+                onBlur={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.value.length < 1) {
                     setError((prev) => ({
                       ...prev,
