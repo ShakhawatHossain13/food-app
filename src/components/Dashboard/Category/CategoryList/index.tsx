@@ -203,10 +203,12 @@ const CategoryList: React.FC = () => {
                 <th className="categoryList__row__table__row__text">Actions</th>
               </tr>
             </thead>
-            {backdrop ? (
-              <Backdrop />
-            ) : (
-              <>
+          </table>
+          {backdrop ? (
+            <Backdrop />
+          ) : (
+            <>
+              <table className="categoryList__row__table">
                 {categoryItem
                   ?.slice(startIndex, endIndex)
                   .map((category, index) => {
@@ -344,9 +346,10 @@ const CategoryList: React.FC = () => {
                     No Data Found!
                   </h1>
                 )}
-              </>
-            )}
-          </table>
+              </table>
+            </>
+          )}
+
           {totalData > itemPerPage && (
             <Pagination
               totalData={totalData}
