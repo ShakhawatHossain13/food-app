@@ -118,7 +118,7 @@ const AddBlog: React.FC<addBlogProps> = ({
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setButtonDisable(false);
     const inputTitle = event.target.value;
-    if (previousTitle !== inputTitle) {
+    if (previousTitle.toLowerCase() !== inputTitle.toLowerCase()) {
       setButtonDisable(false);
       blogItemData?.map((singleBlogData: BlogListDataType) => {
         if (inputTitle.toLowerCase() === singleBlogData.title.toLowerCase()) {
@@ -217,7 +217,6 @@ const AddBlog: React.FC<addBlogProps> = ({
     ) {
       const newImage = e.target.files[0];
       setImages(newImage);
-      console.log("new Image: ", newImage);
     } else {
       const notifyAdd = () =>
         toast.error("Please upload a image on JPG, JPEG & PNG format");
@@ -279,7 +278,6 @@ const AddBlog: React.FC<addBlogProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -296,7 +294,6 @@ const AddBlog: React.FC<addBlogProps> = ({
             })
               .then((docRef) => {
                 setBackdrop(false);
-                console.log("Blog added successfully");
                 const notifyAdd = () => toast("Blog added successfully");
                 notifyAdd();
                 setModalOpen(false);
@@ -345,7 +342,6 @@ const AddBlog: React.FC<addBlogProps> = ({
         .then((docRef) => {
           setIsChange(!isChange);
           setBackdrop(false);
-          console.log("Blog is updated");
           const notifyEdit = () => toast("Blog is updated");
           notifyEdit();
           setModalOpen(false);
@@ -373,7 +369,6 @@ const AddBlog: React.FC<addBlogProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -398,12 +393,9 @@ const AddBlog: React.FC<addBlogProps> = ({
    */
   const handleImageDelete = () => {
     const imageURL = blogItem.blogImage.split("2F")[1].split("?")[0];
-    console.log("image direct link: ", imageURL);
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
-      .then(() => {
-        console.log("Image delete from firebase Storage");
-      })
+      .then(() => {})
       .catch((error) => {
         console.log("Error: ", error);
       });
