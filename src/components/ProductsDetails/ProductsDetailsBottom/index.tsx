@@ -24,7 +24,8 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow:
+      sameCategoryFood.length > 2 ? 3 : sameCategoryFood.length > 1 ? 2 : 1,
     slidesToScroll: 2,
     cssEase: "liner",
     responsive: [
@@ -40,7 +41,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
       {
         breakpoint: 960,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: sameCategoryFood.length > 1 ? 2 : 1,
           slidesToScroll: 2,
           initialSlide: 2,
         },
