@@ -259,6 +259,20 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
                     handleChange(event);
                   }
                 }}
+                onBlur={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  if (!event.target.value.match(numericHyphen)) {
+                    setError((prev) => ({
+                      ...prev,
+                      contact: "Digits and hyphen only",
+                    }));
+                  } else {
+                    setError((prev) => ({
+                      ...prev,
+                      contact: "",
+                    }));
+                    handleChange(event);
+                  }
+                }}
                 style={{
                   border: error.contact !== "" ? "2px solid red" : "",
                 }}
