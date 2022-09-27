@@ -82,7 +82,7 @@ border-radius: 5px;
 
 // tablet-version
 
-@media(max-width: 768px) {
+@media(max-width: 920px) {
     .menubar{
         grid-template-columns: 9fr 1fr;
     }
@@ -97,15 +97,12 @@ border-radius: 5px;
     }
     .menubar__burgermenu--span{
         display: block;
-    }
-       
-        
+    }        
 }
 
 // mobile-version
 
-@media(max-width: 360px) {
-    
+@media(max-width: 360px) {    
     .menubar__burgermenu--span{
         width: 100%;
         right: 0;

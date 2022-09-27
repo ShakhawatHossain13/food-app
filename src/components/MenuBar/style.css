@@ -81,7 +81,7 @@ ul :hover {
   border-radius: 5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 920px) {
   .menubar {
     grid-template-columns: 9fr 1fr;
   }

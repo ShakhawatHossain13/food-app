@@ -45,15 +45,13 @@ const Cart = () => {
    */
   const handleCheckoutSubmit = () => {
     const notifyEdit = () =>
-      toast("We have received your order. Thanks for ordering !");
+    toast("We have received your order. Thanks for ordering !");
     notifyEdit();
-    setTimeout(() => {
-      navigate("/");
-    }, 2500);
     localStorage.removeItem("cart");
     setTimeout(() => {
       setCartItem([]);
-    }, 2700);
+      navigate("/");
+    }, 1500);
   };
 
   /**
@@ -154,7 +152,7 @@ const Cart = () => {
                         Delete
                       </button>
                       {deleteModal && (
-                        <div className="productlist__row__table__row__button__delete__modal">
+                        <div className="cart__productlist__row__table__row__button__delete__modal">
                           <span
                             className="productlist__delete__modal__close"
                             onClick={() => {
