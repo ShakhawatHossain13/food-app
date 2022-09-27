@@ -32,6 +32,7 @@ const App: React.FC = () => {
   const [cartItem, setCartItem] = React.useState<CartDataType[]>([]);
   const [itemQuantity, setItemQuantity] = React.useState<number>(1);
   const [updateCart, setUpdateCart] = React.useState<boolean>(false);
+  const [updateCart1, setUpdateCart1] = React.useState<boolean>(false);
 
   // ============================== Methods =========================
 
