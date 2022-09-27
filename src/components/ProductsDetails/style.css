@@ -84,6 +84,8 @@
 .productsDetails__card__body__price__quantity__error {
   color: red;
   margin: 10px;
+  font-size: 14px;
+  display: block;
 }
 .productsDetails__card__body__cart {
   margin-top: 20px;
@@ -117,7 +119,7 @@
   padding-top: 20px;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 980px) {
   .productsDetails {
     margin-top: 25px;
   }
@@ -153,6 +155,9 @@
   }
   .productsDetails__endTitle {
     margin-top: 50px;
+  }
+  .productsDetails__card__body__price__quantity__error {
+    margin: 5px 10px;
   }
   .productsDetails__card__body__price__quantity__minus,
 .productsDetails__card__body__price__quantity__plus {

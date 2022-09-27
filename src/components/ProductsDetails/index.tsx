@@ -224,7 +224,7 @@ const ProductsDetails: React.FC = () => {
                             <AiOutlinePlus size="18px" />
                           </button>
                         )}
-                      </div>
+                      </div> 
                       {quantityError !== "" && (
                         <span className="productsDetails__card__body__price__quantity__error">
                           {quantityError}
