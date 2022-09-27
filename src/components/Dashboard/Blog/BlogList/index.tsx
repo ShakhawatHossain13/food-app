@@ -101,7 +101,6 @@ const BlogList: React.FC = () => {
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
       .then(() => {
-        console.log("Image delete from firebase Storage");
       })
       .catch((error) => {
         console.log("Error: ", error);

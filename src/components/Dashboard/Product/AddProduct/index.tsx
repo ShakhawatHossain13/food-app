@@ -123,7 +123,7 @@ const AddProduct: React.FC<AddProductProps> = ({
   const handleUniqueTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setButtonDisable(false);
     const inputTitle = event.target.value;
-    if (previousTitle !== inputTitle) {
+    if (previousTitle.toLowerCase() !== inputTitle.toLowerCase()) {
       setButtonDisable(false);
       foodItemData?.map((singleFoodData: ProductListDataType) => {
         if (inputTitle.toLowerCase() === singleFoodData.title.toLowerCase()) {
@@ -206,7 +206,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       FileExtension === "png"
     ) {
       const fileArray = Array.from(e.target.files).map((file: any) =>
-        URL.createObjectURL(file)
+         URL.createObjectURL(file)
       );
       setDisplayImages(fileArray);
     }
