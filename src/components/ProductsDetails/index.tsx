@@ -224,20 +224,45 @@ const ProductsDetails: React.FC = () => {
                             <AiOutlinePlus size="18px" />
                           </button>
                         )}
-                      </div> 
+                      </div>
                       {quantityError !== "" && (
                         <span className="productsDetails__card__body__price__quantity__error">
                           {quantityError}
                         </span>
                       )}
                     </div>
-                    <button
-                      onClick={handleAddToCart}
-                      className="productsDetails__card__body__cart"
-                      disabled={disable}
-                    >
-                      <FaShoppingCart size="18px" /> Add To Cart
-                    </button>
+
+                    {
+                      // @ts-ignore
+                      localStorage.getItem("user") ? (
+                        // @ts-ignore
+                        localStorage.getItem("user") &&
+                        // @ts-ignore
+                        JSON.parse(localStorage.getItem("user")).isAdmin ? (
+                          <></>
+                        ) : (
+                          <>
+                            <button
+                              onClick={handleAddToCart}
+                              className="productsDetails__card__body__cart"
+                              disabled={disable}
+                            >
+                              <FaShoppingCart size="18px" /> Add To Cart
+                            </button>
+                          </>
+                        )
+                      ) : (
+                        <>
+                          <button
+                            onClick={handleAddToCart}
+                            className="productsDetails__card__body__cart"
+                            disabled={disable}
+                          >
+                            <FaShoppingCart size="18px" /> Add To Cart
+                          </button>
+                        </>
+                      )
+                    }
                   </div>
                 </div>
                 {/* Product in Same category section Slider*/}
