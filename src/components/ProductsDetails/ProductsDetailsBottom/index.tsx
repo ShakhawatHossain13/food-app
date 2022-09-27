@@ -25,7 +25,7 @@ const ProductsDetailsBottom: React.FC<ProductsDetailsBottomProps> = ({
     infinite: true,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     cssEase: "liner",
     responsive: [
       {
