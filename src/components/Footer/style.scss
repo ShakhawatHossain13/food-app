@@ -20,11 +20,15 @@
 .footer__page{
     display: flex;
     flex-direction: column;
-    
 }
+
 .footer__page a{
 color: white;
 margin: 5px 0;
+width: fit-content;  
+}
+.footer__page a:hover{
+    border-bottom: 2px solid white;
 }
 
 .footer__address{

@@ -87,7 +87,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
       ...prev,
       [name]: "",
     }));
-    setButtonDisable(false);
+    setCredentialError(false);
   };
 
   /**
@@ -145,30 +145,32 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
    * @returns the user login information, if login information is available then return the user information
    */
   const handleLogin = async () => {
+    setButtonDisable(true);
     if (isValid()) {
       return;
-    }
-    setButtonDisable(true);
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginInfo.email,
-        loginInfo.password
-      );
-      if (await user) {
-        getData(String(user.user.email));
+    } else {
+      try {
+        const user = await signInWithEmailAndPassword(
+          auth,
+          loginInfo.email,
+          loginInfo.password
+        );
+        if (await user) {
+          getData(String(user.user.email));
+        }
+        Swal.fire({
+          icon: "success",
+          title: "Welcome",
+          text: "Successfully Logged In!",
+        });
+        // const notifyLogin = () => toast("Successfully Logged In!");
+        // notifyLogin();
+        await navigate("/", { replace: true });
+      } catch (error) {
+        setCredentialError(true);
+        console.log(error);
       }
-      Swal.fire({
-        icon: "success",
-        title: "Welcome",
-        text: "Successfully Logged In!",
-      });
-      // const notifyLogin = () => toast("Successfully Logged In!");
-      // notifyLogin();
-      await navigate("/", { replace: true });
-    } catch (error) {
-      setCredentialError(true);
-      console.log(error);
+      setButtonDisable(true);
     }
   };
 
@@ -176,6 +178,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
    * Sign in with google account and save the credentials information into the user data
    */
   const handleGoogleSignIn = () => {
+    setButtonDisable(true);
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
     signInWithPopup(auth, provider)
@@ -277,6 +280,11 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                     handleChange(event);
                   }
                   // handleChange(event);
+                  if (JSON.stringify(error) === JSON.stringify(loginError)) {
+                    setButtonDisable(false);
+                  } else {
+                    setButtonDisable(true);
+                  }
                 }}
                 style={{
                   border:
@@ -303,9 +311,14 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                   } else {
                     setError((prev) => ({
                       ...prev,
-                      email: "",
+                      password: "",
                     }));
                     handleChange(event);
+                  }
+                  if (JSON.stringify(error) === JSON.stringify(loginError)) {
+                    setButtonDisable(false);
+                  } else {
+                    setButtonDisable(true);
                   }
                 }}
                 style={{
@@ -330,6 +343,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   e.preventDefault();
+                  setButtonDisable(true);
                   handleLogin();
                 }}
                 disabled={buttonDisable}
