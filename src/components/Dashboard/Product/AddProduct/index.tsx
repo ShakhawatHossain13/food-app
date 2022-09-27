@@ -241,12 +241,12 @@ const AddProduct: React.FC<AddProductProps> = ({
    */
 
   const renderImages = () => {
-    return displayImages.map((photo) => {
+    return displayImages.map((photo, index) => {
       return (
         <>
           <img
             src={photo}
-            key={photo}
+            key={index}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
@@ -650,9 +650,9 @@ const AddProduct: React.FC<AddProductProps> = ({
                     }
                   </div>
                 ) : edit && !editPreview ? (
-                  <div className="image__preview">{renderImages()}</div>
+                  <div key ={1} className="image__preview">{renderImages()}</div>
                 ) : (
-                  <div className="image__preview">{renderImages()}</div>
+                  <div key ={2} className="image__preview">{renderImages()}</div>
                 )}
               </div>
             </div>

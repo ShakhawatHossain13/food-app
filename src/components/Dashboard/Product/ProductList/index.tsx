@@ -208,7 +208,7 @@ const ProductList: React.FC = () => {
             </thead>
             <tbody>
               {backdrop ? (
-                <Backdrop />
+                ""
               ) : (
                 <>
                   {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
@@ -338,7 +338,6 @@ const ProductList: React.FC = () => {
                       </tr>
                     );
                   })}
-
                   {!foodItem?.length && (
                     <h1 className="productlist__row__table__nodata">
                       No Data Found!

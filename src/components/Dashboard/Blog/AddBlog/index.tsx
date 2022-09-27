@@ -229,12 +229,12 @@ const AddBlog: React.FC<addBlogProps> = ({
    */
 
   const renderImages = () => {
-    return displayImages.map((photo) => {
+    return displayImages.map((photo, index) => {
       return (
         <>
           <img
             src={photo}
-            key={photo}
+            key={index}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
