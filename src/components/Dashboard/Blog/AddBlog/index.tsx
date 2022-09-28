@@ -231,10 +231,9 @@ const AddBlog: React.FC<addBlogProps> = ({
   const renderImages = () => {
     return displayImages.map((photo, index) => {
       return (
-        <>
+        <div key={index}>
           <img
             src={photo}
-            key={index}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
@@ -248,7 +247,7 @@ const AddBlog: React.FC<addBlogProps> = ({
           {selected === photo && (
             <FaCheck className="image__tick" size="15px" />
           )}
-        </>
+        </div>
       );
     });
   };

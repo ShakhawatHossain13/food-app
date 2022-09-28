@@ -206,7 +206,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       FileExtension === "png"
     ) {
       const fileArray = Array.from(e.target.files).map((file: any) =>
-         URL.createObjectURL(file)
+        URL.createObjectURL(file)
       );
       setDisplayImages(fileArray);
     }
@@ -243,10 +243,9 @@ const AddProduct: React.FC<AddProductProps> = ({
   const renderImages = () => {
     return displayImages.map((photo, index) => {
       return (
-        <>
+        <div key={index}>
           <img
             src={photo}
-            key={index}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
@@ -260,7 +259,7 @@ const AddProduct: React.FC<AddProductProps> = ({
           {selected === photo && (
             <FaCheck className="image__tick" size="15px" />
           )}
-        </>
+        </div>
       );
     });
   };
@@ -650,9 +649,9 @@ const AddProduct: React.FC<AddProductProps> = ({
                     }
                   </div>
                 ) : edit && !editPreview ? (
-                  <div key ={1} className="image__preview">{renderImages()}</div>
+                  <div className="image__preview">{renderImages()}</div>
                 ) : (
-                  <div key ={2} className="image__preview">{renderImages()}</div>
+                  <div className="image__preview">{renderImages()}</div>
                 )}
               </div>
             </div>
