@@ -23,6 +23,7 @@ import Backdrop from "../../../Backdrop";
 import InputField from "../../Elements/InputField";
 import TextAreaField from "../../Elements/TextAreaField";
 import ImageField from "../../Elements/ImageField";
+ 
 
 type AddProductDataType = {
   id: string;
@@ -448,6 +449,7 @@ const AddProduct: React.FC<AddProductProps> = ({
    */
   const fetchDetails = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -466,6 +468,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       setFoodItem(obj);
       setPreviousTitle(obj?.title); 
       setButtonDisable(false);
+      setBackdrop(false);
     } catch (error) {
       console.log(error);
     }

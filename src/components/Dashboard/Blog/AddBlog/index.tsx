@@ -429,6 +429,7 @@ const AddBlog: React.FC<addBlogProps> = ({
    */
   const fetchDetails = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const db = getFirestore();
     const docRef = doc(db, "blog", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -446,6 +447,7 @@ const AddBlog: React.FC<addBlogProps> = ({
       setBlogItem(obj);
       setPreviousTitle(obj?.title);
       setButtonDisable(false);
+      setBackdrop(false);
       // setIsLoading(true);
     } catch (error) {
       console.log(error);

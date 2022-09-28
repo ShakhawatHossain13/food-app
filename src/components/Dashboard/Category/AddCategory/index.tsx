@@ -434,6 +434,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
    */
   const fetchDetails = async () => {
     setButtonDisable(true);
+    setBackdrop(true);
     const db = getFirestore();
     const docRef = doc(db, "category", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -450,6 +451,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
       setCategoryItem(obj);
       setPreviousTitle(obj?.title);
       setButtonDisable(false);
+      setBackdrop(false);
       // setIsLoading(true);
     } catch (error) {
       console.log(error);
