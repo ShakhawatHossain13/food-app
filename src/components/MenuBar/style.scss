@@ -104,7 +104,9 @@ border-radius: 5px;
         display: block;
     }        
 }
-
+.active{
+    font-weight: 700;
+}
 // mobile-version
 
 @media(max-width: 360px) {    
