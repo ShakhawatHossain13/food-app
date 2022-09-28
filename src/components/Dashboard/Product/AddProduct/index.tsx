@@ -493,10 +493,7 @@ const AddProduct: React.FC<AddProductProps> = ({
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle}</h3>
-          {backdrop ? <Backdrop /> : <></>}
-          {backdrop ? (
-            <Backdrop />
-          ) : (
+          {backdrop ? <Backdrop /> : <></>}        
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
@@ -644,8 +641,7 @@ const AddProduct: React.FC<AddProductProps> = ({
             >
               {formTitle}
             </button>
-          </form> 
-          )}
+          </form>  
         </div>
       </section>
     </React.Fragment>
