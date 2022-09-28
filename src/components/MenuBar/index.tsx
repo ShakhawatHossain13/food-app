@@ -61,9 +61,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
               // @ts-ignore
               JSON.parse(localStorage.getItem("user")).isAdmin ? (
                 <>
-                  <Link to="/">Home</Link>
-                  <Link to="/about">About</Link>
-                  <Link to="/dashboard">Admin</Link>
+                  <Link to="/dashboard">Dashboard</Link>
                 </>
               ) : (
                 <>
@@ -156,18 +154,8 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                     JSON.parse(localStorage.getItem("user")).isAdmin ? (
                       <>
                         <li>
-                          <Link to="/" onClick={handleBurgerMenuClose}>
-                            Home
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/about" onClick={handleBurgerMenuClose}>
-                            About
-                          </Link>
-                        </li>
-                        <li>
                           <Link to="/dashboard" onClick={handleBurgerMenuClose}>
-                            Admin
+                            Dashboard
                           </Link>
                         </li>
                       </>

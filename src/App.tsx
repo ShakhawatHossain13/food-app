@@ -177,7 +177,7 @@ const App: React.FC = () => {
         </Route>
         <Route
           path="/signin"
-          element={<SignIn setIsLoggedIn={setIsLoggedIn} />}
+          element={<SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route
           path="/signup"
