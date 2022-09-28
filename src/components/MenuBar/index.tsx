@@ -227,7 +227,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                   </>
                 ) : (
                   <>
-                    <li style={{ color: "black" }}>
+                    <li style={{ color: "crimson" }}>
                       <span style={{ color: "white" }}>Logged in as </span>
                       {
                         // @ts-ignore

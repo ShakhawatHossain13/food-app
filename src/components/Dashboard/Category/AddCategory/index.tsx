@@ -220,7 +220,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
     ) {
       const newImage = e.target.files[0];
       setImages(newImage);
-      console.log("new Image: ", newImage);
     } else {
       const notifyAdd = () =>
         toast.error("Please upload a image on JPG, JPEG & PNG format");
@@ -233,12 +232,11 @@ const AddCategory: React.FC<AddCategoryProps> = ({
    */
 
   const renderImages = () => {
-    return displayImages.map((photo) => {
+    return displayImages.map((photo, index) => {
       return (
-        <>
+        <div key={index}>
           <img
             src={photo}
-            key={photo}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
@@ -252,7 +250,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({
           {selected === photo && (
             <FaCheck className="image__tick" size="15px" />
           )}
-        </>
+        </div>
       );
     });
   };
@@ -283,7 +281,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -298,7 +295,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
             })
               .then((docRef) => {
                 setBackdrop(false);
-                console.log("Category added successfully");
                 const notifyAdd = () => toast("Category added successfully");
                 notifyAdd();
                 setModalOpen(false);
@@ -347,7 +343,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         .then((docRef) => {
           setIsChange(!isChange);
           setBackdrop(false);
-          console.log("Category is updated");
           const notifyEdit = () => toast("Category is updated");
           notifyEdit();
           setModalOpen(false);
@@ -375,7 +370,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             if (downloadURL) {
               setImgUrls(downloadURL);
             }
@@ -400,7 +394,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({
    */
   const handleImageDelete = () => {
     const imageURL = categoryItem.categoryImage.split("2F")[1].split("?")[0];
-    console.log("image direct link: ", imageURL);
     const imageRef = ref(storage, `images/${imageURL}`);
     deleteObject(imageRef)
       .then(() => {
