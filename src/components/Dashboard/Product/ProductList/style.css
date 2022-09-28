@@ -108,9 +108,9 @@ button {
   float: right;
   font-size: 28px;
   font-weight: bold;
-  position: absolute;
   top: 80px;
   margin-left: 12px;
+  margin-right: -25px;
 }
 
 .productlist__row__modal__content__close:hover,

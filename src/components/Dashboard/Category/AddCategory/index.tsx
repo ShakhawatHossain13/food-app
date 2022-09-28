@@ -22,6 +22,7 @@ import Backdrop from "../../../Backdrop";
 import { CategoryListDataType } from "../CategoryList";
 import InputField from "../../Elements/InputField";
 import TextAreaField from "../../Elements/TextAreaField";
+import ImageField from "../../Elements/ImageField";
 
 type AddCategoryDataType = {
   id: string;
@@ -505,56 +506,31 @@ const AddCategory: React.FC<AddCategoryProps> = ({
                 requiredFieldText = "*"
                 error={error.description}
                 bColor={inputError.description}                  
-            />
+            /> 
+            <ImageField 
+                  id = "image"
+                  name = "image"
+                  type = "file"
+                  text="Upload Image"  
+                  onChange ={(e) => {
+                    setEditPreview(false);
+                    imageHandleChange(e)
+                    handleImageChange(e);
+                  }}
+                  requiredFieldText = "*" 
+                  edit= {edit}
+                  editPreview={editPreview}
+                  alt="Images"
+                  src={categoryItem.categoryImage}
+                  accept= "image/*"
+                  maxWidth= "100px"
+                  maxHeight= "60px"
+                  marginTop= "12px"
+                  border = "2px solid cadetblue"
+                  padding ="0 5px"
+                  renderFunction = {renderImages}
+            /> 
 
-            <div className="addCategory__row__form__row">
-              <label className="addCategory__row__form__row__label">
-                Upload Image
-                <span className="addCategory__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <div className="image">
-                <div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="image"
-                    name="image"
-                    onChange={(e) => {
-                      setEditPreview(false);
-                      imageHandleChange(e);
-                      handleImageChange(e);
-                    }}
-                    style={{
-                      borderColor: inputError.categoryImage ? "red" : "#5e5b5b",
-                    }}
-                  />
-                </div>
-
-                {edit && editPreview ? (
-                  <div className="image__preview">
-                    {
-                      <img
-                        src={categoryItem.categoryImage}
-                        style={{
-                          maxWidth: "100px",
-                          maxHeight: "60px",
-                          marginTop: "12px",
-                          border: "2px solid cadetblue",
-                          padding: "0 5px",
-                        }}
-                        alt="Images"
-                      />
-                    }
-                  </div>
-                ) : edit && !editPreview ? (
-                  <div className="image__preview">{renderImages()}</div>
-                ) : (
-                  <div className="image__preview">{renderImages()}</div>
-                )}
-              </div>
-            </div>
             <button
               type="submit"
               className="addCategory__row__form__row__button"
