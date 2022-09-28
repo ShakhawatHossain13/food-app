@@ -209,9 +209,9 @@
       }
     }
     &__card__image {
-      width: 200px;
       border-radius: 50%;
       margin-top: 25px;
+      margin: auto;
     }
     &__card__body__title h3 {
       font-weight: 400;
@@ -269,6 +269,7 @@
     &__card__image {
       width: 200px;
       border-radius: 50%;
+      margin: 0;
       margin-top: 25px;
     }
     &__card__body__title h3 {
