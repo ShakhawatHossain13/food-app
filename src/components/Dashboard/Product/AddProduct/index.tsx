@@ -23,7 +23,6 @@ import Backdrop from "../../../Backdrop";
 import InputField from "../../Elements/InputField";
 import TextAreaField from "../../Elements/TextAreaField";
 import ImageField from "../../Elements/ImageField";
- 
 
 type AddProductDataType = {
   id: string;
@@ -466,7 +465,7 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-      setPreviousTitle(obj?.title); 
+      setPreviousTitle(obj?.title);
       setButtonDisable(false);
       setBackdrop(false);
     } catch (error) {
@@ -497,33 +496,33 @@ const AddProduct: React.FC<AddProductProps> = ({
       <section className="addproduct">
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle}</h3>
-          {backdrop ? <Backdrop /> : <></>}        
+          {backdrop ? <Backdrop /> : <></>}
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
-          >            
-            <InputField 
-                  id = "title"
-                  name = "title"
-                  type = "text"
-                  text="Title"
-                  value = {foodItem?.title}
-                  onBlur = {handleUniqueTitle}
-                  onChange = {handleChange}
-                  requiredFieldText = "*"
-                  error={error.title}
-                  bColor={inputError.title}                  
-             /> 
+          >
+            <InputField
+              id="title"
+              name="title"
+              type="text"
+              text="Title"
+              value={foodItem?.title}
+              onBlur={handleUniqueTitle}
+              onChange={handleChange}
+              requiredFieldText="*"
+              error={error.title}
+              bColor={inputError.title}
+            />
 
-            <TextAreaField 
-                id = "description"
-                name = "description"                  
-                text="Description"
-                value = {foodItem?.description}                  
-                onChange = {handleChange}
-                requiredFieldText = "*"
-                error={error.description}
-                bColor={inputError.description}                  
+            <TextAreaField
+              id="description"
+              name="description"
+              text="Description"
+              value={foodItem?.description}
+              onChange={handleChange}
+              requiredFieldText="*"
+              error={error.description}
+              bColor={inputError.description}
             />
 
             <div className="addproduct__row__form__row">
@@ -570,48 +569,48 @@ const AddProduct: React.FC<AddProductProps> = ({
               <span className="addproduct__row__form__row__error">
                 {error.category}
               </span>
-            </div> 
-            <InputField 
-                  id = "price"
-                  name = "price"
-                  type = "text"
-                  text="Price"
-                  value = {foodItem?.price} 
-                  onChange = {(event: React.ChangeEvent<HTMLInputElement>) => {
-                    if (event.target.value.match(priceRegex)) {
-                      return handleChange(event);
-                    } else {
-                      return false;
-                    }
-                  }}
-                  requiredFieldText = "*"
-                  error={error.price}
-                  bColor={inputError.price}                  
+            </div>
+            <InputField
+              id="price"
+              name="price"
+              type="text"
+              text="Price"
+              value={foodItem?.price}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                if (event.target.value.match(priceRegex)) {
+                  return handleChange(event);
+                } else {
+                  return false;
+                }
+              }}
+              requiredFieldText="*"
+              error={error.price}
+              bColor={inputError.price}
             />
-          
-            <ImageField 
-                  id = "image"
-                  name = "image"
-                  type = "file"
-                  text="Upload Image" 
-                  onChange ={(e) => {
-                    setEditPreview(false);
-                    imageHandleChange(e)
-                    handleImageChange(e);
-                  }}
-                  requiredFieldText = "*" 
-                  edit= {edit}
-                  editPreview={editPreview}
-                  alt="Images"
-                  src={foodItem.foodImage}
-                  accept= "image/*"
-                  maxWidth= "100px"
-                  maxHeight= "60px"
-                  marginTop= "12px"
-                  border = "2px solid cadetblue"
-                  padding ="0 5px"
-                  renderFunction = {renderImages}
-            /> 
+
+            <ImageField
+              id="image"
+              name="image"
+              type="file"
+              text="Upload Image"
+              onChange={(e) => {
+                setEditPreview(false);
+                imageHandleChange(e);
+                handleImageChange(e);
+              }}
+              requiredFieldText="*"
+              edit={edit}
+              editPreview={editPreview}
+              alt="Images"
+              src={foodItem.foodImage}
+              accept="image/*"
+              maxWidth="100px"
+              maxHeight="60px"
+              marginTop="12px"
+              border="2px solid cadetblue"
+              padding="0 5px"
+              renderFunction={renderImages}
+            />
 
             <button
               type="submit"
@@ -621,7 +620,7 @@ const AddProduct: React.FC<AddProductProps> = ({
             >
               {formTitle}
             </button>
-          </form>  
+          </form>
         </div>
       </section>
     </React.Fragment>

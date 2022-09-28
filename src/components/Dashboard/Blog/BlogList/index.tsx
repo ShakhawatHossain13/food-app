@@ -164,6 +164,7 @@ const BlogList: React.FC = () => {
               onClick={() => {
                 handleModalOpen();
                 setAdd(true);
+                setEdit(false);
               }}
             >
               + add
@@ -212,8 +213,8 @@ const BlogList: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-              {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
-                return (
+                {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
+                  return (
                     <tr className="blogList__row__table__row" key={blog.id}>
                       <td className="blogList__row__table__row__text">
                         {(page - 1) * 3 + index + 1}
@@ -337,11 +338,13 @@ const BlogList: React.FC = () => {
                         )}
                       </td>
                     </tr>
-                );
-              })}
-              {!blogItem?.length && (
-                <h1 className="blogList__row__table__nodata">No Data Found!</h1>
-              )}
+                  );
+                })}
+                {!blogItem?.length && (
+                  <h1 className="blogList__row__table__nodata">
+                    No Data Found!
+                  </h1>
+                )}
               </tbody>
             </table>
           )}

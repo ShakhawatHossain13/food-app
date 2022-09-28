@@ -165,6 +165,7 @@ const ProductList: React.FC = () => {
               onClick={() => {
                 handleModalOpen();
                 setAdd(true);
+                setEdit(false);
               }}
             >
               + add
@@ -315,7 +316,7 @@ const ProductList: React.FC = () => {
                   foodItemData={foodItem}
                   setFormTitle={setFormTitle}
                   ids={ids}
-                  titleForm={title}                  
+                  titleForm={title}
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
                   isChange={isChange}

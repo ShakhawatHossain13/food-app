@@ -161,6 +161,7 @@ const CategoryList: React.FC = () => {
               onClick={() => {
                 handleModalOpen();
                 setAdd(true);
+                setEdit(false);
               }}
             >
               + add
