@@ -195,89 +195,89 @@ const ProductList: React.FC = () => {
               </div>
             )}
           </div>
-          <table className="productlist__row__table">
-            <thead>
-              <tr className="productlist__row__table__row">
-                <th className="productlist__row__table__row__text">Sl No</th>
-                <th className="productlist__row__table__row__text">Title</th>
-                <th className="productlist__row__table__row__text">Image</th>
-                <th className="productlist__row__table__row__text">Category</th>
-                <th className="productlist__row__table__row__text">Price</th>
-                <th className="productlist__row__table__row__text">Actions</th>
-              </tr>
-            </thead>
-          </table>
           {backdrop ? (
             <Backdrop />
           ) : (
-            <>
-              <table className="productlist__row__table">
-                <tbody>
-                  {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
-                    return (
-                      <tr className="productlist__row__table__row" key={index}>
-                        <td className="productlist__row__table__row__text">
-                          {(page - 1) * 3 + index + 1}
-                        </td>
-                        <td className="productlist__row__table__row__text">
-                          <p className="productlist__row__table__row__text__title">
-                            {foods.title}
-                          </p>
-                        </td>
-                        <td className="productlist__row__table__row__text">
-                          <img
-                            height="50px"
-                            width="50px"
-                            src={foods.foodImage}
-                            alt="Food Images"
-                          />
-                        </td>
-                        <td className="productlist__row__table__row__text">
-                          {foods.category}
-                        </td>
-                        <td className="productlist__row__table__row__text">
-                          {foods.price}
-                        </td>
-                        <td className="productlist__row__table__row__text">
-                          <button
-                            className="productlist__row__table__row__button__edit"
-                            onClick={() => {
-                              setFormTitle("Edit Product");
-                              setIds(foods.id);
-                              setTitle(foods.title);
-                              setEdit(true);
-                              setAdd(false);
-                              setModalOpen(true);
-                            }}
-                          >
-                            edit
-                          </button>
+            <table className="productlist__row__table">
+              <thead>
+                <tr className="productlist__row__table__row">
+                  <th className="productlist__row__table__row__text">Sl No</th>
+                  <th className="productlist__row__table__row__text">Title</th>
+                  <th className="productlist__row__table__row__text">Image</th>
+                  <th className="productlist__row__table__row__text">
+                    Category
+                  </th>
+                  <th className="productlist__row__table__row__text">Price</th>
+                  <th className="productlist__row__table__row__text">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {foodItem?.slice(startIndex, endIndex).map((foods, index) => {
+                  return (
+                    <tr className="productlist__row__table__row" key={index}>
+                      <td className="productlist__row__table__row__text">
+                        {(page - 1) * 3 + index + 1}
+                      </td>
+                      <td className="productlist__row__table__row__text">
+                        <p className="productlist__row__table__row__text__title">
+                          {foods.title}
+                        </p>
+                      </td>
+                      <td className="productlist__row__table__row__text">
+                        <img
+                          height="50px"
+                          width="50px"
+                          src={foods.foodImage}
+                          alt="Food Images"
+                        />
+                      </td>
+                      <td className="productlist__row__table__row__text">
+                        {foods.category}
+                      </td>
+                      <td className="productlist__row__table__row__text">
+                        {foods.price}
+                      </td>
+                      <td className="productlist__row__table__row__text">
+                        <button
+                          className="productlist__row__table__row__button__edit"
+                          onClick={() => {
+                            setFormTitle("Edit Product");
+                            setIds(foods.id);
+                            setTitle(foods.title);
+                            setEdit(true);
+                            setAdd(false);
+                            setModalOpen(true);
+                          }}
+                        >
+                          edit
+                        </button>
 
-                          <button
-                            className="productlist__row__table__row__button__delete"
-                            disabled={buttonDisable}
-                            onClick={() => {
-                              setDeleteModal(true);
-                              setFoodID(foods.id);
-                              setImageURL(
-                                foods.foodImage.split("2F")[1].split("?")[0]
-                              );
-                            }}
-                          >
-                            delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  {!foodItem?.length && (
-                    <h1 className="productlist__row__table__nodata">
-                      No Data Found!
-                    </h1>
-                  )}
-                </tbody>
-              </table>
-            </>
+                        <button
+                          className="productlist__row__table__row__button__delete"
+                          disabled={buttonDisable}
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setFoodID(foods.id);
+                            setImageURL(
+                              foods.foodImage.split("2F")[1].split("?")[0]
+                            );
+                          }}
+                        >
+                          delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {!foodItem?.length && (
+                  <h1 className="productlist__row__table__nodata">
+                    No Data Found!
+                  </h1>
+                )}
+              </tbody>
+            </table>
           )}
 
           {totalData > itemPerPage && (

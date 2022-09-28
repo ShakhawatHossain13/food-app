@@ -46,11 +46,6 @@ button {
   color: #0a0a0a;
 }
 
-.productlist__row__table__row {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 2fr;
-}
-
 .productlist__row__table__row__text {
   border: 1px solid #dddddd;
   text-align: left;

@@ -194,159 +194,155 @@ const BlogList: React.FC = () => {
               </div>
             )}
           </div>
-          <table className="blogList__row__table">
-            <thead>
-              <tr className="blogList__row__table__row">
-                <th className="blogList__row__table__row__text">Sl No</th>
-                <th className="blogList__row__table__row__text">Title</th>
-                <th className="blogList__row__table__row__text">Image</th>
-                <th className="blogList__row__table__row__text">Description</th>
-                <th className="blogList__row__table__row__text">Date</th>
-                <th className="blogList__row__table__row__text">Actions</th>
-              </tr>
-            </thead>
-          </table>
           {backdrop ? (
             <Backdrop />
           ) : (
-            <>
-              <table className="blogList__row__table">
-                {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
-                  return (
-                    <tbody key={blog.id}>
-                      <tr className="blogList__row__table__row">
-                        <td className="blogList__row__table__row__text">
-                          {(page - 1) * 3 + index + 1}
-                        </td>
-                        <td className="blogList__row__table__row__text">
-                          <p className="blogList__row__table__row__text__title">
-                            {blog.title}
-                          </p>
-                        </td>
-                        <td className="blogList__row__table__row__text">
-                          <img
-                            height="50px"
-                            width="50px"
-                            src={blog.blogImage}
-                            alt="Blog Images"
-                          />
-                        </td>
-                        <td className="blogList__row__table__row__text">
-                          <p className="blogList__row__table__row__text__paragraph">
-                            {blog.description}
-                          </p>
-                        </td>
-                        <td className="blogList__row__table__row__text">
-                          {blog.date}
-                        </td>
-                        <td className="blogList__row__table__row__text">
-                          <button
-                            className="blogList__row__table__row__button__edit"
-                            onClick={() => {
-                              setFormTitle("Edit Blog");
-                              setIds(blog.id);
-                              setTitle(blog.title);
-                              setEdit(true);
-                              setAdd(false);
-                              setModalOpen(true);
-                            }}
+            <table className="blogList__row__table">
+              <thead>
+                <tr className="blogList__row__table__row">
+                  <th className="blogList__row__table__row__text">Sl No</th>
+                  <th className="blogList__row__table__row__text">Title</th>
+                  <th className="blogList__row__table__row__text">Image</th>
+                  <th className="blogList__row__table__row__text">
+                    Description
+                  </th>
+                  <th className="blogList__row__table__row__text">Date</th>
+                  <th className="blogList__row__table__row__text">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {blogItem?.slice(startIndex, endIndex).map((blog, index) => {
+                return (
+                    <tr className="blogList__row__table__row" key={blog.id}>
+                      <td className="blogList__row__table__row__text">
+                        {(page - 1) * 3 + index + 1}
+                      </td>
+                      <td className="blogList__row__table__row__text">
+                        <p className="blogList__row__table__row__text__title">
+                          {blog.title}
+                        </p>
+                      </td>
+                      <td className="blogList__row__table__row__text">
+                        <img
+                          height="50px"
+                          width="50px"
+                          src={blog.blogImage}
+                          alt="Blog Images"
+                        />
+                      </td>
+                      <td className="blogList__row__table__row__text">
+                        <p className="blogList__row__table__row__text__paragraph">
+                          {blog.description}
+                        </p>
+                      </td>
+                      <td className="blogList__row__table__row__text">
+                        {blog.date}
+                      </td>
+                      <td className="blogList__row__table__row__text">
+                        <button
+                          className="blogList__row__table__row__button__edit"
+                          onClick={() => {
+                            setFormTitle("Edit Blog");
+                            setIds(blog.id);
+                            setTitle(blog.title);
+                            setEdit(true);
+                            setAdd(false);
+                            setModalOpen(true);
+                          }}
+                        >
+                          edit
+                        </button>
+                        {edit && modalOpen && (
+                          <div
+                            id="editModal"
+                            className="blogList__row__modal"
+                            style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
                           >
-                            edit
-                          </button>
-                          {edit && modalOpen && (
-                            <div
-                              id="editModal"
-                              className="blogList__row__modal"
-                              style={{ backgroundColor: "rgba(0, 0, 0, 0.08)" }}
-                            >
-                              <div className="blogList__row__modal__content">
-                                <span
-                                  className="blogList__row__modal__content__close"
-                                  onClick={() => {
-                                    handleModalClose();
-                                    setEdit(false);
-                                  }}
-                                >
-                                  &times;
-                                </span>
-                                <AddBlog
-                                  formTitle="Edit Blog"
-                                  blogItemData={blogItem}
-                                  setFormTitle={setFormTitle}
-                                  ids={ids}
-                                  titleForm={title}
-                                  isChange={isChange}
-                                  setIsChange={setIsChange}
-                                  formReset={formReset}
-                                  setFormReset={setFormReset}
-                                  setModalOpen={setModalOpen}
-                                />
-                              </div>
-                            </div>
-                          )}
-                          <button
-                            className="blogList__row__table__row__button__delete"
-                            disabled={buttonDisable}
-                            onClick={() => {
-                              setDeleteModal(true);
-                              setBlogID(blog.id);
-                              setImageURL(
-                                blog.blogImage.split("2F")[1].split("?")[0]
-                              );
-                            }}
-                          >
-                            delete
-                          </button>
-                          {deleteModal && (
-                            <div className="blogList__row__table__row__button__delete__modal">
+                            <div className="blogList__row__modal__content">
                               <span
-                                className="blogList__delete__modal__close"
+                                className="blogList__row__modal__content__close"
                                 onClick={() => {
-                                  setDeleteModal(false);
-                                  setButtonDisable(false);
+                                  handleModalClose();
+                                  setEdit(false);
                                 }}
                               >
                                 &times;
                               </span>
-                              <div className="blogList__delete__modal__confirm">
-                                <div>
-                                  Are you sure you want to delete this record?
-                                </div>
-                                <div>
-                                  <button
-                                    style={{ backgroundColor: "crimson" }}
-                                    disabled={buttonDisable}
-                                    onClick={() => {
-                                      handleDelete(blogID);
-                                    }}
-                                  >
-                                    Delete
-                                  </button>
-                                  <button
-                                    style={{ backgroundColor: "grey" }}
-                                    onClick={() => {
-                                      setDeleteModal(false);
-                                      setButtonDisable(false);
-                                    }}
-                                  >
-                                    Cancel
-                                  </button>
-                                </div>
+                              <AddBlog
+                                formTitle="Edit Blog"
+                                blogItemData={blogItem}
+                                setFormTitle={setFormTitle}
+                                ids={ids}
+                                titleForm={title}
+                                isChange={isChange}
+                                setIsChange={setIsChange}
+                                formReset={formReset}
+                                setFormReset={setFormReset}
+                                setModalOpen={setModalOpen}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        <button
+                          className="blogList__row__table__row__button__delete"
+                          disabled={buttonDisable}
+                          onClick={() => {
+                            setDeleteModal(true);
+                            setBlogID(blog.id);
+                            setImageURL(
+                              blog.blogImage.split("2F")[1].split("?")[0]
+                            );
+                          }}
+                        >
+                          delete
+                        </button>
+                        {deleteModal && (
+                          <div className="blogList__row__table__row__button__delete__modal">
+                            <span
+                              className="blogList__delete__modal__close"
+                              onClick={() => {
+                                setDeleteModal(false);
+                                setButtonDisable(false);
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <div className="blogList__delete__modal__confirm">
+                              <div>
+                                Are you sure you want to delete this record?
+                              </div>
+                              <div>
+                                <button
+                                  style={{ backgroundColor: "crimson" }}
+                                  disabled={buttonDisable}
+                                  onClick={() => {
+                                    handleDelete(blogID);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  style={{ backgroundColor: "grey" }}
+                                  onClick={() => {
+                                    setDeleteModal(false);
+                                    setButtonDisable(false);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
                               </div>
                             </div>
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-                {!blogItem?.length && (
-                  <h1 className="blogList__row__table__nodata">
-                    No Data Found!
-                  </h1>
-                )}
-              </table>
-            </>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                );
+              })}
+              {!blogItem?.length && (
+                <h1 className="blogList__row__table__nodata">No Data Found!</h1>
+              )}
+              </tbody>
+            </table>
           )}
           {totalData > itemPerPage && (
             <Pagination

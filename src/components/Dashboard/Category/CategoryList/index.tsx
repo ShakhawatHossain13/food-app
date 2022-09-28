@@ -191,154 +191,155 @@ const CategoryList: React.FC = () => {
               </div>
             )}
           </div>
-          <table className="categoryList__row__table">
-            <thead>
-              <tr className="categoryList__row__table__row">
-                <th className="categoryList__row__table__row__text">Sl No</th>
-                <th className="categoryList__row__table__row__text">Title</th>
-                <th className="categoryList__row__table__row__text">Image</th>
-                <th className="categoryList__row__table__row__text">
-                  Description
-                </th>
-                <th className="categoryList__row__table__row__text">Actions</th>
-              </tr>
-            </thead>
-          </table>
           {backdrop ? (
             <Backdrop />
           ) : (
-            <>
-              <table className="categoryList__row__table">
+            <table className="categoryList__row__table">
+              <thead>
+                <tr className="categoryList__row__table__row">
+                  <th className="categoryList__row__table__row__text">Sl No</th>
+                  <th className="categoryList__row__table__row__text">Title</th>
+                  <th className="categoryList__row__table__row__text">Image</th>
+                  <th className="categoryList__row__table__row__text">
+                    Description
+                  </th>
+                  <th className="categoryList__row__table__row__text">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
                 {categoryItem
                   ?.slice(startIndex, endIndex)
                   .map((category, index) => {
                     return (
-                      <tbody key={category.id}>
-                        <tr className="categoryList__row__table__row">
-                          <td className="categoryList__row__table__row__text">
-                            {(page - 1) * 3 + index + 1}
-                          </td>
-                          <td className="categoryList__row__table__row__text">
-                            <p className="categoryList__row__table__row__text__title">
-                              {category.title}
-                            </p>
-                          </td>
-                          <td className="categoryList__row__table__row__text">
-                            <img
-                              height="50px"
-                              width="50px"
-                              src={category.categoryImage}
-                              alt="Category Images"
-                            />
-                          </td>
-                          <td className="categoryList__row__table__row__text">
-                            <p className="categoryList__row__table__row__text__paragraph">
-                              {category.description}
-                            </p>
-                          </td>
-                          <td className="categoryList__row__table__row__text">
-                            <button
-                              className="categoryList__row__table__row__button__edit"
-                              onClick={() => {
-                                setFormTitle("Edit Category");
-                                setIds(category.id);
-                                setTitle(category.title);
-                                setEdit(true);
-                                setAdd(false);
-                                setModalOpen(true);
+                      <tr
+                        className="categoryList__row__table__row"
+                        key={category.id}
+                      >
+                        <td className="categoryList__row__table__row__text">
+                          {(page - 1) * 3 + index + 1}
+                        </td>
+                        <td className="categoryList__row__table__row__text">
+                          <p className="categoryList__row__table__row__text__title">
+                            {category.title}
+                          </p>
+                        </td>
+                        <td className="categoryList__row__table__row__text">
+                          <img
+                            height="50px"
+                            width="50px"
+                            src={category.categoryImage}
+                            alt="Category Images"
+                          />
+                        </td>
+                        <td className="categoryList__row__table__row__text">
+                          <p className="categoryList__row__table__row__text__paragraph">
+                            {category.description}
+                          </p>
+                        </td>
+                        <td className="categoryList__row__table__row__text">
+                          <button
+                            className="categoryList__row__table__row__button__edit"
+                            onClick={() => {
+                              setFormTitle("Edit Category");
+                              setIds(category.id);
+                              setTitle(category.title);
+                              setEdit(true);
+                              setAdd(false);
+                              setModalOpen(true);
+                            }}
+                          >
+                            edit
+                          </button>
+                          {edit && modalOpen && (
+                            <div
+                              id="editModal"
+                              className="categoryList__row__modal"
+                              style={{
+                                backgroundColor: "rgba(0, 0, 0, 0.08)",
                               }}
                             >
-                              edit
-                            </button>
-                            {edit && modalOpen && (
-                              <div
-                                id="editModal"
-                                className="categoryList__row__modal"
-                                style={{
-                                  backgroundColor: "rgba(0, 0, 0, 0.08)",
-                                }}
-                              >
-                                <div className="categoryList__row__modal__content">
-                                  <span
-                                    className="categoryList__row__modal__content__close"
-                                    onClick={() => {
-                                      handleModalClose();
-                                      setEdit(false);
-                                    }}
-                                  >
-                                    &times;
-                                  </span>
-                                  <AddCategory
-                                    formTitle="Edit Category"
-                                    categoryItemData={categoryItem}
-                                    setFormTitle={setFormTitle}
-                                    ids={ids}
-                                    titleForm={title}
-                                    isChange={isChange}
-                                    setIsChange={setIsChange}
-                                    formReset={formReset}
-                                    setFormReset={setFormReset}
-                                    setModalOpen={setModalOpen}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                            <button
-                              className="categoryList__row__table__row__button__delete"
-                              disabled={buttonDisable}
-                              onClick={() => {
-                                setDeleteModal(true);
-                                setCategoryID(category.id);
-                                setImageURL(
-                                  category.categoryImage
-                                    .split("2F")[1]
-                                    .split("?")[0]
-                                );
-                              }}
-                            >
-                              delete
-                            </button>
-                            {deleteModal && (
-                              <div className="categoryList__row__table__row__button__delete__modal">
+                              <div className="categoryList__row__modal__content">
                                 <span
-                                  className="categoryList__delete__modal__close"
+                                  className="categoryList__row__modal__content__close"
                                   onClick={() => {
-                                    setDeleteModal(false);
-                                    setButtonDisable(false);
+                                    handleModalClose();
+                                    setEdit(false);
                                   }}
                                 >
                                   &times;
                                 </span>
-                                <div className="categoryList__delete__modal__confirm">
-                                  <div>
-                                    Are you sure you want to delete this record?
-                                  </div>
-                                  <div>
-                                    <button
-                                      style={{ backgroundColor: "crimson" }}
-                                      disabled={buttonDisable}
-                                      onClick={() => {
-                                        handleDelete(categoryID);
-                                      }}
-                                    >
-                                      Delete
-                                    </button>
-                                    <button
-                                      style={{ backgroundColor: "grey" }}
-                                      onClick={() => {
-                                        setDeleteModal(false);
-                                        setButtonDisable(false);
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
+                                <AddCategory
+                                  formTitle="Edit Category"
+                                  categoryItemData={categoryItem}
+                                  setFormTitle={setFormTitle}
+                                  ids={ids}
+                                  titleForm={title}
+                                  isChange={isChange}
+                                  setIsChange={setIsChange}
+                                  formReset={formReset}
+                                  setFormReset={setFormReset}
+                                  setModalOpen={setModalOpen}
+                                />
+                              </div>
+                            </div>
+                          )}
+                          <button
+                            className="categoryList__row__table__row__button__delete"
+                            disabled={buttonDisable}
+                            onClick={() => {
+                              setDeleteModal(true);
+                              setCategoryID(category.id);
+                              setImageURL(
+                                category.categoryImage
+                                  .split("2F")[1]
+                                  .split("?")[0]
+                              );
+                            }}
+                          >
+                            delete
+                          </button>
+                          {deleteModal && (
+                            <div className="categoryList__row__table__row__button__delete__modal">
+                              <span
+                                className="categoryList__delete__modal__close"
+                                onClick={() => {
+                                  setDeleteModal(false);
+                                  setButtonDisable(false);
+                                }}
+                              >
+                                &times;
+                              </span>
+                              <div className="categoryList__delete__modal__confirm">
+                                <div>
+                                  Are you sure you want to delete this record?
+                                </div>
+                                <div>
+                                  <button
+                                    style={{ backgroundColor: "crimson" }}
+                                    disabled={buttonDisable}
+                                    onClick={() => {
+                                      handleDelete(categoryID);
+                                    }}
+                                  >
+                                    Delete
+                                  </button>
+                                  <button
+                                    style={{ backgroundColor: "grey" }}
+                                    onClick={() => {
+                                      setDeleteModal(false);
+                                      setButtonDisable(false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
                                 </div>
                               </div>
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
                     );
                   })}
                 {!categoryItem?.length && (
@@ -346,8 +347,8 @@ const CategoryList: React.FC = () => {
                     No Data Found!
                   </h1>
                 )}
-              </table>
-            </>
+              </tbody>
+            </table>
           )}
 
           {totalData > itemPerPage && (

@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import logo from "../../images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import {
   CartContext,
   CartBasicInfoProps,
@@ -227,8 +227,8 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                   </>
                 ) : (
                   <>
-                    <li style={{ color: "crimson" }}>
-                      <span style={{ color: "white" }}>Logged in as </span>
+                    <li style={{ color: "white" }}>
+                      <FaUserCircle size="12px" />{" "}
                       {
                         // @ts-ignore
                         localStorage.getItem("user") &&
