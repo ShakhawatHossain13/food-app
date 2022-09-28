@@ -3,6 +3,7 @@ import "./style.css";
 import { collection, getDocs } from "firebase/firestore";
 import { firebaseDatabase } from "../../../database/firebaseConfig";
 import { Link } from "react-router-dom";
+import Backdrop from "../../Backdrop"; 
 
 type CategoryFilterDataType = {
   id?: string;
@@ -21,6 +22,7 @@ const CategoryFilter: React.FC = () => {
     (food) => food.category === selectedCategory
   );
   const categoryLink = selectedCategory.toLowerCase();
+  const [backdrop, setBackdrop] = React.useState<Boolean>(true);
 
   // ============================== Methods =========================
 
@@ -28,6 +30,7 @@ const CategoryFilter: React.FC = () => {
    * @returns The all food data from the database
    */
   const getData = async () => {
+    setBackdrop(true);
     const colRef = collection(firebaseDatabase, "food");
     try {
       const result = await getDocs(colRef);
@@ -44,7 +47,7 @@ const CategoryFilter: React.FC = () => {
         return obj;
       });
       setFoodItem(prepareData);
-
+      setBackdrop(false);
       return prepareData;
     } catch (error) {
       console.log(error);
@@ -108,6 +111,9 @@ const CategoryFilter: React.FC = () => {
             Dinner
           </li>
         </div>
+        {backdrop ? (
+            <Backdrop />
+          ) : (
         <div className="categoryFilter__row">
           {selectedFood?.slice(0, 6).map((foods) => {
             return (
@@ -135,6 +141,7 @@ const CategoryFilter: React.FC = () => {
             );
           })}
         </div>
+          )}
         <Link
           style={{ textDecoration: "none", color: "gray" }}
           to={`/category-details/${categoryLink}`}
