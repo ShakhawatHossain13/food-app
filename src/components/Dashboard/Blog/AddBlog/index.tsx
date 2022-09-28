@@ -20,6 +20,8 @@ import {
 import { storage } from "../../../../database/firebaseConfig";
 import Backdrop from "../../../Backdrop";
 import { BlogListDataType } from "../BlogList";
+import InputField from "../../Elements/InputField";
+import TextAreaField from "../../Elements/TextAreaField";
 
 type AddBlogDataType = {
   id: string;
@@ -475,72 +477,40 @@ const AddBlog: React.FC<addBlogProps> = ({
             className="addBlog__row__form"
             onSubmit={(e) => handleSubmit(e)}
           >
-            <div className="addBlog__row__form__row">
-              <div>
-                <label className="addBlog__row__form__row__label">
-                  Title
-                  <span className="addBlog__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-              </div>
-              <input
-                className="addBlog__row__form__row__input"
-                id="title"
-                name="title"
-                type="text"
-                value={blogItem?.title}
-                onBlur={handleUniqueTitle}
-                onChange={handleChange}
-                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
-              />
-              <span className="addBlog__row__form__row__error">
-                {error.title}
-              </span>
-            </div>
-            <div className="addBlog__row__form__row">
-              <label className="addBlog__row__form__label">
-                Description
-                <span className="addBlog__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                className="addBlog__row__form__input"
-                onChange={handleChange}
-                value={blogItem?.description}
-                style={{
-                  height: "70px",
-                  borderColor: inputError.description ? "red" : "#5e5b5b",
-                }}
-              ></textarea>
-              <span className="addBlog__row__form__row__error">
-                {error.description}
-              </span>
-            </div>
-            <div className="addBlog__row__form__row">
-              <label className="addBlog__row__form__row__label">
-                Date
-                <span className="addBlog__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <input
-                className="addBlog__row__form__row__input"
-                id="date"
-                name="date"
-                type="date"
-                onChange={handleChange}
-                value={blogItem?.date}
-                style={{ borderColor: inputError.date ? "red" : "#5e5b5b" }}
-              />
-              <span className="addBlog__row__form__row__error">
-                {error.date}
-              </span>
-            </div>
 
+          <InputField 
+                  id = "title"
+                  name = "title"
+                  type = "text"
+                  text="Title"
+                  value = {blogItem?.title}
+                  onBlur = {handleUniqueTitle}
+                  onChange = {handleChange}
+                  requiredFieldText = "*"
+                  error={error.title}
+                  bColor={inputError.title}                  
+            /> 
+            <TextAreaField 
+                id = "description"
+                name = "description"                  
+                text="Description"
+                value = {blogItem?.description}                  
+                onChange = {handleChange}
+                requiredFieldText = "*"
+                error={error.description}
+                bColor={inputError.description}                  
+            />
+            <InputField 
+                  id = "date"
+                  name = "date"
+                  type = "date"
+                  text="Date"
+                  value = {blogItem?.date} 
+                  onChange = {handleChange}
+                  requiredFieldText = "*"
+                  error={error.date}
+                  bColor={inputError.date}                  
+            /> 
             <div className="addBlog__row__form__row">
               <label className="addBlog__row__form__row__label">
                 Upload Image

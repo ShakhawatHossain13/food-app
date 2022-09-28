@@ -20,6 +20,8 @@ import {
 import { storage } from "../../../../database/firebaseConfig";
 import Backdrop from "../../../Backdrop";
 import { CategoryListDataType } from "../CategoryList";
+import InputField from "../../Elements/InputField";
+import TextAreaField from "../../Elements/TextAreaField";
 
 type AddCategoryDataType = {
   id: string;
@@ -479,51 +481,29 @@ const AddCategory: React.FC<AddCategoryProps> = ({
             className="addCategory__row__form"
             onSubmit={(e) => handleSubmit(e)}
           >
-            <div className="addCategory__row__form__row">
-              <div>
-                <label className="addCategory__row__form__row__label">
-                  Title
-                  <span className="addCategory__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-              </div>
-              <input
-                className="addCategory__row__form__row__input"
-                id="title"
-                name="title"
-                type="text"
-                value={categoryItem?.title}
-                onBlur={handleUniqueTitle}
-                onChange={handleChange}
-                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
-              />
-              <span className="addCategory__row__form__row__error">
-                {error.title}
-              </span>
-            </div>
-            <div className="addCategory__row__form__row">
-              <label className="addCategory__row__form__label">
-                Description
-                <span className="addCategory__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                className="addCategory__row__form__input"
-                onChange={handleChange}
-                value={categoryItem?.description}
-                style={{
-                  height: "70px",
-                  borderColor: inputError.description ? "red" : "#5e5b5b",
-                }}
-              ></textarea>
-              <span className="addCategory__row__form__row__error">
-                {error.description}
-              </span>
-            </div>
+            <InputField 
+                  id = "title"
+                  name = "title"
+                  type = "text"
+                  text="Title"
+                  value = {categoryItem?.title}
+                  onBlur = {handleUniqueTitle}
+                  onChange = {handleChange}
+                  requiredFieldText = "*"
+                  error={error.title}
+                  bColor={inputError.title}                  
+            />
+ 
+            <TextAreaField 
+                id = "description"
+                name = "description"                  
+                text="Description"
+                value = {categoryItem?.description}                  
+                onChange = {handleChange}
+                requiredFieldText = "*"
+                error={error.description}
+                bColor={inputError.description}                  
+            />
 
             <div className="addCategory__row__form__row">
               <label className="addCategory__row__form__row__label">

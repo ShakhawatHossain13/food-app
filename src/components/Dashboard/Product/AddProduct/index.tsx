@@ -20,6 +20,8 @@ import {
 import { storage } from "../../../../database/firebaseConfig";
 import { ProductListDataType } from "../ProductList";
 import Backdrop from "../../../Backdrop";
+import InputField from "../../Elements/InputField";
+import TextAreaField from "../../Elements/TextAreaField";
 
 type AddProductDataType = {
   id: string;
@@ -490,52 +492,31 @@ const AddProduct: React.FC<AddProductProps> = ({
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
-          >
-            <div className="addproduct__row__form__row">
-              <div>
-                <label className="addproduct__row__form__row__label">
-                  Title
-                  <span className="addproduct__row__form__row__label__required">
-                    *
-                  </span>
-                </label>
-              </div>
-              <input
-                className="addproduct__row__form__row__input"
-                id="title"
-                name="title"
-                type="text"
-                value={foodItem?.title}
-                onBlur={handleUniqueTitle}
-                onChange={handleChange}
-                style={{ borderColor: inputError.title ? "red" : "#5e5b5b" }}
-              />
-              <span className="addproduct__row__form__row__error">
-                {error.title}
-              </span>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__label">
-                Description
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                className="addproduct__row__form__input"
-                onChange={handleChange}
-                value={foodItem?.description}
-                style={{
-                  height: "70px",
-                  borderColor: inputError.description ? "red" : "#5e5b5b",
-                }}
-              ></textarea>
-              <span className="addproduct__row__form__row__error">
-                {error.description}
-              </span>
-            </div>
+          >            
+            <InputField 
+                  id = "title"
+                  name = "title"
+                  type = "text"
+                  text="Title"
+                  value = {foodItem?.title}
+                  onBlur = {handleUniqueTitle}
+                  onChange = {handleChange}
+                  requiredFieldText = "*"
+                  error={error.title}
+                  bColor={inputError.title}                  
+             /> 
+
+            <TextAreaField 
+                id = "description"
+                name = "description"                  
+                text="Description"
+                value = {foodItem?.description}                  
+                onChange = {handleChange}
+                requiredFieldText = "*"
+                error={error.description}
+                bColor={inputError.description}                  
+            />
+
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Category
@@ -580,33 +561,25 @@ const AddProduct: React.FC<AddProductProps> = ({
               <span className="addproduct__row__form__row__error">
                 {error.category}
               </span>
-            </div>
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Price
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <input
-                className="addproduct__row__form__row__input"
-                id="price"
-                name="price"
-                value={foodItem?.price}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (event.target.value.match(priceRegex)) {
-                    return handleChange(event);
-                  } else {
-                    return false;
-                  }
-                }}
-                style={{ borderColor: inputError.price ? "red" : "#5e5b5b" }}
-              />
-              <span className="addproduct__row__form__row__error">
-                {error.price}
-              </span>
-            </div>
-
+            </div> 
+            <InputField 
+                  id = "price"
+                  name = "price"
+                  type = "text"
+                  text="Price"
+                  value = {foodItem?.price} 
+                  onChange = {(event: React.ChangeEvent<HTMLInputElement>) => {
+                    if (event.target.value.match(priceRegex)) {
+                      return handleChange(event);
+                    } else {
+                      return false;
+                    }
+                  }}
+                  requiredFieldText = "*"
+                  error={error.price}
+                  bColor={inputError.price}                  
+            />
+ 
             <div className="addproduct__row__form__row">
               <label className="addproduct__row__form__row__label">
                 Upload Image
