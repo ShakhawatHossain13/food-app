@@ -15,17 +15,17 @@ type TextAreaField ={
 const TextAreaField:React.FC<TextAreaField>=({name, id, text, value,   onChange, requiredFieldText, error, bColor })=>{    
     return(
         <React.Fragment>                
-             <div className="addproduct__row__form__row">
+             <div className="component__row__form__row">
               <div>
-                <label className="addproduct__row__form__row__label">
+                <label className="component__row__form__row__label">
                   {text}
-                  <span className="addproduct__row__form__row__label__required">
+                  <span className="component__row__form__row__label__required">
                     {requiredFieldText}
                   </span>
                 </label>
               </div>
               <textarea
-                className="addproduct__row__form__row__input"
+                className="component__row__form__row__input"
                 id={id}
                 name={name} 
                 value={value} 
@@ -35,7 +35,7 @@ const TextAreaField:React.FC<TextAreaField>=({name, id, text, value,   onChange,
                     borderColor: bColor? "red" : "#5e5b5b",
                   }}             
               ></textarea>
-              <span className="addproduct__row__form__row__error">
+              <span className="component__row__form__row__error">
                 {error}
               </span>
             </div>
