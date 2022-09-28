@@ -11,35 +11,51 @@ type uploadImageProps = {
 };
 
 const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = React.useState<any>();
   const [displayImages, setDisplayImages] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState(displayImages[0]);
 
   const [progress, setProgress] = React.useState<number>(0);
 
-  const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setDisplayImages(fileArray);
-    }
+  // const imageHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const imageHandleChange = (e: any) => {
+    // const FileExtension = e?.target?.files?[0].name?.split(".")[1].toLowerCase();
+    // if (
+    //   FileExtension === "jpeg" ||
+    //   FileExtension === "jpg" ||
+    //   FileExtension === "png"
+    // ) {
+    const fileArray = Array.from(e.target.files).map((file: any) =>
+      URL.createObjectURL(file)
+    );
+    setDisplayImages(fileArray);
+    // }
   };
   const handleChange = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
-      setImages((prevState): any => [...prevState, newImage]);
+    const FileExtension = e.target.files[0].name.split(".")[1].toLowerCase();
+    if (
+      FileExtension === "jpeg" ||
+      FileExtension === "jpg" ||
+      FileExtension === "png"
+    ) {
+      const newImage = e.target.files[0];
+      setImages(newImage);
+    } else {
+      const notifyAdd = () =>
+        toast.error("Please upload a image on JPG, JPEG & PNG format");
+      notifyAdd();
     }
   };
 
+  /**
+   * @returns show the image in the div section for preview
+   */
   const renderImages = () => {
-    return displayImages.map((photo) => {
+    return displayImages.map((photo, index) => {
       return (
-        <>
+        <div key={index}>
           <img
             src={photo}
-            key={photo}
             onClick={() => setSelected(photo)}
             style={{
               maxWidth: "100px",
@@ -53,60 +69,52 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
           {selected === photo && (
             <FaCheck className="image__tick" size="15px" />
           )}
-        </>
+        </div>
       );
     });
   };
 
   const handleUpload = (e: any) => {
-    e.preventDefault();
-    if (images.length > 0) {
+    // e.preventDefault();
+    if (images) {
       const promises: any = [];
-      images.map((image) => {
-        const storageRef = ref(storage, `/images/${Math.random()}`);
-        const uploadTask: any = uploadBytesResumable(storageRef, image);
-        promises.push(uploadTask);
-        uploadTask.on(
-          "state_changed",
-          (snapshot: any) => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          (error: any) => {
-            console.log(error);
-          },
-          // () => {
-          //   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          //     setImgUrls((prevState): any => [...prevState, downloadURL]);
-          //   });
-          // }
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-              console.log("File available at", downloadURL);
-              if (downloadURL) {
-                setImgUrls(downloadURL);
-              }
-            });
-          }
-        );
-      });
+      const storageRef = ref(storage, `/images/${Math.random()}`);
+      const uploadTask: any = uploadBytesResumable(storageRef, images);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot: any) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error: any) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            if (downloadURL) {
+              setImgUrls(downloadURL);
+            }
+          });
+        }
+      );
 
       Promise.all(promises)
         .then(() => {
-          const notifyAdd = () => toast("Images uploaded successfully");
-          notifyAdd();
+          console.log("Image uploaded successfully");
         })
         .catch((err) => console.log(err));
     } else {
-      const notifyAdd = () => toast.error("Please Select Image for upload!");
+      const notifyAdd = () => toast.error("Please upload Image!");
       notifyAdd();
     }
   };
 
-  // console.log("images: ", images);
-  // console.log("Doc ID: ", idRef);
+  console.log("images: ", images);
+  console.log("Doc ID: ", idRef);
 
   return (
     <React.Fragment>
@@ -114,9 +122,9 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
         <div>
           <input
             type="file"
+            accept="image/*"
             id="image"
             name="image"
-            multiple
             onChange={(e) => {
               imageHandleChange(e);
               handleChange(e);
@@ -125,7 +133,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
         </div>
 
         <div className="image__preview">{renderImages()}</div>
-        <button
+        {/* <button
           onClick={handleUpload}
           // type="submit"
           style={{
@@ -138,7 +146,7 @@ const UploadImage = ({ idRef, setImgUrls }: uploadImageProps) => {
           }}
         >
           Upload
-        </button>
+        </button> */}
       </div>
     </React.Fragment>
   );
