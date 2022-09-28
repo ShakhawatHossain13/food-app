@@ -84,8 +84,11 @@ const CategoryFilter: React.FC<CategoryDetailsSliderProps> = ({
       <section className="categoryFilter">
         <label className="categoryFilter__label">Items show per page:</label>
         <select
-          className="categoryFilter__select"
-          onChange={(e) => setnumberOfItemsShow(e.target.value)}
+          className="categoryFilter__select"         
+          onChange={(e) => {
+            setnumberOfItemsShow(e.target.value);
+            setPage(1);
+          }}
           name="numberOfItems"
           id="numberOfItems"
         >

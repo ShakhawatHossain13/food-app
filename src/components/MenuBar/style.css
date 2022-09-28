@@ -102,6 +102,10 @@ ul :hover {
     display: block;
   }
 }
+.active {
+  font-weight: 700;
+}
+
 @media (max-width: 360px) {
   .menubar__burgermenu--span {
     width: 100%;

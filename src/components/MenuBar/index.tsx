@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 import logo from "../../images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import {
   CartContext,
@@ -61,18 +61,18 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
               // @ts-ignore
               JSON.parse(localStorage.getItem("user")).isAdmin ? (
                 <>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <NavLink to="/dashboard" end>Dashboard</NavLink>
                 </>
               ) : (
                 <>
-                  <Link to="/">Home</Link>
-                  <Link to="/about">About</Link>
+                <NavLink  to="/" end >Home</NavLink>
+                <NavLink  to="/about">About</NavLink>
                 </>
               )
             ) : (
               <>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
+                <NavLink  to="/" end >Home</NavLink>
+                <NavLink  to="/about">About</NavLink>
               </>
             )
           }
@@ -98,7 +98,7 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
           ) : null}
           {!isLoggedIn ? (
             <>
-              <Link to="/signin">Login</Link>
+              <NavLink to="/signin">Login</NavLink>
               <button
                 className="menubar__right__signup"
                 onClick={() => {
@@ -154,36 +154,36 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                     JSON.parse(localStorage.getItem("user")).isAdmin ? (
                       <>
                         <li>
-                          <Link to="/dashboard" onClick={handleBurgerMenuClose}>
+                          <NavLink to="/dashboard" end onClick={handleBurgerMenuClose}>
                             Dashboard
-                          </Link>
+                          </NavLink>
                         </li>
                       </>
                     ) : (
                       <>
                         <li>
-                          <Link to="/" onClick={handleBurgerMenuClose}>
+                          <NavLink to="/" end onClick={handleBurgerMenuClose}>
                             Home
-                          </Link>
+                          </NavLink>
                         </li>
                         <li>
-                          <Link to="/about" onClick={handleBurgerMenuClose}>
+                          <NavLink to="/about" onClick={handleBurgerMenuClose}>
                             About
-                          </Link>
+                          </NavLink>
                         </li>
                       </>
                     )
                   ) : (
                     <>
                       <li>
-                        <Link to="/" onClick={handleBurgerMenuClose}>
+                        <NavLink to="/" end onClick={handleBurgerMenuClose}>
                           Home
-                        </Link>
+                        </NavLink>
                       </li>
                       <li>
-                        <Link to="/about" onClick={handleBurgerMenuClose}>
+                        <NavLink to="/about" onClick={handleBurgerMenuClose}>
                           About
-                        </Link>
+                        </NavLink>
                       </li>
                     </>
                   )
@@ -203,9 +203,9 @@ const MenuBar = ({ isLoggedIn, setIsLoggedIn }: MenuBarProps) => {
                 {!isLoggedIn ? (
                   <>
                     <li>
-                      <Link to="/signin" onClick={handleBurgerMenuClose}>
+                      <NavLink to="/signin" onClick={handleBurgerMenuClose}>
                         Login
-                      </Link>
+                      </NavLink>
                     </li>
                     <li>
                       <Link to="/signup" onClick={handleBurgerMenuClose}>
