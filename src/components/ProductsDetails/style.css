@@ -13,6 +13,7 @@
   max-width: 1110px;
   margin: auto;
   margin-top: 50px;
+  min-height: 100vh;
 }
 .productsDetails__card {
   display: grid;
