@@ -79,6 +79,8 @@ type AddProductProps = {
   setFormTitle: React.Dispatch<React.SetStateAction<string>>;
   ids?: string;
   titleForm?: string;
+  isLoading: Boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
   setIsChange: React.Dispatch<React.SetStateAction<Boolean>>;
   isChange?: Boolean;
   formReset?: Boolean;
@@ -91,6 +93,8 @@ const AddProduct: React.FC<AddProductProps> = ({
   setFormTitle,
   ids,
   titleForm,
+  isLoading,
+  setIsLoading,
   setIsChange,
   isChange,
   formReset,
@@ -442,6 +446,7 @@ const AddProduct: React.FC<AddProductProps> = ({
    * Get details of specific blog item
    */
   const fetchDetails = async () => {
+    setButtonDisable(true);
     const db = getFirestore();
     const docRef = doc(db, "food", `${ids}`);
     const docSnap = await getDoc(docRef);
@@ -458,8 +463,8 @@ const AddProduct: React.FC<AddProductProps> = ({
         price: results?.price,
       };
       setFoodItem(obj);
-      setPreviousTitle(obj?.title);
-      // setIsLoading(true);
+      setPreviousTitle(obj?.title); 
+      setButtonDisable(false);
     } catch (error) {
       console.log(error);
     }
@@ -489,6 +494,9 @@ const AddProduct: React.FC<AddProductProps> = ({
         <div className="addproduct__row">
           <h3 className="addproduct__row__title">{formTitle}</h3>
           {backdrop ? <Backdrop /> : <></>}
+          {backdrop ? (
+            <Backdrop />
+          ) : (
           <form
             className="addproduct__row__form"
             onSubmit={(e) => handleSubmit(e)}
@@ -636,7 +644,8 @@ const AddProduct: React.FC<AddProductProps> = ({
             >
               {formTitle}
             </button>
-          </form>
+          </form> 
+          )}
         </div>
       </section>
     </React.Fragment>

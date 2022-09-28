@@ -186,6 +186,8 @@ const ProductList: React.FC = () => {
                     foodItemData={foodItem}
                     setFormTitle={setFormTitle}
                     isChange={isChange}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
                     setIsChange={setIsChange}
                     formReset={formReset}
                     setFormReset={setFormReset}
@@ -312,7 +314,9 @@ const ProductList: React.FC = () => {
                   foodItemData={foodItem}
                   setFormTitle={setFormTitle}
                   ids={ids}
-                  titleForm={title}
+                  titleForm={title}                  
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
                   isChange={isChange}
                   setIsChange={setIsChange}
                   formReset={formReset}
