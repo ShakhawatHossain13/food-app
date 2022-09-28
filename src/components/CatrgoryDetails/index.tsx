@@ -9,12 +9,14 @@ const CategoryDetails: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
-        {/* <MenuBar /> */}
-      </div>
-      <Slider selectedCategory={selectedCategory} />
-      <div className="container" style={{ maxWidth: "1110px", margin: "auto" }}>
-        <CategoryFilter selectedCategory={selectedCategory} />
+      <div style={{ minHeight: "100vh" }}>
+        <Slider selectedCategory={selectedCategory} />
+        <div
+          className="container"
+          style={{ maxWidth: "1110px", margin: "auto" }}
+        >
+          <CategoryFilter selectedCategory={selectedCategory} />
+        </div>
       </div>
       <Footer />
     </React.Fragment>

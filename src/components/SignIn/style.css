@@ -1,6 +1,6 @@
 .signIn__slider {
   width: 100%;
-  height: 510px;
+  height: 100vh;
   background-position-x: 40% !important;
   background-position-y: 40% !important;
   background-size: cover !important;
