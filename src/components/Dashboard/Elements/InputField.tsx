@@ -17,17 +17,17 @@ type InputField ={
 const InputField:React.FC<InputField>=({name, id, type, text,value, onBlur, onChange, requiredFieldText, error, bColor })=>{    
     return(
         <React.Fragment>                
-             <div className="addproduct__row__form__row">
+             <div className="component__row__form__row">
               <div>
-                <label className="addproduct__row__form__row__label">
+                <label className="component__row__form__row__label">
                   {text}
-                  <span className="addproduct__row__form__row__label__required">
+                  <span className="component__row__form__row__label__required">
                     {requiredFieldText}
                   </span>
                 </label>
               </div>
               <input
-                className="addproduct__row__form__row__input"
+                className="component__row__form__row__input"
                 id={id}
                 name={name}
                 type={type}
@@ -36,7 +36,7 @@ const InputField:React.FC<InputField>=({name, id, type, text,value, onBlur, onCh
                 onChange={onChange}  
                 style={{ borderColor:  bColor ? "red" : "#5e5b5b" }}               
               />
-              <span className="addproduct__row__form__row__error">
+              <span className="component__row__form__row__error">
                 {error}
               </span>
             </div>
