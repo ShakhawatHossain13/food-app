@@ -1,18 +1,18 @@
 .menubar {
-  width: 70%;
-  max-width: 1110px;
   margin: auto;
   padding: 15px 15%;
   display: grid;
   align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 2.7fr 1.8fr;
   background-color: rgb(255, 248, 240);
+  box-sizing: border-box;
 }
 
 .menubar__left {
   display: flex;
-  justify-content: space-evenly;
-  padding-inline: 15%;
+  gap: 5%;
+  justify-content: left;
+  padding-inline: 10%;
 }
 
 a {
@@ -32,6 +32,10 @@ a {
   border: none;
   color: #dc3545;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
 }
 
 .menubar__right__signup {

@@ -7,6 +7,9 @@ type CategoryDetailsSliderProps = {
 };
 
 const Slider: React.FC<CategoryDetailsSliderProps> = ({ selectedCategory }) => {
+  const category = selectedCategory
+    ? selectedCategory[0].toUpperCase() + selectedCategory.slice(1)
+    : null;
   return (
     <React.Fragment>
       <section
@@ -16,7 +19,7 @@ const Slider: React.FC<CategoryDetailsSliderProps> = ({ selectedCategory }) => {
         <div className="categorydetails__slider__row">
           <div className="categorydetails__slider__row__main">
             <h1 className="categorydetails__slider__row__main__title">
-              {selectedCategory} Items
+              {category} Items
             </h1>
           </div>
         </div>

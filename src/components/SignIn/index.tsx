@@ -55,16 +55,18 @@ const loginError: ErrorTypeLogin = {
 };
 
 type SignInProps = {
+  isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SignIn = ({ setIsLoggedIn }: SignInProps) => {
+const SignIn = ({ isLoggedIn, setIsLoggedIn }: SignInProps) => {
   let navigate = useNavigate();
   const [loginInfo, setLoginInfo] = React.useState<LoginDataType>(loginUser);
   const [error, setError] = React.useState<ErrorTypeLogin>(loginError);
   const [data, setData] = React.useState<AddUserDataType[]>([]);
   const [credentialError, setCredentialError] = React.useState<boolean>(false);
   const [buttonDisable, setButtonDisable] = React.useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
 
   const emailInput =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
@@ -133,6 +135,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
           password: doc.data().password,
           isAdmin: doc.data().isAdmin,
         });
+        setIsAdmin(temp[0].isAdmin);
         localStorage.setItem("user", JSON.stringify(temp[0]));
       });
       setData(temp);
@@ -163,9 +166,7 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
           title: "Welcome",
           text: "Successfully Logged In!",
         });
-        // const notifyLogin = () => toast("Successfully Logged In!");
-        // notifyLogin();
-        await navigate("/", { replace: true });
+        
       } catch (error) {
         setCredentialError(true);
         console.log(error);
@@ -230,6 +231,14 @@ const SignIn = ({ setIsLoggedIn }: SignInProps) => {
   //     setButtonDisable(true);
   //   }
   // }, [error]);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      isAdmin
+        ? navigate("/dashboard/product-list", { replace: true })
+        : navigate("/", { replace: true });
+    }
+  }, [isAdmin,isLoggedIn]);
 
   return (
     <React.Fragment>
