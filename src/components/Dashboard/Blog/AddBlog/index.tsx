@@ -22,6 +22,7 @@ import Backdrop from "../../../Backdrop";
 import { BlogListDataType } from "../BlogList";
 import InputField from "../../Elements/InputField";
 import TextAreaField from "../../Elements/TextAreaField";
+import ImageField from "../../Elements/ImageField";
 
 type AddBlogDataType = {
   id: string;
@@ -479,7 +480,6 @@ const AddBlog: React.FC<addBlogProps> = ({
             className="addBlog__row__form"
             onSubmit={(e) => handleSubmit(e)}
           >
-
           <InputField 
                   id = "title"
                   name = "title"
@@ -512,55 +512,30 @@ const AddBlog: React.FC<addBlogProps> = ({
                   requiredFieldText = "*"
                   error={error.date}
                   bColor={inputError.date}                  
+            />  
+            <ImageField 
+                  id = "image"
+                  name = "image"
+                  type = "file"
+                  text="Upload Image"  
+                  onChange ={(e) => {
+                    setEditPreview(false);
+                    imageHandleChange(e)
+                    handleImageChange(e);
+                  }}
+                  requiredFieldText = "*" 
+                  edit= {edit}
+                  editPreview={editPreview}
+                  alt="Images"
+                  src={blogItem.blogImage}
+                  accept= "image/*"
+                  maxWidth= "100px"
+                  maxHeight= "60px"
+                  marginTop= "12px"
+                  border = "2px solid cadetblue"
+                  padding ="0 5px"
+                  renderFunction = {renderImages}
             /> 
-            <div className="addBlog__row__form__row">
-              <label className="addBlog__row__form__row__label">
-                Upload Image
-                <span className="addBlog__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <div className="image">
-                <div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="image"
-                    name="image"
-                    onChange={(e) => {
-                      setEditPreview(false);
-                      imageHandleChange(e);
-                      handleImageChange(e);
-                    }}
-                    style={{
-                      borderColor: inputError.blogImage ? "red" : "#5e5b5b",
-                    }}
-                  />
-                </div>
-
-                {edit && editPreview ? (
-                  <div className="image__preview">
-                    {
-                      <img
-                        src={blogItem.blogImage}
-                        style={{
-                          maxWidth: "100px",
-                          maxHeight: "60px",
-                          marginTop: "12px",
-                          border: "2px solid cadetblue",
-                          padding: "0 5px",
-                        }}
-                        alt="Images"
-                      />
-                    }
-                  </div>
-                ) : edit && !editPreview ? (
-                  <div className="image__preview">{renderImages()}</div>
-                ) : (
-                  <div className="image__preview">{renderImages()}</div>
-                )}
-              </div>
-            </div>
             <button
               type="submit"
               className="addBlog__row__form__row__button"

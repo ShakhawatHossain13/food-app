@@ -22,6 +22,7 @@ import { ProductListDataType } from "../ProductList";
 import Backdrop from "../../../Backdrop";
 import InputField from "../../Elements/InputField";
 import TextAreaField from "../../Elements/TextAreaField";
+import ImageField from "../../Elements/ImageField";
 
 type AddProductDataType = {
   id: string;
@@ -584,55 +585,31 @@ const AddProduct: React.FC<AddProductProps> = ({
                   error={error.price}
                   bColor={inputError.price}                  
             />
- 
-            <div className="addproduct__row__form__row">
-              <label className="addproduct__row__form__row__label">
-                Upload Image
-                <span className="addproduct__row__form__row__label__required">
-                  *
-                </span>
-              </label>
-              <div className="image">
-                <div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="image"
-                    name="image"
-                    onChange={(e) => {
-                      setEditPreview(false);
-                      imageHandleChange(e);
-                      handleImageChange(e);
-                    }}
-                    style={{
-                      borderColor: inputError.foodImage ? "red" : "#5e5b5b",
-                    }}
-                  />
-                </div>
+          
+            <ImageField 
+                  id = "image"
+                  name = "image"
+                  type = "file"
+                  text="Upload Image" 
+                  onChange ={(e) => {
+                    setEditPreview(false);
+                    imageHandleChange(e)
+                    handleImageChange(e);
+                  }}
+                  requiredFieldText = "*" 
+                  edit= {edit}
+                  editPreview={editPreview}
+                  alt="Images"
+                  src={foodItem.foodImage}
+                  accept= "image/*"
+                  maxWidth= "100px"
+                  maxHeight= "60px"
+                  marginTop= "12px"
+                  border = "2px solid cadetblue"
+                  padding ="0 5px"
+                  renderFunction = {renderImages}
+            /> 
 
-                {edit && editPreview ? (
-                  <div className="image__preview">
-                    {
-                      <img
-                        src={foodItem.foodImage}
-                        style={{
-                          maxWidth: "100px",
-                          maxHeight: "60px",
-                          marginTop: "12px",
-                          border: "2px solid cadetblue",
-                          padding: "0 5px",
-                        }}
-                        alt="Images"
-                      />
-                    }
-                  </div>
-                ) : edit && !editPreview ? (
-                  <div className="image__preview">{renderImages()}</div>
-                ) : (
-                  <div className="image__preview">{renderImages()}</div>
-                )}
-              </div>
-            </div>
             <button
               type="submit"
               className="addproduct__row__form__row__button"
