@@ -130,6 +130,7 @@ const BlogList: React.FC = () => {
         });
       //Image delete from firebase storage
       handleImageDelete();
+      setPage(1);
       return true;
     } else {
       console.log("Process Aborted");
