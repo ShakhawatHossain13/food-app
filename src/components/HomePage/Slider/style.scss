@@ -75,7 +75,10 @@
 .slider__row__main__search__input__results__row__title{
   text-align: left;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 960px) {
+  .slider__row__main__search__input__results__row{
+    width: 72%;
+  }
   .slider__row__main__search__input{
      width: 50%;
   }
@@ -101,7 +104,10 @@
     height: 32px;
   }
 }
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) { 
+  .slider__row__main__search__input__results__row {
+    width: 77%;
+  }
   .slider__row__main__title {
     font-size: 32px;
   }
