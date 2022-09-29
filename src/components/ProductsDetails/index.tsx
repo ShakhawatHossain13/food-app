@@ -129,6 +129,7 @@ const ProductsDetails: React.FC = () => {
     getData();
     getAllFoodData();
     setItemQuantity(1);
+    setQuantityError("");
   }, [id]);
 
   return (
@@ -146,7 +147,7 @@ const ProductsDetails: React.FC = () => {
                   <div>
                     <div className="productsDetails__card__image">
                       <div className="productsDetails__card__image__main">
-                        <img 
+                        <img
                           src={foodItem?.foodImage}
                           className="productsDetails__card__image__main--selected"
                           alt="Food Images"
