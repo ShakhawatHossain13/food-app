@@ -125,9 +125,8 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       console.log(user);
       setRegistered(false);
       handleSubmit(e);
-    } catch (error) {    
-      setButtonDisable(true);  
-      setRegistered(true);      
+    } catch (error) {
+      setRegistered(true);
       Swal.fire({
         icon: "error",
         title: "Signup failed",
@@ -181,13 +180,12 @@ const SignUp = ({ setIsLoggedIn }: SignUpProps) => {
       })
       .catch((error) => {
         console.log(error);
-        setButtonDisable(true);  
       });
   };
 
   React.useEffect(() => {
     if (JSON.stringify(error) === JSON.stringify(userError)) {
-    //  setButtonDisable(false);
+     // setButtonDisable(false);
     } else {
       setButtonDisable(true);
     }
