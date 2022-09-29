@@ -194,6 +194,7 @@ const ProductsDetails: React.FC = () => {
                                 setQuantityError("");
                                 setItemQuantity(Number(event.target.value));
                               } else if (Number(event.target.value) < 1) {
+                                setItemQuantity(1);
                                 setQuantityError("Minimum quantity is 1");
                               } else if (
                                 !event.target.value.match(numericInput)
